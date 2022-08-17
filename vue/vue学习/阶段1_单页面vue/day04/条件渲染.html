@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div class="net">
+        <!-- 使用v-show 做渲染条件 -->
+        <div v-show='false'>123</div>
+        <div v-show='true'>456</div>
+        <!-- 使用v-if v-else-if v-else做渲染条件-->
+        <div v-if='1==2'>789</div>
+        <div v-if='true'>987</div>
+        <br><br><br><br><br><br>
+        <div>a的值是：{{a}}</div>
+        <div v-if='a===1'>嘣！你没了。</div>
+        <div v-else-if='a==4'>快点点啊！</div>
+        <div v-else-if='a==3'>你行不行？</div>
+        <div v-else-if='a==2'>废物！</div>
+        <div v-else-if='a==0'>学习会儿行不行？还点个屁！</div>
+        <button @click='jianjian'>点击-1</button>
+    </div>
+    <script>
+        new Vue({
+            el: '.net',
+            data: {
+                a: 5
+            },
+            methods: {
+                jianjian() {
+                    if (this.a >= 1) {
+                        this.a = this.a - 1;
+                    }
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue第一次</title>
+    <!-- 引入vuejs -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<!-- - 1.想让vue工作就必须创建一个vue实例，且要传入一个配置对象。
+2.vue实例只负责其绑定的html对象，在其他地方使用它的`{{name}}` 不起作用。
+3. data中用于存储数据，供`el`所指定的容器使用。值暂时先写为一个对象
+4. 容器与vue实例 必须是一 一对应的关系。
+5.{{ }}中要写js表达式，并且可以自动读取到data中的数据。
+6.对于大量的数据，真实开发中会配合组件一起使用。
+7.当data中的数据发生改变时，模板中使用到该数据的地方会自动更新。 -->
+
+<body>
+    <div class="one">
+        <h1>hello，{{name}}！</h1>
+
+        <a :href="url">123</a>
+    </div>
+
+
+
+    <script>
+        //阻止vue在启动时生成生产提示
+        Vue.config.productionTip = false;
+
+        //创建vue实例
+        new Vue({
+            el: '.one',
+            data: {
+                name: '吴老板',
+                url: 'http://www.baidu.com'
+            }
+        });
+    </script>
+</body>
+
+</html>

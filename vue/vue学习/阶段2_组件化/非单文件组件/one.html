@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--准备好容器：使用组件，写注册组件时的组件名标签即可 -->
+    <div class="one">
+        <student></student>
+        <hr>
+        <school></school>
+    </div>
+
+    <script>
+        //定义组件时不要写el配置项
+        const school = Vue.extend({
+            template: `<div>
+                     <h1>学校名称：{{name}}</h1>
+                  </div>`,
+            data() {
+                return {
+                    name: '新乡工程学院',
+                }
+            }
+        })
+        const student = ({
+            template: `<div>
+                     <h1>姓名：{{name}}</h1>
+                     <h1>年龄：{{age}}</h1>
+                  </div>`,
+            data() {
+                return {
+                    name: '吴老板',
+                    age: 21
+                }
+            }
+        })
+
+        //一个vm管理所有的组件
+        new Vue({
+            el: '.one',
+            //局部注册组件
+            components: {
+                //完整写法
+                school: school,
+                //简写：组件名与注册的名称一致时
+                student
+            }
+        })
+    </script>
+</body>
+
+</html>

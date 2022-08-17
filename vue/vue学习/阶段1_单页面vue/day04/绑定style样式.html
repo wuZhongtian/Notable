@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div class="one">
+        <h1 :style='style1'>{{name}}</h1>
+        <h1 :style='style2'>{{name}}</h1>
+    </div>
+    <script>
+        Vue.config.productionTip = false
+        new Vue({
+            el: '.one',
+            data: {
+                name: '彩虹屁',
+                //对象写法
+                style1: {
+                    fontSize: '12px',
+                    backgroundColor: 'red'
+                },
+                //数组写法
+                style2: [{
+                    fontSize: '12px',
+                    backgroundColor: 'yellow'
+                }, {
+                    color: 'pink'
+                }]
+            }
+        })
+    </script>
+</body>
+
+</html>

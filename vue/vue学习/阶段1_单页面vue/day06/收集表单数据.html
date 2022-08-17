@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- form表单的action属性：指定表单提交的地址，实际交互用ajax，不使用该属性 -->
+        <form @submit.prevent="demo">
+            <!-- label获取焦点，当点击文字时，自动定位到输入框 -->
+            <h5> <label for="id"> 账号：</label><input type="text" id="id" v-model="id"></h5>
+            <h5>密码： <input type="password" v-model="password"></h5>
+            <h5>性别： 男<input type="radio" value="男" name="sex" v-model="sex"> 女<input type="radio" value="女" name="sex" v-model="sex"> </h5>
+            <h5>爱好：学习<input type="checkbox" name="hobby" value="学习" v-model="hobby"> 打游戏<input type="checkbox" name="hobby" value="打游戏" v-model="hobby"> 吃饭 <input type="checkbox" name="hobby" value="吃饭" v-model="hobby"></h5>
+            <h5>所属校区
+                <select name="xiaoqu" id="xiaoqu" v-model="xiaoqu">
+            <option value="">请选择校区</option>
+            <option value="北京">北京</option> 
+            <option value="天津" >天津</option>
+            <option value="上海"  >上海</option>
+           </select>
+            </h5>
+            <h5> 其他信息：<textarea name="onetextarea" id="onetextarea" cols="30" rows="10" v-model="textarea"></textarea></h5>
+            <h5> <input type="checkbox" value="yes" name="yes" v-model="yes"> 阅读并接受<a href="#">《用户协议》</a></h5>
+            <button>提交</button>
+        </form>
+    </div>
+
+
+    <script>
+        Vue.config.productionTip = false;
+        new Vue({
+            el: "#app",
+            data: {
+                id: '',
+                password: '',
+                sex: '',
+                hobby: [],
+                xiaoqu: '',
+                textarea: '',
+                yes: ''
+
+            },
+            methods: {
+                demo() {
+                    console.log(JSON.stringify(this._data));
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

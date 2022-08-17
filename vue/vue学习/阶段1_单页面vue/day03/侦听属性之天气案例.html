@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div class="one">
+        <h2>今天天气很{{skykong}}</h2>
+        <button @click="tianqi">点击切换天气</button>
+    </div>
+
+
+    <script>
+        Vue.config.productionTip = false;
+
+        const vm = new Vue({
+            el: '.one',
+            data: {
+                sky: true
+            },
+            // methods事件
+            methods: {
+                tianqi() {
+                    this.sky = !this.sky
+                }
+            },
+            // computed 计算属性
+            computed: {
+                skykong() {
+                    return this.sky == true ? '凉爽' : '寒冷'
+                }
+            },
+            //内部写法
+            // watch: {
+            //     sky: {
+            //         immediate: true,
+            //         handler(newvalue, oldvalue) {
+            //             console.log('sky的值被修改了' + newvalue + oldvalue);
+            //         }
+            //     }
+            // }
+        })
+
+        //外部写法
+        vm.$watch('sky', {
+            immediate: true,
+            handler(newvalue, oldvalue) {
+                console.log('sky的值被修改了' + newvalue + oldvalue);
+            }
+        })
+    </script>
+</body>
+
+</html>

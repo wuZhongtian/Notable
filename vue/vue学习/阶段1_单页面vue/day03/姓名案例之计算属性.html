@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div class="one">
+        姓<input type="text" v-model:value="xing"> 名<input type="text" v-model:value="ming">
+        <br>组合：<span>{{fullname}}</span>
+    </div>
+
+
+    <script>
+        Vue.config.productionTip = false;
+
+        const a = new Vue({
+            el: '.one',
+            data: {
+                xing: '张',
+                ming: '妍'
+            },
+
+            //计算属性完整写法
+            // computed: {
+            //     fullname: {
+            //         get() {
+            //             //此处的this是vm
+            //             return this.xing + '-' + this.ming
+            //         },
+            //         set(value) {
+            //             //此处的this是vm
+            //             this.xing = value;
+            //         }
+            //     }
+            // }
+
+            computed: {
+                fullname() {
+                    return this.xing + '-' + this.ming
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

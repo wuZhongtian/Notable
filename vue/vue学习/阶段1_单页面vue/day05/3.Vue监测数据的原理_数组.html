@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="one">
+        <h1>爱好</h1>
+        <button @click='bian'>变成三好学生</button>
+        <li v-for='h in hobby' :key="index">{{h}}</li>
+    </div>
+    <script>
+        Vue.config.productionTip = false;
+        new Vue({
+            el: '#one',
+            data: {
+                hobby: ['抽烟', '喝酒', '打架', '吃屎']
+            },
+            methods: {
+                bian() {
+                    Vue.set(this.hobby, '0', '自习');
+                    Vue.set(this.hobby, '1', '上课');
+                    //splice方法操作数组，从索引值为2的位置开始删除，删除1个，并在删除后的位置添加新的值
+                    this.hobby.splice(2, 1, '弹钢琴', '画画');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="one">
+        <h1>学生信息</h1>
+
+        <button @click="my.age ++">年龄+1</button>
+        <button @click="addSex" v-if="!my.sex">添加性别属性，默认值：人妖</button>
+        <button @click="addfriend">在列表首位添加一个朋友</button>
+        <button @click="reviseName">修改第一个朋友的名字：张三(法外狂徒)</button>
+        <button @click="addHobby">添加一个爱好(你吃啥？)</button>
+        <button @click="reciseHobby">修改第一个爱好：开车</button>
+        <button @click="filsmoking">过滤掉爱好中的吸烟</button>
+
+        <h6>姓名：{{my.name}}</h6>
+        <h6>年龄：{{my.age}}</h6>
+        <h6 v-if="my.sex">性别：{{my.sex}}</h6>
+        <h5>爱好</h5>
+        <li v-for="(h,index) in my.hobby " :key='index'>{{h}}</li>
+        <h5>朋友们：</h5>
+        <li v-for="(f,index) of my.friends " ::key="index ">{{f.name}}--{{f.age}}</li>
+    </div>
+
+
+    <script>
+        Vue.config.productionTip = false;
+        const vm = new Vue({
+            el: '#one',
+            data: {
+                my: {
+                    name: 'tom',
+                    age: 18,
+                    hobby: ['抽烟', '喝酒', '烫头'],
+                    friends: [{
+                        name: 'jerry',
+                        age: 35
+                    }, {
+                        name: 'tony',
+                        age: 20
+                    }]
+                }
+            },
+            methods: {
+                addSex() {
+                    Vue.set(this.my, 'sex', '人妖');
+                },
+                addfriend() {
+                    this.my.friends.unshift({
+                        name: '隔壁的泰山',
+                        age: 999
+                    })
+                },
+                reviseName() {
+                    this.my.friends[0].name = "张三(法外狂徒)";
+                },
+                addHobby() {
+                    this.my.hobby.push('你吃屎');
+                },
+                reciseHobby() {
+                    Vue.set(this.my.hobby, 0, '开车');
+                },
+                filsmoking() {
+                    this.my.hobby = this.my.hobby.filter((p) => {
+                        return p !== "抽烟";
+                    })
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
