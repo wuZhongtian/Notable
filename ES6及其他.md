@@ -1,6 +1,6 @@
 
 
-### 基础常识
+### 基础知识
 
 #### 代码注释
 
@@ -75,14 +75,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                         
+  >                                                                                                                                   
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                         
+  >                                                                                                                                   
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -180,16 +180,170 @@
 > obj.fu2();   //报错，在全局中未定义fun2，若想输出自身的fn2需要使用this.fn2
 > ```
 
+
+
+### 事件
+
+> - 一种异步编程的实现方式，是程序各个组成部分间的通信。
+> - 事件不是js对象，只是一种传递信息的机制，事件本身不能承载任何数据内容。
+> - 浏览器通过事件的 event对象承载事件数据信息。
+
+#### 常见事件
+
+- 浏览器窗口事件
+
+  - load 页面加载完成时触发
+  - beforeunload 窗口关闭之前触发
+  - unload 窗口关闭时触发
+  - focus 得到焦点时触发
+  - blur 失去焦点时触发
+  - error 页面上有脚本报错时触发
+  - resize 窗口大小改变时触发
+  - contextmenu 弹出右键菜单时触发
+
+- 表单事件
+
+  - blur 当表单元素失去焦点时触发
+  - focus 当表单元素获取焦点时触发
+  - submit 提交表单时触发
+  - change 当表单元素的值被改变时触发
+  - input 当表单元素获得用户输入时触发
+  - select  当元素内容被选中时触发
+
+- 鼠标事件 6
+
+- 拖放事件 7
+
+- 移动端事件 
+
+  - 触摸事件 Touch Event
+
+    - touchstart：当触摸屏幕时触发
+    - touchmove：手指在屏幕上滑动时触发
+    - touchend：手指离开屏幕时触发
+    - touchcancel：系统停止跟踪触摸时触发
+
+    ```js
+    // event对象时 TouchEvent类型
+    touches  // 正在触摸屏幕所有手指的一个列表
+    targetTouches // 正在触摸当前DOM元素上的手指的一个列表
+    changedTouches // 手指状态发生了改变的列表，从无到有，从有到无变化
+    
+    // 每个touch对象包含相关事件信息如下
+    
+    ```
+
+    
+
+
+
+
+
 ## JS高级
 
+### 杂项
+
+#### 异常捕获
+
+- 语法：`try {代码块} catch{err}{异常处理代码块}`
+- try后的代码出现异常时，会执行catch中的异常处理代码，避免因程序中断执行而影响用户操作，同时可对用户进行合理有效的提示
 
 
-### Arguments 对象
+
+
+
+### 函数相关
+
+#### Arguments 对象
 
 - 每个函数都会有一个Arguments对象实例arguments，它引用着函数的实参，可以用数组下标的方式"[]"引用arguments的元素。
 - `arguments.length 为函数实参个数`
 - `arguments.callee 引用函数自身`
-- <span style='color:red'>箭头函数没有 Arguments对象，使用 rest替代</span>
+- <span style='color:red'>ES6 的 箭头函数没有 Arguments对象，使用 rest替代</span>
+
+
+
+#### 高阶函数
+
+- 高阶函数：如果一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数。
+  1. 若A函数，接收的参数是一个函数，那么A就可以称之为高阶函数。
+  2. 若A函数，调用的返回值依然是一个函数，那么A就可以称之为高阶函数。
+  3. 常见的高阶函数有：Promise、setTimeout、arr.map()等等
+
+
+
+#### 纯函数
+
+1. 一类特别的函数：只要是同样的输入（实参），必须得到同样的输出（返回值）
+2. 必须遵循以下约束
+   - 不得改写参数数据
+   - 不会产生任何副作用，例如网络请求、输入和输出设备
+   - 不能调用Date.now() 或者 Math.random() 等不纯的方法
+3. redux的reducer函数必须是一个纯函数
+
+
+
+#### 函数链式调用
+
+- 函数执行后，return返回函数本身，可以通过连续 . 的方式执行
+
+
+
+#### 函数柯里化
+
+> 函数的柯里化：通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式。
+
+```js
+function sum(a){
+	return(b)=>{
+		return (c)=>{
+			return a+b+c
+		}
+	}
+}
+
+sum(3)(1)(2)   // 3+1+2=6
+```
+
+
+
+
+
+#### IIFE 匿名函数自调用
+
+- 就是 立即执行函数
+
+- 作用：
+
+  - 隐藏实现，不会污染外部（全局）命名空间
+  - 用它来编码`js模块`
+
+- ```js
+  (function(){
+     var a=3
+     console.log(a+3)   //6
+  })()
+  var a=4
+  console.log(a);       //4 ,
+  (function(){
+     var a=1
+     function test(){
+        console.log(++a)
+     }
+     // 向外暴漏一个全局函数
+     windows.$=function(){
+        return {
+           test:test
+        }
+     }
+  })()
+  
+  $().test();   $()返回{text：text}        // 2
+  ```
+
+  
+
+
 
 
 
@@ -282,7 +436,7 @@ console.log(d.__proto__);        //隐式原型对象
 - `__proto__对象原型`  =  `原型对象 prototype` 。 
 - `__proto__对象原型`的**意义**就在于为对象的查找机制提供一个方向，或者说一条路线，但是它是一个非标准属性，因此实际开发中，不可以使用这个属性，它只是内部指向原型对象prototype。
 
-![image-20220215103659164](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220215103659164.png)
+![image-20220215103659164](images/ES6及其他/image-20220215103659164.png)
 
 #### 原型链
 
@@ -291,7 +445,7 @@ console.log(d.__proto__);        //隐式原型对象
   - 如果还没有找到就会再在构造函数的prototype的`__proto__`中查找，
   - 这样一层一层向上查找就会形成一个链式结构，我们称为原型链。
 
-![image-20220216115626357](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220216115626357.png)
+![image-20220216115626357](images/ES6及其他/image-20220216115626357.png)
 
 
 
@@ -663,87 +817,7 @@ Object.defineProperty( obj2,'x'{
 
 
 
-### 高阶函数
 
-- 高阶函数：如果一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数。
-  1. 若A函数，接收的参数是一个函数，那么A就可以称之为高阶函数。
-  2. 若A函数，调用的返回值依然是一个函数，那么A就可以称之为高阶函数。
-  3. 常见的高阶函数有：Promise、setTimeout、arr.map()等等
-
-### 纯函数
-
-1. 一类特别的函数：只要是同样的输入（实参），必须得到同样的输出（返回值）
-2. 必须遵循以下约束
-   - 不得改写参数数据
-   - 不会产生任何副作用，例如网络请求、输入和输出设备
-   - 不能调用Date.now() 或者 Math.random() 等不纯的方法
-3. redux的reducer函数必须是一个纯函数
-
-
-
-
-
-
-
-### 函数链式调用
-
-- 函数执行后，return返回函数本身，可以通过连续 . 的方式执行
-
-
-
-### 函数柯里化
-
-> 函数的柯里化：通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式。
-
-```js
-function sum(a){
-	return(b)=>{
-		return (c)=>{
-			return a+b+c
-		}
-	}
-}
-
-sum(3)(1)(2)   // 3+1+2=6
-```
-
-
-
-
-
-### IIFE 匿名函数自调用
-
-- 就是 立即执行函数
-
-- 作用：
-
-  - 隐藏实现，不会污染外部（全局）命名空间
-  - 用它来编码`js模块`
-
-- ```js
-  (function(){
-     var a=3
-     console.log(a+3)   //6
-  })()
-  var a=4
-  console.log(a);       //4 ,
-  (function(){
-     var a=1
-     function test(){
-        console.log(++a)
-     }
-     // 向外暴漏一个全局函数
-     windows.$=function(){
-        return {
-           test:test
-        }
-     }
-  })()
-  
-  $().test();   $()返回{text：text}        // 2
-  ```
-
-  
 
 ### 闭包Closure
 
@@ -1013,19 +1087,25 @@ console.log(result);   //返回值 true   说明str符合one
 
 - **正则表达式规则**
 
-  | 符号 | 含义                      | 实例                                                         |
-  | ---- | ------------------------- | ------------------------------------------------------------ |
-  | \|   | 或(有一个就行)            | /a\|b/         （存在a或b）                                  |
-  | [ ]  | 或(有一个就行)            | `/[A-z]/` (存在A-z之间的任意字母）   ` /[ab]/`  (存在ab)     |
-  | [^ ] | 除了^里面内的都可以       | `/[^a-z]/`  (除了a-z之件的字母都可以)                        |
-  | { }  | 连续出现的次数            | `/ba{3}/` 连续出现3个a；   `/(ab){3}/`连续出现3个ab；     `/b{1,3}c/` 连续出现1-3次b；    `/b{3,}/`出现3次及以上次数b |
-  | n+   | 至少包含一个              | `/a|b+/` 至少出现一个a或b                                    |
-  | n*   | 包含0个或多个，相当于没写 |                                                              |
-  | n？  | 包含0个或1个              |                                                              |
-  | n$   | 以n结尾                   |                                                              |
-  | ^n   | 以n开头                   |                                                              |
+  | 符号    | 含义                            | 实例                                                         |
+  | ------- | ------------------------------- | ------------------------------------------------------------ |
+  | \|      | 或(有一个就行)                  | /a\|b/         （存在a或b）                                  |
+  | [ ]     | 或(有一个就行)                  | `/[A-z]/` (存在A-z之间的任意字母）   ` /[ab]/`  (存在ab)     |
+  | [^ ]    | 除了^里面内的都可以             | `/[^a-z]/`  (除了a-z之件的字母都可以)                        |
+  | { }     | 连续出现的次数                  | `/ba{3}/` 连续出现3个a；   `/(ab){3}/`连续出现3个ab；     `/b{1,3}c/` 连续出现1-3次b；    `/b{3,}/`出现3次及以上次数b |
+  | n+      | 至少包含一个                    | `/a|b+/` 至少出现一个a或b                                    |
+  | n*      | 包含0个或多个，相当于没写       |                                                              |
+  | n？     | 包含0个或1个                    |                                                              |
+  | n$      | 以n结尾                         |                                                              |
+  | ^n      | 以n开头                         |                                                              |
+  | *？     | 重复任意次，但尽可能少重复      |                                                              |
+  | +?      | 重复1次或更多次，但尽可能少重复 |                                                              |
+  | (?!exp) | 匹配后面跟的不是exp的位置       |                                                              |
 
-手机号的正则：`/^1[3-9][0-9]{9}$/`
+1. 手机号的正则：`/^1[3-9][0-9]{9}$/`
+2. `/^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/`
+   - 不能以_开头
+   - .*?_ 结尾
 
 - 元字符
 
@@ -1142,7 +1222,7 @@ console.log(c)  // 报错
 
 ### this指向
 
-![image-20220322102934192](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220322102934192.png)
+![image-20220322102934192](images/ES6及其他/image-20220322102934192.png)
 
 
 
@@ -1199,11 +1279,11 @@ console.log(c)  // 报错
   | 全局作用域中函数 | undefined    |
   | 对象、事件等     | 谁调用指向谁 |
 
-![image-20220322233035945](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220322233035945.png)
+![image-20220322233035945](images/ES6及其他/image-20220322233035945.png)
 
-![image-20220322233023706](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220322233023706.png)
+![image-20220322233023706](images/ES6及其他/image-20220322233023706.png)
 
-![image-20220322233011056](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220322233011056.png)
+![image-20220322233011056](images/ES6及其他/image-20220322233011056.png)
 
 
 
@@ -1342,7 +1422,7 @@ _m1.teach();
   - `exports == module.exports`   两者默认是同一个东西
   - 若一个文件中出现对`module.exports`的再赋值，则以`module.exports`为准，`exports`不再生效
   - 暴露的本质：向空对象中加东西
-  - ![image-20211110235744839](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211110235744839.png)
+  - ![image-20220823191119093](images/ES6及其他/image-20220823191119093.png)
 
 
 
@@ -1382,7 +1462,7 @@ console.log(module.name);
 module.showData();
 ```
 
-![image-20211111075258891](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211111075258891.png)
+![image-20220823191140933](images/ES6及其他/image-20220823191140933.png)
 
 ```js
 //使用exports暴露 sub方法
@@ -1617,7 +1697,7 @@ var son = new Son();
 - 语法上：Promise是 一个构造函数
 - 功能上：Promise对象用来封装一个异步操作并可以获取成功 / 失败的结果
 - 流程：启动异步任务 => 返回Promise对象 => 给Promise对象绑定回调函数(可以在异步任务结束后指定多个)
-- ![image-20220423234703015](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220423234703015.png)
+- ![image-20220423234703015](images/ES6及其他/image-20220423234703015.png)
 - Promise的状态（实例对象中的一个属性【PromiseState】）
   - pending   ==>    resolved / fulfilled  成功
   - pending   ==>     rejected  失败
@@ -1978,7 +2058,7 @@ try {
 - 协议标识符是ws (加密为wss)，服务器网址就是 URL，如`ws:localhost:8080/msg`
 - 使用场景：在线聊天、实时数据刷新
 
-![image-20220416171833342](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220416171833342.png)
+![image-20220416171833342](images/ES6及其他/image-20220416171833342.png)
 
 ### 客户端(原生)
 
@@ -2043,11 +2123,11 @@ connection.addEventListener('close', function() {
 })
 ```
 
-![image-20220416165823820](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220416165823820.png)
+![image-20220416165823820](images/ES6及其他/image-20220416165823820.png)
 
-![image-20220416165746421](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220416165746421.png)
+![image-20220416165746421](images/ES6及其他/image-20220416165746421.png)
 
-![image-20220416165849278](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220416165849278.png)
+![image-20220416165849278](images/ES6及其他/image-20220416165849278.png)
 
 
 

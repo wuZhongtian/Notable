@@ -32,7 +32,7 @@
 
   http：服务器与客户端之间的通信协议    www.baidu.com：服务器名称   /index.html：资源在服务器上具体的存放位置
 
-  ![image-20211120120227335](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211120120227335.png)
+  ![image-20220823190737565](images/ajax使用/image-20220823190737565.png)
 
 ### CS架构
 
@@ -87,9 +87,9 @@
 
 `包含：请求行、请求头、请求主体`
 
-![image-20210831115608081](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210831115608081.png)
+![image-20220823190811659](images/ajax使用/image-20220823190811659.png)
 
-![image-20210831214020867](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210831214020867.png)
+
 
 ##### 请求行：
 
@@ -119,9 +119,9 @@
 
 `包含：状态行、响应头、响应主体`
 
-![image-20210831115648137](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210831115648137.png)
+![image-20220823190840262](images/ajax使用/image-20220823190840262.png)
 
-![image-20210831213958062](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210831213958062.png)
+
 
 ##### 状态行
 
@@ -138,7 +138,7 @@
 
 即服务端返回给客户端的内容；
 
-![image-20210831115850308](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210831115850308.png)
+![image-20220823190907121](images/ajax使用/image-20220823190907121.png)
 
 `常见的有200代表成功、304文档未修改、403没有权限、404未找到、500服务器错误`
 
@@ -560,7 +560,7 @@ fetch("http://wudetian.top",{
 })
 ```
 
-![image-20220220193259856](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220220193259856.png)
+![image-20220220193259856](images/ajax使用/image-20220220193259856.png)
 
 
 
@@ -580,7 +580,7 @@ fetch("http://wudetian.top",{
   - 在服务器端返回一个函数（包含要返回的数据），因为`<script>`要传js代码
   - 在本地定义对应的的函数，将函数中的数据拿出来使用
 
-![image-20211121175438394](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211121175438394.png)
+![image-20220823190944490](images/ajax使用/image-20220823190944490.png)
 
 
 

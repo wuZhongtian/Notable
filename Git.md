@@ -92,7 +92,7 @@ shift+insert      # 粘贴
   - 工作区（代码编辑区）         项目文件夹，写代码时就是在工作区修改内容
   - 暂存区（修改待提交区）    `.git`的 index文件，修改的待提交区，  add
   - 仓库区（代码保存区）        `objects`仓库，提交后的代码都放在里面。    commit
-  - ![image-20220717121129821](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220717121129821.png)
+  - ![image-20220717121129821](images/Git/image-20220717121129821.png)
 
 - Git分支
 
@@ -223,7 +223,8 @@ git push
 
 - 本地没有仓库
   - 根据官网指示，配置此电脑的ssh公钥，加入安全组
-  - <img src="C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220325082822893.png" alt="image-20220325082822893" style="zoom:50%;" />
+  
+    ![image-20220325082822893](images/Git/image-20220325082822893.png)
 
 ```shell
 # 克隆远端仓库，将项目代码同步到本地，本地会产生默认的远程地址的配置，别名为 origin

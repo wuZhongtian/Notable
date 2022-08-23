@@ -62,13 +62,21 @@ root.render(<h1>Hello, world!</h1>);
 1. react-router-dom
    - 一共有三个版本，web版    移动版   通用版
    - 本笔记只记录 web版
+
 2. prop-types    类型限制
+
 3. qs   路径字符处理
-4. redux
+
+4. redux  非官方
    - redux  
    - redux-thunk    中间件(封装的函数)，用于支持异步action的中间件
+
 5. react-redux  与redux  功能一致
-   - redux插件库，官方出品
+   - react插件库，官方出品
+
+6. `yarn add redux-thunk`  使用redux的异步action
+
+   ![image-20220817171740969](images/React/image-20220817171740969.png)
 
 
 
@@ -1709,13 +1717,6 @@ store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化
      export default const creatDecrement = data=>({type:'decrement',data})
      // 简写时，不能简写为，花括号会被认为函数的花括号
      const creatIncrement = data=>{type:'increment',data}
-     
-     // 函数式 异步action  返回值为一个函数
-     export const createIncrementAsync = (data,time)=>{
-         return ()=>{
-            store.dispatch(creatIncrement(data))
-         }
-     }
      ```
 
 2. 在组件自身
@@ -1741,8 +1742,6 @@ store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化
 
      - 必须借助 redux-thunk中间件   `yarn add redux-thunk`
 
-     - createIncrementAsync
-
      - 使用步骤
 
        - store.js文件
@@ -1758,8 +1757,20 @@ store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化
          //暴露store
          export default createStore(countReducer,applyMiddleware(thunk))
          ```
-
-       - 
+     
+       - crement_action文件（该文件专门为Count组件生成action对象）
+       
+         ```js
+         // 函数式 异步action  返回值为一个函数
+         export const createIncrementAsync = (data,time)=>{
+             return (dispatch)=>{
+                dispatch(creatIncrement(data))
+                // store.dispatch(creatIncrement(data))   不需要单独引入store，可直接使用提供的参数
+             }
+         }
+         ```
+       
+         
 
 
 
