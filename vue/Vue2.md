@@ -35,7 +35,7 @@ Vue 特点：
   - 不推荐直接操作DOM，而应想着如何通过数据驱动视图更新，操作数据
 - 使用<span style='color:#E83F11'>**虚拟DOM**</span>+优秀的<span style='color:#E83F11'>**Diff算法**</span>，尽量复用DOM节点。(虚拟DOM：变更数据时原数据不再修改，只增加新数据，提高效率)
 
-![image-20210918173600544](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210918173600544.png)
+![image-20220825115922122](images/Vue2/image-20220825115922122.png)
 
 
 
@@ -152,9 +152,9 @@ Vue 特点：
 - data中的所有属性，都会出现在vm身上。
 - <span style='color:hotpink'>vm身上的所有属性 以及 vue原型上的所有属性，</span>在vue模板中都可以直接使用。
 
-![image-20210926175231086](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210926175231086.png)
+![image-20220825115947529](images/Vue2/image-20220825115947529.png)
 
-![image-20210926175542411](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210926175542411.png)
+![image-20220825120000046](images/Vue2/image-20220825120000046.png)
 
 
 
@@ -242,14 +242,14 @@ Object.defineProperty( obj2,'x'{
 
 vue中也使用的 get 和 set 进行监听，实现数据代理。
 
-![image-20210927114112409](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210927114112409.png)
+![image-20220825120033135](images/Vue2/image-20220825120033135.png)
 
 - 读取数据时，就是读取 vue实例的 _data中的数据赋值给页面
 - 当修改数据时，将_data的数也进行修改。
 
-![image-20210927114254648](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210927114254648.png)
+![image-20220825120047402](images/Vue2/image-20220825120047402.png)
 
-![image-20210927210102614](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210927210102614.png)
+![image-20220825120058534](images/Vue2/image-20220825120058534.png)
 
 
 
@@ -614,7 +614,7 @@ vue中也使用的 get 和 set 进行监听，实现数据代理。
   - 最好使用每条数据的唯一标识作为`key`，如：手机号、身份证号、id、学号等
   - 如果不存在对数据的逆序操作(逆序添加、逆序删除)，且仅用于渲染列表用于展示时可使用`index`
 
-<span><img src="C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211031181217226.png" alt="image-20211031181217226" style="zoom: 50%;" /></span><img src="C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211031181311546.png" alt="image-20211031181311546" style="zoom:50%;" />
+![image-20220825120136862](images/Vue2/image-20220825120136862.png)
 
 
 
@@ -762,7 +762,7 @@ vue中也使用的 get 和 set 进行监听，实现数据代理。
   - 参数3：vnode  vue生成的虚拟节点
     - 函数里面第三个参数vnode 它的vnode.context就是当前的vm实例
             const that = vnode.context  
-  - ![image-20211115165738576](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211115165738576.png)
+  - ![image-20220825120219335](images/Vue2/image-20220825120219335.png)
 - <span style='color:hotpink'>调用时机：</span>
   - <span style='color:hotpink'>默认：</span>
     - 指令与元素成功绑定时就调用
@@ -949,9 +949,7 @@ new Vue({
 </script>
 ```
 
-![image-20211102150232558](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211102150232558.png)
-
-
+![image-20220825120237950](images/Vue2/image-20220825120237950.png)
 
 #### 列表排序
 
@@ -1011,7 +1009,7 @@ new Vue({
 - <span style='color:hotpink'>直接用数组的索引值去更改数据时，vue无法检测到！</span>
 - 对数组中的对象的值进行更改时，可以奏效！
 
-![image-20211103105805236](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211103105805236.png)
+![image-20220825120300009](images/Vue2/image-20220825120300009.png)
 
 
 
@@ -1060,9 +1058,7 @@ new Vue({
       }
   ```
   
-  
-
-<img src="C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211103111653421.png" alt="image-20211103111653421" style="zoom: 67%;" />
+  ![image-20220825120319025](images/Vue2/image-20220825120319025.png)
 
 
 
@@ -1131,7 +1127,7 @@ new Vue({
   
 - `Vue.set()`方法也能实现对数组元素的修改
   
-  - ![image-20211103162958534](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211103162958534.png)
+  - ![image-20220825120336047](images/Vue2/image-20220825120336047.png)
   
 - <span style='color:hotpink'>替换数组：</span>`filter`等其他数组操作的方法 <span style='color:hotpink'>不改变原数组。</span>而总是返回一个新数组，当使用非变更方法时，可以用新数组替换旧数组。
 
@@ -1703,9 +1699,9 @@ vm.$watch('xxx',function(newvalue,oldvalue){
 - 这里引用了js库：`day.js`；可以参考笔记-其他概念--引用js库
 - **Vue3中不再支持 该内容：推荐使用计算属性  或 methods方法**
 
-![image-20211104162817350](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211104162817350.png)
+![image-20220825120521530](images/Vue2/image-20220825120521530.png)
 
-![image-20211104163105957](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211104163105957.png)
+![image-20220825120534629](images/Vue2/image-20220825120534629.png)
 
 
 
@@ -1795,7 +1791,7 @@ vue2 ：11个       vue3：10
     })
 ```
 
-<img src="https://cn.vuejs.org/images/lifecycle.png" alt="Vue 实例生命周期" style="zoom:50%;" />
+![lifecycle](images/Vue2/lifecycle.png)
 
 
 
@@ -1819,7 +1815,9 @@ vue2 ：11个       vue3：10
      - 数据保存在那个组件？
   4. 交互：从绑定事件开始
 
-<span><img src="C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211116155409968.png" alt="image-20211116155409968" style="zoom: 40%;" /></span><span><img src="C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211116155450682.png" alt="image-20211116155450682" style="zoom:40%;" /></span>![image-20211116155649953](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211116155649953.png)
+![image-20220825121132850](images/Vue2/image-20220825121132850.png)
+
+![image-20220825121143831](images/Vue2/image-20220825121143831.png)
 
 
 
@@ -1942,7 +1940,7 @@ vm：Vue实例对象              vc：组件实例对象
   - `VueComponent.prototype.__proto__ === Vue.prototype`
   - 作用：让 <span style='color:hotpink'>组件的实例对象</span> 可以访问到 <span style='color:hotpink'>Vue原型</span> 上的属性、方法
 
-![image-20211118174028465](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211118174028465.png)
+![image-20220825121216375](images/Vue2/image-20220825121216375.png)
 
 
 
@@ -1992,7 +1990,7 @@ export default {
 </style>
 ```
 
-![image-20211118180613838](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211118180613838.png)
+![image-20220825121238592](images/Vue2/image-20220825121238592.png)
 
 
 
@@ -2056,7 +2054,7 @@ export default {
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     ```
     
-    ![image-20211122160547531](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211122160547531.png)
+    ![image-20220825121259516](images/Vue2/image-20220825121259516.png)
 
 
 
@@ -2070,19 +2068,25 @@ export default {
 
 
 
--  脚手架版本的vue默认是简洁版的vue，不包含模板解析器，由脚手架编译解析
+- 脚手架版本的vue默认是简洁版的vue，不包含模板解析器，由脚手架编译解析
+
 - vue版本配置的位置：node--vue--types--package.json
+
 - vue文件位置：node--vue--dist----
-- ![image-20211122161128189](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211122161128189.png)
+
+  ![image-20220825121316206](images/Vue2/image-20220825121316206.png)
 
 
 
 ##### render配置项
 
 - render(){}
+
 - 是一个函数，需要有return返回值，接收参数1：创建元素，参数2：元素内的内容
+
 - 简写：使用箭头函数、简写去return、只传一个组件
-- ![image-20211122161620860](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211122161620860.png)
+
+  ![image-20220825121334198](images/Vue2/image-20220825121334198.png)
 
 
 
@@ -3524,7 +3528,7 @@ export default new VueRouter({
 
 
 
-![image-20211104161433115](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211104161433115.png)
+![image-20220825121434399](images/Vue2/image-20220825121434399.png)
 
 
 
@@ -3580,9 +3584,12 @@ export default new VueRouter({
 ### Cookie
 
 - 所在位置: 开发者工具--应用程序--存储--Cookie
+
 - 获取登录成功的网页的Cookie,手动将其获取后,就可以在任意浏览器登录该网站
+
 - 借助插件批量获取---插件名:`Cookie-Editor`
-- ![image-20211107224657730](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211107224657730.png)
+
+  ![image-20220825121456808](images/Vue2/image-20220825121456808.png)
 
 
 
@@ -3592,15 +3599,9 @@ export default new VueRouter({
 - 设计时的安全性校验：当`HttpOnly`选项被勾选时，只有http协议可以读取和携带
 - 被HttpOnly保护的cookie值不会被`document.cookie`获取
 
+![image-20220825121522819](images/Vue2/image-20220825121522819.png)
 
-
-![image-20211107221659548](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211107221659548.png)
-
-![image-20211107221807046](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211107221807046.png)
-
-
-
-![image-20211107230627602](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211107230627602.png)
+![image-20220825121536362](images/Vue2/image-20220825121536362.png)
 
 
 
@@ -3624,66 +3625,6 @@ export default new VueRouter({
 
 - <span style='color:hotpink'>数据劫持：</span>当数据修改时，被set()劫持后进行修改和解析模板，数据劫持和数据代理都离不开`Object.defineproperty`
 - debugger   在代码中写入该指令，会在运行到此处是，停止解析
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -3718,7 +3659,7 @@ export default new VueRouter({
 
 ### instanof是什么？
 
-![image-20211108110300340](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211108110300340.png)
+![image-20220825121609080](images/Vue2/image-20220825121609080.png)
 
 
 
