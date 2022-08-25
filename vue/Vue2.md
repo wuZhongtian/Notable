@@ -2243,6 +2243,7 @@ export default {
     - 标签体内容中可以多次使用同一个 slot属性，会在对应插槽中追加内容
     - 可以使用`</template>`标签，节省一层不必要的DOM结构
       - 如果使用这个标签，还可以使用`v-slot:two`,而不用`slot="two"`
+      - Vue3中推荐使用 `v-slot:two` 
 
   ```html
   <!-- 父组件中，使用slot标签，确定使用的插槽 -->

@@ -78,9 +78,13 @@ createApp(App).mount('#app')  // app为index.html容器的id
    - vue2中接收后可以直接使用
    - vue3中接收后可通过**setup函数**的**第一个参数**拿到，也能直接使用
 
+5. 具名插槽
+
+   - 为组件命名时，推荐使用 `v-slot:xxx`  避免使用 `slot="xxx"`
 
 
-### 组合式API
+
+### 组合式API（常用）
 
 #### setup配置
 
@@ -100,8 +104,9 @@ createApp(App).mount('#app')  // app为index.html容器的id
     - 参数1 props：通过props接收的父组件传递过来的数据（具有响应式）
       - 多传未收有警告，未传多收不警告
     - 参数2 context：
-      - attrs：父组件传递且当前组件未props接收的数据
-      - emit：
+      - attrs：值为对象，包含组件外部传递过来，但没有在props配置中声明的属性, 相当于 `this.$attrs`
+      - slots: 收到的插槽内容, 相当于 `this.$slots`
+      - emit: 分发自定义事件的函数, 相当于 `this.$emit`
   - setup不能是一个async函数，因为返回值不再是return的对象, 而是promise, 模板看不到return对象中的属性。（后期也可以返回一个Promise实例，但需要Suspense和异步组件的配合）
 
 ```vue
@@ -242,7 +247,7 @@ setup(){
 
 
 
-#### reactive对比ref
+#### reactive与ref
 
 -  从定义数据角度对比：
    -  ref用来定义：基本类型数据
@@ -256,6 +261,254 @@ setup(){
    -  reactive定义的数据：操作数据与读取数据：<strong style="color:#DD5145">均不需要</strong>```.value```。
 
 
+
+#### 计算与侦听属性
+
+##### computed计算属性
+
+- 使用步骤  与vue2中基本一致
+
+  ```vue
+  <script>
+  // 使用前先从 vue 引入 computed （组合式api）
+  import {reactive,computed} from 'vue'
+  export default {
+      name:'Dome',
+      setuip(){
+          // 数据
+          let person = reactive({
+              firstName:'张',
+              lastName:'三'
+          })
+          // 计算属性(简写 不考虑计算属性被修改的情况)
+          person.fullName = computed(()=>{
+              return person.firstName + '-' + person.lastName
+          })
+          // 计算属性(完整写法 )
+          person.fullNames = computed({
+              get(){
+                  return person.firstName + '-' + person.lastName
+              }
+              set(value){
+              	const nameArr=value.split('-')
+                  person.firstName=nameArr[0]
+              	person.lastName=nameArr[1]
+         		}
+          })
+          return { person }
+      }
+  }
+  </script>
+  ```
+
+
+
+##### watch侦听属性
+
+- watch三个参数
+  - 参数1：需要监视的响应式数据，可以是对象
+  - 参数2：当侦听数据改变时触发的回调
+  - 参数3：配置对象，watch的其他配置
+- 两个小“坑”：
+
+  - 监视reactive定义的响应式数据时：oldValue无法正确获取、强制开启了深度监视（deep配置失效，不能手动关闭）
+  - 监视reactive定义的响应式数据中某个属性时：deep配置有效
+    - ref监视对象，底层还是reactive，道理同上
+- `.value`问题
+  - ref 定义的基本数据类型 做watch时，不需要`.value`
+  - ref 定义的对象数据类型 做watch时，需要 `.value` **或** 开启深度监视
+
+```js
+// 使用前先从 vue 引入 watch （组合式api）
+import {ref,reactive,watch} from 'vue'
+export default {
+    name:'Dome',
+    setuip(){
+        // 数据
+        let sum = ref(0)
+        let msg=ref('你好！')
+        let person=reactive({
+            name:'张三',
+            age:18
+            job:{
+            	j1：{salary:20}
+        	}
+        })
+        
+        // 情况一：监视ref所定义的响应式数据
+        watch(sum,(newValue,oldValue)=>{
+            console.log('sum改变了',newValue,oldValue)
+        },{immediate:true})
+        
+        // 情况二：监视ref所定义的多个响应式数据
+        watch([sum,msg],(newValue,oldValue)=>{
+            console.log('sum或msg变了',newValue,oldValue)
+        })
+
+        /* 情况三：监视reactive定义的响应式数据
+			若watch监视的是reactive定义的响应式数据，则无法正确获得oldValue！！
+			若watch监视的是reactive定义的响应式数据，则强制开启了深度监视 
+        */
+        watch(person,(newValue,oldValue)=>{
+            console.log('person变化了',newValue,oldValue)
+        },{immediate:true,deep:false}) //此处的deep配置不再奏效
+
+        //情况四：监视reactive定义的响应式数据中的某个属性
+        // 参数1不能再直接写 person.job
+        watch(()=>person.job,(newValue,oldValue)=>{
+            console.log('person的job变化了',newValue,oldValue)
+        },{immediate:true,deep:true}) 
+
+        //情况五：监视reactive定义的响应式数据中的某些属性
+        watch([()=>person.job,()=>person.name],(newValue,oldValue)=>{
+            console.log('person的job变化了',newValue,oldValue)
+        },{immediate:true,deep:true})
+
+        //特殊情况 监视job，修改job深层次数据时，需要开启深度监视
+        watch(()=>person.job,(newValue,oldValue)=>{
+            console.log('person的job变化了',newValue,oldValue)
+        },{deep:true}) //此处由于监视的是reactive所定义的对象中的某个属性，所以deep配置有效
+        return { sum }
+    }
+}
+```
+
+
+
+##### watchEffect
+
+- watch的套路是：既要指明监视的属性，也要指明监视的回调。
+
+- watchEffect的套路是：不用指明监视哪个属性，监视的回调中用到哪个属性，那就监视哪个属性。
+
+- watchEffect有点像computed：
+
+  - 但computed注重的计算出来的值（回调函数的返回值），所以必须要写返回值。
+  - 而watchEffect更注重的是过程（回调函数的函数体），所以不用写返回值。
+
+  ```js
+  //引入 watchEffect
+  import {ref,reactive,watchEffect} from 'vue'
+  //watchEffect所指定的回调中用到的数据只要发生变化，则直接重新执行回调。
+  watchEffect(()=>{
+      const x1 = sum.value
+      const x2 = person.age
+      console.log('watchEffect配置的回调执行了')
+  })
+  ```
+
+
+
+#### Vue3生命周期
+
+- Vue3.0中 **可以继续使用Vue2.x中的生命周期钩子**，但有有两个被更名：
+
+  - `beforeDestroy`改名为 `beforeUnmount`
+  - ```destroyed```改名为 `unmounted`
+
+- Vue3.0提供 `组合式API` 形式的生命周期钩子：
+
+  - `beforeCreate`===>`setup()`
+  - `created`=======>`setup()`
+  - `beforeMount` ===>`onBeforeMount`
+  - `mounted`=======>`onMounted`
+  - `beforeUpdate`===>`onBeforeUpdate`
+  - `updated` =======>`onUpdated`
+  - `beforeUnmount` ==>`onBeforeUnmount`
+  - `unmounted` =====>`onUnmounted`
+
+  ```js
+  //使用前必须先引入 
+  import {onBeforeMount,onMounted,...} from 'vue'
+  
+  setup(){
+      onBeforeMount(()=>{
+          console.log('--onBeforeMount')
+      })
+      onMounted(()=>{
+          console.log('--onBeforeMount')
+      })
+  }
+  ```
+
+- 如果组合式生命周期钩子、配置项形式的生命周期钩子同时存在
+
+  - 组合式api生命周期先调用，对应配置项钩子后调用
+
+
+
+#### hook函数
+
+> 本质是一个函数，把setup函数中使用的Composition API进行了封装。
+>
+> - 类似于vue2.x中的mixin。
+>
+> - 自定义hook的优势: 复用代码, 让setup中的逻辑更清楚易懂。
+
+- src文件下新建hooks文件夹  -  新建 xxx.js文件
+
+```js
+// 把需要复用的内容放在js文件中 并暴露
+import {reactive,onMounted,onBeforeUnmount} from 'vue'
+export default function(){
+    let point=reactive({ x:0,y:0 })
+    // 可复用的方法
+    function xxxx(){ ... }
+    // 可复用的生命周期钩子
+    onMounted(){ ... }
+    onBeforeUnmount(){ ... }
+    return point
+}
+
+// 再其他组件中使用hook函数 引入当前文件配置即可
+import xxx from '../hooks/xxx'   // 引入hooks下的某个js文件
+export default {
+    name:'Demo',
+    setup(){
+        const point = xxx()
+        return {point}
+    }
+}
+```
+
+
+
+#### toRef与toRefs
+
+- 作用：创建一个 ref 对象，其value值指向另一个对象中的某个属性，保留响应式
+
+- 语法：`const name = toRef(person,'name')`
+
+- 应用:   要将响应式对象中的某个属性单独提供给外部使用时。
+
+- 扩展：`toRefs` 与`toRef`功能一致，但可以批量创建多个 ref 对象，语法：`toRefs(person)`
+
+  ```js
+  // toRef 的第一个参数值是个对象即可，第二个参数是对象中数据的键
+  // toRefs 直接传入一个对象即可，与toRef功能一致(拆除外面一层，方便模板书写)
+  
+  import {reactive,toRef} from 'vue'
+  export default {
+      name:'Demo',
+      setup(){
+          let person=reactive({
+              	name:'张三'，
+              	obj:{age:30}
+              })
+          const name1=person.name // name1将失去响应式，只是的得到对应字符串
+          const name2=toRef(person,'name')//借助toRef，指向原数据，保留响应式
+          return {
+              name:toRef(person,'name'),
+              age:toRef(person.obj,'age'),
+              ...toRefs(person)
+          }
+      }
+  }
+  ```
+
+
+
+### 组合式API（其他）
 
 
 
@@ -386,8 +639,6 @@ Reflect.defineProperty(obj,'c',{
     get(){ return 4 }
 })
 ```
-
-
 
 
 

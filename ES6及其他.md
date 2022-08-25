@@ -75,14 +75,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                   
+  >                                                                                                                                           
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                   
+  >                                                                                                                                           
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -223,19 +223,67 @@
     - touchend：手指离开屏幕时触发
     - touchcancel：系统停止跟踪触摸时触发
 
-    ```js
-    // event对象时 TouchEvent类型
-    touches  // 正在触摸屏幕所有手指的一个列表
-    targetTouches // 正在触摸当前DOM元素上的手指的一个列表
-    changedTouches // 手指状态发生了改变的列表，从无到有，从有到无变化
+    ```sh
+    # event对象是 TouchEvent类型
+    touches  # 正在触摸屏幕所有手指的一个列表
+    targetTouches  # 在触摸当前DOM元素上的手指的一个列表
+    changedTouches # 手指状态发生了改变的列表，从无到有，从有到无变化
     
-    // 每个touch对象包含相关事件信息如下
+    # 每个touch对象包含相关事件信息如下
+    clientX   # 触摸点在视口中的X坐标
+    clientY   # 触摸点在视口中的Y坐标
+    pageX     # 触摸点在页面中的X坐标
+    pageY     # 触摸点在页面中的Y坐标
+    screenX   # 触摸点在屏幕中的X坐标
+    screenY   # 触摸点在屏幕中的Y坐标
     
+    # e.touches[0].clientX
     ```
-
     
-
-
+  - 手势事件 
+  
+    - gesturestart：当手势开始时触发（两根或多根手指触摸屏幕）
+    - gesturechange：当手势改变时触发（两根或多根手指触摸屏幕，且发生移动）
+    - gestureend：当手势结束时触发（倒数第二根手指离开屏幕)
+  
+    ```sh
+    # event对象是 GestureEvent类型 
+    # 除了包含 screenX、screenY、clientX、clientY等信息外还包含如下内容
+    scale   # 缩放比例，即手指移动过程中分开/合拢的比例，默认为1，相对初始位置，手指分散开值变大，合拢值变小
+    rotation  # 旋转角度，手指间连线旋转的角度，默认为0.0，逆时针为负，顺时针为正值
+    ```
+  
+  - 传感器事件 Sensor Event
+  
+    - deviceorientation事件（提供设备的物理方向信息）
+  
+      > 当屏幕水平放置时：屏幕指向西方 `{alpha:90,beta:0,gamma:0}`
+  
+      - alpha：在围绕Z轴，左右旋转时的，Y轴度数差
+      - beta：在围绕X轴旋转时，前后旋转时，Z轴度数差
+      - gamma：在围绕Y轴旋转时，扭转设备，X轴的度数差
+  
+    - devicemotion事件 
+  
+      > 提供设备的加速度信息，表示为定义在设备上的坐标系中的笛卡尔坐标，其还提供了设备在坐标系中的自转速率  可以实现“摇一摇”的交互效果
+  
+      - accelerationIncludingGravity：重力加速度，X Y Z轴三个值（包括重心引力9.8）
+      - acceleration：设备加速度 （需要设备陀螺仪支持） X Y Z轴三个值
+      - rotationRate（alpha，beat，gamma）；旋转速度，包含alpha、beta、gamma
+      - interval：获取的时间间隔，单位毫秒
+  
+      ```js
+       window.addEventListener("devicemotion", function(event) {
+            // 处理event.acceleration.x、event.accelerationIncludingGravity.y、
+            // event.rotationRate和event.interval
+        }, true);
+      ```
+  
+    - orientationchange事件 监听设备的方向变化
+  
+      - event对象并不包含方向信息
+      - 通过`screen.orientation.angle`对象获取 0 180表示竖屏、90 270表示横屏
+      - ios通过 `window.orientation`获取   0 180表示竖屏、90  -90表示横屏
 
 
 
@@ -1154,7 +1202,13 @@ console.log(result);   //返回值 true   说明str符合one
 |              |                                                              |                                                              |
 |              |                                                              |                                                              |
 
+#### Array
 
+| 方法  | 描述                                                     | 用法           |
+| ----- | -------------------------------------------------------- | -------------- |
+| map() | 返回新数组，数组中的元素为原始数组元素调用函数处理后的值 | `arr.map(fun)` |
+|       |                                                          |                |
+|       |                                                          |                |
 
 
 
@@ -1180,6 +1234,37 @@ const {a:{b:{c:city}}} = obj
 console.log(city)  // 1
 console.log(c)  // 报错
 ```
+
+
+
+### for in/of
+
+- `for in` 语句用于循环**对象属性**。
+
+  循环中的代码每执行一次，就会对数组的元素或者对象的属性进行一次操作。
+
+  JavaScript 支持不同类型的循环：
+
+  - **[for](https://www.runoob.com/jsref/jsref-for.html)** - 循环代码块一定的次数
+  - **for/in**- 循环遍历对象的属性
+  - **[while](https://www.runoob.com/jsref/jsref-while.html)** - 当指定的条件为 true 时循环指定的代码块
+  - **[do/while](https://www.runoob.com/jsref/jsref-dowhile.html)** - 同样当指定的条件为 true 时循环指定的代码块
+
+  **注意：** 不要使用 for/in 语句来循环数组的索引，你可以使用 [for](https://www.runoob.com/jsref/jsref-for.html) 语句替代。
+
+- `for of` 语句循环遍历可迭代**对象的值**。
+
+  - ```js
+    const cars = ["BMW", "Volvo", "Mini"];
+    
+    let text = "";
+    for (let x of cars) {
+      text += x;
+    }  
+    // BMWVolvoMini
+    ```
+
+    
 
 
 
