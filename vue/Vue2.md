@@ -1723,7 +1723,7 @@ vue2 ：11个       vue3：10
 
 - <span style='color:hotpink'>`beforeCreate`将要创建：</span>此时没有进行数据代理，无法通过vm访问data中的数据
 - <span style='color:hotpink'>`created`创建完毕：</span>数据代理完成，可以通过vm访问data中的数据 和 methods中的方法
-  - 发送ajax初始请求的最佳时机，可以获取到data配置中的数据
+  - 发送ajax初始请求的最佳时机，可以获取到data配置中的数据、`$on监听自定义事件`
   - 注意:此阶段不建议书写复杂的逻辑操作代码,因为如果在该阶段停留的时间越久,页面的渲染也会相应延迟,导致页面的白屏时间变长
 - <span style='color:hotpink'>`beforeMount`将要挂载：</span>刚生成虚拟DOM，此时页面显示<span style='color:#E83F11'>未经编译的DOM</span>结构,对DOM操作不奏效
 - <span style='color:hotpink'>`mounted`挂载完毕：</span>Vue完成模板解析并初次把真实DOM放入页面后 <span style='color:hotpink'>(挂载完成)</span> 调用一次
@@ -1731,7 +1731,7 @@ vue2 ：11个       vue3：10
   - 此阶段由于页面已经首次渲染成功,所以即便在该阶段停留的时间较长,对页面显示也不会具有太大的影响
   - 注意：mounted不保证所有的子组件也都挂载完毕，如果希望整个视图都渲染完成可以使用vw.$nextTick();
 - <span style='color:hotpink'>`beforeDestroy`销毁之前：</span>所有的东西都可用
-  - 调用`vm.$destroy()`方法后销毁一个实例，清理它与其它实例的连接，解绑他的全部指令和事件监听器(自定义事件)
+  - 调用`vm.$destroy()`方法后销毁一个实例，清理它与其它实例的连接，解绑他的全部指令和 $off 解绑自定义事件监听器
   - 再触发<span style='color:hotpink'>`beforeDestroy`</span>和<span style='color:hotpink'>`destroyed`</span>的钩子
   - 清除定时器、解绑自定义事件、取消订阅消息等【收尾工作】
     - 由Vue绑定的事件，都不需要手动解绑，会自动解绑
@@ -2740,6 +2740,19 @@ export default {
 
 
 
+#### vue-resource（淘汰）
+
+```js
+// 安装    npm i vue-resource
+// 引入 main.js 中
+import Vue from 'vue'
+import vueResource from 'vue-resource'
+// 使用Vue插件
+Vue.use(vueResource)
+```
+
+![image-20220829173926222](images/Vue2/image-20220829173926222.png)
+
 #### v-cli开启代理服务器
 
 ##### 方法1：
@@ -2982,6 +2995,14 @@ export default new VueRouter({
   - 每个路由组件vc上都会多一个`$router`和一个`$route`
   - 整个应用只有一个`router`，可以通过`$router`获取到
   - 每个组件都有自己的`$route`，里面存储着自己的路由信息
+- 路由传参
+  -  query传参要用path来引入，params传参要用name来引入
+    - 使用params传参只能使用name进行引入
+    - params是路由的一部分,必须要在路由后面添加参数名。query是拼接在url后面的参数，没有也没关系
+    - params一旦设置在路由，params就是路由的一部分，如果这个路由有params传参，但是在跳转的时候没有传这个参数，会导致跳转失败或者页面会没有内容。
+    - uery传递参数（直接拼接在地址后面，会显示在url后面）
+    - 使用params传参只能用name来引入路由，即push里面只能是name:’xxxx’,不能是path:’/xxx’,因为params只能用name来引入路由，如果写成了path，接收参数页面会是undefined！！！
+    - query相当于get请求，页面跳转的时候，可以在地址栏看到请求参数，而params相当于post请求，参数不会再地址栏中显示
 - 具体编码
 
 ```js
@@ -2990,6 +3011,7 @@ export default new VueRouter({
 this.$router.push({
    // name 指定跳转的路由名
    name:"xiangqian",
+   //path:xxx
    // params 携带参数
    // 使用参数数据：在跳转的组件中 使用this.$route获取，可以log查看一下
    params:{
@@ -3112,6 +3134,66 @@ export default new VueRouter({
             }
         },
     ]
+})
+```
+
+
+
+#### 重定向
+
+- 将当前路径解析为其他路径，改变url
+- redirect 配置项
+
+```js
+const router = new VueRouter({
+  mode: 'history',
+  base: __dirname,
+  routes: [
+    { path: '/', component: Home,
+      children: [
+        { path: '', component: Default },
+        { path: 'foo', component: Foo },
+        { path: 'bar', component: Bar },
+        { path: 'baz', name: 'baz', component: Baz },
+        { path: 'with-params/:id', component: WithParams },
+        // relative redirect to a sibling route
+        { path: 'relative-redirect', redirect: 'foo' }
+      ]
+    },
+    // absolute redirect
+    { path: '/absolute-redirect', redirect: '/bar' },
+    // dynamic redirect, note that the target route `to` is available for the redirect function
+    { path: '/dynamic-redirect/:id?',
+      redirect: to => {
+        const { hash, params, query } = to
+        if (query.to === 'foo') {
+          return { path: '/foo', query: null }
+        }
+        if (hash === '#baz') {
+          return { name: 'baz', hash: '' }
+        }
+        if (params.id) {
+          return '/with-params/:id'
+        } else {
+          return '/bar'
+        }
+      }
+    },
+    // named redirect
+    { path: '/named-redirect', redirect: { name: 'baz' }},
+
+    // redirect with params
+    { path: '/redirect-with-params/:id', redirect: '/with-params/:id' },
+
+    // redirect with caseSensitive
+    { path: '/foobar', component: Foobar, caseSensitive: true },
+
+    // redirect with pathToRegexpOptions
+    { path: '/FooBar', component: FooBar, pathToRegexpOptions: { sensitive: true }},
+
+    // catch all redirect
+    { path: '*', redirect: '/' }
+  ]
 })
 ```
 
@@ -3490,7 +3572,9 @@ export default new VueRouter({
 
 
 
+### Vue Lazy Component
 
+> Vue.js 2.x 组件级懒加载方案
 
 
 

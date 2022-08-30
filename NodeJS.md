@@ -301,14 +301,14 @@ esc            # 快速清空当前输入的命令
   - 为简化向外共享成员的代码，Node提供了 exports对象，与 module.exports 等价。
   - <span style='color:hotpink'>默认情况下，exports和module.exports 指定同一个对象</span>
 - 注意 :得到的永远是 module.exports对象
-  - <span>![image-20210904143157275](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210904143157275.png)</span><span>![image-20210904143204476](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210904143204476.png)</span><span>![image-20210904143210558](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210904143210558.png)</span><span>![image-20210904143216403](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210904143216403.png)</span>
+  - ![image-20220826154850212](images/NodeJS/image-20220826154850212.png)
   - 图一：{ gender:男;age:22 }
   - 图二：{ username:zs }
   - 图三：{gender:男 }
   - 图四：{ username:zs; gender男; age:22}
   - <span style='color:hotpink'>为防止冲突，不要在同一个模块中同时使用 exports 和 module.exports</span>
-
-**![image-20210904141135532](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210904141135532.png)**
+  
+  ![image-20220826154912762](images/NodeJS/image-20220826154912762.png)
 
 
 
@@ -948,9 +948,13 @@ babel src -d lib
   - 原始npm源:`https://registry.npmjs.org`
   - 或者用 `nrm ls`  查看可用的镜像源有哪些
 
-- **![image-20210905102722829](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210905102722829.png)**
-
-
+  ```sh
+  npm config get registry # 查看当前的下包镜像源
+  npm congig set registry=http://registry.npm.taobao.org/   #切换下包镜像源为淘宝镜像源
+  npm config get registry  # 检查镜像源是否下载成功  
+  ```
+  
+  
 
 #### npm包管理工具
 
@@ -1065,7 +1069,7 @@ npm规定，在<span style='color:hotpink'>项目根目录</span>中，<span sty
 - 局部安装调用
   - 方法一：在下载的包文件`node-modules/.bin`路径对应的包下运行相关命令
   - 方法二：在项目文件中配置好相应的`scripts`脚本命令才行；
-  - ![image-20220115172141336](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220115172141336.png)
+  - ![image-20220826155456408](images/NodeJS/image-20220826155456408.png)
 
 ****
 
@@ -1091,7 +1095,7 @@ npm规定，在<span style='color:hotpink'>项目根目录</span>中，<span sty
     - `start`
     - `test`
 
-    ![image-20220116194145096](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220116194145096.png)
+    ![image-20220116194145096](images/NodeJS/image-20220116194145096.png)
 
 
 
@@ -1123,9 +1127,10 @@ package.json文件中，dependencies节点，专门用来记录使用 npm instal
 
 当拿到剔除了 node_modules 的项目后，需要先把所有的包下载到项目中，才能将项目运行起来。否则报错：
 
-![image-20210904225800594](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210904225800594.png)
-
-
+```sh
+# 由于项目运行依赖于 moment 这个包，如果没有提前安装好这个包，就会报如下的错误：
+Error: Cannot find module 'moment'
+```
 
 安装命令:    `npm  install `  或者  `npm  i`
 
@@ -1137,9 +1142,12 @@ package.json文件中，dependencies节点，专门用来记录使用 npm instal
 
 表示只在开发过程中使用，在实际线上项目中不使用的包，建议存放在devDependencies节点中。
 
-**![image-20210905100717974](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210905100717974.png)**
-
-
+```sh
+# 安装指定的包，并记录到 devDependencies 节点中
+npm i 包名 -D
+# 上述命令的完整写法：
+npm install 包名 --save-dev
+```
 
 
 
@@ -1202,7 +1210,7 @@ package.json文件中，dependencies节点，专门用来记录使用 npm instal
   - 将终端切换到包的根目录、运行 `npm publish`命令，即可将包发布到npm上
   - 注意：包名不能出现雷同！ 
 
-**![image-20210906133234349](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210906133234349.png)**
+![image-20220826160120490](images/NodeJS/image-20220826160120490.png)
 
 
 
@@ -1241,7 +1249,7 @@ npm i i5ting_toc -g
 
 - 为了更方便的切换下包的镜像源，可以安装nrm工具，能够快速的查看和切换下包的镜像源
 - 必须在管理员模式下，解决无法运行脚本问题
-- ![image-20220727102619910](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220727102619910.png)
+- ![image-20220727102619910](images/NodeJS/image-20220727102619910.png)
 
 ```js
 //解决 安装后的警告：找到报错路径，替换掉报错的代码
@@ -1559,9 +1567,7 @@ app.post('/url',(req,res) => {
   - 获取url的动态参数
   - 访问到 URL 中，匹配到的动态参数：
 
-**![image-20210917180116033](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210917180116033.png)**
-
-**![image-20210917180251067](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20210917180251067.png)**
+![image-20220826160241678](images/NodeJS/image-20220826160241678.png)
 
 ##### 解决跨域问题
 
@@ -1640,4 +1646,17 @@ app.use(express.static(path.join(__dirname, 'public')))
 
     - 库**安装的速度**快，但源代码安装 **运行的速度**更快。
 
-1
+
+
+
+
+
+
+## 进程管理
+
+> 感知、控制自身进程的运行环境和状态，可以创建子进程并与其协同工作，可以把多个程序组合在一起共同完成某项工作，并在其中充当胶水和调度器的作用。
+
+### child_process模块
+
+> 可以创建和控制子进程。该模块提供的API中最核心的是`.spawn`，其余API都是针对特定使用场景对它的进一步封装，算是一种语法糖。
+

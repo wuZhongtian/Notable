@@ -142,7 +142,7 @@
 
 - 面试题（击鼓传花）   17集
 
-  ![image-20220801175024304](C:\Users\86138\AppData\Roaming\Typora\typora-user-images\image-20220801175024304.png)
+  ![image-20220826103037900](images/js数据结构与算法/image-20220826103037900.png)
 
   ```js
   // 击鼓传花 代码实现
@@ -237,7 +237,7 @@
   remove(ele)       //从列表中移除一项
   isEmpty()     //如果链表中不包含任何元素返回true，链表长度大于0返回false
   size()        //返回链表包含的元素个数
-  toString()    //
+  toString()    // 
   ```
 
   ![image-20220809144354539](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20220809144354539.png)
@@ -380,13 +380,52 @@
   - 缺点：
     - 可以轻松的到达下一个节点，但不能回到上一个节点
     - 例: 文本编译器用链表存储文本，每一行用一个**String对象**存储在链表的一个节点中，当编辑器用户**上下移动光标**时，需要回到上个节点，单链表只能从头开始查找，不能指回上一个
+  
 - 双向链表
   - 每个节点 既有向前的引用，又有向后的引用
   - 缺点：
     - 每次插入/删除时，需要处理四个引用，而不是两个
   - ![image-20220810172038743](images/js数据结构与算法/image-20220810172038743.png)
+  
+- 封装双向链表
 
+  ```js
+  // 双向链表的常见操作
+  append(ele)      //向列表尾部添加一个新的项
+  insert(position,element)    //向列表的特定位置插入一个新的项
+  get(position)     //获取对应位置的元素
+  indexOf(element)  //返回元素在链表中的索引，没有该元素返回-1
+  update(position,newdata)  //修改某个位置的元素
+  removeAt(position)    //从链表的特定位置移除一项
+  remove(ele)       //从列表中移除一项
+  isEmpty()     //如果链表中不包含任何元素返回true，链表长度大于0返回false
+  size()        //返回链表包含的元素个数
+  toString()    // 有于列表使用了Node类，就需要重写继承自js对象默认的toString方法，让其只输出元素的值
+  forwardString()  //返回正向遍历的节点字符串形式  从后往前遍历
+  backwordString() //返回反向遍历的节点字符串形式  从前往后遍历 与toString方法一致
+  ```
 
+  ```js
+  // 封装双向链表
+  function DoublyLinkedList(){
+      // 内部类 创建节点
+      function Node(data){
+          this.data=data
+          this.prev=null
+          this.next=null
+      }
+      // 属性
+      this.head=null
+      this.tail=null
+      this.length=0
+      
+      
+  }
+  ```
+
+  
+
+p36
 
 
 
