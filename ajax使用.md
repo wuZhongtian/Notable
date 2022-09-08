@@ -1,69 +1,56 @@
 ## 前期基础
 
-### 构建本地服务器
+### 搭建本地服务器
 
-借助 php study 软件     (安装---启动 *Apache* 和 *Mysql*  服务)
+1. 安装 [phpstudy- 小皮面板(xp.cn) ](https://www.xp.cn/download.html)
 
-设置服务器文件(*更改网站根目录的文件*)，找到自己的ip地址分享给别人即可被局域网内的用户访问
+   > 1.软件安装目录中最好不要出现中文字符
+   >
+   > 2.只有局域网内可访问
+   >
+   > 3.内网穿透可以接入互联网让所有人访问
 
-自己的访问自己：输入自己的ip地址  /  直接输入127.0.0.1(自己访问自己)
+2. 设置服务器文件(*更改网站根目录的文件*)，
 
-此时本计算机就成为本地web服务器
+3. ip地址可分享给局域网内的用户访问，或进行内网穿透操作
 
-<p style='color:skyblue'>*注意：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.软件安装目录中最好不要出现中文字符*<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.只有局域网内可访问<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.内网穿透可以接入互联网让所有人访问
-</p>
+   - 端口问题：默认服务器软件端口为 80
+
+4. 服务器分类
+
+   - 按服务类型：文件服务器、数据库服务器、邮件服务器、Web 服务器等；
+   - 按操作系统：Linux服务器、Windows服务器等；
+   - 按应用软件：Apache服务器、Nginx 服务器、IIS服务器、Tomcat服务器、Node服务器等
+
+5. 服务器软件
+
+   - 文件服务器：Server-U、FileZilla、VsFTP等；
+   - 数据库服务器：Oracle、MySQL、PostgreSQL、MSSQL等；
+   - 邮件服务器：Postfix、Sendmail等；
+   - HTTP 服务器：Apache、Nginx、IIS、Tomcat、NodeJS等；
 
 
-​      端口问题：默认服务器软件端口为 80
-
-​      端口是为软件分配资源，让不同软件可以正常运行，如果出现冲突，更改一下端口或关闭冲突的软件即可
-
-​      例如：不同的音乐软件，同时播放音乐，若端口冲突则不能同时播放
 
 
 
 ### 浏览器机制
 
-输入url地址······>借助网络访问并获取服务器上的文件····>浏览器拿到文件后解析成图形界面
+> 浏览器 Browser          服务器 Server           客户端   Client
+
+- BS 架构：浏览器  服务器 ； 
+
+  -  十分便捷，但性能受限
+
+  C S 架构： 客户端  服务器
+
+  - 必须安装对应的客户端、性能更好，画面更炫
 
 - url地址的组成
 
-  http：//www.baidu.com/index.html
+  - http：//www.baidu.com/index.html
+  - http：服务器与客户端之间的通信协议    www.baidu.com：服务器名称   /index.html：资源在服务器上具体的存放位置
 
-  http：服务器与客户端之间的通信协议    www.baidu.com：服务器名称   /index.html：资源在服务器上具体的存放位置
-
-  ![image-20220823190737565](images/ajax使用/image-20220823190737565.png)
-
-### CS架构
-
-浏览器 Browser          服务器 Server           客户端   Client
-
-######  B & S 架构：浏览器 和 服务器 ； 
-
--  常规的商业网站都属于 bs 架构
--  十分便捷，但性能受限
--  B & S 架构 又称为特殊的 C & S 架构
-
-###### C & S 架构： 客户端 和 服务器
-
-- 必须安装对应的客户端
-- .性能更好，画面更炫
-
-#### 4.数据库
-
-服务器中用于***保存数据***  的软件系统 叫做 数据库
-
-数据库相关的维护岗位叫做： 运维 / 网管 / 数据库管理员(DBA) 
-
-*功能：* *提供很多保护数据安全的功能*
-
-#### 5.后台开发语言
-
-作用：读取数据  并 生成相应的界面
-
-包含{ php  java python go c   ······}  php语法和js很像
-
-*<u>后台语言应放在服务器中</u>*
+![image-20220823190737565](images/ajax使用/image-20220823190737565.png)
 
 
 
@@ -71,15 +58,12 @@
 
 #### 1.常见协议
 
-- http、https超文本传输协议
+- http、https  
+  - 超文本传输协议：协议规定了浏览器和万维网服务器之间的通信规则
+  - 对由客户机到服务器的请求 和 从服务器到客户机的响应 进行了约束和规范
+  - HTTP抓包工具：HttpWatch、Fiddler、Charles、FireBug、chrome dev tools
 - fps 文件传输协议
 - smtp 简单邮件传输协议
-
-#### 2.http  协议（超文本传输协议）
-
-- 网站是基于http协议
-- HTTP协议：超文本传输协议，协议规定了浏览器和万维网服务器之间的通信规则
-- 对由客户机到服务器的请求（request）和从服务器到客户机的响应（response）进行了约束和规范
 
 `常用请求方式：get post  put delete`
 
@@ -87,31 +71,22 @@
 
 `包含：请求行、请求头、请求主体`
 
+- 请求行：
+  - 由请求方式、请求URL和协议版本构成
+  - 例：`POST /s?ie=utf-8 HTTP/1.1`
+- 请求头
+  - Host：localhost请求的主机              
+  - Cache-Control：max-age=0控制缓存                          
+  - Accept：*/* 接受的文档MIME类型
+  - User-Agent：很重要
+  - Referer：从哪个URL跳转过来的
+  - Accept-Encoding：可接受的压缩格式
+- 请求主体
+  - 即传递给服务端的数据
+  - 以get 形式当不需要设置请求头
+  - 当以post形式提交表单的时候，请求头`Content-Type: application/x-www-form-urlencoded`
+
 ![image-20220823190811659](images/ajax使用/image-20220823190811659.png)
-
-
-
-##### 请求行：
-
-- 由请求方式、请求URL和协议版本构成
-- 例：`POST /s?ie=utf-8 HTTP/1.1`
-
-##### 请求头
-
-- Host：localhost请求的主机              
-- Cache-Control：max-age=0控制缓存                          
-- Accept：*/* 接受的文档MIME类型
-- User-Agent：很重要
-- Referer：从哪个URL跳转过来的
-- Accept-Encoding：可接受的压缩格式
-
-##### 请求主体
-
-即传递给服务端的数据
-
-注：当以post形式提交表单的时候，请求头里会设置`Content-Type: application/x-www-form-urlencoded`
-
-以get 形式当不需要设置请求头
 
 
 
@@ -119,34 +94,22 @@
 
 `包含：状态行、响应头、响应主体`
 
-![image-20220823190840262](images/ajax使用/image-20220823190840262.png)
+- 状态行
+  - 由协议版本号、状态码和状态信息构成
+  - 常见状态码：`200成功、304文档未修改、403没有权限、404未找到、500服务器错误`
+- 响应头
+  - Date：响应时间
+  - Server：服务器信息
+  - Content-Length：响应主体长度
+  - Content-Type：响应资源的MIME类型
+- 响应主体
+  - 即服务端返回给客户端的内容；
 
-
-
-##### 状态行
-
-- 由协议版本号、状态码和状态信息构成
-
-#####  响应头
-
-- Date：响应时间
-- Server：服务器信息
-- Content-Length：响应主体长度
-- Content-Type：响应资源的MIME类型
-
-##### 响应主体
-
-即服务端返回给客户端的内容；
+<img src="images/ajax使用/image-20220823190840262.png" alt="image-20220823190840262" style="zoom:50%;" />
 
 ![image-20220823190907121](images/ajax使用/image-20220823190907121.png)
 
-`常见的有200代表成功、304文档未修改、403没有权限、404未找到、500服务器错误`
 
-
-
-
-
-## 其他基础
 
 
 
@@ -195,21 +158,18 @@
 
 ## ajax编程
 
-- ajax本质是在HTTP协议的基础上以异步的方式与服务器进行通信 (异步JS和XML)
-- 异步：指某段程序执行时不会阻塞其它程序执行，其表现形式为程序的执行顺序不依赖程序本身的书写顺序，相反则为同步。
-- 异步：各干各的       同步：必须执行完上一步才能下一步
-- XMLHttpRequest：浏览器的内置对象，用于与服务器通信，而不刷新页面，从服务器上请求数据
+> - 本质：HTTP协议的基础上以异步的方式与服务器进行通信 (异步JS和XML)
+> - 异步：指某段程序执行时不会阻塞其它程序执行，其表现形式为程序的执行顺序不依赖程序本身的书写顺序，相反则为同步。
+> - 异步：各干各的       同步：必须执行完上一步才能下一步
+> - XMLHttpRequest：浏览器的内置对象，用于与服务器通信，而不刷新页面，从服务器上请求数据
 
-**ajax优点**
-
-- 可以无刷新于与服务器进行通信
-- 允许根据用户事件更新部分页面内容
-
-**ajax缺点**
-
-- 没有浏览历史，无法回退页面
-- 存在跨域问题 (同源)
-- SEO优化不友好，无法爬取到ajax中的数据
+- 优点
+  - 可以无刷新于与服务器进行通信
+  - 允许根据用户事件更新部分页面内容
+- 缺点
+  - 没有浏览历史，无法回退页面
+  - 存在跨域问题 (同源)
+  - SEO优化不友好，无法爬取到ajax中的数据
 
 
 
@@ -288,29 +248,11 @@ xhr.send(null)
 
 
 
-#### 更多API
-
-- `xhr.onreadystatechange = function () {} 监听响应状态`     当响应状态码发生改变时执行
-- `xhr.responseText  或  xhr.responseXML   //响应主体`   
-- `xhr.getAllResponseHeaders()    //获取全部响应头信息`
-- `xhr.getResponseHeader('key')   //获取指定头信息`
-- `xhr.responseType = 'json'`     设置响应体数据的类型，自动转换，写在最外层
-- get请求的效率更高，限制大小约4k ；post则没有大小限制
-
-#### GET和POST差异
-
-1. GET没有请求主体，使用xhr.send(null)
-2. GET可以通过在请求URL上添加请求参数
-3. POST可以通过xhr.send('name=itcast&age=10')
-4. POST需要设置请求头
-5. GET效率更好（应用多）
-6. GET大小限制约4K，POST则没有限制
-
 
 
 ### 代码示例
 
-##### 发送get请求
+#### get请求
 
 ```js
 var xhr = new XMLHttpRequest();
@@ -329,7 +271,7 @@ xhr.send(null)
 
 
 
-##### 发送post请求
+#### post请求
 
 ```js
 // 创建对象 - 设置请求行 - 设置请求头 - 注册回调函数 - 发送请求
@@ -346,7 +288,25 @@ xhr.send('name=lihua&age=11');
 
 
 
-### 其他内容
+#### get/post差异
+
+1. GET没有请求主体，使用xhr.send(null)
+2. GET可以通过在请求URL上添加请求参数
+3. POST可以通过xhr.send('name=itcast&age=10')
+4. POST需要设置请求头
+5. GET效率更好（应用多）
+6. GET大小限制约4K，POST则没有限制
+
+
+
+### 更多API
+
+- `xhr.onreadystatechange = function () {} 监听响应状态`     当响应状态码发生改变时执行
+- `xhr.responseText  或  xhr.responseXML   //响应主体`   
+- `xhr.getAllResponseHeaders()    //获取全部响应头信息`
+- `xhr.getResponseHeader('key')   //获取指定头信息`
+- `xhr.responseType = 'json'`     设置响应体数据的类型，自动转换，写在最外层
+- get请求的效率更高，限制大小约4k ；post则没有大小限制
 
 - 超时设置
 
@@ -395,7 +355,10 @@ xhr.send('name=lihua&age=11');
   xhr.open("GET","http://127.0.0.1:8000/ie?t="+Date.now());
   ```
 
-  
+
+
+
+
 
 
 
@@ -458,7 +421,7 @@ axios.get("http://127.0.0.1:8000/index.html",{
    params：{
       id:100,
       name:"1223"
-   },
+   }, 
    // 设置请求头信息
    headers: {
       'content-type':'application/x-www-from-urlencoded'
@@ -564,14 +527,12 @@ fetch("http://wudetian.top",{
 
 
 
-## 同源策略
+## 同源跨域
 
 - 同源：协议、域名、端口号，必须完全一致，违背同源策略就是跨域。
 - ajax默认遵循同源策略
 
 
-
-## 跨域问题
 
 ### JSONP方案
 
@@ -582,7 +543,7 @@ fetch("http://wudetian.top",{
 
 ![image-20220823190944490](images/ajax使用/image-20220823190944490.png)
 
-
+![image-20220908184939861](images/ajax使用/image-20220908184939861.png)
 
 ### CORS方案
 
@@ -608,4 +569,60 @@ response.setHeader("Access-Control-Allow-Methods","*");
 
 
 ### 代理服务器
+
+#### 
+
+
+
+
+
+## FormData
+
+- a)   提供了一个新的内建对象，可用于管理表单数据
+
+  b)   首先要获取一个表单元素form
+
+  c)   然后在实例化时 new FormData(form)，将表单元素form传进去
+
+  d)   会返回一个对象，此对象可以直接做为xhr.send(formData)的参数
+
+  e)   此时我们的数据就是以二进制形式传递了
+
+  f)    注意我们这里只能以post形式传递，浏览器会自动为我们设置一个合适的请求头
+
+  ![image-20220908185117480](images/ajax使用/image-20220908185117480.png)
+
+
+
+## 二进制
+
+- a)   我们上传文件是以二进制形式传递的
+
+  b)   我们可以通过表单`<input type="file">`获取到一个文件对象
+
+  c)   然后file.files[0]可以获取文件信息
+
+  d)   然后再利用var formData = new FormData() 实例化
+
+  e)   然后再利用formData.append(‘upload’, file.files[0])将文件转成二进制
+
+  f)    最后将 formData 做为 xhr.send(formData)的参数
+
+  ![image-20220908185213174](images/ajax使用/image-20220908185213174.png)
+
+
+
+## 上传进度
+
+- a)   利用XMLHttpRequest我们可以实现文件的上传
+
+  b)   并且我们可以通过xhr.upload.onprogress = function (ev) {// code}，监听上传的进度
+
+  c)   这时我们上传的进度信息会保存在事件对象ev里
+
+  d)   ev.loaded 表示已上传的大小，ev.total表示文件整体的大小
+
+  e)   var percent = ev.loaded / ev.total
+
+  ![image-20220908185250413](images/ajax使用/image-20220908185250413.png)
 

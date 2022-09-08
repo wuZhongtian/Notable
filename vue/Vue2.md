@@ -1220,7 +1220,7 @@ new Vue({
 
     - 如果不使用该方法，代码含义：将控制输入框显示地数据修改后就执行获取焦点操作，而此时页面还没有输入框
 
-    - ![image-20220218142553819](images/Vue/image-20220218142553819.png)
+    - ![image-20220218142553819](images/Vue2/image-20220218142553819.png)
 
   - 其他解决办法：使用定时器，时间不设置，就实现了延时回调功能。
 
@@ -1744,9 +1744,9 @@ vue2 ：11个       vue3：10
 - <span style='color:hotpink'>`beforeUpdate`将要更新：</span>当数据发生改变时调用；此时数据是新的，页面是旧的，还未生成新的虚拟DOM
 - <span style='color:hotpink'>`updated`更新完毕：</span>数据改变,且新的虚拟DOM放入页面后调用，页面和数据保持同步。
 
-![image-20220329000232591](images/Vue/image-20220329000232591.png)
+![image-20220329000232591](images/Vue2/image-20220329000232591.png)
 
-![image-20220418213402891](images/Vue/image-20220418213402891.png)
+![image-20220418213402891](images/Vue2/image-20220418213402891.png)
 
 
 
@@ -2022,7 +2022,7 @@ export default {
 
 ##### <span style='color:#DA9B00'>脚手架结构分析</span>
 
-![image-20220325093339387](images/Vue/image-20220325093339387.png)
+![image-20220325093339387](images/Vue2/image-20220325093339387.png)
 
 - 项目文件夹
   - babel.config.js        //负责语法转换，如想配置参考官网，默认不需要修改
@@ -2552,7 +2552,7 @@ export default {
   - 普通函数时，pubsub的回调函数的this指向undefined
   - 使用箭头函数则指向vc，或者将回调写在 methods配置中( 和事件总线类似 )
 
-![image-20220217183555255](images/Vue/image-20220217183555255.png)
+![image-20220217183555255](images/Vue2/image-20220217183555255.png)
 
 
 
@@ -2650,7 +2650,7 @@ export default {
   </style>
   ```
   
-  ![image-20220221144855144](images/Vue/image-20220221144855144.png)
+  ![image-20220221144855144](images/Vue2/image-20220221144855144.png)
 
 
 
@@ -2692,7 +2692,7 @@ export default {
   - 在`main.js`文件中引入插件 <span style='color:hotpink'>`import 自定义插件名 from '插件路径'`</span>
   - 再 <span style='color:hotpink'>Vue.use(插件名)</span>,普通的不依赖vue的库不需要use。
   - 可以在所有地方使用插件提供的内容
-  - ![image-20220213185221905](images/Vue/image-20220213185221905.png)
+  - ![image-20220213185221905](images/Vue2/image-20220213185221905.png)
 
 
 
@@ -2785,7 +2785,7 @@ Vue.use(vueResource)
   ```
 
 
-![image-20220301101809618](images/Vue/image-20220301101809618.png)
+![image-20220301101809618](images/Vue2/image-20220301101809618.png)
 
 
 
@@ -2829,7 +2829,7 @@ Vue.use(vueResource)
   }
   ```
 
-![image-20220301101859870](images/Vue/image-20220301101859870.png)
+![image-20220301101859870](images/Vue2/image-20220301101859870.png)
 
 
 
@@ -2868,8 +2868,8 @@ Vue.use(vueResource)
 
 - 经常在路由引用时使用  ，必须使用 Vue Router 2.4.0+
 - `components: {    'my-component': () => import('./my-async-component')  }`
-- ![image-20220721100737832](images/Vue/image-20220721100737832.png)
-- ![image-20220721100837575](images/Vue/image-20220721100837575.png)
+- ![image-20220721100737832](images/Vue2/image-20220721100737832.png)
+- ![image-20220721100837575](images/Vue2/image-20220721100837575.png)
 
 
 
@@ -3403,7 +3403,7 @@ const router = new VueRouter({
   // 使用时可直接用 jia(传递的数据);    JIA(传递的数据)
   ```
 
-![image-20220418220633445](images/Vue/image-20220418220633445.png)
+![image-20220418220633445](images/Vue2/image-20220418220633445.png)
 
 
 
@@ -3659,7 +3659,7 @@ const router = new VueRouter({
 
    - 挑选动画后，直接复制动画名，设置为vue的进入/离开的动画名
 
-     ![image-20220226170745440](images/Vue/image-20220226170745440.png)
+     ![image-20220226170745440](images/Vue2/image-20220226170745440.png)
 
    
 

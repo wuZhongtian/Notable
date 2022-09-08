@@ -121,7 +121,6 @@ git config -l         //查看配置信息,l=list
 
 - 借助vscode代码管理区域，手动选择更改提交的文件（不是自己修改的不要提交）
 - 提交前先 pull 拉取代码
-- 
 
 ```sh
 git init                      # 在当前路径下初始化仓库,初始化前的变化无法记录
@@ -173,6 +172,7 @@ git reset --hard 版本编号前七位   # 回滚到指定版本
 
 git rm -cached 文件名            # 从版本库中删除该文件
 
+git rev-parse --is-inside-work-tree   # 判断当前路径是不是git仓库，是则返回true；返回其他值，都是非git仓库。
 ```
 
 - 代码回退
@@ -401,7 +401,7 @@ git pull origin master    #将指定远程仓库的分支更新到本地  origin
 
 
 
-
+<img src="images/Git/git.jpg" alt="git" style="zoom:150%;" />
 
 
 

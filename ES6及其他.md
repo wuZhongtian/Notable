@@ -28,9 +28,8 @@
 
 #### JS 数据类型
 
-**基本类型**：字符串、数字、布尔、空(Null)、未定义(Undefined)、Symbol、BigInt
-
-**对象类型**：对象(Object)、函数(function)、数组(Array)
+- 基本类型：字符串、数字、布尔、空(Null)、未定义(Undefined)、Symbol、BigInt
+- 对象类型：对象(Object)、函数(function)、数组(Array)
 
 > 引用数据类型赋值给新的变量，只是将索引值传递给它，并不复制产生新的内容，会随原内容修改而修改；
 >
@@ -75,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                             
+  >                                                                                                                                                   
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                             
+  >                                                                                                                                                   
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -93,8 +92,11 @@
   >
   >   
   
-- <span style="color:red">Symbol 数据类型( 没学！)</span>
-  - 《 Node.js入门教程  》57页
+- Symbol 类型
+  
+  > 代表独一无二的值，可用来避免冲突。
+  
+  
 
 
 
@@ -182,6 +184,19 @@
 
 
 
+
+
+#### url编解码
+
+> url当作参数传递的时，如出现空格等特殊字段，后台只可以读取到空格前的内容，后面内容丢失，造成数据读取失败，用encodeURIComponent()包裹将这些特殊字符进行转义，后台就可以成功读取了
+
+- encodeURIComponent() 函数   url编码
+- decodeURIComponent() 函数   url解码
+
+
+
+
+
 ### 事件
 
 > - 一种异步编程的实现方式，是程序各个组成部分间的通信。
@@ -192,7 +207,7 @@
 
 - 浏览器窗口事件
 
-  - load 页面加载完成时触发
+  - load 页面/ifram框架 加载完成 时触发
   - beforeunload 窗口关闭之前触发
   - unload 窗口关闭时触发
   - focus 得到焦点时触发
@@ -1203,7 +1218,45 @@ console.log(result);   //返回值 true   说明str符合one
 | Object.values()  | 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的键值 |      |
 | Object.entries() | 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的键值对数组 |      |
 
+#### Number
+
+- 新增数值函数
+
+  ```js
+  // es6 将全局函数 parseInt和parseFloat移植到 Number对象上
+  // inNaN  判断参数的值是否是NaN
+  Number.isNaN(NaN)   // true
+  // isInteger  判断参数的值是否是整数
+  Number.isInteger(12.2)   //false
+  Number.isInteger(12.0)   //true   在js内部 12.0会被存储成12
+  Number.isInteger(25)     //true
+  ```
+
+- 新增值
+
+  - EPSILON  极小常量(正值)
+
+  - 由于浮点数的计算是不精确的，会导致无法判断浮点数的运算结果是否等于某个值，如果误差小于极小常量，就可认为两个值相等
+
+    `Math.abs(0.1+0.2-0.3)<Number.EPSILON`
+
+ 
+
 #### String
+
+- es6新增字符串函数
+
+```js
+var s='hello';
+// repeat(n) 将源字符重复n次
+s.repeat(3)   // hellohellohello
+// startsWith('he')  返回ture 表示原字符以参数字符串开头
+s.startsWith('he')
+// endsWith('lo')   返回ture 表示原字符以参数字符串结尾
+s.startsWith('lo')
+// includes('el')  返回true 表示原字符包含参数字符串
+s.includes('el')
+```
 
 | 方法         | 描述                                                         | 用法                                                         |
 | ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |

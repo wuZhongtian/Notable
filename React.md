@@ -1269,6 +1269,7 @@ import './index.css'
 
 - 父组件   -- 》  子组件
   - props
+    
     1. 父组件中，在子组件标签上 `命名={ 数据 }`
     
        - 批量传递数据
@@ -1288,8 +1289,9 @@ import './index.css'
   
 - 任意组件间传值
 
-  - 借助第三方插件
-    1. pubsub.js
+  - 消息订阅与发布插件： pub-sub.js、event等
+  - 集中式管理 ： redux、dva等
+  - conText： 生产者-消费者模式（开发用的少，封装插件用的多）
 
 
 
@@ -1603,6 +1605,10 @@ export default class MyNavLink extends Component {
   ```
 
 
+
+#### 路由6.x
+
+- 127
 
 
 
@@ -1918,6 +1924,14 @@ yarn add antd
 
 
 
+
+
+
+### 没看的部分
+
+- 102-114-    redux
+- 123-125   性能优化
+- 127+
 
 
 
