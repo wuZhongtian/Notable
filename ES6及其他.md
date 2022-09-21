@@ -74,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                   
+  >                                                                                                                                                       
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                   
+  >                                                                                                                                                       
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -1385,6 +1385,8 @@ console.log(c)  // 报错
 
 
 #### 脚本开启严格模式
+
+> 必须使用  "use strict"   引号中间不能有空格等其他任意字符！！！
 
 - 在代码前使用`"use strict";`
 

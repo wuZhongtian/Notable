@@ -381,6 +381,8 @@
     - 可以轻松的到达下一个节点，但不能回到上一个节点
     - 例: 文本编译器用链表存储文本，每一行用一个**String对象**存储在链表的一个节点中，当编辑器用户**上下移动光标**时，需要回到上个节点，单链表只能从头开始查找，不能指回上一个
   
+  
+  
 - 双向链表
   - 每个节点 既有向前的引用，又有向后的引用
   - 缺点：
@@ -400,7 +402,7 @@
   remove(ele)       //从列表中移除一项
   isEmpty()     //如果链表中不包含任何元素返回true，链表长度大于0返回false
   size()        //返回链表包含的元素个数
-  toString()    // 有于列表使用了Node类，就需要重写继承自js对象默认的toString方法，让其只输出元素的值
+  toString()    // 由于列表使用了Node类，就需要重写继承自js对象默认的toString方法，让其只输出元素的值
   forwardString()  //返回正向遍历的节点字符串形式  从后往前遍历
   backwordString() //返回反向遍历的节点字符串形式  从前往后遍历 与toString方法一致
   ```
@@ -419,13 +421,55 @@
       this.tail=null
       this.length=0
       
+      DoublyLinkedList.prototype.append=function(data){
+          let newNode=new Node(data);
+          if(this.length==0){
+              this.head=newNode
+              this.tail=newNode
+          }else{
+              newNode.prev=this.tail
+              this.tail=newNode
+          }
+      }
+      
+      DoublyLinkedList.prototype.toString=function(){
+          var current=this.head
+          var resyltString = ''
+          while(current){
+              resyltString += current.data + ''
+              current=current.next
+          }
+          return resyltString
+      }
+      
+      DoublyLinkedList.prototype.insert=function(position,element){
+          // 越界判断
+          if(position<0 || position>this.length)return false
+          let newNode=new Node(data);
+          // 
+          if(this.length==0){
+              this.head=newNode
+              this.tail=newNode
+          }else{
+              if(position=0){
+                  
+              }eles if(position=this.length){
+                  
+              }else{
+                  
+              }
+          }
+      }
+      
       
   }
   ```
-
+  
   
 
-p36
+
+
+### 集合
 
 
 

@@ -278,7 +278,7 @@ vue中也使用的 get 和 set 进行监听，实现数据代理。
 <div class='.one'>
     <button v-on:click='shijian2'>{{name}}</button>
     <button v-on:click='shijian3($event,66)'>{{name}}</button>
-   <!-- 解析模板时，自动调用函数，当函数没有返回值或为undefined时,不解析到页面-->
+    <!-- 解析模板时，自动调用函数，当函数没有返回值或为undefined时,不解析到页面-->
     {{shijian2()}} 
 </div>
 
@@ -321,11 +321,11 @@ vue中也使用的 get 和 set 进行监听，实现数据代理。
 
 - `.native` 在组件标签中绑定原生DOM事件需要的修饰符
 
-- `.left` - 点击鼠标左键时触发。
+- `.left`  点击鼠标左键时触发。
 
-- `.right` - 点击鼠标右键时触发。
+- `.right`  点击鼠标右键时触发。
 
-- `.middle` - 点击鼠标中键时触发。
+- `.middle`  点击鼠标中键时触发。
 
 - <span style='color:#DA9B00'>事件修饰符可以连着写多个，中间用`.`隔开即可</span>
 
