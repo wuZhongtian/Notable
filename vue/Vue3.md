@@ -6,6 +6,8 @@
 
 - 使用 Vue-cli 创建（Vue-cli 版本4.5.0  +）
 
+  > 官方更推荐使用 vite创建vue3项目
+  
   ```js
   vue -V // 查看Vue-cli 版本   （4.5.0+ 才能创建vue3）
   vue create 项目名  //创建vue3项目
@@ -16,6 +18,10 @@
 - 使用 [Vite](https://vitejs.cn/) 创建
 
   ```js
+  npm create vite@latest   // 使用npm创建项目（vue、react、）
+  yarn create vite  // 使用yarn创建项目
+  pnpm create vite  // 使用pnpm创建项目
+  
   npm init vite-app 项目名  //创建vue3项目
   npm install //安装依赖！
   npm run dev //运行项目 
@@ -157,6 +163,31 @@ createApp(App).mount('#app')  // app为index.html容器的id
 - ......
 
 
+
+#### 预处理器
+
+- 代码块可以使用 `lang` 这个 attribute 来声明预处理器语言，最常见的用例就是在 `<script>` 中使用 TypeScript：
+
+- `lang` 在任意块上都能使用，比如我们可以在 `<style>` 标签中使用 [SASS](https://sass-lang.com/) 或是 `<template>` 中使用 [Pug](https://pugjs.org/api/getting-started.html)：
+
+  ```vue
+  <script lang="ts">
+    // use TypeScript
+  </script>
+  
+  <template lang="pug">
+  p {{ msg }}
+  </template>
+  
+  <style lang="scss">
+    $primary-color: #333;
+    body {
+      color: $primary-color;
+    }
+  </style>
+  ```
+
+  
 
 #### 杂项
 
@@ -840,9 +871,7 @@ export default {
 
 
 
-### 重要内容
-
-#### 响应式原理
+### 响应式原理
 
 ##### vue2的响应式
 
@@ -974,7 +1003,7 @@ Reflect.defineProperty(obj,'c',{
 
 
 
-#### Composition API优势
+### Composition API优势
 
 - Options API 存在的问题
   - 使用传统OptionsAPI中，新增或者修改一个需求，就需要分别在data，methods，computed里修改 。
@@ -1023,3 +1052,435 @@ Reflect.defineProperty(obj,'c',{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### `<script setup>`
+
+> 是在单文件组件 (SFC) 中使用组合式 API 的编译时语法糖。当同时使用 SFC 与组合式 API 时该语法是默认推荐。相比于普通的 `<script>` 语法，它具有更多优势：
+
+
+
+优势：
+
+- 更少的样板内容，更简洁的代码。
+- 能够使用纯 TypeScript 声明 props 和自定义事件。
+- 更好的运行时性能 (其模板会被编译成同一作用域内的渲染函数，避免了渲染上下文代理对象)。
+- 更好的 IDE 类型推导性能 (减少了语言服务器从代码中抽取类型的工作)。
+
+
+
+特点：
+
+- 类似与React的render？
+
+- 里面的代码会被编译成组件 `setup()` 函数的内容。这意味着与普通的 `<script>` 只在组件被首次引入的时候执行一次不同，`<script setup>` 中的代码会在**每次组件实例被创建的时候执行**。
+
+- 任何在 `<script setup>` 声明的顶层的绑定 (包括变量，函数声明，以及 import 导入的内容) 都能在模板中直接使用：
+
+- import 导入的内容也会以同样的方式暴露。这意味着我们可以在模板表达式中直接使用导入的 helper 函数，而不需要通过 `methods` 选项来暴露它：
+
+  ```vue
+  <script setup>
+  // 相比于 <script> 不需要再通过return返回内容，直接使用
+  import { capitalize } from './helpers'
+  const msg = 'Hello!'   // 变量
+  function log() { console.log(msg) }   // 函数
+  </script>
+  
+  <template>
+    <button @click="log">{{ msg }}</button>
+    <div>{{ capitalize('hello') }}</div>
+  </template>
+  ```
+
+  
+
+
+
+## 全家桶
+
+### [Vuex ](https://vuex.vuejs.org/zh/guide/#最简单的-store)
+
+```js
+npm install vuex -S // 下载
+
+// 新建store文件夹 index.js
+import { createStore } from 'vuex'
+export default createStore({
+    state(){
+        return {
+            key:value,
+       	    xxx:xxxx,
+        }
+    },
+    mutations:{
+        functionname(state,传参1,...){
+            state.key=xxxx
+        }
+    }
+})
+
+
+// main.js
+import store from './store/index.js'
+app.use(store)      // app是 createApp(App)
+
+
+// 组件中使用 store中的数据，不需要this
+<p :xxx="$store.state.xxx" />
+    
+// 组件中调用 mutations
+import { useStore } from 'vuex'
+setup(){
+    let store = useStore()
+    ...
+    // 在触发的方法中写commit
+	store.commit('mutation中的名字',)
+}
+
+```
+
+
+
+### router
+
+```js
+// router文件夹下 index.js
+import { createRouter,createWebHashHistory } from 'vue-router'
+const routes = [{
+    path:'/',
+    component:()=>import('../views/Main.vue'),
+    redirect:'/home',
+    children:[
+        {
+            path:'./home',
+            name:'home'
+            component:()=>import('../views/home/Home.vue'),
+        },
+    ]
+}]
+const router = createRouter({
+    history:createWebHashHistory(),
+    routes
+})
+export default router
+
+
+// 在组件中使用
+import { useRouter } from 'vue-router';
+const router = useRouter()
+// 使用
+router.push({
+    name:'xxx'
+})
+```
+
+
+
+### axios封装
+
+> 携带必要的请求信息，处理同样的相应状态码等，逻辑一致时，进行封装统一操作
+
+```js
+const NETWORK_ERROR='网络请求出错，稍后再试'
+// 创建axios实例对象
+const service =axios.create({ 
+    baseUrl:'xxxx.xxx',
+    timeout:5000   // 设置超时时间
+})
+
+// 在请求之前进行处理  axios拦截器
+service.interceptors.request.use((req)=>{
+    // 在请求之前自定义header
+    // jwt-token认证的事情
+}),err => {
+    return Promise.reject(err)
+}
+
+// 请求相应回来时，先做一些处理
+service.interceptors.response.use(res=>{
+    // 根据接口规范，获取相应的数据，执行特定操作
+    const { code,data,msg } = req.data
+    if(code==200){
+        return data
+    }else{
+        // 网络请求错误，进行全局提示？
+        return Promise.reject( msg || NETWORK_ERROR )
+    }   
+})
+
+
+// 封装的核心函数
+function request(options){
+    options.method = options.method || 'get'
+    if(options.method.toLowerCase()=='get'){
+        options.params=options.data
+    }
+    return service(options)
+}
+
+export default request
+```
+
+- api.js  整个项目的api管理
+
+```js
+// 整个项目的api管理
+import request from './request.js'
+export default {
+    // 获取左侧的菜单的接口
+    getTableDate(params){
+        return request({
+            url:'/home/getTableDate',
+            mathod:'get',
+            data:params
+        })
+    },
+    getxxxxx(){...},
+    getxxxxx(){...},
+    ....
+}
+
+
+// 将api挂载到全局中  main.js
+import api from './api/api.js'
+app.config.globalProperties.$api = api  // app 是 createApp(App)
+// 在组件中调用
+const {proxy} = getCurrentInstance();  // proxy类似于vue2中的this
+proxy.$api.getTableDate(params).then(()=>{
+    
+})
+```
+
+
+
+
+
+## 其他内容
+
+### IDE及插件
+
+- VsCode
+
+> - 强烈推荐 [Visual Studio Code](https://code.visualstudio.com/) (VSCode)，因为它对 TypeScript 有着很好的内置支持。
+> - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) 是官方的 VSCode 扩展，提供了 Vue 单文件组件中的 TypeScript 支持，还伴随着一些其他非常棒的特性。
+> - 注意：Volar 取代了我们之前为 Vue 2 提供的官方 VSCode 扩展 [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)。如果你之前已经安装了 Vetur，请确保在 Vue 3 的项目中禁用它。
+
+- [WebStorm](https://www.jetbrains.com/webstorm/) 对 TypeScript 和 Vue 也都提供了开箱即用的支持
+
+
+
+### Mock模拟数据
+
+- 本地[Mock](http://mockjs.com/)
+
+```js
+// 下载mock插件
+npm i mockjs -S
+// 新建 api/mockData 文件夹 home.js
+export default {
+    getHomeDate:()=>{
+        return {
+            code:200,
+            data:{
+                tableDate:[{...},{...},...]
+            }
+        }
+    }
+}
+    
+// api文件夹下 mock.js
+import Mock from 'mockjs'   // 引入mock
+import homeApi from './mockData/home.js'
+Mock.mock('/home/getData',homeApi.getHomeDate)   //拦截路径并传入数据（例：'/home/getData'）
+
+// 在代码中使用axios get请求 /home/getData 接口即可拿到数据
+```
+
+
+
+- 在线mock
+
+
+
+
+
+
+
+### [Element+](https://element-plus.gitee.io/zh-CN)
+
+- 安装
+
+  ```sh
+  # 选择一个你喜欢的包管理器
+  
+  # NPM
+  $ npm install element-plus --save
+  
+  # Yarn
+  $ yarn add element-plus
+  
+  # pnpm
+  $ pnpm install element-plus
+  ```
+
+- 完整引入
+
+  ```js
+  // main.js
+  import { createApp } from 'vue'
+  import ElementPlus from 'element-plus'
+  import 'element-plus/dist/index.css'
+  import './style.css'
+  import App from './App.vue'
+  
+  createApp(App).mount('#app').use(ElementPlus)
+  ```
+
+- 按需自动引入（代码中可直接使用）
+
+  ```js
+  // 安装unplugin-vue-components 和 unplugin-auto-import这两款插件
+  npm install -D unplugin-vue-components unplugin-auto-import
+  
+  // vite 插入配置 vite.config.js
+  import { defineConfig } from 'vite'
+  import AutoImport from 'unplugin-auto-import/vite'
+  import Components from 'unplugin-vue-components/vite'
+  import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+  
+  export default defineConfig({
+    // ...
+    plugins: [
+      // ...
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+      }),
+    ],
+  })
+  
+  //webpack 插入配置，参看官网
+  ```
+
+- 手动引入（麻烦）
+
+
+
+
+
+### [ECharts](https://echarts.apache.org/zh/index.html)
+
+```js
+// 1.下载 echarts
+npm install echarts -S
+
+// 引入
+// 2.1 完全引入
+import * as echarts from 'echarts';
+
+// 2.2 按需引入  main.js  (建议单独建文件进行管理)
+// 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
+import * as echarts from 'echarts/core';
+// 引入柱状图图表，图表后缀都为 Chart
+import { BarChart } from 'echarts/charts';
+// 引入提示框，标题，直角坐标系，数据集，内置数据转换器组件，组件后缀都为 Component
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  DatasetComponent,
+  TransformComponent
+} from 'echarts/components';
+// 标签自动布局，全局过渡动画等特性
+import { LabelLayout, UniversalTransition } from 'echarts/features';
+// 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
+import { CanvasRenderer } from 'echarts/renderers';
+
+// 注册必须的组件
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  DatasetComponent,
+  TransformComponent,
+  BarChart,
+  LabelLayout,
+  UniversalTransition,
+  CanvasRenderer
+]);
+
+// 在组件中进行使用 跟之前一样，初始化图表，设置配置项，看官网实例
+var myChart = echarts.init(document.getElementById('main'));
+myChart.setOption({
+  // ...
+});
+```
+
+
+
+
+
+
+
+### 动态引入
+
+#### 动态引入图片
+
+- 如下图，使用时直接掉用 getImgSrc方法
+
+![image-20220926164328693](images/Vue3/image-20220926164328693.png)
+
+
+
+#### 动态引入组件
+
+- 借助 `<component :is='xxx'>`
+
+- 由于组件是通过变量引用而不是基于字符串组件名注册的，在 `<script setup>` 中要使用动态组件的时候，应该使用动态的 `:is` 来绑定：
+
+- 请注意组件是如何在三元表达式中被当做变量使用的。
+
+  ```vue
+  <script setup>
+  import Foo from './Foo.vue'
+  import Bar from './Bar.vue'
+  </script>
+  
+  <template>
+    <component :is="Foo" />
+    <component :is="someCondition ? Foo : Bar" />
+  </template>
+  ```
+
+  

@@ -428,6 +428,7 @@
               this.tail=newNode
           }else{
               newNode.prev=this.tail
+              this.tail.next=newNode
               this.tail=newNode
           }
       }
@@ -446,17 +447,29 @@
           // 越界判断
           if(position<0 || position>this.length)return false
           let newNode=new Node(data);
-          // 
+   
           if(this.length==0){
               this.head=newNode
               this.tail=newNode
           }else{
               if(position=0){
-                  
+                  newNode.next=this.head
+                  this.head.prev=newNode
+                  this.head=newNode
               }eles if(position=this.length){
-                  
+                  newNode.prev=this.tail
+                  this.tail.next=newNode
+                  this.tail=newNode
               }else{
-                  
+                  var current=this.head
+                  var index=0
+                  while(index++<position){
+                      current=current.next   // current为当前节点
+                  }
+                  current.prev.next=newNode
+                  newNode.prev= current.prev
+                  newNode.next=current
+                  current.prev=newNode
               }
           }
       }
@@ -471,6 +484,81 @@
 
 ### 集合
 
+> - 集合常见的实现方式：哈希表、
+> - 集合通常是一组 **无序的、不能重复的** 元素构成；
+
+- 特殊的数组？
+
+  - 集合特殊在于 里面的元素没有顺序、也不能重复
+  - 没有顺序意味着 **不能通过下标值进行访问**，相同的对象在集合中 **只会存在一份**
+
+- ES6 中的  **Set 类**（对象类型）
+
+  > - 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用，
+  > - 如果添加相等的元素，则只会保存第一个元素：
+  > - 一个 Set 可以容纳任何数据类型的任何值
+  
+  - 使用 Set
+  
+    - | new Set() | 创建新的 Set 对象。       |
+      | --------- | ------------------------- |
+      | add()     | 向 Set 添加新元素。       |
+      | clear()   | 从 Set 中删除所有元素。   |
+      | delete()  | 删除由其值指定的元素。    |
+      | entries() | 返回 Set 对象中值的数组。 |
+      | has()     | 如果值存在则返回 true。   |
+      | forEach() | 为每个元素调用回调。      |
+      | keys()    | 返回 Set 对象中值的数组。 |
+      | values()  | 与 keys() 相同。          |
+      | size      | 返回元素的总数量          |
+  
+  - ```js
+    // 创建 Set
+    const set = new Set()
+    // 向 Set 添加一些值
+    set.add(1)
+    set.add('2')
+    set.add('2')
+    set.add(true)
+    console.log(...set) // 1 "2" true，注意...set ==> 1,"2",true
+    
+    // 删除元素
+    set.delete('2') // true
+    console.log(...set) // 1 
+    console.log(set.delete(3)) // false 删除失败，set中不存在元素3
+    
+    // 判断元素是否存在
+    console.log(set.has(1)) // true
+    console.log(set.has(NaN))    // false，set中不存在元素NaN
+    
+    // 遍历set
+    for (let [key, value] of set.entries()) {
+        console.log(key, value) // 1 1 true true，set的entries()中key, value相等
+    }                
+    set.forEach((value, key) => {
+        console.log(value, key)    // 1 1 true true
+    })
+    
+    // 获取set中元素的数目
+    console.log(set.size)    // 2
+    set.clear() 
+    console.log(set.size)    // 0
+    
+    // 转换成数组(下面案例已屏蔽上方的clear方法)
+    console.log([...set])    // (2) [1, true]
+    console.log(Array.from(set)) // (2) [1, true]
+    console.log(Array.from(set.values()))    // (2) [1, true]
+    console.log(Array.from(set.keys()))    // (2) [1, true]
+    ```
+  
+  - 为了明确集合的内部实现机制，进行手动封装
+  
+    - 
+
+
+
+
+
 
 
 
@@ -478,12 +566,5 @@
 ## 算法
 
 > 一个有限指令集，每条指令的描述不依赖于语言，并在有限的步骤后终止
-
-
-
-
-
-
-
 
 

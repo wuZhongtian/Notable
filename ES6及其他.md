@@ -74,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                       
+  >                                                                                                                                                             
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                       
+  >                                                                                                                                                             
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -185,13 +185,6 @@
 
 
 
-
-#### url编解码
-
-> url当作参数传递的时，如出现空格等特殊字段，后台只可以读取到空格前的内容，后面内容丢失，造成数据读取失败，用encodeURIComponent()包裹将这些特殊字符进行转义，后台就可以成功读取了
-
-- encodeURIComponent() 函数   url编码
-- decodeURIComponent() 函数   url解码
 
 
 
@@ -1841,7 +1834,7 @@ var son = new Son();
    1. token是一串数据,他是服务器返回的用户的唯一标识,而上述三者他们不是数据,他们是用于存储数据的手段
    2. 前端开发中一般会将token存储于上述三者中
    3. token的本质是字符串
-   4. token是服务器根据用户的唯一标识进行base64等加密手段处理之后得到的结果
+   4. token是服务器根据用户的唯一标识进行加密处理之后得到的结果
 
 
 
@@ -2082,7 +2075,24 @@ try {
 
 
 
+### URL相关
 
+#### url编解码
+
+> url当作参数传递的时，如出现空格等特殊字段，后台只可以读取到空格前的内容，后面内容丢失，造成数据读取失败，用encodeURIComponent()包裹将这些特殊字符进行转义，后台就可以成功读取了
+
+- encodeURIComponent() 函数   url编码
+- decodeURIComponent() 函数   url解码
+
+
+
+#### URL对象
+
+- 语法：`const url = new URL(url [, base])`
+- url 是一个表示绝对或相对 URL ；
+  - 如果url 是相对 URL，则会将 base 用作基准 URL。
+  - 如果url 是绝对 URL，则无论参数base是否存在，都将被忽略。
+- base 可选；是一个表示基准 URL；在url 是相对 URL 时有效，则默认为 ''。
 
 
 

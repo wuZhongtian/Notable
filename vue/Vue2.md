@@ -2944,8 +2944,8 @@ export default new VueRouter({
             // 设置页面标题 （配合路由守卫document.title = to.meta.title）
             title:'关于我们',
          },
-         component:About,
-         // component:()=>import('../pages/About');
+         // component:About,
+         component:()=>import('../pages/About.vue');
       },
       {
          path:"/home",
@@ -3387,10 +3387,10 @@ const router = new VueRouter({
   }
   methods:{
      // 传统写法
-     ja(){
+     jia(){
         this.$store.dispatch('jia',传递的数据);
      },
-     ja(){
+     Jia(){
         this.$store.commit('JIA',传递的数据);
      },
      // 数组写法
@@ -3400,7 +3400,7 @@ const router = new VueRouter({
      ...mapActions({jia:'jia',jian:'jian'}),
      ...mapMutations({Jia:'JIA',Jian:'JIAN'})
   }
-  // 使用时可直接用 jia(传递的数据);    JIA(传递的数据)
+  // 使用时可直接用 this.jia(传递的数据);    this.JIA(传递的数据)
   ```
 
 ![image-20220418220633445](images/Vue2/image-20220418220633445.png)
@@ -3569,6 +3569,14 @@ const router = new VueRouter({
    3. **max标签属性** `数字`
       1. **可以控制最多缓存多少个组件实例对象,因为实例对象也需要占用内存空间,所以需要考虑缓存多少个**
       2. **如果达到max上限时,在新实例被创建之前,已缓存组件中最久没有被访问的实例会被销毁掉**
+
+
+
+### 组件按需引入
+
+- `component:()=>import('../pages/About.vue');`
+
+
 
 
 
