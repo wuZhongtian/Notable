@@ -1593,9 +1593,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // 设置静态资源路径
 app.use(express.static(path.join(__dirname, 'public')))
+
+// 解决静态资源中图片显示乱码问题 删除如下代码 即可！！！
+res.header("Content-Type", "application/json;charset=utf-8");
 ```
 
 [指数 (mongodb.github.io)](http://mongodb.github.io/node-mongodb-native/3.1/api/index.html)
+
+
+
+##### 接口开发
+
+```js
+const express = require("express")   // 导入express框架
+const app = express()
+app.post('/api/a',(req,res)=>{})    // 使用qpp.get() 或 .post 监听接口
+
+// 为了抽离代码，使用模块化抽离代码，初步转化如下
+
+```
+
+
+
+
 
 
 

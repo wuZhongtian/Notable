@@ -2344,8 +2344,9 @@ export default {
 -  任意组件间通信
   - $bus
   - 访问根实例 vm（$root 属性），在任意组件中都可以访问到vm上的内容
-  - 其他第三方插件库，订阅与发布模式
+  - 其他采用订阅与发布模式的  第三方插件库
     - VueX
+    - pubsub.js
 
 
 
@@ -2877,7 +2878,7 @@ Vue.use(vueResource)
 
 
 
-### Vue路由
+### Vue-router 3
 
 实质就是vue的一个插件库，实现页面不刷新的切换，即单页面应用（SPA应用）
 

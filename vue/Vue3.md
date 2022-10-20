@@ -1170,7 +1170,7 @@ setup(){
 
 
 
-### router
+### router 4
 
 ```js
 // router文件夹下 index.js
@@ -1192,6 +1192,10 @@ const router = createRouter({
     routes
 })
 export default router
+
+
+// main.js
+.use(router)
 
 
 // 在组件中使用
@@ -1295,6 +1299,20 @@ proxy.$api.getTableDate(params).then(()=>{
 > - 注意：Volar 取代了我们之前为 Vue 2 提供的官方 VSCode 扩展 [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)。如果你之前已经安装了 Vetur，请确保在 Vue 3 的项目中禁用它。
 
 - [WebStorm](https://www.jetbrains.com/webstorm/) 对 TypeScript 和 Vue 也都提供了开箱即用的支持
+
+
+
+### tag 实战步骤
+
+> 1. 首页的 tag一开始就会存在，而且是不能进行删除的
+> 2. 当点击左侧栏的时候，如果tag没有该菜单名称则新增并置为蓝色，如果有则当前tag背景变为蓝色
+> 3. 删除当前tag，如果是最后一个，那么路由调整为前一个标签并背景变蓝；如果不是最后一个那么路由调整为后一个标签并且背景变蓝
+
+
+
+
+
+
 
 
 

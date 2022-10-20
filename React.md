@@ -957,7 +957,8 @@ ReactDOM.render(<Demo a="1" b="2"/>,document.getElementById('test'))
 - constructor   class类自身的构造器
 - componentWillMount     组件将要挂载之前
 - **render     挂载组件（初始化渲染 或 更新渲染  时调用）**
-- **componentDidMount    组件挂载完毕**
+- **componentDidMount    组件**
+- **挂载完毕**
   -  一般在这个钩子中做一些初始化的事，例如：开启定时器、发送网络请求、订阅消息
 - **componentWillUnmount     组件将要卸载**
   - 一般在这个钩子中做一些收尾的事，例如：关闭定时器、取消订阅消息
@@ -1037,7 +1038,7 @@ componentDidUpdate(preProps,preState,snapshotValue){
 
 ![image-20220713152404791](images/React/image-20220713152404791.png)
 
-
+![image-20221020170540329](images/React/image-20221020170540329.png)
 
 
 
@@ -1292,6 +1293,10 @@ import './index.css'
   - 消息订阅与发布插件： pub-sub.js、event等
   - 集中式管理 ： redux、dva等
   - conText： 生产者-消费者模式（开发用的少，封装插件用的多）
+  
+- 奇葩的父子组件间传值（插槽，可用于封装组件）
+
+  - ![image-20221020121804059](images/React/image-20221020121804059.png)
 
 
 
@@ -1614,6 +1619,8 @@ export default class MyNavLink extends Component {
 
 #### Redux
 
+![image-20221020185710045](images/React/image-20221020185710045.png)
+
 ```js
 // API汇总
 
@@ -1621,8 +1628,6 @@ store.getState()   // 获取store管理的数据
 store.dispatch({type:'increment',data:100})  // 触发组件的reducer事件，传入action对象 修改数据
 store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化，就触发回调
 ```
-
-##### redux
 
 1. 安装redux    `yarn add redux`
 
@@ -1676,34 +1681,7 @@ store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化
        store.getState()
        // 触发组件的reducer事件，传入action对象 修改数据
        store.dispatch({type:'increment',data:100})
-       
-       /*
-       存在问题：store.dispatch 修改状态后，不会触发视图更新
-       解决方法：
-       	1.借助生命周期钩子，在组件挂载完毕componentDidMount后监视store变化 
-           2.使用this.steState({}) 会触发视图更新
-       */
-       componentDidMount(){
-           // 检测redux中状态的变化，只要数据变化，就调用render
-           store.subscribe(()=>{
-               this.setState({})
-           })
-       }
        ```
-
-     - **正确的使用方法：**
-
-       - ```js
-         // 在index.js入口文件中引入 store
-         // 引入store
-         import store from 'src/redux/store.js'
-         
-         // 检测redux中状态的变化，只要数据变化，就为App组件调用render，更新界面
-         // 存在DOM diff算法 不会引起大面积的性能问题
-         store.subscribe(()=>{
-             React.render(<App>,document.getElementById('root'))
-         })
-         ```
 
 
 
@@ -1740,11 +1718,9 @@ store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化
 
 3. 同步与异步action
 
-   - 同步 Object对象
+   - 同步action 为 Object对象 形式
 
-     - 
-
-   - 异步 Function函数
+   - 异步action 为 Function函数 形式
 
      - 必须借助 redux-thunk中间件   `yarn add redux-thunk`
 
@@ -1755,7 +1731,7 @@ store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化
          ```js
          // 在redux中额外引入applyMiddleware
          import {createStore,applyMiddleware} from "redux"
-         // 在中引入redux-thunk 用于支持异步actioon
+         // 引入redux-thunk 用于支持异步actioon
          import thunk from 'redux-thunk'
          // 引入为Count 组件服务的reducer
          import countReducer from './count_reducer'
@@ -1776,18 +1752,121 @@ store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化
          }
          ```
        
-         
+       - ![image-20221016174851718](images/React/image-20221016174851718.png)
+
+
+
+##### 存在的问题
+
+- 视图不更新（redux中存在，但react-redux中不存在该问题）
+
+  ```js
+  /*
+  存在问题：store.dispatch 修改状态后，不会触发视图更新
+  解决方法：
+    方案1：
+  	1.借助生命周期钩子，在组件挂载完毕componentDidMount后监视store变化 
+      2.使用this.steState({}) 会触发视图更新
+      
+    方案2：在index.js入口文件中进行全局监视
+  */
+  componentDidMount(){
+      // 检测redux中状态的变化，只要数据变化，就调用render
+      store.subscribe(()=>{
+          this.setState({})
+      })
+  }
+  
+  // 在index.js入口文件中引入 store
+  // 引入store
+  import store from 'src/redux/store.js'
+  // 检测redux中状态的变化，只要数据变化，就为App组件调用render，更新界面
+  // 因为存在DOM diff算法 不会引起大面积的性能问题
+  store.subscribe(()=>{
+      React.render(<App>,document.getElementById('root'))
+  })
+  ```
+
+  
 
 
 
 
 
-#### 项目打包
+#### react-redux
+
+> 官方的redux，react自己的   新建redux文件夹
 
 ```js
-// 1. npm run build  命令进行打包（需要先停止项目）
-// 2. 必须放在服务器上才能使用
+// 1.安装react-redux
+yarn add react-redux
+// 引入 ui组件  引入connect 用于连接UI组件与redux
+import CountUI from './countUI.js'
+import {connect} from 'react-redux'
+
+// 2.创建并暴露容器组件   
+// 箭头函数默认返回一个对象，需要包一个小括号
+//  mapStateToProps 简写 
+    state=>({nmb: state.a}),
+//  mapDispatchToProps 传统写法(函数形式)
+//    dispatch=>({   
+//        jia:number=> dispatch({type:'jia',data:number}),
+//        jian:number=> dispatch({type:'jian',data:number}),
+//	})
+ 
+// 简写 react-redux 内部实现自动分发dispatch 对象形式
+    {
+        jia:{type:'jia',data:number},
+        jian:{type:'jian',data:number}
+    }
+)(CountUI)
+
+// 在组件中 使用store 并通过 props组件配置形式传入
+import store from './store.js'
+<Count store={store}/>
 ```
+
+- **connect**
+  - 第一个括号中传入两个参数
+    - 第一个参数为函数且返回值作为 状态 传递给UI组件
+      - 参数1 state：redux中的 state
+    - 第二个参数为函数且返回值作为 操作状态的方法 传递给UI组件
+      - 参数：dispatch方法，直接调用
+  - 第二个括号中，传入 UI组件
+- 注意：
+  1. 容器组件中的store是靠props传进去的，而不是在容器组件中直接引入
+  2. 第二个参数 mapDispatchToProps，也可以是一个对象
+
+- ![image-20221017164140722](images/React/image-20221017164140722.png)
+
+
+
+##### 默认将store传递给所有容器组件
+
+- ```js
+  // 默认情况下，需要为所有的容器组件手动传入 store
+  import store from './store.js'
+  <Count store={store}/>
+      
+  // index.js 入口文件
+  import React from 'react'
+  import ReactDOM from 'react-dom'
+  import App from './App'
+  import store from './redux/store.js'
+  // 借助 Provider标签自动传递
+  import {Provider} from 'react-redux'
+  
+  ReactDOM.render(
+  	<Provider store={store}>
+      	<App/>
+  	<Provider/>,
+      documnet,getElementById('root')
+  )
+  ```
+
+- **这里差了一些笔记，没有记录！**
+
+- ![image-20221019164128419](images/React/image-20221019164128419.png)
 
 
 
@@ -1885,20 +1964,62 @@ const Login = lazy(()=>import('@/pages/Login'))
 3. 解决：
 
    ```js
-   办法1: 
-   	重写shouldComponentUpdate()生命周期钩子
+   // 办法1: 
+   	借助shouldComponentUpdate()生命周期钩子
    	比较新旧state或props数据, 如果有变化才返回true, 如果没有返回false
-   办法2:  
+   // 办法2:  
    	使用PureComponent
    	PureComponent重写了shouldComponentUpdate(), 只有state或props数据有变化才返回true
-   	// 1.
-   	注意: 
-   		只是进行state和props数据的浅比较, 如果只是数据对象内部数据变了, 返回false  
-   		不要直接修改state数据, 而是要产生新数据
-   项目中一般使用PureComponent来优化
+   // 注意: 
+   	只是进行state和props数据的浅比较, 如果只是数据对象内部数据变了, 返回false  
+   	因此不要直接修改state数据, 而是要产生新数据
+   
+   
+   // 项目中一般使用PureComponent来优化
+   // 1.引入 PureComponent
+   import React,{PureComponent} from 'react'
+   // 2.使用PureComponent创建组件
+   export default class Count extends PureComponent {
+       xxx...
+   } 
+   
    ```
-
+   
    ![image-20220720105041633](images/React/image-20220720105041633.png)
+
+
+
+
+
+#### render props
+
+> 向组件内部动态传入带有内容的结构（标签/组件）
+
+```
+Vue中: 
+	使用slot技术, 也就是通过组件标签体传入结构  <A><B/></A>
+React中:
+	使用children props: 通过组件标签体传入结构
+	使用render props: 通过组件标签属性传入结构,而且可以携带数据，一般用render函数属性
+```
+
+- children props
+
+	<A>
+	  <B>xxxx</B>
+	</A>
+	{this.props.children}
+	问题: 如果B组件需要A组件内的数据, ==> 做不到 
+
+- render props
+
+	<A render={(data) => <C data={data}></C>}></A>
+	A组件: {this.props.render(内部state数据)}
+	C组件: 读取A组件传入的数据显示 {this.props.data} 
+
+
+
+
 
 
 
@@ -1929,10 +2050,45 @@ yarn add antd
 
 ### 没看的部分
 
-- 102-114-    redux
 - 123-125   性能优化
 - 127+
+- 路由：
+  - 路由的配置
+  - 动态路由
+  - React路由的原理
+- Redux-Saga
+  - ![image-20221020190402295](images/React/image-20221020190402295.png)
+  - ![image-20221020190428101](images/React/image-20221020190428101.png)
+- D3.js  v4.x
+  - 基本用法、曲线图、柱状图。。。
+  - ![image-20221020191024040](images/React/image-20221020191024040.png)
+  - ![image-20221020191037747](images/React/image-20221020191037747.png)
+  - ![image-20221020191046378](images/React/image-20221020191046378.png)
+- git
+  - [Git教程 - 廖雪峰的官方网站 (liaoxuefeng.com)](https://www.liaoxuefeng.com/wiki/896043488029600)
+  - [Git 原理入门 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2018/10/git-internals.html)
+  - merge、cherry-pick、reset、checkout、branch...
+  - github  基本使用
+- Linux基本使用（看pdf网站？）
+- JS代码规范（看pdf网站？）
+- JS知识
+  - webpage 教程？
+  - babel教程？
+  - js设计模式（看pdf网站？）
+- [HTML+CSS基础教程-慕课网 (imooc.com)](https://www.imooc.com/learn/9)
+- [SVG 图像入门教程 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2018/08/svg.html)
+- 
+- 。。。。。。
+- 。。。。
 
 
 
-   
+
+
+- 上班时间
+  - 9:30 - 6:30  
+
+
+
+
+
