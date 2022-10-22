@@ -1294,6 +1294,29 @@ import './index.css'
   - 集中式管理 ： redux、dva等
   - conText： 生产者-消费者模式（开发用的少，封装插件用的多）
   
+- 总结：
+
+  ```js
+  // 三种组件间关系  四种通信方式
+  	1.props：
+  		(1).children props
+  		(2).render props
+  	2.消息订阅-发布：
+  		pubs-sub、event等等
+  	3.集中式管理：
+  		redux、dva等等
+  	4.conText:
+  		生产者-消费者模式
+  
+  
+  // 推荐的搭配组合
+  	父子组件：props
+  	兄弟组件：消息订阅-发布、集中式管理
+  	祖孙组件(跨级组件)：消息订阅-发布、集中式管理、conText(开发用的少，封装插件用的多)
+  ```
+  
+  
+  
 - 奇葩的父子组件间传值（插槽，可用于封装组件）
 
   - ![image-20221020121804059](images/React/image-20221020121804059.png)
@@ -1870,6 +1893,36 @@ import store from './store.js'
 
 
 
+
+
+#### redux-saga
+
+> - 是一个`redux `中间件；一个用于管理应用程序 Side Effect（副作用，例如异步获取数据，访问浏览器缓存等）的 library，它的目标是让副作用管理更容易，执行更高效，测试更简单，在处理故障时更容易。
+> - 处理异步内容
+
+
+
+##### 基础使用
+
+```js
+// 1.安装
+npm install --save redux-saga
+```
+
+
+
+
+
+![image-20221022163516855](images/React/image-20221022163516855.png)
+
+![image-20221022163535201](images/React/image-20221022163535201.png)
+
+
+
+
+
+
+
 #### lazyLoad
 
 > 路由组件的懒加载
@@ -1989,6 +2042,37 @@ const Login = lazy(()=>import('@/pages/Login'))
 
 
 
+#### 错误边界
+
+> 错误边界(Error boundary)：用来捕获后代组件错误，渲染出备用页面
+
+- 特点：
+
+  只能捕获后代组件生命周期产生的错误，不能捕获自己组件产生的错误和其他组件在合成事件、定时器中产生的错误
+
+- 使用方式：
+
+  ```js
+  // getDerivedStateFromError 配合 componentDidCatch
+  
+  // 生命周期函数，一旦后台组件报错，就会触发
+  static getDerivedStateFromError(error) {
+      console.log(error);
+      // 在render之前触发
+      // 返回新的state
+      return {
+          hasError: true,
+      };
+  }
+  
+  componentDidCatch(error, info) {
+      // 统计页面的错误。发送请求发送到后台去
+      console.log(error, info);
+  }
+  ```
+
+  
+
 
 
 #### render props
@@ -2013,7 +2097,7 @@ React中:
 
 - render props
 
-	<A render={(data) => <C data={data}></C>}></A>
+	`<A render={(data) => <C data={data}></C>}></A>`
 	A组件: {this.props.render(内部state数据)}
 	C组件: 读取A组件传入的数据显示 {this.props.data} 
 
@@ -2056,10 +2140,10 @@ yarn add antd
   - 路由的配置
   - 动态路由
   - React路由的原理
-- Redux-Saga
+- Redux-Saga   **周六**
   - ![image-20221020190402295](images/React/image-20221020190402295.png)
   - ![image-20221020190428101](images/React/image-20221020190428101.png)
-- D3.js  v4.x
+- D3.js  v4.x  **周日**
   - 基本用法、曲线图、柱状图。。。
   - ![image-20221020191024040](images/React/image-20221020191024040.png)
   - ![image-20221020191037747](images/React/image-20221020191037747.png)
@@ -2086,7 +2170,7 @@ yarn add antd
 
 
 - 上班时间
-  - 9:30 - 6:30  
+  - 9:30 - 6:30
 
 
 
