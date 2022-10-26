@@ -1026,8 +1026,10 @@ componentWillUnmount(){
 	console.log('Count---componentWillUnmount');
 }
 //控制组件更新的“阀门”
-shouldComponentUpdate(){
-	console.log('Count---shouldComponentUpdate');
+shouldComponentUpdate(nextProps,nextState){
+    console.log(this.props,this.state);  // 当前的props和state
+    console.log(nextProps,nextState); // 接下来要变化的目标props和目标state
+    // return !this.state.xxx===nextState  //可根据值得变化控制是否掉 render函数
 	return true
 }
 //组件更新完毕的钩子
@@ -1413,18 +1415,26 @@ import './index.css'
      ```jsx
      // 一个项目，只能由一个路由进行管理，通过 react-router-dom 分别暴露引入
      // 分为两种模式：  哈希 HashRouter       非哈希 BrowserRouter
-     import {BrowserRouter} from 'react-router-dom'
+     // 不管是 HashRouter，还是 BrowserRouter，底层都是 Router 组件。
+     // 使用Router的history配置 设置路由模式：
+     // 1. const createHistory = require("history").createBrowserHistory
+     // 2. export default createHistory();
+     // 3. <Router history={history}>
      
+     // 更便捷的：
+     import {BrowserRouter,Router} from 'react-router-dom'
      ReactDOM.render(
+      // <Router>
      	<BrowserRouter>
      		<App/>
      	</BrowserRouter>,
+      // </Router>,   
      	document.getElementById('root')
      )
      ```
-
+  
      ![image-20220811143332799](images/React/image-20220811143332799.png)
-
+  
   2. 在页面中放置路由链接，切换组件
   
      - `<Link/>`   普通切换路由
@@ -1446,7 +1456,7 @@ import './index.css'
      
      // 注册路由，显示的位置
      // path 指定当前组件显示的路径，  component 指定显示的路由组件
-     <Router path='/about' component='{About}'/>
+     <Route path='/about' component='{About}'/>
      ```
   
      
@@ -1484,8 +1494,8 @@ export default class MyNavLink extends Component {
   import {Switch,Route} from 'react-router-dom';
   
   <Switch>
-  	<Router path='/about' component='{About}'/>
-  	<Router path='/about' component='{About}'/>
+  	<Route path='/about' component='{About}'/>
+  	<Route path='/about' component='{About}'/>
   </Switch>
   ```
 
@@ -1529,7 +1539,7 @@ export default class MyNavLink extends Component {
   - exact 属性开启严格匹配
 
     ```jsx
-    <Router exact path='/home' component={Home}/>
+    <Route exact path='/home' component={Home}/>
     ```
 
 - **注意：**
@@ -1554,7 +1564,7 @@ export default class MyNavLink extends Component {
     // 1.路由链接(携带参数) 
     <Link to={`/home/one/${age}/${name}`}>跳转</Link>
     // 2.注册路由时，声明接收
-    <Router path='/home/one/:age/:name' component={Test}/>
+    <Route path='/home/one/:age/:name' component={Test}/>
     // 3.使用参数 在类的props身上
     const {name,age}=this.props.match.params
     ```
@@ -1911,6 +1921,40 @@ npm install --save redux-saga
 
 
 
+##### Effect方法
+
+> `import {take,call,put,select,fork,takeEvery,takeLatest} from 'redux-saga/effects'`  // 引入
+
+```js
+// take 用来监听action，返回的是监听到的action对象
+// 例：可以监听到UI传递到中间件的Action,上述take方法的返回，就是dispatch的原始对象。一旦监听到login动作，返回的action为:  {type:'login'}
+const loginAction = { type:'login' }  
+dispatch(loginAction)  // UI组件中 dispatch一个action
+const action = yield take('login');  // 在saga中使用
+
+// call(apply) 主要用于异步请求,与js中的call和apply相似
+// call方法调用fn，参数为args，返回一个描述对象。不过这里call方法传入的函数fn可以是普通函数，也可以是generator。call方法应用很广泛，在redux-saga中使用异步请求等常用call方法来实现。
+call(fn, ...args)
+yield call(fetch,'/userInfo',username)
+
+// put 对应与redux中的dispatch,可以发出原始action
+yield put({type:'login'})
+
+// select 对应的是redux中的getState，用户获取store中的state
+const state= yield select()
+
+// fork方法 相当于web work，fork方法不会阻塞主线程，在非阻塞调用中十分有用
+
+// takeEvery和takeLatest
+// 用于监听相应的动作并执行相应的方法，是构建在take和fork上面的高阶api，比如要监听login动作
+// takeEvery监听到login的动作，就会执行loginFunc方法，除此之外，takeEvery可以同时监听到多个相同的action。
+takeEvery('login',loginFunc)
+
+// takeLatest方法跟takeEvery是相同方式调用：
+// 与takeEvery不同的是，takeLatest是会监听执行最近的那个被触发的action。
+takeLatest('login',loginFunc)
+```
+
 
 
 ![image-20221022163516855](images/React/image-20221022163516855.png)
@@ -1923,7 +1967,7 @@ npm install --save redux-saga
 
 
 
-#### lazyLoad
+#### lazy
 
 > 路由组件的懒加载
 
@@ -2012,7 +2056,7 @@ const Login = lazy(()=>import('@/pages/Login'))
    >
    > 2. 只要当前组件重新render(), 就会自动重新render子组件，纵使子组件没有用到父组件的任何数据 ==> 效率低
 
-2. **原因**：Component中的shouldComponentUpdate()总是返回true
+2. **原因**：Component中的 shouldComponentUpdate() 生命周期钩子总是返回 true
 
 3. 解决：
 
@@ -2020,6 +2064,13 @@ const Login = lazy(()=>import('@/pages/Login'))
    // 办法1: 
    	借助shouldComponentUpdate()生命周期钩子
    	比较新旧state或props数据, 如果有变化才返回true, 如果没有返回false
+       //控制组件更新的“阀门”
+       shouldComponentUpdate(nextProps,nextState){
+           console.log(this.props,this.state);  // 当前的props和state
+           console.log(nextProps,nextState); 	// 接下来要变化的目标props和目标state
+           return !this.state.xxx===nextState  // 可根据值得变化控制是否掉 render函数
+       }
+   
    // 办法2:  
    	使用PureComponent
    	PureComponent重写了shouldComponentUpdate(), 只有state或props数据有变化才返回true
@@ -2038,7 +2089,7 @@ const Login = lazy(()=>import('@/pages/Login'))
    
    ```
    
-   ![image-20220720105041633](images/React/image-20220720105041633.png)
+   
 
 
 
@@ -2107,7 +2158,41 @@ React中:
 
 
 
-### UI组件库
+### 周边库
+
+
+
+#### react-cookies
+
+> 可设置失效时间。如果在浏览器端生成Cookie，默认是关闭浏览器后失效
+> 大小4K左右
+> 每次都会携带在HTTP头中，如果使用cookie保存过多数据会带来性能问题
+> 存在 XSS 注入的风险，只要打开控制台，就可以随意修改它们的值
+
+```js
+// 下载依赖
+cnpm install  react-cookies --save-dev
+// 引入
+import cookie from 'react-cookies'
+
+cookie.save('userId', "123"); // 存
+cookie.load('userId')    // 取
+cookie.remove('userId')  // 删
+
+// 设置失效时间
+let inFifteenMinutes = new Date(new Date().getTime() + 24 * 3600 * 1000);//一天
+cookie.save('userId', "123",{ expires: inFifteenMinutes });
+
+// 补充：
+名字相同cookie是可以同时存在的，cookie不仅有名字和值两个属性，还有域（domain）、路径（path）等属性，不同的域、不同的路径下可以存在同样名字的cookie。
+
+```
+
+
+
+
+
+
 
 #### [Ant Design](https://ant.design/index-cn)
 
