@@ -2105,8 +2105,8 @@ const Login = lazy(()=>import('@/pages/Login'))
 
   ```js
   // getDerivedStateFromError 配合 componentDidCatch
-  
-  // 生命周期函数，一旦后台组件报错，就会触发
+  state={hasError:""}
+  // 生命周期函数，一旦后代组件报错，就会触发
   static getDerivedStateFromError(error) {
       console.log(error);
       // 在render之前触发
