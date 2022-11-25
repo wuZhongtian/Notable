@@ -3327,7 +3327,7 @@ const router = new VueRouter({
   ```js
   // 对 store中的配置进行分类
   const counOptions = {
-     namespaced:true，  // 开启命名空间，默认为false时不能在组件中通过名称找到该配置
+     namespaced:true,  // 开启命名空间，默认为false时不能在组件中通过名称找到该配置
      actions:{},
      mutations:{},
      state:{},
