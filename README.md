@@ -1,6 +1,7 @@
 - 前端学习笔记分享（持续更新）
  - 记录 自学前端路上的点点滴滴！
  - 冲！
+ - 计划中的内容：TypeScript、uniapp、WebGL、Vite、mongoDB
 
 
 

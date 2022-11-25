@@ -404,7 +404,7 @@ setup(){
   import {reactive,computed} from 'vue'
   export default {
       name:'Dome',
-      setuip(){
+      setup(){
           // 数据
           let person = reactive({
               firstName:'张',
@@ -1129,6 +1129,8 @@ Reflect.defineProperty(obj,'c',{
 
 ### [Vuex ](https://vuex.vuejs.org/zh/guide/#最简单的-store)
 
+> 模块化写法同 VUEX3
+
 ```js
 npm install vuex -S // 下载
 
@@ -1158,6 +1160,7 @@ app.use(store)      // app是 createApp(App)
 <p :xxx="$store.state.xxx" />
     
 // 组件中调用 mutations
+// 在setup中使用store时也需采用该方法
 import { useStore } from 'vuex'
 setup(){
     let store = useStore()
@@ -1167,6 +1170,121 @@ setup(){
 }
 
 ```
+
+
+
+### Pinia
+
+> Vuex的迭代方案，与Vuex的API类似，作者是Vue.js及Vuex的核心成员之一。
+>
+> - 独特之处
+>   - 直观，像定义components一样地定义 store
+>   - 去除 mutations，只有 state、getters、actions
+>   - 不分同步异步，更完整的TypeScript支持
+>   - Vue浏览器插件支持Pinia，提供更好的开发体验
+>   - 能够构建多个stores，可直接分模块化的使用,并自动的代码拆分
+>   - 兼容Vue2、Vue3 及其轻量（1kb）
+
+```js
+// 安装pinia
+yarn add pinia
+// Vue3导入并应用pinia   main.js入口文件
+import { createPinia } from 'pinia'
+const pinia = createPinia()
+app.use(pinia)
+
+// 定义数据仓库   src/store/index.js
+	import { defineStore } from 'pinia'
+	import axios from 'axios'
+	// 传入数据仓库的id命名、仓库配置项
+	export default defineStore("仓库名",{
+        // 定义静态数据
+    	state:()=>{
+            return {
+                count:10,
+                timuList:[],
+                list:[{
+                    name:"phone",
+                    money:6666
+                },{
+                    name:"ipad",
+                    money:9999
+                }]
+            }
+        },
+        // 定义计算属性
+        getters:{
+            sumPrice:(state)=>{   // 求所有商品的总价值
+                return state.list.reduce((pre,item)=>{
+                    return per+item.money
+                })
+            }
+        },
+        // 定义action 修改数据的方法,异步同步都可以
+        actions:{
+            async getTimu(){
+                let result = await axios.get("http://xxx.com/")
+                this.timuList = result.data
+            }
+        }
+	})  
+
+
+// 组件中使用 store
+// 1. 导入数据对象
+imoprt useMainStore from './stort/index'
+let store = useMainStore()
+// 2.在标签中使用
+` <p>{{ store.count }}</p> `
+// 3.1修改store    借助解构赋值、storeToRefs()      
+import { storeToRefs } from 'pinia'
+let { count } = storeToRefs(store)
+function handleClick(){
+    count.value++  // 此时可以通过解构赋值得到的变量修改操作store中的store
+}
+// 3.2 修改store   使用$patch：对象式/函数式
+function handleClick(){
+    store.list.push({name:"watch",money:2000})
+    store.$patch({ 
+        count:store.count++,
+        list:store.list,
+    })  // 相比于3.1 可同时修改多个数据 
+}
+
+store.$patch((state)=>{
+    store.count += 10;
+	store.list.push({
+        name:"watch",
+        money:2000
+    })
+})
+
+// 4.修改store 将现在的整个state进行替换
+store.$store={
+    count:100,
+    list:[
+         { name:"watch",money:2000 },
+         { name:"watch2",money:2100 },
+    ]
+}
+
+
+// 5.重置store 恢复为初始状态
+store.$reset()
+
+// 6.监听整个仓库变化
+store.$subscribe((mutation,state)=>{
+    console.log(mutation)
+    console.log(state)
+})
+
+// 7.调用axios的方法，获取异步数据
+store.getTimu()
+```
+
+
+
+
 
 
 
