@@ -61,10 +61,10 @@
 
    - 在uniapp中可以写div span等原生标签，虽不报错，但在不同平台存在兼容性问题，因此使用官方提供组件更为合适。
 
-7. 样式单位  rpx  （类wx）
+7. 样式
 
-   - 750rpx == 100vw == 屏幕可视野宽度的100%
-   - 响应式单位
+   - 响应式单位rpx  750rpx == 100vw == 屏幕可视野宽度的100%
+   - uniapp样式不需要手动加`scoped`,会自动添加
 
 8. [组件局部注册 easycom](https://uniapp.dcloud.net.cn/collocation/pages.html#easycom)
 
@@ -83,7 +83,7 @@
 
 9. 特殊的修饰符
 
-   - `.natice`   给自定义标签使用原生事件
+   - `.natice`   给自定义标签使用原生事件（Vue原生支持）
 
      ```html
      <!-- 这里的 @click 会被认为是自定义事件 -->
@@ -93,8 +93,111 @@
      <myevent @click="onClick"></myevent>
      ```
 
+   - `.sync`   实现父子组件props传递数据的双向绑定 (uniapp独有)
+
+     ```html
+     <!-- 当一个子组件改变了一个 prop 的值时，这个变化也会同步到父组件中所绑定。 .sync 它会被扩展为一个自动更新父组件属性的 v-on 监听器 -->
+     <!-- 子组件可修改父组件的props数据 -->
      
+     <myevent :state.sync="mystate"></myevent>
+     
+     // 子组件中修改props数据时，需要使用 this.$emit("updata:state",数据值)
+     ```
+
+10. 生命周期
+
+    > 1. 应用生命周期：小程序规范
+    > 2. 页面生命周期：小程序规范
+    > 3. 组件生命周期：vue规范
+
+   - 支持 Vue的生命周期（推荐)
+   - 可能支持部分微信小程序的生命周期 App.vue
+
+11. API
+
+    - 与微信小程序保持高度一致，wx.  改为 uni.  (具体参看官网)
+
+12. 项目打包
+
+    1. 项目目录下的`manifest.json`文件，进行打包前的配置
+
+    2. 点击`发行`选择对应打包即可
+
+    3. 打包后的文件存放在项目根目录，unpackage/dist/build/xxx 文件夹下
+
+       - 微信小程序需要在微信开发者平台项目配置中进行域名安全组配置等
+
+       
 
 
 
-### p26
+#### [条件编译](https://uniapp.dcloud.net.cn/tutorial/platform.html#跨端兼容)
+
+> 用特殊的注释作为标记，在编译时根据这些特殊的注释，将注释里的代码编译到不同平台。
+
+- **写法：**以 #ifdef 或 #ifndef 加 %PLATFORM% 开头，以 #endif 结尾。
+  - \#ifdef：if defined 仅在某平台存在
+  - \#ifndef：if not defined 除了某平台 均存在
+  - **%PLATFORM%**：平台名称(详见官方文档)
+- 条件编译是利用注释实现的，在不同语法里注释写法不一样，js使用 `// 注释`、css 使用 `/* 注释 */`、vue/nvue 模板里使用 `<!-- 注释 -->`；
+
+```shell
+#ifdef APP-PLUS
+仅出现在 App 平台下的代码
+#endif
+
+#ifdef H5 || MP-WEIXIN
+在 H5 平台或微信小程序平台存在的代码
+#endif
+
+#ifndef H5
+除了 H5 平台，其它平台均存在的代码
+#endif
+```
+
+
+
+#### 路由传参
+
+- H5开发可以使用 vue中的 $router，也支持 `onLaunch`
+
+- 微信小程序中，不支持 vue中的 $router
+
+  - 需使用`onLaunch`生命周期函数接收
+
+    ```js
+    onLaunch(e){
+        console.log(e)  // e就是页面参数,兼容H5
+    }
+    ```
+
+- 获取页面栈 `getCurrentPages()`
+
+
+
+#### CSS变量
+
+![image-20221204093109936](images/uniapp/image-20221204093109936.png)
+
+
+
+
+
+#### 背景图片
+
+![image-20221204093302851](images/uniapp/image-20221204093302851.png)
+
+
+
+
+
+### UI框架
+
+> uview
+>
+> uniui
+
+1. 打开插件市场
+2. 点击使用HbuilderX 导入插件
+3. 导入样式文件，在`uni.scss`中导入 uview的主题样式文件`theme.scss`
+   - `@import './theme.scss;' `
