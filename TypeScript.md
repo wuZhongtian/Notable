@@ -121,7 +121,8 @@ c.age=18   // 错误，对象类型无法对变量进行赋值操作
 - ?    可选值属性，在定义对象时可为空
 - `[propName:String]:any `  任意属性，可以在对象中有其他任意类型
   - `[propName:String]:String | number`  任意属性、联合类型，对象中可以使用多种数据类型
-  - 
+- 函数类型  `（）`
+- 合并继承   `interface B extends A { ... }`
 
 ```typescript
 // 声明对象  interface约束接口
@@ -150,6 +151,33 @@ interface Person{
 [propName:String]:String | number  // 任意属性，联合类型可以使用String、number类型
 
 
-// 定义对象中的函数类型
+// 声明对象中的函数类型
+interface Dog{
+    name:String,      
+	cd():number,        // void表示函数无返回值，也可以为number/string等
+}
+// 定义带有函数类型的对象
+let Dog1={	name:"哈巴狗",
+    		cb:():number=>{ return 123 }
+         }
+
+
+// 合并继承
+interface A{
+    name:String
+}
+interface B extends A{
+    age:number
+}
+let b={name:"法外狂徒张三",age:18}
 ```
 
+
+
+
+
+
+
+#### 数组
+
+p5

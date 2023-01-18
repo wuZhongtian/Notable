@@ -1384,8 +1384,8 @@ shili.$mount('.one');     //el绑定 第二种方法
         new Vue({
             el: '.one',
             data: {
-                xing: '张',
-                ming: '妍'
+                xing: '吴',
+                ming: '爸爸'
             },
             computed: {
                 fullname: {
@@ -1422,8 +1422,8 @@ shili.$mount('.one');     //el绑定 第二种方法
         new Vue({
             el: '.one',
             data: {
-                xing: '张',
-                ming: '妍'
+                xing: '吴',
+                ming: '爸爸'
             },
             computed: {
                  fullname() {
@@ -3197,6 +3197,14 @@ const router = new VueRouter({
   ]
 })
 ```
+
+
+
+
+
+#### 动态追加路由
+
+
 
 
 
