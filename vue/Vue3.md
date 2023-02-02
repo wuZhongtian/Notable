@@ -1291,6 +1291,7 @@ store.getTimu()
 ### router 4
 
 ```js
+// 1.安装 npm i vue-router
 // router文件夹下 index.js
 import { createRouter,createWebHashHistory } from 'vue-router'
 const routes = [{
