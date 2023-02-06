@@ -74,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                               
+  >                                                                                                                                                                 
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                               
+  >                                                                                                                                                                 
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -292,6 +292,26 @@
       - event对象并不包含方向信息
       - 通过`screen.orientation.angle`对象获取 0 180表示竖屏、90 270表示横屏
       - ios通过 `window.orientation`获取   0 180表示竖屏、90  -90表示横屏
+
+
+
+### JS怪异问题汇总
+
+#### 函数作用域
+
+> js中存在函数作用域，因此函数中的this应当指向 undefined，但是:
+>
+> - 严格模式下函数 this 指向undefined
+> - 普通模式下函数 this 会指向 window
+
+```js
+function a(){
+	this.abc=1
+}
+a()
+console.log("xxx",window.abc , abc)   	// 1 1 怪异现象
+console.log("xxxx",a.abc)   // undefined
+```
 
 
 

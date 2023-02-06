@@ -10,7 +10,8 @@
   
   ```js
   vue -V // 查看Vue-cli 版本   （4.5.0+ 才能创建vue3）
-  vue create 项目名  //创建vue3项目
+  
+  vue create 项目名  // *创建vue3项目
   npm run serve //运行项目 
   npm run build //项目打包
   ```
@@ -22,7 +23,7 @@
   yarn create vite  // 使用yarn创建项目
   pnpm create vite  // 使用pnpm创建项目
   
-  npm init vite-app 项目名  //创建vue3项目
+  npm init vite-app 项目名  // *创建vue3项目
   npm install //安装依赖！
   npm run dev //运行项目 
   ```
