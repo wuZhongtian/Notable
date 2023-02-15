@@ -74,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                 
+  >                                                                                                                                                                         
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                 
+  >                                                                                                                                                                         
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2113,6 +2113,121 @@ try {
   - 如果url 是相对 URL，则会将 base 用作基准 URL。
   - 如果url 是绝对 URL，则无论参数base是否存在，都将被忽略。
 - base 可选；是一个表示基准 URL；在url 是相对 URL 时有效，则默认为 ''。
+
+
+
+## BOM
+
+### [matchMedia() 方法](https://www.runoob.com/jsref/met-win-matchmedia.html)
+
+> - `matchMedia()` 方法返回 `MediaQueryList`对象，表示指定的媒体查询字符串解析后的结果。
+>   - `MediaQueryList`对象的 属性、方法
+>     - **media**：查询语句的内容
+>     - **matches**：用于检测查询结果，如果文档匹配 media query 列表，值为 true，否则为 false
+>     - **addListener(functionref)**：添加一个新的监听器函数，该函数在媒体查询的结果发生变化时执行
+>     - **removeListener(*functionref*)**：从媒体查询列表中删除之前添加的监听器
+> - matchMedia() 方法的值可以是任何一个 [CSS @media 规则](https://www.runoob.com/cssref/css3-pr-mediaquery.html) 的特性, 如 **min-height, min-width, orientation** 等
+> - 该函数必须传参（字符串），表示即将返回一个新 MediaQueryList 对象的媒体查询
+
+```js
+// 判断屏幕（screen/viewport）窗口大小：
+if (window.matchMedia("(max-width: 700px)").matches) {
+    /* 窗口小于或等于 700 像素 */
+} else {
+    /*窗口大于 700 像素 */
+}
+
+// 判断屏幕（screen/viewport）窗口大小，在小于等于 700 像素时修改背景颜色为黄色，大于 700 像素时修改背景颜色为
+function myFunction(x) {
+    if (x.matches) { // 媒体查询
+        document.body.style.backgroundColor = "yellow";
+    } else {
+        document.body.style.backgroundColor = "pink";
+    }
+}
+ 
+var x = window.matchMedia("(max-width: 700px)")
+myFunction(x) // 执行时调用的监听函数
+x.addListener(myFunction) // 状态改变时添加监听器
+```
+
+
+
+## DOM
+
+- `document.documentElement   获取整个html最外层的标签`
+
+
+
+
+
+### MutationObserver 元素观察器
+
+> 用来监视DOM树的任何变动，比如：增减、属性的变动、文本内容的变动
+>
+> - 类似事件的处理机制，但事件是同步触发，而它是异步触发，并不会马上出发，而是等到所有的DOM操作结束后再触发
+>
+> - 依据DOM频繁修改的逻辑而设计为异步，有效避免频繁触发导致的浏览器卡顿
+>
+> - 特点：
+>
+>   - 等待所有脚本任务完成后才运行（异步触发方式）
+>
+>   - 把DOM变动记录封装为一个数组进行处理，而不是挨个处理变动
+>
+>   - 既可以观察DOM的所有类型变动，也可明确指定某一类变动
+>
+>     > DOM的增减、属性变动、文本内容变动。。。
+
+方法：
+
+- `observe()`：启动监听，接受两个参数
+- `disconnect()方法`：停止观察，调用该方法后，DOM再发生变动，也不会触发观察器
+- ``
+
+```js
+let observer = new MutationObserver(callback);   // 声明MutationObserver对象
+
+/**
+* 定义观察器的回调函数
+* 参数1：变动DOM的数组     参数2：观察器实例
+**/
+function callback(changeNodes,observer){
+    changeNodes.forEach((changeNode)=>{
+        console.log(changeNode);
+    })
+}
+
+// observe()方法 - 用来启动监听，接受两个参数
+// 参数1：所要观察的DOM节点
+// 参数2：一个配置的对象，指定所要观察的特定变动(根据需求配置为true即可监听，至少指定一种)
+let div = document.querySelector("div")
+let options = {
+    'childList': true,   // childList 子节点变动（增删改）
+    'attributes':true    // 属性的变动
+    'characterData':true // 节点内容或节点文本的变动
+}
+observer.observe(div,options)
+
+// disconnect()方法 - 用来停止观察。调用该方法后，DOM再发生变动，也不会触发观察期
+observer.disconnect()
+
+// takeRecords()方法 - 用来清除变动记录，即不再处理未处理的变动。返回变动记录的数组
+observer.takeRecords()
+
+```
+
+
+
+[022.MutationObserver的其他知识点和DOM总结_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1ZR4y1C73F/?spm_id_from=333.337.search-card.all.click&vd_source=49059bedc59884104ea6ef0a6e552378)
+
+[【音糊勿喷】JS监听DOM节点的变动：MutationObserver(变动观察器)~它可以用来防止水印被删除吗？抱歉，小yao做不到......_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1sY4y1T7u3/?spm_id_from=333.337.search-card.all.click&vd_source=49059bedc59884104ea6ef0a6e552378)
+
+[【JavaScript】MutationObserver 观察者构造函数用法 - 努力挣钱的小鑫 - 博客园 (cnblogs.com)](https://www.cnblogs.com/cqkjxxxx/p/12990648.html)
+
+
+
+
 
 
 
