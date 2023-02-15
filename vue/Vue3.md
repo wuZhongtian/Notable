@@ -207,7 +207,40 @@ createApp(App).mount('#app')  // app为index.html容器的id
    > 组件间数据传递时，依旧需要使用props进行接收
 
    - vue2中接收后可以直接使用
+
    - vue3中接收后可通过**setup函数**的**第一个参数**拿到，也能直接使用
+
+     - ```js
+       export default {
+           props:{
+               text:{
+                   type:String,
+                   default:""
+               },
+               message:Number
+           },
+           setup(props:Data){
+               const {text} = toRefs(props)
+               const formatText = `Hi,${text.value}`
+               return {
+                   formatText
+               }
+           }
+       }
+       ```
+
+       
+
+     - 使用`setup`[语法糖](https://so.csdn.net/so/search?q=语法糖&spm=1001.2101.3001.7020)时，需要用`defineProps`编译器宏无需引入、定义接收`props`
+
+       ```js
+       const props = defineProps({
+           text:String,
+           message:Number
+       })
+       ```
+
+       
 
 5. 具名插槽
 
@@ -1122,7 +1155,8 @@ Reflect.defineProperty(obj,'c',{
   </template>
   ```
 
-  
+
+
 
 
 
