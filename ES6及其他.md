@@ -74,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                         
+  >                                                                                                                                                                           
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                         
+  >                                                                                                                                                                           
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2183,7 +2183,7 @@ x.addListener(myFunction) // 状态改变时添加监听器
 
 - `observe()`：启动监听，接受两个参数
 - `disconnect()方法`：停止观察，调用该方法后，DOM再发生变动，也不会触发观察器
-- ``
+- `takeRecords()`：用来清除变动记录，不再处理未处理的变动，回调不再执行。返回变动记录的数组
 
 ```js
 let observer = new MutationObserver(callback);   // 声明MutationObserver对象
@@ -2192,8 +2192,8 @@ let observer = new MutationObserver(callback);   // 声明MutationObserver对象
 * 定义观察器的回调函数
 * 参数1：变动DOM的数组     参数2：观察器实例
 **/
-function callback(changeNodes,observer){
-    changeNodes.forEach((changeNode)=>{
+function callback(changeNodesArr,observer){
+    changeNodeArr.forEach((changeNode)=>{
         console.log(changeNode);
     })
 }
@@ -2204,6 +2204,7 @@ function callback(changeNodes,observer){
 let div = document.querySelector("div")
 let options = {
     'childList': true,   // childList 子节点变动（增删改）
+    'subtree':true,      // 深层次的子节点，包含孙子等
     'attributes':true    // 属性的变动
     'characterData':true // 节点内容或节点文本的变动
 }
@@ -2212,18 +2213,80 @@ observer.observe(div,options)
 // disconnect()方法 - 用来停止观察。调用该方法后，DOM再发生变动，也不会触发观察期
 observer.disconnect()
 
-// takeRecords()方法 - 用来清除变动记录，即不再处理未处理的变动。返回变动记录的数组
+// takeRecords()方法 - 清除变动记录，不再处理未处理的变动，返回变动记录的数组
 observer.takeRecords()
 
 ```
 
 
 
-[022.MutationObserver的其他知识点和DOM总结_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1ZR4y1C73F/?spm_id_from=333.337.search-card.all.click&vd_source=49059bedc59884104ea6ef0a6e552378)
+### MutationRecord 对象
 
-[【音糊勿喷】JS监听DOM节点的变动：MutationObserver(变动观察器)~它可以用来防止水印被删除吗？抱歉，小yao做不到......_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1sY4y1T7u3/?spm_id_from=333.337.search-card.all.click&vd_source=49059bedc59884104ea6ef0a6e552378)
+- DOM发生变化时产生一条变动记录（MutationRecord实例），包含变动相关的所有信息。
+  - type：观察器的变动类型（`attributes、characterData、childList`）
+  - target：发生变动的DOM节点
+  - addedNodes：新增的Dom节点
+  - removedNodes：删除的Dom节点
+  - previousSibling：前一个同级节点，如果没有则返回null
+  - nextSibling：下一个同级节点，如果没有则返回null
+  - attributeName：发生变动的属性，如果设置了`attributeFilter`，则只返回预先指定的属性
+  - oldValue：变动前的值，这个属性只对`attribute`和`characterData`变动有效，`childList`变动只返回null
 
-[【JavaScript】MutationObserver 观察者构造函数用法 - 努力挣钱的小鑫 - 博客园 (cnblogs.com)](https://www.cnblogs.com/cqkjxxxx/p/12990648.html)
+```js
+// 封装方法，实现DOM的检测，当指定节点出现时，再执行某些回调操作
+// 参数1：要监测的节点 class/标签/id
+// 参数2：出现后要执行的回调函数
+(function(win){
+    'use strict'
+    var listeners = [];
+    var doc = win.document;
+    var MutationObserver = win.MutationObserver || win.WebKitMutationObserver;
+    var observer;
+    
+    function ready(selector,fn){
+        // 储存选择器和回调函数
+        listeners.push({
+            selector:selector,
+            fn:fn
+        });
+        if(!observer){
+            // 监听 document变化
+            observer = new MutationObserver(check);
+            observer.observer(doc.documentElement,{
+                childList:true,
+                subtree:true
+            });
+        }
+        // 检查该节点是否已经在DOM中
+        check();
+    }
+    
+    function check(){
+        for(var i=0;i<listeners.length;i++){
+            var listener =listeners[i];
+            // 检查指定节点是否有匹配
+            var elements = doc.querySelectorAll(listener.selector);
+            for(var j=0;j<elements.length;j++){
+                var element = elements[j]
+                if(!element.ready){  // ready 是自定义属性/标记
+                    element.ready=true;
+                    listener.fn.call(element,element)
+                }
+            }
+        }
+    }
+    
+    // 对外暴露
+    win.ready=ready 
+})(this)
+
+
+//调用
+ready(".ttt",function(e){
+    console.log("监听到目标节点"+e)
+    ......
+})
+```
 
 
 
