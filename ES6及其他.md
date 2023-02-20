@@ -74,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                           
+  >                                                                                                                                                                               
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                           
+  >                                                                                                                                                                               
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2204,9 +2204,11 @@ function callback(changeNodesArr,observer){
 let div = document.querySelector("div")
 let options = {
     'childList': true,   // childList 子节点变动（增删改）
-    'subtree':true,      // 深层次的子节点，包含孙子等
-    'attributes':true    // 属性的变动
-    'characterData':true // 节点内容或节点文本的变动
+    'subtree':true,      // 观察所有后代节点变动
+    'attributes':true,    	// 观察属性的变动
+    'attributeFiller':["status"], // 属性过滤器，例如:传入["status"]，仅在指定属性变动时触发
+    'characterData':true, 	// 节点内容或节点文本的变动
+    'attributeOldValue':true,	 // 是否记录attributes变动前的值
 }
 observer.observe(div,options)
 

@@ -7,7 +7,7 @@
   - 更多使用技巧隐藏其中！！！🎨🎨🎨
   - HTML、CSS、JS仅部分内容，大多数存在于手写笔记🤣
 
-- 计划中的内容：[TypeScript](https://gitee.com/wzt521/personal-notes/blob/master/TypeScript.md)（进程15%）、WebGL、Vite、mongoDB
+- 计划中的内容：Vite、[TypeScript](https://gitee.com/wzt521/personal-notes/blob/master/TypeScript.md)（进程15%）、WebGL、mongoDB
 
  - 记录 自学前端路上的点点滴滴！
 
