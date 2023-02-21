@@ -1,6 +1,6 @@
 ## TypeScript
 
-### 基础内容
+### 基础知识
 
 #### 初识TS
 
@@ -14,6 +14,10 @@
   - 命令行输入`ts-node ts文件.ts` 直接使用node运行ts文件
 
 #### 基础类型
+
+- new返回的是对象，用大写`Boolean/Number/String`接收
+  - `let b:Boolean = new Boolean(1)`
+  - `let str:string = "TS"`
 
 ```typescript
 // 字符串
@@ -180,4 +184,196 @@ let b={name:"法外狂徒张三",age:18}
 
 #### 数组
 
-p5
+```typescript
+// 定义数组普通类型 直接限定类型
+let arr:number[] = [1,2,3]  // 定义number类型的数组
+let arr:boolean[] = [true,false]  // 定义boolean类型的数组
+或
+let arr:Array<boolean> = [true,false] 
+
+// 定义对象数组,使用interface
+interface X {
+    name:string,
+    age?:number,     // ? 表示该项可有可无
+}
+let arr:X[] = [{name:"夏之一周"},{name:"红烧肉",age:16}]
+
+// 定义多维数组,几个[]表示几维
+let arr:number[][] = [[1],[20],[3]]
+或
+let arr:Array<Array<boolean>> = [[true],[false]]
+
+// 大杂烩，任意类型
+let arr:any[] = [1,"夏天"，true]
+// 大杂烩，指定元组，一一对象
+let arr:[number,string,boolean] = [1,"夏天"，true]
+
+// 函数参数的接受时定义类型、arguments这种`类数组`的定义- IArguments
+function a(...args:any[]){
+    console.log(args)
+    let abc:IArguments = arguments
+}
+a("1",2)
+
+// IArguments的原理:
+interface A {
+    callee:Function
+    length:number
+    [index:number]:any
+}
+```
+
+
+
+
+
+#### 函数
+
+- 函数重载：方法名相同、参数不同；返回值可同可不同
+  - 如果参数类型不同，则操作函数参数类型应设置为`any`
+  - 如果参数数量不同，可将不同的参数设置为可选值
+
+```typescript
+// 函数传参类型限制
+// 参数个数、参数类型、返回值类型
+// 如果指定传参的默认值，可在调用时不传，否则为必传值
+// 加 ? 表示可选值，默认为undefined
+const fn = function(name:string,age:number=30,sex?:string):string {
+    return name+age
+}
+
+// 数组/对象 形式
+interface User {
+    name:string,
+    age:number
+}
+const fn = function(user:User):User{
+    return user
+}
+let a=fn({"张三",55})
+
+
+
+
+
+// 重载函数（规则） 定义,可以是多套
+function fn1 = function(params:number):void
+function fn1 = function(parmas:string,params2:any):void
+// 执行函数逻辑的定义（应满足上述所有规则要求）,执行时会从上述规则中选择执行，具体根据使用时的传参来定
+function fn1 = function(parmas:any,parmas2?:any):void{
+    console.log(parmas+parmas2)
+}
+
+fn1(1) // 执行第一个规则
+fn("夏之一周") //执行第二个规则
+```
+
+
+
+
+
+#### 联合类型|类型断言|交叉类型
+
+- 联合类型：为某个值指定的多种类型
+- 交叉类型：合并多个属性
+- 类型断言：推断取值的类型并执行某些操作，欺骗ts编译器，不影响运行结果
+  - 使用中需额外谨慎，避免出现程序运行的错误
+
+```typescript
+// 联合类型，可定义为指定的多种类型
+// 手机号可能是number/string 类型时：
+let phone:number | string = 123456
+// 函数传参可能是多种类型
+let fn = function(type:number|boolean):boolean{
+    return !!type
+}
+
+
+// 交叉类型 合并多个属性
+interface People{
+    name:String,
+    age:number
+}
+interface Man{
+    sex:number
+}
+const xiaoming = (man:People & MaN):void=>{
+   console.log(man)
+}
+xiaoming({
+    name:"交叉属性",
+    age:15,
+    sex:1
+})
+
+
+
+// 类型断言（欺骗ts编译器，不影响运行结果）
+// any可以被断言为任何类型
+let fn = function (num:number | strimg):void {
+    console.log((num as string).length)
+}
+fn(12345)  // 打印 undefined，因为不属于string类型
+fn("12345") // 打印 5
+
+interface A {
+    run:string
+}
+interface B {
+    build:string
+}
+let fn = (type: A | B):void => {
+    console.log( type.run );  // 错误提示，type上没有run
+    console.log( (<A>type).run ); // 方式1：断言为A
+    console.log( (type as A).run ); // 方式2：断言为A
+}
+
+
+windows.abc = 123  // 报错，window上没有abc
+// 临时断言
+(window as any).abc = 123
+
+
+// 纯纯的欺骗编译器，
+const fn = (type:any):boolean =>{
+    return type as boolean
+}
+console.log( fn(1) )    // 输出 1 ，而不是布尔值，欺骗ts编译器，不影响运行结果
+```
+
+
+
+
+
+#### 内置对象
+
+```typescript
+// 声明正则表达式
+const regexp:RegExp = /\w\d\s/
+// 时间
+const data:Date = new Date()
+//error
+const error:Error = new Error("错误")
+```
+
+
+
+##### DOM
+
+
+
+##### BOM
+
+
+
+
+
+p8
+
+
+
+
+
+
+
+天行健，君子以自强不息
