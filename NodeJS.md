@@ -1362,10 +1362,14 @@ nodemon 文件名
 
 - [支付宝开放平台](https://open.alipay.com/api/detail?abilityCode=SM010000000000001014)
 
+- [密钥工具下载 - 支付宝文档中心 (alipay.com)](https://opendocs.alipay.com/common/02kipk)
+
 - [SDK 配置](https://www.yuque.com/chenqiu/alipay-node-sdk/config-sdk)
 
 - 使用步骤
 
+  - 遇到的问题：应用私钥，需要使用`支付宝开放平台密钥工具`进行格式转换
+  
   - ```js
     // 下载alipay-sdk  
     npm i alipay-sdk 

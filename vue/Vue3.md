@@ -1325,6 +1325,10 @@ store.getTimu()
 
 ### router 4
 
+#### 基本使用
+
+- 与 router 3  大致一致
+
 ```js
 // 1.安装 npm i vue-router
 // router文件夹下 index.js
@@ -1363,12 +1367,41 @@ router.push({
 
 
 
+#### 动态添加路由
+
+```js
+import { authentication } from "../api/common"
+import { useRouter } from 'vue-router';
+const router = useRouter()
+let token = location.href.slice(location.href.indexOf("id_token=")+9)
+authentication(token).then((res)=>{
+    if(res==200){
+        const childRouter = {
+            path: '/home',
+            component: () => import('../components/Tabs.vue'),
+            name: 'home',
+        }
+        router.addRoute('home', childRouter) // 这里的意思是将这个路由添加到根目录下，也就是在根目录下创建一个路由
+        router.push({path: '/home'})
+    }
+})
+```
+
+
+
+
+
+
+
+
+
 ### axios封装
 
 > 携带必要的请求信息，处理同样的相应状态码等，逻辑一致时，进行封装统一操作
 
 ```js
 const NETWORK_ERROR='网络请求出错，稍后再试'
+import axios from 'axios'
 // 创建axios实例对象
 const service =axios.create({ 
     baseUrl:'xxxx.xxx',
@@ -1432,6 +1465,7 @@ export default {
 import api from './api/api.js'
 app.config.globalProperties.$api = api  // app 是 createApp(App)
 // 在组件中调用
+import { getCurrentInstance } from 'vue'
 const {proxy} = getCurrentInstance();  // proxy类似于vue2中的this
 proxy.$api.getTableDate(params).then(()=>{
     

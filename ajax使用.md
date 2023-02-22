@@ -407,6 +407,7 @@ xhr.send('name=lihua&age=11');
   ```js
   {
      // 将自动加在请求的url之前，除非请求的url是一个绝对URL
+     // 默认的 url 前部分，因此如果存在特定的url地址，可在请求时直接写绝对地址，于此处无影响
      baseURL:'http://wudetian.top/',
      // transformRequest ......
   }
@@ -570,7 +571,7 @@ response.setHeader("Access-Control-Allow-Methods","*");
 
 ### 代理服务器
 
-#### 
+
 
 
 
@@ -625,4 +626,34 @@ response.setHeader("Access-Control-Allow-Methods","*");
   e)   var percent = ev.loaded / ev.total
 
   ![image-20220908185250413](images/ajax使用/image-20220908185250413.png)
+
+
+
+
+
+
+
+## 常见报错点
+
+1. `url`地址拼接token等参数导致的过长，被浏览器直接拦截，导致请求失败
+
+   - 现象：
+     - 切换其他请求地址，请求正常发出
+     - 后端无法收到任何反应，没有出现跨域问题
+
+2. 浏览器跨域问题，后端有收到处理信息，但前端无法显示
+
+   - CORS 或者 Nginx
+
+3. 使用promise处理请求时，如果不写 catch只有then 控制台会出现err提示
+
+4. 某些特定情况下，可能是由于浏览器缓存导致
+
+   ![image-20230221201146496](images/ajax使用/image-20230221201146496.png)
+
+
+
+
+
+
 
