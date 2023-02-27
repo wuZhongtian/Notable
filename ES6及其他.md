@@ -74,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                               
+  >                                                                                                                                                                                       
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                               
+  >                                                                                                                                                                                       
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2109,10 +2109,22 @@ try {
 #### URL对象
 
 - 语法：`const url = new URL(url [, base])`
+
 - url 是一个表示绝对或相对 URL ；
   - 如果url 是相对 URL，则会将 base 用作基准 URL。
   - 如果url 是绝对 URL，则无论参数base是否存在，都将被忽略。
+  
 - base 可选；是一个表示基准 URL；在url 是相对 URL 时有效，则默认为 ''。
+
+- 使用场景回忆：
+
+  1. 文件下载加请求头进行权限验证时
+
+     > 使用xhr对象请求后，返回文件blob对象，
+     >
+     > 借助URL对象  `let href =window.URL.createObjectURL(blob)`作为a标签的下载链接
+     >
+     > 使用完需及时手动代码释放该临时文件`window.URL.revokeObjectURL(href);`
 
 
 

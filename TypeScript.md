@@ -5,13 +5,26 @@
 #### 初识TS
 
 - 安装`npm i typescript -g`
+
 - 查看版本`tsc -v`
-- 编译ts文件`tsc ts文件.ts` 生成js文件并运行
+
 - 浏览器不支持ts，始于js，终于js
+
 - 使用工具
   - `npm install @types/node -D`
   - `npm i ts-node -g`
   - 命令行输入`ts-node ts文件.ts` 直接使用node运行ts文件
+  
+- 命令
+
+  ```cmd
+  tsc ts文件.ts          # 编译ts生成js并执行
+  tsc 文件名.ts --watch  # 编译ts生成js并执行，后续自动检测文件变化，自动执行
+  
+  tsc -v   # 查看当前typescript版本
+  ```
+
+  
 
 #### 基础类型
 
@@ -347,6 +360,10 @@ console.log( fn(1) )    // 输出 1 ，而不是布尔值，欺骗ts编译器，
 
 #### 内置对象
 
+##### ECMAscript
+
+> **`Boolean`、Number、`string`、`RegExp`、`Date`、`Error`**
+
 ```typescript
 // 声明正则表达式
 const regexp:RegExp = /\w\d\s/
@@ -358,22 +375,190 @@ const error:Error = new Error("错误")
 
 
 
-##### DOM
+##### DOM-BOM
+
+> **`Document`、`HTMLElement`、`Event`、`MouseEvent`、`NodeList`** 等
+
+- `NodeList` 伪数组，不同于`argument`的伪数组
+  - 用于`querySelectorAll`时多个节点的接收定义
+- Promise
+
+```typescript
+// 约束返回值的类型 Promise<number>
+// Promise作为函数返回值定义 - function promise():Promise<number> {...}
+function promise():Promise<number> {
+    return new Promise<number>((resolve,reject)=>{
+        resolve(1)
+    })
+}
+
+promise().then(res=>{
+    console.log(res)
+})
+```
+
+```js
+let body:HTMLElement = document.body;
+let list:NodeList = document.querySelectorAll('#list li');
+//读取div 这种需要类型断言 或者加个判断应为读不到返回null
+let div:HTMLElement = document.querySelector('div') as HTMLDivElement
+document.addEventListener('click', function (e: MouseEvent) {
+    ...
+});
+
+
+//dom元素的映射表
+interface HTMLElementTagNameMap {
+    "a": HTMLAnchorElement;
+    "abbr": HTMLElement;
+    "address": HTMLElement;
+    "applet": HTMLAppletElement;
+    "area": HTMLAreaElement;
+    "article": HTMLElement;
+    "aside": HTMLElement;
+    "audio": HTMLAudioElement;
+    "b": HTMLElement;
+    "base": HTMLBaseElement;
+    "bdi": HTMLElement;
+    "bdo": HTMLElement;
+    "blockquote": HTMLQuoteElement;
+    "body": HTMLBodyElement;
+    "br": HTMLBRElement;
+    "button": HTMLButtonElement;
+    "canvas": HTMLCanvasElement;
+    "caption": HTMLTableCaptionElement;
+    "cite": HTMLElement;
+    "code": HTMLElement;
+    "col": HTMLTableColElement;
+    "colgroup": HTMLTableColElement;
+    "data": HTMLDataElement;
+    "datalist": HTMLDataListElement;
+    "dd": HTMLElement;
+    "del": HTMLModElement;
+    "details": HTMLDetailsElement;
+    "dfn": HTMLElement;
+    "dialog": HTMLDialogElement;
+    "dir": HTMLDirectoryElement;
+    "div": HTMLDivElement;
+    "dl": HTMLDListElement;
+    "dt": HTMLElement;
+    "em": HTMLElement;
+    "embed": HTMLEmbedElement;
+    "fieldset": HTMLFieldSetElement;
+    "figcaption": HTMLElement;
+    "figure": HTMLElement;
+    "font": HTMLFontElement;
+    "footer": HTMLElement;
+    "form": HTMLFormElement;
+    "frame": HTMLFrameElement;
+    "frameset": HTMLFrameSetElement;
+    "h1": HTMLHeadingElement;
+    "h2": HTMLHeadingElement;
+    "h3": HTMLHeadingElement;
+    "h4": HTMLHeadingElement;
+    "h5": HTMLHeadingElement;
+    "h6": HTMLHeadingElement;
+    "head": HTMLHeadElement;
+    "header": HTMLElement;
+    "hgroup": HTMLElement;
+    "hr": HTMLHRElement;
+    "html": HTMLHtmlElement;
+    "i": HTMLElement;
+    "iframe": HTMLIFrameElement;
+    "img": HTMLImageElement;
+    "input": HTMLInputElement;
+    "ins": HTMLModElement;
+    "kbd": HTMLElement;
+    "label": HTMLLabelElement;
+    "legend": HTMLLegendElement;
+    "li": HTMLLIElement;
+    "link": HTMLLinkElement;
+    "main": HTMLElement;
+    "map": HTMLMapElement;
+    "mark": HTMLElement;
+    "marquee": HTMLMarqueeElement;
+    "menu": HTMLMenuElement;
+    "meta": HTMLMetaElement;
+    "meter": HTMLMeterElement;
+    "nav": HTMLElement;
+    "noscript": HTMLElement;
+    "object": HTMLObjectElement;
+    "ol": HTMLOListElement;
+    "optgroup": HTMLOptGroupElement;
+    "option": HTMLOptionElement;
+    "output": HTMLOutputElement;
+    "p": HTMLParagraphElement;
+    "param": HTMLParamElement;
+    "picture": HTMLPictureElement;
+    "pre": HTMLPreElement;
+    "progress": HTMLProgressElement;
+    "q": HTMLQuoteElement;
+    "rp": HTMLElement;
+    "rt": HTMLElement;
+    "ruby": HTMLElement;
+    "s": HTMLElement;
+    "samp": HTMLElement;
+    "script": HTMLScriptElement;
+    "section": HTMLElement;
+    "select": HTMLSelectElement;
+    "slot": HTMLSlotElement;
+    "small": HTMLElement;
+    "source": HTMLSourceElement;
+    "span": HTMLSpanElement;
+    "strong": HTMLElement;
+    "style": HTMLStyleElement;
+    "sub": HTMLElement;
+    "summary": HTMLElement;
+    "sup": HTMLElement;
+    "table": HTMLTableElement;
+    "tbody": HTMLTableSectionElement;
+    "td": HTMLTableDataCellElement;
+    "template": HTMLTemplateElement;
+    "textarea": HTMLTextAreaElement;
+    "tfoot": HTMLTableSectionElement;
+    "th": HTMLTableHeaderCellElement;
+    "thead": HTMLTableSectionElement;
+    "time": HTMLTimeElement;
+    "title": HTMLTitleElement;
+    "tr": HTMLTableRowElement;
+    "track": HTMLTrackElement;
+    "u": HTMLElement;
+    "ul": HTMLUListElement;
+    "var": HTMLElement;
+    "video": HTMLVideoElement;
+    "wbr": HTMLElement;
+}
+
+let body: HTMLElement = document.body;
+let allDiv: NodeList = document.querySelectorAll('div');
+//读取div 这种需要类型断言 或者加个判断应为读不到返回null
+let div:HTMLElement = document.querySelector('div') as HTMLDivElement
+document.addEventListener('click', function (e: MouseEvent) {
+
+```
+
+[原文链接](https://blog.csdn.net/qq1195566313/article/details/122282325)
 
 
 
-##### BOM
+#### Class类
+
+```typescript
+// 定义类 js写法 ,ts中提示存在问题
+class Person = {
+    constructor (name:string,age:number,sub:boolean) {
+        this.name = name
+        this.age = age
+        this.sub =sub
+    }
+}
+
+// ts写法
+
+```
 
 
 
 
 
-p8
-
-
-
-
-
-
-
-天行健，君子以自强不息
+p9
