@@ -27,13 +27,7 @@
 
 
 <div class="ppp" style="text-align: center;
-            background-color: #99fff0;
-            background-image:
-                radial-gradient(at 95% 18%, hsla(150, 67%, 73%, 1) 0px, transparent 50%),
-                radial-gradient(at 58% 99%, hsla(153, 85%, 77%, 1) 0px, transparent 50%),
-                radial-gradient(at 16% 88%, hsla(178, 91%, 56%, 0.74) 0px, transparent 50%),
-                radial-gradient(at 95% 64%, hsla(181, 73%, 71%, 1) 0px, transparent 50%),
-                radial-gradient(at 27% 35%, hsla(185, 94%, 72%, 1) 0px, transparent 50%);">
+            background-color: #99fff0;">
 <p></p>
 <p>热爱生命</p>
 <p>&emsp;&emsp;&emsp;&emsp;-- 汪国真</p>
@@ -54,8 +48,6 @@
 <p>一切，都在意料之中</p>
 <p></p>
 </div>
-
-
 
 
 
