@@ -543,6 +543,9 @@ document.addEventListener('click', function (e: MouseEvent) {
 
 #### Class类
 
+- `extend` 继承
+- `implements`约束类型
+
 ```typescript
 // 定义类 js写法 ,ts中提示存在问题
 class Person = {
@@ -553,12 +556,81 @@ class Person = {
     }
 }
 
-// ts写法
+// ts写法 需要提前声明
+class Person = {
+    name:string
+    age:number
+    sub:boolean = false
+    constructor (name:string,age:number,sub:boolean) {
+        this.name = name
+        this.age = age
+        // this.sub =sub  定义但不使用时会报错，可以通过给默认值解决
+    }
+}
 
+
+// class类修饰符
+//  public 内部外部都能访问，默认存在的值pubilc
+//  private 私有变量_只能在内部访问，其他都访问不到
+//  protected 内部和子类中可以访问
+class Person = {
+    public name:string
+    private age:number
+    protected sub:boolean = false
+    static aaa:string = '123' // 静态属性
+    constructor (name:string,age:number,sub:boolean) {
+        this.name = name
+        this.age = age
+        this.sub = sub
+    }
+	static run(){     // 静态方法
+        // this.age  //  报错！只能访问该类的静态属性(如static)，不能访问其他属性age\name
+        // 也不能访问内部的_非静态方法
+        return '110'
+    } 
+}
+
+class Man extends Person {
+    constructor (){
+        super("夏之一周",23,false)
+        this.name = "夏之一周"
+    }
+}
+
+let p = new Person("夏天",23,false)
+p.name   // 夏天
+p.age // 无法访问，为私有属性，只能在Person内部访问
+
+Person.aaa  // 访问静态属性
+Person.run()  // 访问静态方法
+
+
+
+// 通过interface 约束类
+interface Person(){
+    run(type:boolean):boolean  //run函数参数type值为boolean，返回值为boolean
+}
+interface H(){
+    set():void  //run函数参数type值为boolean，返回值为boolean
+}
+// 使用 implement 关联单个或多个interface 
+class Man implement Person {
+    params:string
+    constructor(params){
+        this.params=params
+    }
+    run (type:boolean):boolean{
+        return type
+    }
+}
+    //或多个interface 使用逗号间隔,那么类中也必须对应使用
+class Man2 extends Man implement Person,H {
+    set(){}
+}
 ```
 
 
 
+#### 抽象类
 
-
-p9
+p10
