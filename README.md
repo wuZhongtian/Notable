@@ -38,7 +38,7 @@
                 radial-gradient(at 95% 64%, hsla(181, 73%, 71%, 1) 0px, transparent 50%),
                 radial-gradient(at 27% 35%, hsla(185, 94%, 72%, 1) 0px, transparent 50%);
         }
-        .ppp > p {
+        .ppp>p {
         font-weight: 600;
         margin: 0;
         line-height: 2em;
@@ -70,6 +70,7 @@
 <p>一切，都在意料之中</p>
 <p></p>
 </div>
+
 
 
 
