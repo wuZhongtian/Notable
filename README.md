@@ -26,30 +26,14 @@
 
 
 
-<style>
-        div {
-            text-align: center;
-            height: 500px;
+<div class="ppp" style="text-align: center;
             background-color: #99fff0;
             background-image:
                 radial-gradient(at 95% 18%, hsla(150, 67%, 73%, 1) 0px, transparent 50%),
                 radial-gradient(at 58% 99%, hsla(153, 85%, 77%, 1) 0px, transparent 50%),
                 radial-gradient(at 16% 88%, hsla(178, 91%, 56%, 0.74) 0px, transparent 50%),
                 radial-gradient(at 95% 64%, hsla(181, 73%, 71%, 1) 0px, transparent 50%),
-                radial-gradient(at 27% 35%, hsla(185, 94%, 72%, 1) 0px, transparent 50%);
-        }
-        div>p {
-        font-weight: 600;
-        margin: 0;
-        line-height: 2em;
-        font-size: 19px;
-        color: #B7F0FD;
-        letter-spacing: 2px;
-        text-shadow: 0px 0px 3px #0069FF, 0px 0px 3px #0069FF,
-            0px 0px 3px #0069FF, 0px 0px 3px #0069FF;
-    }
-</style>
-<div>
+                radial-gradient(at 27% 35%, hsla(185, 94%, 72%, 1) 0px, transparent 50%);">
 <p></p>
 <p>热爱生命</p>
 <p>&emsp;&emsp;&emsp;&emsp;-- 汪国真</p>
