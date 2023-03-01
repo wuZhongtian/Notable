@@ -1360,7 +1360,9 @@ nodemon 文件名
 
 #### [art-template Js模板引擎](http://aui.github.io/art-template/zh-cn/)
 
+#### [cookie-parser 基于express](https://github.com/expressjs/cookie-parser)
 
+#### [cookie-session 基于express](https://github.com/expressjs/cookie-session)
 
 #### [alipay-sdk](https://www.npmjs.com/package/alipay-sdk)
 
@@ -1760,15 +1762,76 @@ app.use(utile.func,getport) // 在执行getport里面的函数之前，先执行
 
 ## 使用技能
 
-### 状态保持技术
+### 状态保持技术/会话跟踪技术
 
-[125（1）-设置和获取cookie信息_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13V411b7jH/?p=127&spm_id_from=pageDriver&vd_source=49059bedc59884104ea6ef0a6e552378)
+> HTTP协议属于无状态的协议需要进行状态保持；websocket协议是在单个TCP连接上进行全双工通信的协议自带状态保持能力；
+>
+> HTTP协议基于TCP协议，TCP协议又基于socket套接字；
+>
+> `cookie/客户端 + session/服务器端` 共同组成http协议下的状态保持技术
+
+#### cookie
+
+> - 由服务器生成，保存在浏览器的一小段文本信息，以键值对的形式进行存储在响应头中
+> - 浏览器在访问一个网站的服务时，会自动在**请求头**中把和本网站相关的所有cookie发送给服务器
+> - 基于域名安全、拥有过期时间，默认关闭浏览器之后过期
+> - 借助第三方模块 [expressjs/cookie-parser](https://github.com/expressjs/cookie-parser) 操作cookie
+
+- `res.cookie("key","value",{maxAge: 60*60 })`  可写多次，设置多个cookie并分别设置过期时间
+  - 过期时间
+    - 不设置时，默认为浏览器窗口关闭时失效
+    - 设置过期时间，即使关闭浏览器也不会过期，直到过期时间到达
+- `req.cookie["name"]`     获取值为name的cookie
+
+```js
+// 安装cookie-parser
+yarn add cookie-parser
+
+// 使用，
+//引入、注册cookie-parser
+const cookieParser = reqiure("cookie-parser")
+app.use(cookieParser)  // const app = express()
+// 在接口处理函数中使用 设置name，值为node
+// 设置过期时间 毫秒ms {maxAge: 60*60*1000 }
+res.cookie("name","node",{})
+// 获取cookie,默认为undefined
+req.cookie(["name"])
+```
 
 ![image-20230228212550939](images/NodeJS/image-20230228212550939.png)
 
 
 
+#### session
 
+> - 保存在服务器端、以键值对形式进行存储
+> - 依赖于cookie，每个session信息对应的客户端标识保存在cookie中
+> - 借助第三方模块 [expressjs/cookie-session](https://github.com/expressjs/cookie-session)
+
+- `req.session['key'] = 'xxxxx'`   设置session
+- `req.session['key']`    获取session
+
+```js
+// 安装cookie-session
+yarn add cookie-session
+// 引入注册
+const cookieSession = require("cokie-session")
+app.use(cookieSession({
+    name:"my_session",  //后端给前端cookie的命名,随便写
+    key:["dasdanbbhsbchasjxnjsanx￥%@","dadnjwndajsss"],   //混淆字符串，底层有算法自动进行混淆，随便写
+    maxAge: 1000*60,  // 设置session过期时间ms,它生成的键其实会保存在cookie中
+}))
+
+// 使用，在接口处理函数中
+// 设置session
+req.session["name"]="node_session"
+req.session["age"]=12
+// 获取session
+req.session["name"]
+
+```
+
+![image-20230301114929482](images/NodeJS/image-20230301114929482.png)
 
 
 
