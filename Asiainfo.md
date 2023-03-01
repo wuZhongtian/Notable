@@ -74,22 +74,6 @@
 
    - 方便后期内容的扩充
    - 更好的利用路由控制界面
-
-2. css好看的字体
-
-   ```css
-   .title {
-     font-weight: 600;
-     font-size: 36px;
-     color: #B7F0FD;
-     letter-spacing: 2px;
-     text-shadow: 0px 0px 3px #0069FF, 0px 0px 3px #0069FF,
-       0px 0px 3px #0069FF, 0px 0px 3px #0069FF;
-   }
-   ```
-
-   
-
 4. Vue中使用本地图片
 
    1.  `src="~@/assets/images/turndown.svg"`

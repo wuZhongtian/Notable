@@ -1358,6 +1358,10 @@ nodemon 文件名
 
 
 
+#### [art-template Js模板引擎](http://aui.github.io/art-template/zh-cn/)
+
+
+
 #### [alipay-sdk](https://www.npmjs.com/package/alipay-sdk)
 
 - [支付宝开放平台](https://open.alipay.com/api/detail?abilityCode=SM010000000000001014)
@@ -1512,6 +1516,8 @@ app.listen(80,() => {
   - 配置路由规则，可以响应的访问路径、请求的方式（如果不配置 前端请求时会报错）
 - ` app.post()` 方法，监听客户端的 post请求。
 - `app.all()` 方法， 监听所有类型的请求。
+- `res.redirect("/login")`   重定向，跳转到指定接口继续执行代码
+- `res.writeHead(200)`  设置响应头中的状态码
 
 ```js
 // request：对请求报文的封装，包含与请求相关的属性和方法   
@@ -1596,6 +1602,7 @@ app.all('*', function(req, res, next) {
 ```js
 // 解决POST请求参数无法解析的问题
 app.use(express.json());
+// extended：true-接收的值为任意类型  false-接收的值为字符串或者数组
 app.use(express.urlencoded({ extended: true }));
 // 设置静态资源路径
 app.use(express.static(path.join(__dirname, 'public')))
@@ -1613,10 +1620,73 @@ res.header("Content-Type", "application/json;charset=utf-8");
 ```js
 const express = require("express")   // 导入express框架
 const app = express()
-app.post('/api/a',(req,res)=>{})    // 使用qpp.get() 或 .post 监听接口
+app.post('/api/a',(req,res)=>{})    // 使用app.get() 或 .post 监听接口
 
 // 为了抽离代码，使用模块化抽离代码，初步转化如下
+// 1.单独创建文件管理接口 routes/passport.js(也可分为两个get、post)
+const express =require("express")
+var router = express.Router()  // 将大量的接口交给 router管理，而不是全局的app
+router.get("/api".()=>{ ... })
 
+module.exports = router
+                       
+// 2.在入口文件中引入使用
+const postport = require("./routes/postport.js")
+const getport = require("./routes/getport.js")
+// 把路由对象注册到app下
+app.use(getport)
+app.use(postport)
+```
+
+
+
+##### pathinfo参数的获取
+
+```js
+// 前端中使用
+// <a href="/datali/1/news">新闻1</a>
+// <a href="/datali/2">新闻2</a>
+
+// 后端_路径中使用 : 接受动态路径参数,可以连续写多个，和第一个获取方式一致
+app.get("/detail/:id/:type/...",(req,res)=>{
+    console.log(req.params); // 例如 /detail/2 得到 {id:2}
+    console.log(req.params.id); // 例如 /detail/3 得到 3
+    ...   // 其他操作
+})
+```
+
+
+
+##### 处理请求前执行钩子函数
+
+> 如果在执行处理请求的函数之前想执行一些代码，例如验证是否已经登录的工作；可以在`app.use(utile.xxx, routers);`前面加一个函数
+
+- 使用场景
+  - 登录信息校验/token校验，判定用户是否已经登陆
+  - 。。。。。。
+
+```js
+// 一般作为工具函数抽离出去，使用时再引入
+function func(req,res,next){
+    ... // 要执行的提前操作
+    console.log("执行在请求处理之前")
+    
+    //如果没满足某些条件，组织继续执行
+    if(xxx){
+        res.send("xxx")
+        return
+    }
+    next();  // 继续执行，接口处理的操作
+}
+module.exports = {
+    func
+}
+
+
+// 在app.js中使用
+const getport = require("./routes/getport.js")
+const utile = require("./utile/index.js")
+app.use(utile.func,getport) // 在执行getport里面的函数之前，先执行func函数
 ```
 
 
@@ -1685,6 +1755,18 @@ app.post('/api/a',(req,res)=>{})    // 使用qpp.get() 或 .post 监听接口
 ### child_process模块
 
 > 可以创建和控制子进程。该模块提供的API中最核心的是`.spawn`，其余API都是针对特定使用场景对它的进一步封装，算是一种语法糖。
+
+
+
+## 使用技能
+
+### 状态保持技术
+
+[125（1）-设置和获取cookie信息_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13V411b7jH/?p=127&spm_id_from=pageDriver&vd_source=49059bedc59884104ea6ef0a6e552378)
+
+![image-20230228212550939](images/NodeJS/image-20230228212550939.png)
+
+
 
 
 
