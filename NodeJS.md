@@ -1519,6 +1519,7 @@ app.listen(80,() => {
 - ` app.post()` 方法，监听客户端的 post请求。
 - `app.all()` 方法， 监听所有类型的请求。
 - `res.redirect("/login")`   重定向，跳转到指定接口继续执行代码
+- `res.render('xxxx')`   配合模板引擎，返回渲染的页面（用在前后端不分离中）
 - `res.writeHead(200)`  设置响应头中的状态码
 
 ```js
