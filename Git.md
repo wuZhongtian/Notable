@@ -110,9 +110,10 @@ shift+insert      # 粘贴
   - 安装后配置一次即可，如果不配置 `git commit`无法生效
 
 ```shell
-git config --global user.name "用户名"                 //配置用户名
-git config --global user.email "1602453034@qq.com"    //配置邮箱
-git config -l         //查看配置信息,l=list
+git config --global user.name "用户名"                 # 配置用户名
+git config --global user.email "1602453034@qq.com"    # 配置邮箱
+git config -l          # 查看配置信息,l=list
+git config user.name   # 查询现在的用户名
 ```
 
 

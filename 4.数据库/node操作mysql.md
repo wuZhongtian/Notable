@@ -11,10 +11,10 @@
 var mysql = require('mysql');
 // 定义 连接数据 默认端口 3306 如需要修改 port:端口
 var connection = mysql.createConnection({
-  host     : '47.107.105.83',
-  user     : 'blog',
-  password : 'blog',
-  database : 'blog',
+  host:'xx.xx.xx.xx',
+  user:'blog',
+  password:'blog',
+  database:'blog',
   charset:"utf8"
 });
 // 连接
@@ -102,5 +102,49 @@ connection.query(delSql,function (err, result) {
         }        
        console.log('删除成功',result.affectedRows);
 });
+```
+
+
+
+# node连接mysql方式2
+
+
+
+```js
+// db/db.js
+var mysql = require("mysql")
+// 数据库连接配置
+var pool = mysql.createPool({
+  host:'47.107.105.83',
+  user:'blog',
+  password:'blog',
+  database: ：'blog',
+  charset:"utf8"
+})
+
+//封装对数据库增删改查的基础函数，参数1：sql语句、参数2：执行的回调函数
+function query(sql,callback){
+    pool.getConnection(function(err,connection){
+        connection.query(sql,function(err,rows){
+            callback(err,rows)
+            connection.release()
+        })
+    })
+}
+exports.query=query
+
+// 在具体业务逻辑中引入使用
+const db = require("./db/db.js")
+aap.get("/api",(req,res)=>{
+    ...
+    // 进行数据库查询
+    db.query("select * from areas limit 10",(err,data)=>{
+        if(err){
+            console.log(err)
+            res.send("数据库查询出错！")
+        }
+        res.send(data);
+    })
+})
 ```
 
