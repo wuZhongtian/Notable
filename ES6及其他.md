@@ -74,14 +74,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                         
+  >                                                                                                                                                                                             
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                         
+  >                                                                                                                                                                                             
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2122,7 +2122,7 @@ try {
 
      > 使用xhr对象请求后，返回文件blob对象，
      >
-     > 借助URL对象  `let href =window.URL.createObjectURL(blob)`作为a标签的下载链接
+     > 借助URL对象  `let href = window.URL.createObjectURL(blob)`作为a标签的下载链接
      >
      > 使用完需及时手动代码释放该临时文件`window.URL.revokeObjectURL(href);`
 
@@ -2162,6 +2162,26 @@ var x = window.matchMedia("(max-width: 700px)")
 myFunction(x) // 执行时调用的监听函数
 x.addListener(myFunction) // 状态改变时添加监听器
 ```
+
+
+
+### cookie
+
+> `document.cookie`
+
+```js
+// 获取cookie的值
+document.cookie
+// 获取cookie的函数
+function getCookie(name){
+    var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+    return r ? r[1] : undefined;
+}
+
+getCookie("xxxx")  // 要获取的cookie key值
+```
+
+
 
 
 

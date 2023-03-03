@@ -1303,6 +1303,49 @@ nodemon 文件名
 
 
 
+#### [Nodemailer](https://nodemailer.com/about/)
+
+- [Node实现邮箱服务功能 - 简书 (jianshu.com)](https://www.jianshu.com/p/b0786cc98755)
+- [用nodejs向163邮箱, gmail邮箱, qq邮箱发邮件, nodemailer使用详解 - 码农教程 (manongjc.com)](http://www.manongjc.com/detail/52-xatfnyyxppadwng.html)
+
+```js
+// 安装对应模块nodemaile
+npm install nodemailer
+
+// 导入使用
+const nodemailer = require('nodemailer');
+
+async function main() {
+  let transporter = nodemailer.createTransport({
+    // 使用qq的smtp服务器
+    host: 'smtp.qq.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: '这里填入你的邮箱',
+      pass: '这里填入上一步生成得到的授权码',
+    },
+  });
+
+  // 配置邮件标题、内容等
+  // 这里我自己给自己发送一封 Test 测试邮件
+  let info = await transporter.sendMail({
+    from: '认证邮件',
+    to: '123456@qq.com',
+    subject: 'Test',
+    text: 'Hello world',
+    html: '<b>Hello world</b>',
+  });
+
+  console.log('Message sent:', info.messageId);
+  console.log('Preview URL:', nodemailer.getTestMessageUrl(info));
+}
+
+main().catch(console.error);
+```
+
+
+
 #### [multer](https://github.com/expressjs/multer/blob/master/README.md)
 
 - Multer 是一个用于处理 multipart/form-data 的 node.js 中间件，主要用于上传文件。它被写在 busboy 的顶部以获得最大的效率。
@@ -1360,9 +1403,19 @@ nodemon 文件名
 
 #### [art-template Js模板引擎](http://aui.github.io/art-template/zh-cn/)
 
-#### [cookie-parser 基于express](https://github.com/expressjs/cookie-parser)
 
-#### [cookie-session 基于express](https://github.com/expressjs/cookie-session)
+
+#### 状态保持中间件
+
+##### [cookie-parser 基于express](https://github.com/expressjs/cookie-parser)
+
+##### [cookie-session 基于express](https://github.com/expressjs/cookie-session)
+
+##### [cookie-parser中间件](https://www.jianshu.com/p/7fc30d77cc5c)
+
+
+
+
 
 #### [alipay-sdk](https://www.npmjs.com/package/alipay-sdk)
 

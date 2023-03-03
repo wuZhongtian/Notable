@@ -546,6 +546,8 @@ fetch("http://wudetian.top",{
 
 ![image-20220908184939861](images/ajax使用/image-20220908184939861.png)
 
+
+
 ### CORS方案
 
 - 跨域资源共享CORS ：官方的跨域解决方案，
