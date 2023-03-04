@@ -178,7 +178,14 @@ buf3.write('abc');             // 按照ASCLL表的价值，转16进制，存在
   - 加入：node_mirror:https://npm.taobao.org/mirrors/node/
     npm_mirror:https://npm.taobao.org/mirrors/npm/
   
-  
+
+
+
+#### 异常事件机制
+
+> 可通过 try-catch 来捕获异常。如果异常未捕获，则会一直从底向事件循环冒泡。如是冒泡到事件循环的异常没被处理，那么就会导致当前进程异常退出
+
+
 
 #### 常用命令
 
@@ -571,6 +578,49 @@ console.log(pathStr2);
 - 解决方案：操作文件时直接提供完整的路径，避免使用 ./ 或 ../ 开头的相对路径，从而防止路径动态拼接的问题。
 - 使用 _ _dirname 表示当前文件所处的绝对路径
 - 例：`fs.readFile(__dirname + '/one.txt')`    // 表示写入当前文件同级目录下的one.txt
+
+
+
+#### process模块
+
+> 用来和当前进程交互的工具，接受输入node命令时的传参
+>
+> [详解Node.JS模块 process (51sjk.com)](https://www.51sjk.com/b151b262468/)
+
+- 命令行参数
+
+  1. 传给node 的参数
+
+     ```shell
+     node --harmony script.js --version  # 其中 --harmony 	传给node的参数
+     
+     # 通过 process.argv 获取
+     ```
+
+  2. 传给进程的参数
+
+     ```shell
+     node script.js --version --help   # 其中 --version --help  传给进程的参数
+     
+     # 通过 process.execargv 获取
+     ```
+
+- 其他属性/方法
+
+  - `uncaughtexception 事件`：在该事件中，清除一些已经分配的资源（文件描述符、句柄等），不推荐在其中重启进程
+  - `unhandledrejection 事件`：如果一个 promise 回调的异常没有被`.catch()`捕获，那么就会触发 process 的该事件
+  - `warning 事件`：不是 node.js 和 javascript 错误处理流程的正式组成部分。 一旦探测到可能导致应用性能问题，缺陷或安全隐患相关的代码实践，node.js 就可发出告警
+
+  ```js
+  const process = require("process")
+  process.cwd()   // 获取当前的工作目录
+  process.chdir(directory)  // 切换当前工作目录，失败后会抛出异常
+  process.exit()  //
+  ```
+
+  ![image-20230304173623583](images/NodeJS/image-20230304173623583.png)
+
+.......
 
 
 
@@ -1294,17 +1344,18 @@ nodemon 文件名
 
 
 
-#### http-server
+#### 本地服务器
 
-- 快捷创建本地服务器
+- 快捷创建本地服务器   http-server
 - 命令行窗口：任意文件路径下 http-server
   - 创建本地地址
   - 局域网地址
 
 
 
-#### [Nodemailer](https://nodemailer.com/about/)
+#### 邮件服务
 
+- [Nodemailer](https://nodemailer.com/about/)
 - [Node实现邮箱服务功能 - 简书 (jianshu.com)](https://www.jianshu.com/p/b0786cc98755)
 - [用nodejs向163邮箱, gmail邮箱, qq邮箱发邮件, nodemailer使用详解 - 码农教程 (manongjc.com)](http://www.manongjc.com/detail/52-xatfnyyxppadwng.html)
 
@@ -1346,9 +1397,85 @@ main().catch(console.error);
 
 
 
-#### [multer](https://github.com/expressjs/multer/blob/master/README.md)
+#### 操作 Excel 表格
 
-- Multer 是一个用于处理 multipart/form-data 的 node.js 中间件，主要用于上传文件。它被写在 busboy 的顶部以获得最大的效率。
+> node-xlsx 模块
+
+- [会计老婆大人的前端小跟班儿——node 操作 Excel 表格 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/562528384)
+- [使用nodejs处理Excel文件 (360doc.com)](http://www.360doc.com/content/22/0831/14/18334519_1046005809.shtml)
+- [(40条消息) nodejs操作Excel_node操作excel_imdongrui的博客-CSDN博客](https://blog.csdn.net/D578332749/article/details/117783517)
+- [node操作excel - 码农教程 (manongjc.com)](http://www.manongjc.com/detail/13-ewirrikcqvxkptk.html)
+- [(40条消息) node读写xlsx文件_node-xlsx_阿斯巴甜嘛的博客-CSDN博客](https://blog.csdn.net/weixin_47201486/article/details/123235858)
+
+```js
+// 安装 node-xlsx 模块
+npm i node-xlsx
+
+const path = require('path');
+const fs = require('fs')
+const process = require("process")
+const nodeXlsx =require('node-xlsx')
+
+// const workbook = nodeXlsx.parse(paths) // 读取所有数据，包含页签
+let paths =path.join(__dirname,'./abc.xlsx')
+let sheets = nodeXlsx.parse(paths)
+
+const objective = process.argv[2]  // 要操作的指定内容,命令行参数1
+const objective2 = process.argv[3]  // 要操作的类型,命令行参数2
+let ok = []
+
+// 解析所有sheet页签
+sheets.forEach(sheet => {
+    let initdata = sheet.data
+    let newdata=undefined
+    if(objective2==1){
+        newdata=[
+            [ `接收${objective}请求`, 'E', `${objective}信息` ],
+            [ `从数据库获取${objective}数据`, 'R', `${objective}数据库信息` ],
+            [ `返回${objective}信息到前台`, `X`, `${objective}返回信息` ]
+        ]
+    }else if (objective2==2){
+        newdata=[
+            [ `接收${objective}请求`, 'E', `${objective}信息` ],
+            [ `保存${objective}到数据库`, 'W', `${objective}保存信息` ],
+            [ `${objective}结果返回`, `X`, `${objective}返回信息` ]
+        ]
+    }
+    
+
+        ok = 
+        [
+            {
+                name: 'firstSheet',
+                data: [...initdata,...newdata],
+            },
+        ]
+
+//     // for (var i = 0; i < rows.length; i++) {
+//     //     console.log(`第${i + 1}行第一列数据：${rows[i][0]}`)
+//     //     console.log(`第${i + 1}行第二列数据：${rows[i][1]}`)
+//     // }
+});
+
+
+
+
+
+
+fs.writeFileSync('./abc.xlsx',nodeXlsx.build(ok),"binary");
+// // 利用 xlsx 生成表格流文件
+// const workboot = xlsx.build(data)
+
+// // 把生成好的内容写入一个文件
+// fs.writeFileSync('./test.xlsx', workboot)
+
+```
+
+
+
+#### 文件处理[multer](https://github.com/expressjs/multer/blob/master/README.md)
+
+- [multer](https://github.com/expressjs/multer/blob/master/README.md) 是一个用于处理 multipart/form-data 的 node.js 中间件，主要用于上传文件。它被写在 busboy 的顶部以获得最大的效率。
 
 - 在项目中安装  npm install multer
 
@@ -1401,7 +1528,9 @@ main().catch(console.error);
 
 
 
-#### [art-template Js模板引擎](http://aui.github.io/art-template/zh-cn/)
+#### [模板引擎-后端渲染](http://aui.github.io/art-template/zh-cn/)
+
+- [art-template Js模板引擎](http://aui.github.io/art-template/zh-cn/)
 
 
 
