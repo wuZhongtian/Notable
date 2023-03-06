@@ -1353,6 +1353,81 @@ nodemon 文件名
 
 
 
+
+
+#### 定时任务
+
+- [在node中使用定时任务node-cron - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/474819199)
+
+- [Nodejs 定时执行(node-cron) – 隨習筆記 (pkcms.cn)](https://blog.pkcms.cn/archives/1441)
+
+- [nodejs实现给女朋友自动定时发送邮件 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/447973427)
+
+- `nodeCron.schedule()` 方法
+
+  - 参数1：cron 表达式。可以使用此表达式来指定应执行任务的时间（或次数），表达式应采用`* * * * * *`格式。可以用适当的数字（或可能的字符）替换每个`*`字段
+
+    ```js
+    // 用它来描述任务应该执行的时间。表达式中的每个 * 都是一个字段，您可以在下图中看到每个 * 字段代表的意义
+    
+    "* * * * * *"
+     | | | | | |
+     | | | | | |
+     | | | | | day of week			 // 0-7 or names， 0 and 7 refer to sunday
+     | | | | month					// 1-12 or names
+     | | | day of month	 			 // 1-31
+     | | hour						// 0-23
+     | minute 						// 0-59
+     second(optional)     			 // 0-59
+    
+    * 为通配符
+    - 为时间段连接符
+    , 号为分隔符，可以在某一节输入多个值
+    / 号为步进符
+    
+    // 例子：
+    * * * * * *     // 每秒都执行
+    '10 03 * * * *'   // 在 秒为10 分钟为3 执行
+    '10 05 14 * * *'  // 每天14点05分10秒时 执行
+    '10 05 14-17 * * *'   // 每天14-17点的05分10秒时执行语句
+    '11,22,25 * * * * *'  // 在秒为 11 22 25 时都执行
+    
+    '*/3 * * * * *'    // 间隔3秒执行
+    '0 */2 * * * *'		// 间隔两分钟执行
+    
+    ```
+
+    
+
+  - 参数2：是第一个参数中的表达式执行的任务。你可以在这个函数中做任何你想做的事情。您可以发送电子邮件、进行数据库备份或下载数据。若当前系统时间与第一个参数中提供的时间相同时，将执行此函数。
+
+  - 参数3：可选参数，可以传递给该方法进行其他配置
+
+    ```js
+    {
+       scheduled: false,
+       timezone: "America/Sao_Paulo"
+    }
+    job.start();
+    // 默认情况下scheduled是true. 如果将其设置为false，则必须通过调用对象start上的方法来安排作业job。job是调用schedule方法返回的对象。
+    ```
+
+    
+
+```js
+// 安装
+npm i node-cron
+//使用
+const nodeCron = require("node-cron");
+import nodeCron from "node-cron";
+const job = nodeCron.schedule("* * * * * *", function jobYouNeedToExecute() {
+	//在这中间放任何想要执行的操作，例如打印出当前时间
+    console.log(new Date().toLocaleString());
+}, true, "America/Sao_Paulo");
+```
+
+
+
 #### 邮件服务
 
 - [Nodemailer](https://nodemailer.com/about/)
