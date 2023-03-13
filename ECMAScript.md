@@ -12,6 +12,29 @@
 
 
 
+#### JS执行
+
+1. 浏览器端
+
+   > 浏览器本身并不会执行JS代码，而是通过内置javascript引擎（解释器）来执行js代码。js引擎执行代码逐行解释——》转为机器语言——》计算机执行。
+   >
+   > JavaScript语言归为脚本语言，会逐行解释执行。
+
+   - 渲染引擎：用来解析HTML、CSS，俗称内核，例如webkit、blink
+   - JS引擎/解释器：用来读取js代码，对其进行处理后运行，例chromeV8引擎
+
+2. 预解析
+
+   - js预解析在运行js代码时分两步：预解析->代码执行
+     - 变量提升 var let const function 提升到当前作用域的最前
+       - 变量提升：把所有的变量声明提升到当前作用域的最前面，不提升赋值操作
+       - 函数提升：把所有函数声明提升到当前作用域的最前面，不调用函数
+     - 代码执行，从上至下依次执行
+
+   
+
+
+
 #### 语句分号问题
 
 - 是否加分号时编码风格的问题，没有应该不应该，只有喜欢不喜欢，但推荐加
@@ -74,14 +97,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                             
+  >                                                                                                                                                                                                       
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                             
+  >                                                                                                                                                                                                       
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -153,36 +176,51 @@
 > ```js
 > var c=1;
 > function c(c){
->    console.log(c);
+> console.log(c);
 > }
 > c(2)    //结果：报错
-> 
-> // 分析：
 > // 变量提升与命名提升后，var c ==> function c(){} ==> c=1 ==> c()就未定义
-> 
 > 
 > //面试题2
 > var x=10;
 > function fn(){
->    console.log(x);
+> 	console.log(x);
 > }
 > function show(f){
->    var x=20;
->    f();
+> 	var x=20;
+> 	f();
 > }
 > show(fn);     //输出10 
 > //分析：函数的上下文作用域，在代码运行前就已经决定，在fn中只能读取到全局作用域中的x=10
 > 
 > //面试题3
 > var obj={
->    fn2：function(){
->       console.log(fn2);
->    }
+> 	fn2：function(){ console.log(fn2) }
 > }
 > obj.fu2();   //报错，在全局中未定义fun2，若想输出自身的fn2需要使用this.fn2
+> 
+> // 4.0
+> var num = 10;
+> fun();   // 因函数提升，成功执行
+> function fun(){
+>     console.log(num);  // 函数局部作用域，undefined
+>     var num = 20;
+> }
+> 
+> // 5.0
+> fn1()
+> console.log(c)
+> console.log(b)
+> console.log(a)
+> function fn1(){
+>     var a=b=c=9
+>     console.log(c)
+> 	console.log(b)
+> 	console.log(a)
+> }
+> // 输出 9 9 9 9 9 报错(未声明)
+> // var a=b=c=9;   在局部作用域中b和c都未声明而直接赋值，相当于全局声明，而a是局部声明
 > ```
-
-
 
 
 
@@ -359,6 +397,12 @@ console.log("xxxx",a.abc)   // undefined
 
 
 
+#### 作用域链
+
+- 当使用一个变量时候，先在自己的作用域里找，如果没有找到，再到父级作用域找，一直找到全局作用域，如果都没有找到即报错。由此这样一个查找过程形成的链条就叫做作用域链。
+
+
+
 #### 函数链式调用
 
 - 函数执行后，return返回函数本身，可以通过连续 . 的方式执行
@@ -423,63 +467,52 @@ sum(3)(1)(2)   // 3+1+2=6
 
 
 
-### 构造函数
+### 原型与原型链
 
 > 定义：通过 new 实例化对象的函数叫构造函数。任何函数都可以作为构造函数存在。功能上区别：构造函数用来初始化对象，与new 关键字一起使用；返回值区别：普通函数如果不`return`,则没有返回值；构造函数默认返回值是对象
 
 - 构造函数实际是个普通函数，建议**首字母大写 ** (规范)
-- 构造函数的调用必须使用`new关键字`,用来创建建实例对象
-- new关键字 执行流程
-  - 立刻在堆内存中创建一个新的对象
-  - 将新建的对象设置为函数中的this
-  - 逐个执行函数中的代码
-  - 将新建的对象作为返回值
+  - 调用必须使用`new关键字`,用来创建建实例对象
+  - new关键字 执行流程
+    - 立刻在堆内存中创建一个新的对象
+    - 将新建的对象设置为函数中的this
+    - 逐个执行函数中的代码
+    - 将新建的对象作为返回值
 
-##### 静态成员与实例成员
+- 概念：
+  - 静态成员：在构造函数本身上添加的成员，只能由构造函数本身来访问 P2
+  - 实例成员：在构造函数内部或原型上添加的成员，只能由实例化的对象来访问 P1
+  - prototype原型对象：new实例的`__proto__`都会指向构造函数的原型对象`prototype`
+    - 给prototype添加的属性和方法，所有该构造函数创建的实例对象都会具有这些属性和方法，实现共享方法,节约内存
+      - `构造函数.prototype.属性名 = 值;`
+      - `构造函数.prototype.方法名 = function(){定义方法体};`
+      - 隐式与显式  原型对象与对象原型：    `__proto__ === prototype`
+    - `__proto__对象原型`的**意义**就在于为对象的查找机制提供一个方向，或者说一条路线，但是它是一个非标准属性，因此实际开发中，不可以使用这个属性，它只是内部指向原型对象prototype。
+  - 原型链：
+    __proto__对象原型的意义就在于为对象成员查找机制提供一个方向，或者说一条路线。
+    - 当访问一个对象的某个属性或方法时，会先在这个对象本身属性上查找，
+    - 如果没有找到，则会去它的`__proto__`上查找，即它的构造函数的prototype，
+    - 如果还没有找到就会再在构造函数的prototype的`__proto__`中查找，直到 Object 为止（null）
+    - 这样一层一层向上查找就会形成一个链式结构，我们称为原型链。
 
-- 静态成员：在构造函数本身上添加的成员，只能由构造函数本身来访问
+```js
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.run = function () {
+        console.log(this.name+'在奔跑');
+    }
+}
+var p2 = new Person('李四', 24);  // 创建实例化对象
+Person.sex = '男';  // 创建静态成员
+console.log(Person.sex);  // '男'
+console.log(p2.sex);  // undefined
 
-  ```js
-  function Person(name, age) {
-      this.name = name;
-      this.age = age;
-      this.run = function () {
-          console.log(this.name+'在奔跑');
-      }
-  }
-  var p2 = new Person('李四', 24);  // 创建实例化对象
-  Person.sex = '男';  // 创建静态成员
-  console.log(Person.sex);  // '男'
-  console.log(p2.sex);  // undefined
-  ```
-
-- 实例成员：在构造函数内部或原型上添加的成员，只能由实例化的对象来访问
-
-  ```js
-  function Person(name, age) {
-      this.name = name;
-      this.age = age;
-      this.run = function () {
-          console.log(this.name+'在奔跑');
-      }
-  }
-  
-  var p1 = new Person('张三', 20);  // 创建实例化对象
-  console.log(p1.name);  // 用实例化对象访问name属性
-  p1.run();  // 用实例化对象访问run方法
-  console.log(Person.name);  // 无法访问
-  ```
-
-
-
-##### prototype原型对象
-
-- 每个构造函数都有一个prototype 属性，该构造函数创建的对象会默认链接到该属性上
-- 通过prototype添加的属性和方法，所有该构造函数创建的实例对象都会具有这些属性和方法，共享方法,节约内存
-- 语法：
-  - `构造函数.prototype.属性名 = 值;`
-  - `构造函数.prototype.方法名 = function(){定义方法体};`
-- `__proto__`隐式原型对象  ===  `prototype`显示原型属性
+var p1 = new Person('张三', 20);  // 创建实例化对象
+console.log(p1.name);  // 用实例化对象访问name属性
+p1.run();  // 用实例化对象访问run方法
+console.log(Person.name);  // 无法访问
+```
 
 ```js
 //定义一个构造函数
@@ -491,27 +524,9 @@ function Demo(){
 const d = new Demo();
 console.log(Demo.prototype);     //显示原型属性
 console.log(d.__proto__);        //隐式原型对象
-
 ```
 
-
-
-
-
-#### 对象原型
-
-- 每一个对象都会有一个属性 `__proto__ `指向构造函数的 prototype 原型对象，从而可以使用构造函数 prototype 原型对象的属性和方法
-- `__proto__对象原型`  =  `原型对象 prototype` 。 
-- `__proto__对象原型`的**意义**就在于为对象的查找机制提供一个方向，或者说一条路线，但是它是一个非标准属性，因此实际开发中，不可以使用这个属性，它只是内部指向原型对象prototype。
-
 ![image-20220215103659164](images/ES6及其他/image-20220215103659164.png)
-
-#### 原型链
-
-- **当访问一个对象的某个属性或方法时，会先在这个对象本身属性上查找，**
-  - 如果没有找到，则会去它的`__proto__`上查找，即它的构造函数的prototype，
-  - 如果还没有找到就会再在构造函数的prototype的`__proto__`中查找，
-  - 这样一层一层向上查找就会形成一个链式结构，我们称为原型链。
 
 ![image-20220216115626357](images/ES6及其他/image-20220216115626357.png)
 
@@ -521,14 +536,6 @@ console.log(d.__proto__);        //隐式原型对象
 
 - 用来保存数据的部分，一般省略，内部会自动创建（详情看pink）
 - 构造函数的原型对象的constructor属性指向了构造函数,实例对象的原型的constructor属性也指向了构造函数
-
-#### 原型链和成员的查找机制
-
-> 当访问一个对象的属性（包括方法）时，首先查找这个对象自身有没有该属性。
-> 如果没有就查找它的原型（也就是 __proto__指向的 prototype 原型对象）。
-> 如果还没有就查找原型对象的原型（Object的原型对象）。
-> 依此类推一直找到 Object 为止（null）。
-> __proto__对象原型的意义就在于为对象成员查找机制提供一个方向，或者说一条路线。
 
 
 
@@ -566,6 +573,8 @@ console.log(that === p1); //true
  };
  //此时数组对象中已经存在sum()方法了  可以使用数组.sum()进行数据的求和
 ```
+
+
 
 #### 其他方法
 
@@ -1287,6 +1296,12 @@ s.includes('el')
 
 
 
+#### Math
+
+- 
+
+
+
 ## ES6
 
 ### 解构赋值
@@ -1329,17 +1344,25 @@ console.log(c)  // 报错
 
 - `for of` 语句循环遍历可迭代**对象的值**。
 
-  - ```js
-    const cars = ["BMW", "Volvo", "Mini"];
-    
-    let text = "";
-    for (let x of cars) {
-      text += x;
-    }  
-    // BMWVolvoMini
-    ```
+```js
+// for in 循环key值
+const obj = { name:"夏之一周",age:18,sex:'男' }
+for(var key in obj){
+    console.log(obj[key])
+}
 
-    
+// for of  循环每一项
+const cars = ["BMW", "Volvo", "Mini"];
+let text = "";
+for (let x of cars) {
+  text += x;
+}  
+// BMWVolvoMini
+```
+
+
+
+
 
 
 
@@ -1392,6 +1415,7 @@ console.log(c)  // 报错
 - 严格模式只在IE10以上浏览器版本才支持，旧版本中会被忽略
 - ES5严格模式是具有限制性的JS变体，更改内容：
   1. 消除了JavaScript语法的一些不合理、不严谨，减少怪异行为
+     - 变量/函数提升，但会放在 `临时死区`，不会导致提升带来的异常问题
   2. 提高编译器效率，增加运行速度。
   3. 禁用了在 ECMAScript 的未来版本中可能会定义的一些语法，为未来新版本的 Javascript 做好铺垫。比如一些保留字如：class, enum, export, extends, import, super 不能做变量名
 
@@ -1694,7 +1718,7 @@ const http = require('http');
 
 
 
-### 面向对象
+### class类
 
 1. 面向对象
 
