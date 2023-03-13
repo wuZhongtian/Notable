@@ -197,6 +197,14 @@ let b={name:"法外狂徒张三",age:18}
 
 #### 数组
 
+- 类型声明方法：
+  - 直接限定类型：`arr:type[]`
+  - 借助interface限定的类型：`arr:interfaceType[]`
+  - 使用联合类型：`number | boolean`
+  - 任意类型：`arr:any[]`
+- 多维数组声明：`arr:number[][]`或`arr:Array<Array<boolean>>`
+- 函数参数arguments使用：IArguments
+
 ```typescript
 // 定义数组普通类型 直接限定类型
 let arr:number[] = [1,2,3]  // 定义number类型的数组
@@ -221,7 +229,7 @@ let arr:any[] = [1,"夏天"，true]
 // 大杂烩，指定元组，一一对象
 let arr:[number,string,boolean] = [1,"夏天"，true]
 
-// 函数参数的接受时定义类型、arguments这种`类数组`的定义- IArguments
+// 函数接收参数时定义类型、arguments这种`类数组`的定义- IArguments
 function a(...args:any[]){
     console.log(args)
     let abc:IArguments = arguments
@@ -297,8 +305,8 @@ fn("夏之一周") //执行第二个规则
 // 手机号可能是number/string 类型时：
 let phone:number | string = 123456
 // 函数传参可能是多种类型
-let fn = function(type:number|boolean):boolean{
-    return !!type
+let fn = function(types:number|boolean):boolean{
+    return !!types
 }
 
 
@@ -335,10 +343,10 @@ interface A {
 interface B {
     build:string
 }
-let fn = (type: A | B):void => {
-    console.log( type.run );  // 错误提示，type上没有run
+let fn = (types: A | B):void => {
+    console.log( types.run );  // 错误提示，types上没有run
     console.log( (<A>type).run ); // 方式1：断言为A
-    console.log( (type as A).run ); // 方式2：断言为A
+    console.log( (types as A).run ); // 方式2：断言为A
 }
 
 
@@ -348,8 +356,8 @@ windows.abc = 123  // 报错，window上没有abc
 
 
 // 纯纯的欺骗编译器，
-const fn = (type:any):boolean =>{
-    return type as boolean
+const fn = (types:any):boolean =>{
+    return types as boolean
 }
 console.log( fn(1) )    // 输出 1 ，而不是布尔值，欺骗ts编译器，不影响运行结果
 ```
@@ -608,10 +616,10 @@ Person.run()  // 访问静态方法
 
 // 通过interface 约束类
 interface Person(){
-    run(type:boolean):boolean  //run函数参数type值为boolean，返回值为boolean
+    run(types:boolean):boolean  //run函数参数types值为boolean，返回值为boolean
 }
 interface H(){
-    set():void  //run函数参数type值为boolean，返回值为boolean
+    set():void  //run函数参数types值为boolean，返回值为boolean
 }
 // 使用 implement 关联单个或多个interface 
 class Man implement Person {
@@ -619,8 +627,8 @@ class Man implement Person {
     constructor(params){
         this.params=params
     }
-    run (type:boolean):boolean{
-        return type
+    run (types:boolean):boolean{
+        return types
     }
 }
     //或多个interface 使用逗号间隔,那么类中也必须对应使用
@@ -631,6 +639,163 @@ class Man2 extends Man implement Person,H {
 
 
 
-#### 抽象类
+#### 抽象类/基类
 
-p10
+- abstract 定义抽象类
+- abstract 所定义的方法 都只能描述不能进行一个实现
+- 抽象类无法被实例化
+- 使用场景：使用派生类继承抽象类
+
+```typescript
+abstract class Vue {
+    name:String
+    constructor(name?:string){
+        this.name = name;
+    }
+    getName():string{
+        return this.name
+    }
+    abstract init(name:st): void  // 加上这个方法就无法被实现/实例化
+}
+
+// 使用派生类 继承 抽象类,派生类可以被实例化
+// 需要实例化 抽象类的方法
+class React extends Vue{
+    constrctor(){
+        super()
+    }
+    init(name:string){}
+    setName(name:string){
+        this.name=name
+    }
+}
+const react = new React()
+react.setName("夏之一周-哈哈哈")
+console.log(reacr.getname()) //夏之一周-哈哈哈
+```
+
+
+
+
+
+#### 元组类型 readonly
+
+- 特点：
+  - 元组（Tuple）是固定数量的不同类型的元素组合
+  - 元素与集合的不同：元组中的类型可以是不同的，且数量长度固定
+  - 长度无法修改，每一项的元素无法修改
+  - 优点：可以把多个元素作为一个单元传递，如果一个方法需要返回多个值，可以把它们作为元组返回，而不需要创建额外的类来表示
+- 使用场景
+  - 用来接受固定的接口返回值
+
+```typescript
+const arr:[number,boolean] = [1,false]
+const arr:readonly[number,boolean] = [1,false]
+// 给值起名字，随便起，并设置可选值，可有可无
+const arr:readonly [x:number,y:boolean] = [1,false]
+const arr:readonly [x:number,y?:boolean] = [1]
+const excel:[string,string,number][]=[
+    ['哒哒哒','男',18],
+    ['哒哒哒','男',18],
+]
+
+// 当赋值或访问一个已知索引的元素时，会得到正确的类型
+
+const arr:readonly[number,boolean] = [1,false]
+// type first = arr[0]   // 报错.这里arr表示一个值，不能直接 arr[0] 取值
+type first = typeof arr[0]  // first=number
+type first = typeof arr['length']  // first=2
+```
+
+
+
+
+
+#### 枚举类型 enum
+
+> 可以更清晰明了的看出具体某个值得实际意义
+
+- 默认枚举：从 0 开始递增
+- 增长枚举：指定开始递增的初始 number
+- 字符串枚举
+- 异构枚举
+- 接口枚举
+- const 枚举
+  - let 和 var 都是不允许的声明，只能使用 const
+  - const 声明的枚举会被编译成常量
+  - 普通声明的枚举编译完后是个对象
+- 反向映射
+  - 正向映射name=>value 	反向映射value=>name
+  - 注意：字符串枚举成员 不支持反向映射
+
+```typescript
+// js中没有枚举类型
+// 默认从 0 开始，
+enum Color {
+    red,
+    green,
+    blue
+}
+console.log(Color.red,Color.green,Color.blue) //0 1 2
+
+// 增长枚举，可自定义起始值
+enum Color {
+    red = 1,
+    green,
+    blue
+}
+console.log(Color.red,Color.green,Color.blue) //1 2 3
+
+// 字符串枚举
+// 如果不指定值，会报错，因为不会自增之类得自动给值
+enum Color {
+    red='red',
+    green='green',
+    blue='blue'
+}
+console.log(Color.red,Color.green,Color.blue) //red green blue
+
+// 异构枚举（混合字符串和数字,不常用）
+enum yupes {
+    No = 'NO',
+    Yes = 1,
+}
+
+// 接口枚举
+interface S {
+    red : yupes.yes
+}
+let obj:S = {
+    red : yupes.yes    // 1
+}
+
+//const 枚举
+const enum Types {
+ 	sucess,
+    fail
+}
+let code:number = 0
+if(code == Types.sucess){}
+// 编译后 为常量
+var code = 0;
+if(code === 0 /* sucess */){}
+
+// 反向映射(包含正向映射name=>value 反向映射value=>name)
+enum Types {
+    success
+}
+let success:number = Types.success
+let key = Types[success]
+console.log(`value---${success}`,`key---${key}`)   // 1 success
+```
+
+
+
+
+
+#### 类型推论|类型别名
+
+
+
+
+

@@ -568,3 +568,32 @@
 > 一个有限指令集，每条指令的描述不依赖于语言，并在有限的步骤后终止
 
 
+
+### 常见
+
+#### 冒泡排序
+
+- 理论：从头到尾，每次比较两个元素；把大的放后面，如果顺序刚好，则继续下一位往下比较。第一轮可以筛选除元素中最大/小的元素放在末尾；第二次比较的时候就是 当前上次比较次数-1次比较，并把剩余中最大/小的放到最后。
+
+  ```typescript
+  // 例子 [5,4,1,3,2]  从小到大排序
+  function BubbleSort(arr:number[]):number[]{
+      for(let i=0;i<arr.length-1;i++){
+          for(let i=0;i<arr.length-1;i++){
+              let one:number = arr[i],
+                  two:number = arr[i+1]
+              if(one>two){
+                  let item:number = two
+                  arr[i+1] = one
+                  arr[i] = item
+              }
+          }
+      }
+      return arr
+  }
+  
+  let arr:number[] = [5,4,3,2,1]
+  console.log(BubbleSort(arr))
+  ```
+
+  
