@@ -211,12 +211,15 @@ git push  #上传到远程分支
 
 ```shell
 git remote                 # 查看已经存在的远程仓库别名
+git remote -v 			  # 远程仓库路径查询
 git remote remove origin   # 移除origin这个别名 ，remove删除，rename重命名，add添加
 
 # 创建远程仓库的别名  add添加  origin代表该地址仓库的别名  
 git remote add origin https://github.com/wuZhongtian/linshicangku121342.git  
 # 将本地仓库当前分支进行重命名为：main
 git branch -M main  
+
+git remote rm origin   # 删除指定的远程仓库/ 删除项目本地文件夹下的.git 文件夹
 
 # 将本地的（main分支）推送到别名为origin的仓库；（需要输入github令牌、账号和密码）
 # push推送   main分支名 -u分支关联，下次提交时可直接git push  -f会强制覆盖仓库原有内容
