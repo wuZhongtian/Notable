@@ -6,11 +6,13 @@
 - 潜规则：命令执行后没有任何输出，即表示执行成功
 
 ```shell
-ls                 // 查看当前文件夹下的文件 (list单词缩写)
-pwd                // 查看当前所处的绝对路径
-cd                 // 进入某一文件夹内    
-cd ..              //回到上一级目录
-clear              // 清屏;也可以使用  ctrl+l 
+ls            # 查看当前文件夹下的文件 (list单词缩写)
+pwd           # 查看当前所处的绝对路径
+cd            # 进入某一文件夹内    
+cd ..         # 回到上一级目录
+clear         # 清屏;也可以使用  ctrl+l 
+dir           # 查询
+tab			 # 补全
 
 mkdir  文件夹名     // 创建文件夹
 touch 文件名        // 创建文件
@@ -152,6 +154,8 @@ git push -f  # main分支名  -f强制覆盖仓库原有内容
 
 git pull                  #将远程仓库更新到本地，且只拉取当前所在的仓库
 git pull origin master    #将指定远程仓库的分支更新到本地  origin是远程仓库的别名； master是远程仓库的分支名
+
+git remote update origin --p    #更新本地分支信息，远程可能新建但本地看不到时使用 --prune
 ```
 
 ```  shell

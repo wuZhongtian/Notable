@@ -655,6 +655,13 @@ response.setHeader("Access-Control-Allow-Methods","*");
 
 
 
+## Mock数据
+
+- [「前端该如何优雅地Mock数据」每个前端都应该学会的技巧_51CTO博客_前端mock数据](https://blog.51cto.com/u_15531311/5236523)
+- [前端如何mock数据？ - 首席CTO笔记 (shouxicto.com)](https://www.shouxicto.com/article/6256.html)
+- [(40条消息) 身为前端，你真的会mock数据吗_郭顺杰的博客-CSDN博客](https://blog.csdn.net/weixin_44314258/article/details/126508822)
+- [前端该如何优雅地 Mock 数据 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/551535359)
+
 
 
 

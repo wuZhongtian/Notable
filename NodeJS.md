@@ -199,10 +199,9 @@ node 文件名   # 执行node文件
 ctrl + c       # 退出node的运行
 ```
 
-- **nvm相关**（管理员身份）
+- **nvm相关命令**（管理员身份）
 
 ```sh
-# 安装node时被一起安装
 nvm -v             # 查看当前nvm版本
 nvm list           # 查看当前机器上安装了哪些node版本
 nvm install 版本号        # 安装对应版本的node（例：nvm install 16.0.1） 

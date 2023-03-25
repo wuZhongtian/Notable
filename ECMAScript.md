@@ -97,14 +97,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                       
+  >                                                                                                                                                                                                         
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                       
+  >                                                                                                                                                                                                         
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -1886,7 +1886,11 @@ var son = new Son();
 
 
 
-### Promise
+### Promise前世今生
+
+- [(40条消息) promise的前世今生_weixin_34008933的博客-CSDN博客](https://blog.csdn.net/weixin_34008933/article/details/88004420)
+- [JavaScript中Promise基础概念 (baidu.com)](https://baijiahao.baidu.com/s?id=1757535466291630870&wfr=spider&for=pc)
+- [(40条消息) JavaScript 异步编程指南——你不知道的Promise前世Deferred_hzbooks的博客-CSDN博客](https://blog.csdn.net/hzbooks/article/details/118948988)
 
 > 简单说就是一个类 容器，里面保存着某个未来才会结束的事件，通常是一个异步操作的结果。支持链式调用,以解决回调地狱问题：将异步从外观上同步化
 
