@@ -97,14 +97,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                         
+  >                                                                                                                                                                                                                       
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                         
+  >                                                                                                                                                                                                                       
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -1232,13 +1232,93 @@ console.log(result);   //返回值 true   说明str符合one
 
 ### 内置API
 
-#### 对象
+#### Object对象
 
 | 方法             | 用法                                                         | 描述 |
 | ---------------- | ------------------------------------------------------------ | ---- |
 | Object.keys()    | 传入对象，返回属性名；传入字符串，返回索引<br>传入数组 返回索引；构造函数 返回空数组(构造函数)或者属性名(实例对象) |      |
 | Object.values()  | 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的键值 |      |
 | Object.entries() | 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的键值对数组 |      |
+| Object.assign()  | 用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。并返回目标对象（[Object.assign()方法](https://juejin.cn/post/7028013563310506014)） |      |
+| Object.freeze()  | 可以冻结一个对象。被冻结的对象不能被再修改（修改/添加/删除） |      |
+|                  |                                                              |      |
+|                  |                                                              |      |
+
+
+
+##### Object.freeze()
+
+- 特点：
+
+  - Object.freeze() 方法可以冻结一个对象。被冻结的对象不能被再修改（修改/添加/删除）
+  - 不能修改冻结对象已有属性的可枚举性、可配置性、可写性，以及不能修改已有属性的值
+  - 此外，冻结一个对象后该对象的原型也不能被修改。freeze() 返回和传入的参数相同的对象
+  - 如果被冻结的对象具有以对象作为值的属性，这些深层对象可以被更改
+
+- 可能的使用场景（性能提升）
+
+  - vue中，把普通对象传给data时，Vue 将遍历此对象所有的属性，并使用  Object.defineProperty 把这些属性全部转为 getter/setter，这些 getter/setter 对用户来说是不可见的，但是在内部它们让 Vue 追踪依赖，在属性被访问和修改时通知变化
+
+    但在实际应用中，可能只是用来存储某个对象或者数组，并不要求它响应对应的视图，但在这个过程中vue还是会用object.defineProperty来监听这个数组，这样就是一种性能浪费，所以我们阔以使用Object.freeze来冻结数据
+
+    如果有一个巨大的数组或Object，并且确信数据不会修改，使用Object.freeze()可以让性能大幅提升。在我的实际开发中，这种提升大约有5~10倍，倍数随着数据量递增
+
+```js
+const objectExample = {
+  prop1: 20,
+  prop2: "羊先生"
+};
+
+objectExample.prop1 = 100;  // 默认情况下，我们可以根据需要修改对象的属性
+
+// 冻结对象（浅冻结）
+Object.freeze(objectExample);
+objectExample.prop2 = "Alice" // 如果在严格模式会抛出失败，在非严格模式下只会抛出异常
+
+// 深度
+const theObject = {
+  x: 1,
+  y: { a: "Hello",  b: "羊先生" }
+}
+
+Object.freeze(theObject);
+theObject.y.a = 'vipbic';
+console.log(theObject.y.a)
+
+// 递归冻结
+const deepFreeze = (obj) => {
+  const propNames = Object.getOwnPropertyNames(obj)
+  for (const name of propNames) {
+    const value = obj[name];
+    if (value && typeof value === "object") { 
+      deepFreeze(value);
+    }
+  }
+  return Object.freeze(obj);
+}
+
+deepFreeze(theObject);
+theObject.y.a = 100;
+console.log(theObject.y.a );
+
+// vue中使用提升性能
+data() {
+    let data =  Object.freeze([{text:'羊先生'},{text:'ipbic'}])
+    return {
+       msg: '',
+       items:data
+    }
+},
+mounted() {
+    this.items[0].text = '分享快乐'; // 界面不会更新
+    this.items = [{ text: 'itnavs' },{ text: '分享快乐' }]; // 界面会更新
+    this.items = Object.freeze([{ text: 'itnavs' },{ text: '分享快乐' }]); // 界面会更新
+},
+```
+
+
+
+
 
 #### Number
 
@@ -1755,10 +1835,40 @@ const http = require('http');
 #### 创建类
 
 - 通过`class 类名`创建类，习惯类名**首字母大写**
+
 -  `constructor()`方法：是类的构造函数<span style="color:hotpink">(默认方法)，用于传递参数，返回实例对象。</span>
   - 通过new命令生成对象实例时，自动调用该方法。
   - 如果没有定义，类内部会自动生成`constructor()`
+  
 - 类的方法都放在类的原型上，供类使用
+
+- 关键字
+
+  - static 声明静态属性
+
+  - 对某个属性设置存值函数和取值函数， 拦截该属性的存取行为
+
+    - set
+
+    - get
+
+      ```js
+      class Obj {
+          get a(){
+              console.log("触发get a")
+              return 1
+            }
+          set a(val){
+              console.log("触发set a")
+            }
+      }
+      
+      let obj = new Obj()
+      obj.a.  //触发set a的函数
+      ```
+      
+      
+
 - 注意：
   - 定义类不加小括号 ，创建实例必须用new并用小括号
   - 类中的函数不需要加`function()`，类的多个函数方法之间**不需要逗号分隔**
@@ -2213,6 +2323,10 @@ getCookie("xxxx")  // 要获取的cookie key值
 
 
 
+
+
+
+
 ## DOM
 
 - `document.documentElement   获取整个html最外层的标签`
@@ -2284,6 +2398,8 @@ observer.takeRecords()
 
 ### MutationRecord 对象
 
+> MutationObserver 元素观察器，监测到的**变动记录**是该对象的实例
+
 - DOM发生变化时产生一条变动记录（MutationRecord实例），包含变动相关的所有信息。
   - type：观察器的变动类型（`attributes、characterData、childList`）
   - target：发生变动的DOM节点
@@ -2349,6 +2465,77 @@ ready(".ttt",function(e){
     ......
 })
 ```
+
+
+
+
+
+
+
+### [ResizeObserver](https://developer.mozilla.org/zh-CN/docs/Web/API/ResizeObserver)
+
+> 监听 [`Element`](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FElement) 的内容区域  / [`SVGElement`](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FSVGElement)的边界框改变（专门用来观察DOM元素的尺寸是否发生了变化）
+>
+> - https://www.zhangxinxu.com/wordpress/2020/03/dom-resize-api-resizeobserver/
+
+```js
+const ResizeObserver = new ResizeObserver(callback)   // 创建并返回一个ResizeObserver对象
+// callback执行时机，初始化、文档窗口变化、元素尺寸变化
+
+ResizeObserver.observe(target, options)  // 观察指定dom，支持options配置观察的盒子模型类型
+ResizeObserver.disconnect() // 结束观察 - 取消和结束所有目标dom的观察
+ResizeObserver.unobserve(target)  // 结束观察 - 取消和结束指定dom的观察
+
+
+// demo - vue.js
+export default {
+  methods: {
+    handleResize() {
+      console.log("handle resize");
+    }
+  },
+  mounted() {
+    const dom = this.$refs.target.$el;   // 假设this.$refs.target返回是VueComponent对象
+    this.observer = new ResizeObserver(this.handleResize);
+    this.observer.observe(dom, { box: "border-box" });
+  },
+  beforeDestroy() {
+    this.observer.disconnect();
+  }
+};
+
+
+// demo2
+const ro = new ResizeObserver(entries => {
+  for (let entry of entries) {
+    const cr = entry.contentRect;
+    console.log('Element:', entry.target);
+    console.log(`Element size: ${cr.width}px x ${cr.height}px`);
+    console.log(`Element padding: ${cr.top}px ; ${cr.left}px`);
+  }
+});
+
+// Observe one or multiple elements
+ro.observe(someElement);
+```
+
+
+
+![image-20230529143018577](images/ECMAScript/image-20230529143018577.png)
+
+
+
+
+
+### 总结-Dom变化
+
+|                      |                                                              |                                                              |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Media query-CSS      | 只能监听viewport变化，不能监听某个 **「组件/元素」** 大小变化 | 循环引用问题                                                 |
+| window.resize-JS     | 只能监听viewport变化，不能监听某个 **「组件/元素」** 大小变化 | 需要在 viewport 大小变化时手动获取元素的大小，可能导致性能问题 |
+| window-matchMedia-JS | 只能监听viewport变化，不能监听某个 **「组件/元素」** 大小变化 | 需要在 viewport 大小变化时手动获取元素的大小，可能导致性能问题 |
+|                      |                                                              |                                                              |
+| ResizeObserver       |                                                              |                                                              |
 
 
 
@@ -2713,7 +2900,9 @@ socket.emit('go',{password:'123'});
 
 
 
+## Web Components
 
+- https://zhuanlan.zhihu.com/p/580540604
 
 
 

@@ -677,7 +677,7 @@ ReactDOM.render(<Person name="jerry"/>,document.getElementById('test1'))
 
 
 
-##### 标签属性限制
+##### props限制
 
 - 在React15及以前，可以通过`React.PropTypes`限制传递的数据类型
 
@@ -746,6 +746,7 @@ function speak(){
 - 构造器是否接收props，是否传递给super，取决于：是否希望在构造器中通过 this.props 访问props
 
 ```jsx
+import PropTypes from 'prop-types'
 //创建组件
 class Person extends React.Component{
 	constructor(props){
@@ -1118,7 +1119,7 @@ componentDidUpdate(preProps,preState,snapshotValue){
 
 ![image-20220713173445538](images/React/image-20220713173445538.png)
 
-
+![image-20230329163249492](images/React/image-20230329163249492.png)
 
 
 
@@ -1644,329 +1645,6 @@ export default class MyNavLink extends Component {
 
 
 
-#### 路由6.x
-
-- 127
-
-
-
-#### Redux
-
-![image-20221020185710045](images/React/image-20221020185710045.png)
-
-```js
-// API汇总
-
-store.getState()   // 获取store管理的数据
-store.dispatch({type:'increment',data:100})  // 触发组件的reducer事件，传入action对象 修改数据
-store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化，就触发回调
-```
-
-1. 安装redux    `yarn add redux`
-
-2. src文件夹下创建 redux文件夹，统一管理
-
-3. 使用说明
-
-   - 整个应用只有一个`store.js`
-
-     - 该文件专门用于暴露 一个 store对象 
-
-     - ```js
-       // 引入 createStore 专门用于创建redux中最为核心的store对象
-       import {createStore} from 'redux'
-       // 引人为组件count 服务的reducer
-       import countReducer from './count_reducer.js'
-       // 生成store并暴露
-       export default createStore(countReducer)
-       ```
-
-   - 每个组件有自己的 `count_reducer.js`
-
-     - 该文件用于创建一个为 Count组件服务的reducer
-
-     - ```js
-       // reducer本质就是一个函数，并接受两个参数
-       // 参数1：之前的状态preState
-       // 参数2：动作对象action   {type:'things type',data:'things data'}
-       
-       // 初始化时默认  preState为undefined  action:{data为空,type为@@redux/INIT+随机字符串}
-       export default function countReducer(preState=0,action){
-           // 获取参数数据，执行操作，并return返回结果
-           const {type,data} = action
-           switch(type){
-               case 'increment':
-                   return preState+data
-               case 'decrement':
-                   return preState-data
-               default:
-                   return preState
-           }
-       }
-       ```
-
-   - 组件自身
-
-     - ```js
-       // 引入store
-       import store from '@/redux/store'
-       // 获取store管理的数据
-       store.getState()
-       // 触发组件的reducer事件，传入action对象 修改数据
-       store.dispatch({type:'increment',data:100})
-       ```
-
-
-
-
-
-##### action
-
-> 避免手动去指定加减或其他操作，直接调用对应方法传入数据即可
-
-1. 在redux文件夹下 创建 count_action.js
-
-   - 该文件专门为Count组件生成action对象
-
-   - ```js
-     // 对象式 同步action
-     export default const creatIncrement = data=>({type:'increment',data})
-     export default const creatDecrement = data=>({type:'decrement',data})
-     // 简写时，不能简写为，花括号会被认为函数的花括号
-     const creatIncrement = data=>{type:'increment',data}
-     ```
-
-2. 在组件自身
-
-   - ```js
-     // 引入actionCreat对象，用于创建action对象
-     import {creatIncrement,creatIncrement} from '@/redux/count_action.js'
-     
-     // 组件的事件中 调用dispatch并触发对应action方法
-     increment =()=>{
-         const value = this.selectNumber
-         store.dispatch(creatIncrement(value))
-     }
-     ```
-
-3. 同步与异步action
-
-   - 同步action 为 Object对象 形式
-
-   - 异步action 为 Function函数 形式
-
-     - 必须借助 redux-thunk中间件   `yarn add redux-thunk`
-
-     - 使用步骤
-
-       - store.js文件
-
-         ```js
-         // 在redux中额外引入applyMiddleware
-         import {createStore,applyMiddleware} from "redux"
-         // 引入redux-thunk 用于支持异步actioon
-         import thunk from 'redux-thunk'
-         // 引入为Count 组件服务的reducer
-         import countReducer from './count_reducer'
-         
-         //暴露store
-         export default createStore(countReducer,applyMiddleware(thunk))
-         ```
-     
-       - crement_action文件（该文件专门为Count组件生成action对象）
-       
-         ```js
-         // 函数式 异步action  返回值为一个函数
-         export const createIncrementAsync = (data,time)=>{
-             return (dispatch)=>{
-                dispatch(creatIncrement(data))
-                // store.dispatch(creatIncrement(data))   不需要单独引入store，可直接使用提供的参数
-             }
-         }
-         ```
-       
-       - ![image-20221016174851718](images/React/image-20221016174851718.png)
-
-
-
-##### 存在的问题
-
-- 视图不更新（redux中存在，但react-redux中不存在该问题）
-
-  ```js
-  /*
-  存在问题：store.dispatch 修改状态后，不会触发视图更新
-  解决方法：
-    方案1：
-  	1.借助生命周期钩子，在组件挂载完毕componentDidMount后监视store变化 
-      2.使用this.steState({}) 会触发视图更新
-      
-    方案2：在index.js入口文件中进行全局监视
-  */
-  componentDidMount(){
-      // 检测redux中状态的变化，只要数据变化，就调用render
-      store.subscribe(()=>{
-          this.setState({})
-      })
-  }
-  
-  // 在index.js入口文件中引入 store
-  // 引入store
-  import store from 'src/redux/store.js'
-  // 检测redux中状态的变化，只要数据变化，就为App组件调用render，更新界面
-  // 因为存在DOM diff算法 不会引起大面积的性能问题
-  store.subscribe(()=>{
-      React.render(<App>,document.getElementById('root'))
-  })
-  ```
-
-  
-
-
-
-
-
-#### react-redux
-
-> 官方的redux，react自己的   新建redux文件夹
-
-```js
-// 1.安装react-redux
-yarn add react-redux
-// 引入 ui组件  引入connect 用于连接UI组件与redux
-import CountUI from './countUI.js'
-import {connect} from 'react-redux'
-
-// 2.创建并暴露容器组件   
-// 箭头函数默认返回一个对象，需要包一个小括号
-//  mapStateToProps 简写 
-    state=>({nmb: state.a}),
-//  mapDispatchToProps 传统写法(函数形式)
-//    dispatch=>({   
-//        jia:number=> dispatch({type:'jia',data:number}),
-//        jian:number=> dispatch({type:'jian',data:number}),
-//	})
- 
-// 简写 react-redux 内部实现自动分发dispatch 对象形式
-    {
-        jia:{type:'jia',data:number},
-        jian:{type:'jian',data:number}
-    }
-)(CountUI)
-
-// 在组件中 使用store 并通过 props组件配置形式传入
-import store from './store.js'
-<Count store={store}/>
-```
-
-- **connect**
-  - 第一个括号中传入两个参数
-    - 第一个参数为函数且返回值作为 状态 传递给UI组件
-      - 参数1 state：redux中的 state
-    - 第二个参数为函数且返回值作为 操作状态的方法 传递给UI组件
-      - 参数：dispatch方法，直接调用
-  - 第二个括号中，传入 UI组件
-- 注意：
-  1. 容器组件中的store是靠props传进去的，而不是在容器组件中直接引入
-  2. 第二个参数 mapDispatchToProps，也可以是一个对象
-
-- ![image-20221017164140722](images/React/image-20221017164140722.png)
-
-
-
-##### 默认将store传递给所有容器组件
-
-- ```js
-  // 默认情况下，需要为所有的容器组件手动传入 store
-  import store from './store.js'
-  <Count store={store}/>
-      
-  // index.js 入口文件
-  import React from 'react'
-  import ReactDOM from 'react-dom'
-  import App from './App'
-  import store from './redux/store.js'
-  // 借助 Provider标签自动传递
-  import {Provider} from 'react-redux'
-  
-  ReactDOM.render(
-  	<Provider store={store}>
-      	<App/>
-  	<Provider/>,
-      documnet,getElementById('root')
-  )
-  ```
-
-- **这里差了一些笔记，没有记录！**
-
-- ![image-20221019164128419](images/React/image-20221019164128419.png)
-
-
-
-
-
-#### redux-saga
-
-> - 是一个`redux `中间件；一个用于管理应用程序 Side Effect（副作用，例如异步获取数据，访问浏览器缓存等）的 library，它的目标是让副作用管理更容易，执行更高效，测试更简单，在处理故障时更容易。
-> - 处理异步内容
-
-
-
-##### 基础使用
-
-```js
-// 1.安装
-npm install --save redux-saga
-```
-
-
-
-##### Effect方法
-
-> `import {take,call,put,select,fork,takeEvery,takeLatest} from 'redux-saga/effects'`  // 引入
-
-```js
-// take 用来监听action，返回的是监听到的action对象
-// 例：可以监听到UI传递到中间件的Action,上述take方法的返回，就是dispatch的原始对象。一旦监听到login动作，返回的action为:  {type:'login'}
-const loginAction = { type:'login' }  
-dispatch(loginAction)  // UI组件中 dispatch一个action
-const action = yield take('login');  // 在saga中使用
-
-// call(apply) 主要用于异步请求,与js中的call和apply相似
-// call方法调用fn，参数为args，返回一个描述对象。不过这里call方法传入的函数fn可以是普通函数，也可以是generator。call方法应用很广泛，在redux-saga中使用异步请求等常用call方法来实现。
-call(fn, ...args)
-yield call(fetch,'/userInfo',username)
-
-// put 对应与redux中的dispatch,可以发出原始action
-yield put({type:'login'})
-
-// select 对应的是redux中的getState，用户获取store中的state
-const state= yield select()
-
-// fork方法 相当于web work，fork方法不会阻塞主线程，在非阻塞调用中十分有用
-
-// takeEvery和takeLatest
-// 用于监听相应的动作并执行相应的方法，是构建在take和fork上面的高阶api，比如要监听login动作
-// takeEvery监听到login的动作，就会执行loginFunc方法，除此之外，takeEvery可以同时监听到多个相同的action。
-takeEvery('login',loginFunc)
-
-// takeLatest方法跟takeEvery是相同方式调用：
-// 与takeEvery不同的是，takeLatest是会监听执行最近的那个被触发的action。
-takeLatest('login',loginFunc)
-```
-
-
-
-![image-20221022163516855](images/React/image-20221022163516855.png)
-
-![image-20221022163535201](images/React/image-20221022163535201.png)
-
-
-
-
-
-
-
 #### lazy
 
 > 路由组件的懒加载
@@ -1987,66 +1665,6 @@ const Login = lazy(()=>import('@/pages/Login'))
 ```
 
 
-
-#### Hooks
-
-> (1). Hook是React 16.8.0版本增加的新特性/新语法
-> (2). 可以让你在函数组件中使用 state 以及其他的 React 特性
-
-##### state hook
-
-```jsx
-(1). State Hook让函数组件也可以有state状态, 并进行状态数据的读写操作
-(2). 语法: const [xxx, setXxx] = React.useState(initValue)  
-(3). useState()说明:
-        参数: 第一次初始化指定的值在内部作缓存 initValue是初始值  xxx是数据名  setXxx修改数据的函数
-        返回值: 包含2个元素的数组, 第1个为内部当前状态值, 第2个为更新状态值的函数
-					数组的解构赋值，只需位置对应，命名随意
-(4). setXxx()2种写法:
-        setXxx(newValue): 参数为非函数值, 直接指定新的状态值, 内部用其覆盖原来的状态值
-        setXxx(value => newValue): 参数为函数, 接收原本的状态值, 返回新的状态值, 内部用其覆盖原来的状态值
-```
-
-
-
-##### Effect hook
-
-```jsx
-(1). Effect Hook 可以让你在函数组件中执行副作用操作(用于模拟类组件中的生命周期钩子)
-(2). React中的副作用操作:
-        发ajax请求数据获取
-        设置订阅 / 启动定时器
-        手动更改真实DOM
-(3). 语法和说明: 
-        useEffect(() => { 
-          // 在此可以执行任何带副作用操作
-          return () => { // 在组件卸载前执行 return
-            // 在此做一些收尾工作, 比如清除定时器/取消订阅等
-          }
-        }, [stateValue]) 
-    // 第二个参数如果指定的是[], 回调函数只会在第一次render()后执行一次，
-	// 如果不写，会检测所有数据变化时就执行，\
-	// 如果传入数据名，会检测数据变化时再执行
-    
-(4). 可以把 useEffect Hook 看做如下三个函数的组合
-        componentDidMount()
-        componentDidUpdate()   
-    	componentWillUnmount()   // 必须有return返回值，当成componentWillUnmount钩子
-```
-
-
-
-##### useRef
-
-- 与类式组件中的 React.createRef()  用法一致
-
-- ```jsx
-  (1). Ref Hook可以在函数组件中存储/查找组件内的标签或任意其它数据
-  (2). 语法: const refContainer = React.useRef()
-  (3). 作用:保存标签对象,功能与React.createRef()一样
-  ```
-
-  
 
 #### 组件优化
 
@@ -2213,6 +1831,545 @@ yarn add antd
 
 
 
+### 状态管理
+
+![image-20230323170158799](images/React/image-20230323170158799.png)
+
+
+
+#### Redux
+
+![image-20221020185710045](./images/React/image-20221020185710045.png?lastModify=1679561261)
+
+```jsx
+// API汇总
+
+store.getState()   // 获取store管理的数据
+store.dispatch({type:'increment',data:100})  // 触发组件的reducer事件，传入action对象 修改数据
+store.subscribe(()=>{...}) // 检测redux中状态的变化，只要数据变化，就触发回调
+```
+
+1. 安装redux    `yarn add redux`
+
+2. src文件夹下创建 redux文件夹，统一管理
+
+3. 使用说明
+
+   - 整个应用只有一个`store.js`
+
+     - 该文件专门用于暴露 一个 store对象 
+
+     - ```
+       // 引入 createStore 专门用于创建redux中最为核心的store对象
+       import {createStore} from 'redux'
+       // 引人为组件count 服务的reducer
+       import countReducer from './count_reducer.js'
+       // 生成store并暴露
+       export default createStore(countReducer)
+       ```
+
+   - 每个组件有自己的 `count_reducer.js`
+
+     - 该文件用于创建一个为 Count组件服务的reducer
+
+     - ```jsx
+       // reducer本质就是一个函数，并接受两个参数
+       // 参数1：之前的状态preState
+       // 参数2：动作对象action   {type:'things type',data:'things data'}
+       
+       // 初始化时默认  preState为undefined  action:{data为空,type为@@redux/INIT+随机字符串}
+       export default function countReducer(preState=0,action){
+           // 获取参数数据，执行操作，并return返回结果
+           const {type,data} = action
+           switch(type){
+               case 'increment':
+                   return preState+data
+               case 'decrement':
+                   return preState-data
+               default:
+                   return preState
+           }
+       }
+       ```
+
+   - 组件自身
+
+     - ```
+       // 引入store
+       import store from '@/redux/store'
+       // 获取store管理的数据
+       store.getState()
+       // 触发组件的reducer事件，传入action对象 修改数据
+       store.dispatch({type:'increment',data:100})
+       ```
+
+
+
+
+
+##### action
+
+> 避免手动去指定加减或其他操作，直接调用对应方法传入数据即可
+
+1. 在redux文件夹下 创建 count_action.js
+
+   - 该文件专门为Count组件生成action对象
+
+   - ```
+     // 对象式 同步action
+     export default const creatIncrement = data=>({type:'increment',data})
+     export default const creatDecrement = data=>({type:'decrement',data})
+     // 简写时，不能简写为，花括号会被认为函数的花括号
+     const creatIncrement = data=>{type:'increment',data}
+     ```
+
+2. 在组件自身
+
+   - ```
+     // 引入actionCreat对象，用于创建action对象
+     import {creatIncrement,creatIncrement} from '@/redux/count_action.js'
+     
+     // 组件的事件中 调用dispatch并触发对应action方法
+     increment =()=>{
+         const value = this.selectNumber
+         store.dispatch(creatIncrement(value))
+     }
+     ```
+
+3. 同步与异步action
+
+   - 同步action 为 Object对象 形式
+
+   - 异步action 为 Function函数 形式
+
+     - 必须借助 redux-thunk中间件   `yarn add redux-thunk`
+
+     - 使用步骤
+
+       - store.js文件
+
+         ```
+         // 在redux中额外引入applyMiddleware
+         import {createStore,applyMiddleware} from "redux"
+         // 引入redux-thunk 用于支持异步actioon
+         import thunk from 'redux-thunk'
+         // 引入为Count 组件服务的reducer
+         import countReducer from './count_reducer'
+         
+         //暴露store
+         export default createStore(countReducer,applyMiddleware(thunk))
+         ```
+
+       - crement_action文件（该文件专门为Count组件生成action对象）
+
+         ```
+         // 函数式 异步action  返回值为一个函数
+         export const createIncrementAsync = (data,time)=>{
+             return (dispatch)=>{
+                dispatch(creatIncrement(data))
+                // store.dispatch(creatIncrement(data))   不需要单独引入store，可直接使用提供的参数
+             }
+         }
+         ```
+
+       - ![image-20221016174851718](./images/React/image-20221016174851718.png)
+
+
+
+##### 存在的问题
+
+- 视图不更新（redux中存在，但react-redux中不存在该问题）
+
+  ```jsx
+  /*
+  存在问题：store.dispatch 修改状态后，不会触发视图更新
+  解决方法：
+    方案1：
+    1.借助生命周期钩子，在组件挂载完毕componentDidMount后监视store变化 
+      2.使用this.steState({}) 会触发视图更新
+      
+    方案2：在index.js入口文件中进行全局监视
+  */
+  componentDidMount(){
+      // 检测redux中状态的变化，只要数据变化，就调用render
+      store.subscribe(()=>{
+          this.setState({})
+      })
+  }
+  
+  // 在index.js入口文件中引入 store
+  // 引入store
+  import store from 'src/redux/store.js'
+  // 检测redux中状态的变化，只要数据变化，就为App组件调用render，更新界面
+  // 因为存在DOM diff算法 不会引起大面积的性能问题
+  store.subscribe(()=>{
+      React.render(<App>,document.getElementById('root'))
+  })
+  ```
+
+
+
+
+
+
+#### react-redux
+
+> 官方的redux，react自己的   新建redux文件夹
+
+```jsx
+// 1.安装react-redux
+yarn add react-redux
+// 引入 ui组件  引入connect 用于连接UI组件与redux
+import CountUI from './countUI.js'
+import {connect} from 'react-redux'
+
+// 2.创建并暴露容器组件   
+// 箭头函数默认返回一个对象，需要包一个小括号
+//  mapStateToProps 简写 
+    state=>({nmb: state.a}),
+//  mapDispatchToProps 传统写法(函数形式)
+//    dispatch=>({   
+//        jia:number=> dispatch({type:'jia',data:number}),
+//        jian:number=> dispatch({type:'jian',data:number}),
+//  })
+ 
+// 简写 react-redux 内部实现自动分发dispatch 对象形式
+    {
+        jia:{type:'jia',data:number},
+        jian:{type:'jian',data:number}
+    }
+)(CountUI)
+
+// 在组件中 使用store 并通过 props组件配置形式传入
+import store from './store.js'
+<Count store={store}/>
+```
+
+- **connect**
+  - 第一个括号中传入两个参数
+    - 第一个参数为函数且返回值作为 状态 传递给UI组件
+      - 参数1 state：redux中的 state
+    - 第二个参数为函数且返回值作为 操作状态的方法 传递给UI组件
+      - 参数：dispatch方法，直接调用
+  - 第二个括号中，传入 UI组件
+- 注意：
+  1. 容器组件中的store是靠props传进去的，而不是在容器组件中直接引入
+  2. 第二个参数 mapDispatchToProps，也可以是一个对象
+- ![image-20221017164140722](./images/React/image-20221017164140722.png?lastModify=1679561261)
+
+
+
+##### 默认将store传递给所有容器组件
+
+- ```jsx
+  // 默认情况下，需要为所有的容器组件手动传入 store
+  import store from './store.js'
+  <Count store={store}/>
+      
+  // index.js 入口文件
+  import React from 'react'
+  import ReactDOM from 'react-dom'
+  import App from './App'
+  import store from './redux/store.js'
+  // 借助 Provider标签自动传递
+  import {Provider} from 'react-redux'
+  
+  ReactDOM.render(
+    <Provider store={store}>
+        <App/>
+    <Provider/>,
+      documnet,getElementById('root')
+  )
+  ```
+
+- **这里差了一些笔记，没有记录！**
+
+- ![image-20221019164128419](./images/React/image-20221019164128419.png?lastModify=1679561261)
+
+
+
+
+
+#### redux-saga
+
+> - 是一个`redux`中间件；一个用于管理应用程序 Side Effect（副作用，例如异步获取数据，访问浏览器缓存等）的 library，它的目标是让副作用管理更容易，执行更高效，测试更简单，在处理故障时更容易。
+> - 处理异步内容
+
+
+
+##### 基础使用
+
+```
+// 1.安装
+npm install --save redux-saga
+```
+
+
+
+##### Effect方法
+
+> `import {take,call,put,select,fork,takeEvery,takeLatest} from 'redux-saga/effects'`  // 引入
+
+```
+// take 用来监听action，返回的是监听到的action对象
+// 例：可以监听到UI传递到中间件的Action,上述take方法的返回，就是dispatch的原始对象。一旦监听到login动作，返回的action为:  {type:'login'}
+const loginAction = { type:'login' }  
+dispatch(loginAction)  // UI组件中 dispatch一个action
+const action = yield take('login');  // 在saga中使用
+
+// call(apply) 主要用于异步请求,与js中的call和apply相似
+// call方法调用fn，参数为args，返回一个描述对象。不过这里call方法传入的函数fn可以是普通函数，也可以是generator。call方法应用很广泛，在redux-saga中使用异步请求等常用call方法来实现。
+call(fn, ...args)
+yield call(fetch,'/userInfo',username)
+
+// put 对应与redux中的dispatch,可以发出原始action
+yield put({type:'login'})
+
+// select 对应的是redux中的getState，用户获取store中的state
+const state= yield select()
+
+// fork方法 相当于web work，fork方法不会阻塞主线程，在非阻塞调用中十分有用
+
+// takeEvery和takeLatest
+// 用于监听相应的动作并执行相应的方法，是构建在take和fork上面的高阶api，比如要监听login动作
+// takeEvery监听到login的动作，就会执行loginFunc方法，除此之外，takeEvery可以同时监听到多个相同的action。
+takeEvery('login',loginFunc)
+
+// takeLatest方法跟takeEvery是相同方式调用：
+// 与takeEvery不同的是，takeLatest是会监听执行最近的那个被触发的action。
+takeLatest('login',loginFunc)
+```
+
+
+
+![image-20221022163516855](./images/React/image-20221022163516855.png?lastModify=1679561261)
+
+![image-20221022163535201](./images/React/image-20221022163535201.png?lastModify=1679561261)
+
+
+
+#### mobx
+
+- https://www.mobxjs.com
+- 安装：`yarn add mobx`
+- 特点
+  - 利用getter和setter来收集组建的数据依赖关系，从而在数据发生改变的时候精准重绘（类似vue）
+  - 写法上偏向面向对象oop；可以多store，并非单一store
+  - 不需要使用返回一个新数据，对一份数据直接进行修改
+  - Redux默认以原生js对象形式存储，而mobx使用可观察对象存储
+- 两种react绑定方式，
+  - mobx-react-dom：仅支持函数组件
+  - mobx-react：额外支持基于类式组件
+- 实践：
+  - 可以在任何位置对 数据进行任意的修改（不统一，容易出错，不建议）
+  - 最佳方式（使用严格模式，根据一定的规范化流程操作数据）
+  
+
+```js
+import React,{Component} from 'react'
+import {observableNumber,autorun} from 'mobx'
+
+// 对于普通类型数据的监听
+// 定义普通数据 observable.box()
+var Numbervalue = observable.box(10)
+// 监听,会自动执行一次，之后每次值(autorun中使用到的值)被改变时会再触发 autorun
+autorun(()=>{
+  console.log(Numbervalue.get())
+})
+// 修改数据
+Numbervalue.set(20)
+
+// 观察对象，通过map
+const myobj = observable.map({ name:'redux',age:100 })
+autorun(()=>{
+  console.log("name属性改变才执行，age改变不执行",myobj.get('name'))
+})
+myobj.set('name','mobx')
+
+// 观察对象，不通过map,直接定义直接用
+const myobj = observable({ key:"value" })
+// 获取：myobj.key     修改：myobj.key='new value'
+
+
+// 观察数组
+const list = observable([1,2,4])
+list[2] = 3;
+```
+
+```js
+// 开启严格模式，保持代码书写的合规（不允许在store外部随便修改数据）
+// 需要配置对应的修改方法，并把他们指定为action
+import {observable,configure} from 'mobx'
+configure({
+  enforceActions:"always"  // 开启严格模式，如果在外部任意修改会报错提示
+})
+// 定义数据，在专门的store.js中
+const store = observable({
+  isShow:true,
+  changeShow(){
+    this.isShow = true
+  },
+  changeHide(){
+     this.isShow = false
+  },
+},{
+  changeShow:action, // 标记这两个方法是action，专门修改可观测的value
+  changeHide:action
+})
+export default store
+
+// 在其他位置使用时
+import store from './xxx/xxx/store.js'
+store.changeShow()
+```
+
+```js
+// 异步的 使用 runInaction
+import { runInaction } from 'mobx'
+class Store {
+  getLIst(){
+    axios({.....}).then(res=>{
+      // 在执行getList时，axios会立即返回promise对象，并不会等待then回调，mobx严格模式下会报错
+      
+    })
+  }
+}
+```
+
+
+
+```jsx
+// 定义store  store/Timer.js
+import {makeAutoObservable} from 'mobx'
+
+export class Timer {
+  secondPassed = 0;
+  constructor(){
+    makeAutoObservable(this);
+  }
+  increase(){
+    this.secondsPasses+=1;
+  }
+  async decrement(){
+    const res = await new Promise((resolve)=>{
+      setTimeout(()=>{
+        resolve(1)
+      },500)
+    })
+    runInAction(()=>{
+      this.secondsPasses -= res
+    })
+  }
+  reset(){
+    this.secondsPasses=0;
+  }
+}
+export default new Timer();
+
+// 使用
+import {observer} from 'mobx-react-dom'
+import Timer from './store/Timer'
+functon TimeView(timer){
+  return (
+    <div>
+      <h1>{timer.secondsPasses}</h1>
+      <button onClick={()=>{ timer.increase }}>add</button>
+      <button onClick={()=>{ timer.increase }}>add</button>
+    </div>
+    
+  )
+}
+
+export default observer(TimerView)
+
+
+// mobx中发送异步请求，使用runInAction包裹异步处理中的数据修改操作
+
+```
+
+![image-20230321111730200](./images/React/image-20230321111730200.png?lastModify=1679561261)
+
+
+
+
+
+#### Recoil
+
+> facebok推出新一代React状态管理工具
+>
+> - 只能用在react体系框架中 preact react（其他框架体系中无法使用）
+> - 不能在类组建中使用 Recoil（使用 hooks 实现）
+> - Recoil 中的状态默认是 Immutable（ Object.freeze() 不可更改）
+
+- 状态管理现状
+
+  - redux
+    - 集中式状态管理（单一数据流）
+    - 学习成本陡峭（store / state / action / reducer ）
+    - 非官方（redux / redux-thunk / redux-saga / redux-promise ）
+  - recoil
+    - 分散的状态管理（ Atom / Selector ）
+    - 上手快（ Hooks语法 ）
+  - 区别：
+    - redux是树形结构的状态，当层级较深时，内部改变需要逐级传递，甚至可能造成不必要的外层节点更新影响性能
+
+  ![image-20230324235258972](images/React/image-20230324235258972.png)
+
+
+
+- 最佳实践
+
+  - atom （原子状态）
+    - atom 是存储状态的最小单位
+    
+    - 副作用：当状态更新时执行的其他逻辑
+    
+    - Immutable 的优势（默认是不可变）
+    
+      - 降低 Mutable带来的复杂度，避免被随意修改
+      - 状态更新时，节省内存空间
+      - 拥抱函数式编程
+    
+      ![image-20230325140322525](images/React/image-20230325140322525.png)
+    
+    - atomFamily 允许传参
+    
+  - selector选择器 （衍生状态 ｜ 计算状态）
+    - selector 是以其他状态（atom｜selector ）为参数的纯函数
+    - selectorFamily  允许传参
+    - constSelector
+    - errorSelector
+    - get方法，获取原子状态或其他状态
+    - cachePolicy：选择缓存策略，目前不稳定
+    - ![image-20230325140631354](images/React/image-20230325140631354.png)
+  
+  ```jsx
+  // 安装
+  npm install recoil
+  
+  // 使用
+   - 初始状态 RecoilRoot
+   - 定义状态 atom ｜ selector
+   - 使用状态	Recoil Hooks
+   
+   
+  // 包裹组件，作为根外层
+  import React from 'react';
+  import { RecoilRoot, atom, selector } from 'recoil';
+  
+  function App() {
+    return (
+      <RecoilRoot>
+        <CharacterCounter />
+      </RecoilRoot>
+    );
+  }
+  ```
+  
+  
+
+
+
 
 
 
@@ -2225,14 +2382,13 @@ yarn add antd
   - 路由的配置
   - 动态路由
   - React路由的原理
-- Redux-Saga   **周六**
+- Redux-Saga
   - ![image-20221020190402295](images/React/image-20221020190402295.png)
   - ![image-20221020190428101](images/React/image-20221020190428101.png)
 - D3.js  v4.x  **周日**
   - 基本用法、曲线图、柱状图。。。
   - ![image-20221020191024040](images/React/image-20221020191024040.png)
   - ![image-20221020191037747](images/React/image-20221020191037747.png)
-  - ![image-20221020191046378](images/React/image-20221020191046378.png)
 - git
   - [Git教程 - 廖雪峰的官方网站 (liaoxuefeng.com)](https://www.liaoxuefeng.com/wiki/896043488029600)
   - [Git 原理入门 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2018/10/git-internals.html)
@@ -2252,3 +2408,316 @@ yarn add antd
 
 
 
+## React+
+
+- [React 基础部分笔记](https://www.yuque.com/fechaichai/qeamqf/xbai87#e3638cf5)
+- [React Router6 基础部分](https://www.yuque.com/fechaichai/qeamqf/smoknz#JRD2D)
+
+
+
+### 入口文件
+
+```js
+// react 18 及以后
+import ReactDOM from 'react-dom';
+import App from 'App';
+
+// 创建root
+const root = ReactDOM.createRoot(document.getElementById('root'));
+//通过root渲染App
+root.render(<App />);
+            
+            
+// react 17及之前
+import ReactDOM from 'react-dom';
+import App from 'App';
+
+ReactDOM.render(<App />, document.getElementById('root'););
+```
+
+
+
+### 自带标签
+
+
+
+#### Fragment 空标签
+
+- 等同于`<></>` ，表示空标签
+
+
+
+#### Helmet 动态head
+
+- 用来在页面组件中动态修改页面的`<head>`中的标签，如修改标题`<title>`、`<link>` `<meta>`等时，可以用这个实现
+
+```jsx
+import { Helmet } from 'react-helmet-async';
+
+<Helmet>
+	<title> User: Account Settings | Minimal UI</title>
+</Helmet>
+```
+
+
+
+### 常见的Hook
+
+> - 函数式组件无生命周期的概念
+> - Hook是React 16.8.0版本增加的新特性/新语法
+> - hooks只能用在函数式组件中（ 可以通过开发者工具查看hooks状态 ）
+> - 只能在**函数最外层**调用 Hook，不能嵌套在if/for/其它函数中调用（react按照hooks的调用顺序识别每一个hook） 
+
+- useState     `[ value,setValue ] = useState( defaultValue )`
+- useEffect      副作用 `useEffect(()=>{...})`
+- useContext    实现跨组件间的数据传输
+
+- useReducer
+- useCallback
+- useMemo
+- useRef
+- 自定义hook：实质就是个外部定义的函数，换成类似hook的写法
+- [React 18 新hooks](https://zhuanlan.zhihu.com/p/562815409)
+  - useId   生成全局唯一id，可以用在client和service端
+  - useTransition：
+    - 搭配`startTransition`来使用，如果用户需要在UI上感知到transition，react提供了一个hooks`useTransition`来获取transition的状态。
+  - useDeferredValue
+    - `deferring（延迟）`一个值，跟我们经常提到的debounce和throttle有点类似。在React 18中，当传递给`useDeferredValue`的值发生变化时，React会根据当前**渲染的优先级**来返回之前的值或者是最新的值
+  - **useSyncExternalStore**
+    - 
+
+
+
+
+
+##### useState hook
+
+```jsx
+(1). State Hook让函数组件也可以有state状态, 并进行状态数据的读写操作
+(2). 语法: const [xxx, setXxx] = React.useState(initValue)  
+(3). useState()说明:
+        参数: 第一次初始化指定的值在内部作缓存 initValue是初始值  xxx是数据名  setXxx修改数据的函数
+        返回值: 包含2个元素的数组, 第1个为内部当前状态值, 第2个为更新状态值的函数
+					数组的解构赋值，只需位置对应，命名随意
+(4). setXxx()2种写法:
+        setXxx(newValue): 参数为非函数值, 直接指定新的状态值, 内部用其覆盖原来的状态值
+        setXxx(value => newValue): 参数为函数, 接收原本的状态值, 返回新的状态值, 内部用其覆盖原来的状态值
+```
+
+![image-20230329185514560](images/React/image-20230329185514560.png)
+
+
+
+
+
+##### useEffect hook
+
+```jsx
+(1). Effect Hook 可以让你在函数组件中执行副作用操作(用于模拟类组件中的生命周期钩子)
+(2). 常见的副作用操作:
+        发ajax请求数据获取
+        设置订阅 / 启动定时器
+        手动更改真实DOM
+        localstorage
+(3). 语法和说明: 
+        useEffect(() => { 
+          // 在此可以执行任何带副作用操作
+          return () => { // 在组件卸载前执行 return
+            // 在此做一些收尾工作, 比如清除定时器/取消订阅等
+          }
+        }, [stateValue]) 
+  // 第二个参数如果指定的是[], 回调函数只会在第一次render()后执行一次，
+	// 如果不写，会检测所有数据变化时就执行，\
+	// 如果传入数据名，会检测数据变化时再执行
+    
+(4). 可以把 useEffect Hook 看做如下三个函数的组合
+        componentDidMount()
+        componentDidUpdate()   
+    		componentWillUnmount()   // 有return返回值时，可当成componentWillUnmount钩子
+
+
+
+// 相当于 componentDidMount 和 componentDidUpdate:
+// 可以访问到组件的 props 和 state。在每次渲染后调用副作用函数 —— 包括第一次渲染时
+  useEffect(() => {    
+      // 使用浏览器的 API 更新页面标题   
+      document.title = `You clicked ${count} times`;  
+  });
+```
+
+
+
+
+
+
+
+##### useRef
+
+- 与类式组件中的 React.createRef()  用法一致
+
+- current属性存放拿到的dom对象
+
+- ```jsx
+  (1). Ref Hook可以在函数组件中存储/查找组件内的标签或任意其它数据
+  (2). 语法1: const refContainer = React.useRef()
+  		 语法2: import { useRef,useEffect } from "React"
+  						const h1ref = useRef(null)
+              
+              useEffect(()=>{
+                console.log(h1ref.current)
+              },[])
+              
+              `<div ref={ h1ref }></div> `
+  (3). 作用:保存标签对象,功能与React.createRef()一样
+  ```
+
+  
+
+##### useContext
+
+- 实现跨组件间的数据传输
+
+```jsx
+1. 使用createContext 创建Context对象
+2. 在顶层组件通过Provider 提供数据
+3. 在底层组件通过useContext函数获取数据
+import { createContext, useContext } from 'react'
+// 创建Context对象
+const Context = createContext()
+
+function Foo() {  
+    return <div>Foo <Bar/></div>
+}
+
+function Bar() {  
+    // 底层组件通过useContext函数获取数据  
+    const name = useContext(Context)  
+    return <div>Bar {name}</div>
+}
+
+function App() {  
+    return (    
+        // 顶层组件通过Provider 提供数据    
+        <Context.Provider value={'this is name'}>     
+            <div><Foo/></div>    
+        </Context.Provider>  
+    )
+}
+
+export default App
+```
+
+![image-20230330110824808](images/React/image-20230330110824808.png)
+
+
+
+##### 自定义hook
+
+
+
+
+
+#### 18新hooks
+
+
+
+##### useId
+
+- `useId`是一个生成全局唯一id的hooks，它可以用在client和service端，从而可以避免水化过程中的不匹配，下面是一个简单的示例
+
+```jsx
+const CheckBox = () => {
+  const id = useId();
+  return (
+    <>
+      <label htmlFor={id}>Do you like React?</label>
+      <input type="checkbox" name="react" id={id} />
+    </>
+  )
+}
+```
+
+
+
+- 
+
+
+
+
+
+
+
+### react-router-dom
+
+- 127
+- https://www.yuque.com/fechaichai/qeamqf/smoknz#JRD2D
+
+- useParams
+  - 返回URL参数的键/值对的对象。
+
+```jsx
+import { useNavigate, useParams } from 'react-router-dom';
+
+const param = useParams();
+console.log(param.id)
+
+/* 路由配置中制定路径参数 :id
+{
+    path: '/instance/trajectory/detail/:id',
+    component: lazy(() => import('../layouts/instance/trajectory/detail')),
+  },
+*/
+```
+
+
+
+
+
+### react-hook-form
+
+- https://www.jianshu.com/p/fa6e3d76bcaa
+
+```jsx
+yarn add react-hook-form
+
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, errors } = useForm(); // initialise the hook
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input name="firstname" ref={register} /> {/* register an input */}
+      <input name="lastname" ref={register({ required: true })} />
+      {errors.lastname && 'Last name is required.'}
+      <input name="age" ref={register({ pattern: /\d+/ })} />
+      {errors.age && 'Please enter number for age.'}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 性能优化
+
+#### useLayoutEffect/useEffect
+
+- useLayoutEffect 和 useEffect 的最大差别在于执行时机的不同，useEffect 会在浏览器绘制完成之后调用，而 useLayoutEffect 则会在 React 更新 dom 之后，浏览器绘制之前执行，并且会阻塞后面的绘制过程，因此适合在 useLayoutEffect 中进行更改布局、及时获取最新布局信息等操作。
+- 使用场景：
+  - 为了避免在 React render中多次声明 ResizeObserver 实例，我们可以把实例化过程放在 useLayoutEffect 或 useEffect 中。并且在非 SSR 场景中，我们应该尽量使用 useLayoutEffect 而不是 useEffect。

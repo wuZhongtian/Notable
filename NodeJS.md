@@ -166,7 +166,7 @@ buf3.write('abc');             // 按照ASCLL表的价值，转16进制，存在
 #### [NVM](https://www.cnblogs.com/cencenyue/p/10430618.html)
 
 - [Releases · coreybutler/nvm-windows · GitHub](https://github.com/coreybutler/nvm-windows/releases)
-
+- https://github.com/nvm-sh/nvm
 - Node版本的管理工具 当需要多个版本的node时，使用Nvm可以同时管理过个版本；
 
 - `安装Nvm之前，需要删除现有的node`
@@ -210,6 +210,8 @@ nvm uninstall 版本号      # 卸载指定版本的node
 nvm use 版本号            # 选择使用指定版本的node
 nvm on         # 启用node.js版本管理，即nvm
 nvm off        # 禁用nvm，但不卸载任何版本
+
+nvm alias default 版本号		# 设置node的默认版本号
 ```
 
 - **Yarn——新的包管理工具**
