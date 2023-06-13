@@ -2239,6 +2239,21 @@ class Store {
 
 
 ```jsx
+//1.通过React的lazy函数配合import()函数动态加载路由组件 ===> 路由组件代码会被分开打包
+// 注：fallback中的组件不能采用懒加载方式引入，必须使用原始引入方式
+import Loading from './Loading'
+const Login = lazy(()=>import('@/pages/Login'))
+	
+//2.通过<Suspense>指定在加载得到路由打包文件前显示一个自定义loading组件
+(<Suspense fallback={<Loading/>}>
+      <Switch>
+            <Route path="/xxx" component={Xxxx}/>
+            <Redirect to="/login"/>
+       </Switch>
+ </Suspense>)
+```
+
+```jsx
 // 定义store  store/Timer.js
 import {makeAutoObservable} from 'mobx'
 
@@ -2290,8 +2305,12 @@ export default observer(TimerView)
 ![image-20230321111730200](./images/React/image-20230321111730200.png?lastModify=1679561261)
 
 
+#### Hooks
 
+> (1). Hook是React 16.8.0版本增加的新特性/新语法
+> (2). 可以让你在函数组件中使用 state 以及其他的 React 特性
 
+##### state hook
 
 #### Recoil
 
@@ -2721,3 +2740,213 @@ function App() {
 - useLayoutEffect 和 useEffect 的最大差别在于执行时机的不同，useEffect 会在浏览器绘制完成之后调用，而 useLayoutEffect 则会在 React 更新 dom 之后，浏览器绘制之前执行，并且会阻塞后面的绘制过程，因此适合在 useLayoutEffect 中进行更改布局、及时获取最新布局信息等操作。
 - 使用场景：
   - 为了避免在 React render中多次声明 ResizeObserver 实例，我们可以把实例化过程放在 useLayoutEffect 或 useEffect 中。并且在非 SSR 场景中，我们应该尽量使用 useLayoutEffect 而不是 useEffect。
+
+
+
+
+
+
+#### 组件优化
+
+1. Component的2个问题 
+
+   > 1. 只要执行setState(),即使不改变状态数据, 组件也会重新render() ==> 效率低
+   >
+   > 2. 只要当前组件重新render(), 就会自动重新render子组件，纵使子组件没有用到父组件的任何数据 ==> 效率低
+
+2. **原因**：Component中的 shouldComponentUpdate() 生命周期钩子总是返回 true
+
+3. 解决：
+
+   ```js
+   // 办法1: 
+   	借助shouldComponentUpdate()生命周期钩子
+   	比较新旧state或props数据, 如果有变化才返回true, 如果没有返回false
+       //控制组件更新的“阀门”
+       shouldComponentUpdate(nextProps,nextState){
+           console.log(this.props,this.state);  // 当前的props和state
+           console.log(nextProps,nextState); 	// 接下来要变化的目标props和目标state
+           return !this.state.xxx===nextState  // 可根据值得变化控制是否掉 render函数
+       }
+   
+   // 办法2:  
+   	使用PureComponent
+   	PureComponent重写了shouldComponentUpdate(), 只有state或props数据有变化才返回true
+   // 注意: 
+   	只是进行state和props数据的浅比较, 如果只是数据对象内部数据变了, 返回false  
+   	因此不要直接修改state数据, 而是要产生新数据
+   
+   
+   // 项目中一般使用PureComponent来优化
+   // 1.引入 PureComponent
+   import React,{PureComponent} from 'react'
+   // 2.使用PureComponent创建组件
+   export default class Count extends PureComponent {
+       xxx...
+   } 
+   
+   ```
+   
+   
+
+
+
+#### 错误边界
+
+> 错误边界(Error boundary)：用来捕获后代组件错误，渲染出备用页面
+
+- 特点：
+
+  只能捕获后代组件生命周期产生的错误，不能捕获自己组件产生的错误和其他组件在合成事件、定时器中产生的错误
+
+- 使用方式：
+
+  ```js
+  // getDerivedStateFromError 配合 componentDidCatch
+  state={hasError:""}
+  // 生命周期函数，一旦后代组件报错，就会触发
+  static getDerivedStateFromError(error) {
+      console.log(error);
+      // 在render之前触发
+      // 返回新的state
+      return {
+          hasError: true,
+      };
+  }
+  
+  componentDidCatch(error, info) {
+      // 统计页面的错误。发送请求发送到后台去
+      console.log(error, info);
+  }
+  ```
+
+  
+
+
+
+#### render props
+
+> 向组件内部动态传入带有内容的结构（标签/组件）
+
+```
+Vue中: 
+	使用slot技术, 也就是通过组件标签体传入结构  <A><B/></A>
+React中:
+	使用children props: 通过组件标签体传入结构
+	使用render props: 通过组件标签属性传入结构,而且可以携带数据，一般用render函数属性
+```
+
+- children props
+
+	<A>
+	  <B>xxxx</B>
+	</A>
+	{this.props.children}
+	问题: 如果B组件需要A组件内的数据, ==> 做不到 
+
+- render props
+
+	`<A render={(data) => <C data={data}></C>}></A>`
+	A组件: {this.props.render(内部state数据)}
+	C组件: 读取A组件传入的数据显示 {this.props.data} 
+
+
+
+
+
+
+
+### 周边库
+
+
+
+#### react-cookies
+
+> 可设置失效时间。如果在浏览器端生成Cookie，默认是关闭浏览器后失效
+> 大小4K左右
+> 每次都会携带在HTTP头中，如果使用cookie保存过多数据会带来性能问题
+> 存在 XSS 注入的风险，只要打开控制台，就可以随意修改它们的值
+
+```js
+// 下载依赖
+cnpm install  react-cookies --save-dev
+// 引入
+import cookie from 'react-cookies'
+
+cookie.save('userId', "123"); // 存
+cookie.load('userId')    // 取
+cookie.remove('userId')  // 删
+
+// 设置失效时间
+let inFifteenMinutes = new Date(new Date().getTime() + 24 * 3600 * 1000);//一天
+cookie.save('userId', "123",{ expires: inFifteenMinutes });
+
+// 补充：
+名字相同cookie是可以同时存在的，cookie不仅有名字和值两个属性，还有域（domain）、路径（path）等属性，不同的域、不同的路径下可以存在同样名字的cookie。
+
+```
+
+
+
+
+
+
+
+#### [Ant Design](https://ant.design/index-cn)
+
+- 按需引入：[在 create-react-app 中使用 - Ant Design](https://3x.ant.design/docs/react/use-with-create-react-app-cn)
+- 自定义主题：
+  - [在 create-react-app 中使用 - Ant Design](https://3x.ant.design/docs/react/use-with-create-react-app-cn)
+  - [定制主题 - Ant Design](https://3x.ant.design/docs/react/customize-theme-cn)
+
+```js
+// 1.安装
+yarn add antd
+// 2.看文档使用即可
+```
+
+
+
+
+
+
+
+
+
+
+
+### 没看的部分
+
+- 123-125   性能优化
+- 127+
+- 路由：
+  - 路由的配置
+  - 动态路由
+  - React路由的原理
+- Redux-Saga   **周六**
+  - ![image-20221020190402295](images/React/image-20221020190402295.png)
+  - ![image-20221020190428101](images/React/image-20221020190428101.png)
+- D3.js  v4.x  **周日**
+  - 基本用法、曲线图、柱状图。。。
+  - ![image-20221020191024040](images/React/image-20221020191024040.png)
+  - ![image-20221020191037747](images/React/image-20221020191037747.png)
+  - ![image-20221020191046378](images/React/image-20221020191046378.png)
+- git
+  - [Git教程 - 廖雪峰的官方网站 (liaoxuefeng.com)](https://www.liaoxuefeng.com/wiki/896043488029600)
+  - [Git 原理入门 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2018/10/git-internals.html)
+  - merge、cherry-pick、reset、checkout、branch...
+  - github  基本使用
+- Linux基本使用（看pdf网站？）
+- JS代码规范（看pdf网站？）
+- JS知识
+  - webpage 教程？
+  - babel教程？
+  - js设计模式（看pdf网站？）
+- [HTML+CSS基础教程-慕课网 (imooc.com)](https://www.imooc.com/learn/9)
+- [SVG 图像入门教程 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2018/08/svg.html)
+- 
+
+
+
+
+
