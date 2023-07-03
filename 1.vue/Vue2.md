@@ -542,9 +542,7 @@ vue中也使用的 get 和 set 进行监听，实现数据代理。
 
 #### 列表渲染
 
-- 遍历数组：<span style='color:hotpink'>`v-for ="(item,index) in xxx" :key="yyy"`</span>
-  - `item`和`index`是两个参数值，分别是遍历的自定义子项、遍历的索引值
-- 遍历对象：<span style='color:hotpink'>`v-for ="(value,key) in xxx" :key="yyy"`</span>
+- 遍历 数组/对象：<span style='color:hotpink'>`v-for ="(value,key) in xxx" :key="yyy"`</span>
   - 第一个参数表示`value`，第二个参数表示对象的键`key`
 - 遍历字符串：<span style='color:hotpink'>`v-for ="(char,index) in xxx" :key="yyy"`</span>
   - 第一个参数表示index对应的字符，第二个参数表示字符串中每个字符的索引值
@@ -612,7 +610,7 @@ vue中也使用的 get 和 set 进行监听，实现数据代理。
   - 若结构中存在输入类DOM，页面更新出现不对应的bug
 - 推荐`key`
   - 最好使用每条数据的唯一标识作为`key`，如：手机号、身份证号、id、学号等
-  - 如果不存在对数据的逆序操作(逆序添加、逆序删除)，且仅用于渲染列表用于展示时可使用`index`
+  - 如果不存在对数据的逆序操作( 逆序添加、逆序删除)，且仅用于渲染列表用于展示时可使用`index`
 
 ![image-20220825120136862](images/Vue2/image-20220825120136862.png)
 
@@ -925,7 +923,7 @@ new Vue({
         //侦听属性
             watch: {
             // 第一步：拿到输入的数据，第二步：根据输入的数据进行数据筛选
-                 keyWord: {
+            	keyWord: {
                  immediate: true,
              //第一次执行，newvalue为空的字符串，所有字符串默认都包含空的字符串，因此所有的数据第一次都能显示
                  handler(newvalue) {
@@ -1032,9 +1030,9 @@ new Vue({
               name: '吴老板',
               age: 18
           }
-          //创建一个监视的实例对象，用于监视data数据的变化
+      //创建一个监视的实例对象，用于监视data数据的变化
       const obj = new Observer(data)
-      //准备一个vm实例对象
+      //准备一个vm实例对象 
       let vm = {};
       vm._data = data = obj;
       function Observer(obj) {
