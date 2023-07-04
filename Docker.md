@@ -25,8 +25,10 @@ cat  # 查看
 cat /etc/redhat-release		# 查看系统版本
 
 # ubuntu
-lsb_release -a			# 查看系统版本
-
+sudo 					# 执行命令没有权限时，在命令前加 sudo
+lsb_release -a				# 查看系统版本
+apt update				# 更新系统的软件包管理器
+apt-get -y install xxx 	 # 安装指定软件
 ```
 
 
@@ -174,9 +176,30 @@ docker exec -it 容器id /bin/bash（bashshell位置） # 在容器中打开新�
 docker attach 容器id	# 直接进入容器的命令终端，不会启动新的进程1，exit退出会导致容器的停止
 
 
+docker cp 容器id:容器没的路径 目的主机路径 # 从容器内拷贝文件到主机上（例：docker cp dbaguhug29uda:/usr/local/con.txt /tem/c.txt）
+docker export 容器id>文件名.tar # 导出容器的内容流作为一个tar归档文件(例：docker export dbaguhug29uda>abcd.tar )
+cat 文件名.tar | docker import - 镜像用户/镜像名:镜像版本号 # 从tar包导入镜像文件(例：cat abcd.tar | docker import - hahaha:0.0.1)
+
+
+
+docker commit -m='提交的描述信息' -a='作者' 容器id 要创建的镜像名:[tag标签名]	# 提交容器副本，生成一个新的镜像，生成后通过docker images查找并使用（例：docker commit -m="add vim cmd" -a='wzt' 容器id vimUbuntu:1.0）
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 其他重要内容：
  - 有镜像才能创建容器-根本前提
  - 守护式容器：不进入对应的交互式命令窗口
+ - 出现apt update失败时，可尝试重启docker解决
 
 ##  其他习惯
 - docker run 运行后，使用docker ps应该能看到对应的程序，如果没有说明失败/被关闭了（docker机制问题：后台进程模式的应用，导致docker前台没有运行的应用，会认为无事可做，立即自杀）
@@ -257,7 +280,37 @@ sudo docker info
 
 
 
-## p22-容器命令E
+
+
+
+
+#### Docker镜像
+
+> docker镜像：是一种轻量级、可执行的独立软件包，包含运行某个软件所需的所有内容。将应用程序和配置依赖打包好形成一个可交付的运行环境。
+
+##### UnionFS联合文件系统
+
+> 是一种分层、轻量且高性能的文件系统。支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂在到同一个虚拟文件系统下。
+>
+> 是Docker镜像的基础，镜像通过分层来进行继承，基于基础镜像，可以制作各种具体的应用镜像.
+>
+> ![image-20230704162227434](images/Docker/image-20230704162227434.png)
+
+
+
+##### 概念：
+
+- docker镜像层都是只读的，容器层是可写的
+- 可在原有镜像的基础上追加内容，并生成自己的镜像，类似虚拟机的快照
+- Docker中的镜像分层，支持通过扩展现有镜像，创建新的镜像。类似Java继承于一个Base基础类，自己再按需扩展。新镜像是从 base 镜像一层一层叠加生成的。每安装一个软件，就在现有镜像的基础上增加一层
+
+![img](https://office-cn-beijing.imm.aliyuncs.com/api/v3/office/copy/SDRYUEVXQ0RPUEdJeWo5dWMzL052aWhJVXpNOHo0RlNDMmVWelJML2ZkUWNGQTJGc29zNTNTd0lOaFRySURNYWlTVktycnNyMi9hMWpVYjJoejBucWszeFBCdWxlZjBhSkxSKzZtdHRYaHh5TXpQLzE2K3BJOUgya0hram9ZRjl4MEN4d1E4a1l2bWhJRlJEcmZrWjc5MUppQ0FlbnNaTjQrMnJJYkRzRGQvU2crZzVjUGt3ajRvSndJSkRZUHZvcTFNeit4K1FvT0krRnZ3LzlWRFRJTytCcVY5NDRvUnV2azA5MjVYVURWczRpbDZPdEpXWkVPbkY=/attach/object/3b43436a8951c0979e65b24c0df88e22859fb3a9)
+
+
+
+
+
+## p26-
 
 
 
