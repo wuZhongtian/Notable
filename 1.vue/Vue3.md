@@ -134,28 +134,28 @@ createApp(App).mount('#app')  // app为index.html容器的id
     }
     ```
 
+- 父组件中绑定事件
+
+  ```vue
+  <my-component
+    v-on:close="handleComponentEvent"
+    v-on:click="handleNativeClickEvent"
+  />
+  ```
+  
+- 子组件中声明自定义事件
+
+  ```vue
+  <script>
+    export default {
+      emits: ['close']
+    }
+  </script>
+  ```
+
 - <strong style="color:#DD5145">移除</strong>keyCode作为 v-on 的修饰符，同时也不再支持```config.keyCodes```
 
 - <strong style="color:#DD5145">移除</strong>```v-on.native```修饰符
-
-  - 父组件中绑定事件
-
-    ```vue
-    <my-component
-      v-on:close="handleComponentEvent"
-      v-on:click="handleNativeClickEvent"
-    />
-    ```
-
-  - 子组件中声明自定义事件
-
-    ```vue
-    <script>
-      export default {
-        emits: ['close']
-      }
-    </script>
-    ```
 
 - <strong style="color:#DD5145">移除</strong>过滤器（filter）
 
