@@ -189,13 +189,6 @@ docker commit -m='提交的描述信息' -a='作者' 容器id 要创建的镜像
 
 
 
-
-
-
-
-
-
-
 # 其他重要内容：
  - 有镜像才能创建容器-根本前提
  - 守护式容器：不进入对应的交互式命令窗口
@@ -308,13 +301,111 @@ sudo docker info
 
 
 
+#### 本地镜像发布到云仓库
+
+- 案例：阿里云 镜像容器服务
+
+  ```shell
+  # 1.阿里云 开通 镜像容器服务
+  # 2.本地docker登录，（阿里云会提供对应命令）
+  
+  # 登录阿里云Docker Registry
+  docker login --username=wuzhongtian registry.cn-wulanchabu.aliyuncs.com
+  
+  # PULL - 从Registry中拉取镜像
+  docker pull registry.cn-wulanchabu.aliyuncs.com/wuzt/wuzt:[镜像版本号]
+  
+  # PUSH - 将想要推送的容器打成tag
+  docker tag [ImageId] registry.cn-wulanchabu.aliyuncs.com/wuzt/wuzt:[镜像版本号]
+  # 将镜像推送到Registry
+  docker push registry.cn-wulanchabu.aliyuncs.com/wuzt/wuzt:[镜像版本号]
+  
+  
+  ```
+
+  
 
 
-## p26-
+
+#### 本地镜像推送到私有库 registry
+
+[28_新镜像推送私服库案例_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY/?p=28&spm_id_from=pageDriver&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
+
+```shell
+# 运行 registry 搭建私有库
+docker run -d -p 5000:5000 -v /zzyyuse/myregistry/:/tem/registry -- privileged=true registry
+# docker ps 查看registry的镜像id
+
+apt-get update   # 更新软件源
+apt-get install net-tools  # 安装net-tools，可以使用ifconfig命令
+
+# 发起get请求，查看私有库中镜像
+curl -XGET http://192.xxx.xxx:5000/v2/_catalog
+
+# 将镜像修改为符合私服规范的Tag
+docker tag 镜像名:tag名 自己主机的ip地址:端口/镜像名称:版本
+（例：docker tag wuzt:1.0 192.18.111.167:5000/wuzt:1.0 ）
+
+# 修改配置，支持http传输
+## docker默认不允许http方式推送镜像，通过配置选项来取消这个限制。修改完不生效时，可尝试重启docker
+## vim命令新增如下红色内容:  
+vim /etc/docker/daemon.json
+{
+	"registry-mirrors":["https://aa25jnbu.mirror.aliyuncs.com"],
+	"insecure-registries":["192.xxx.xxx:5000"]
+}
+
+# 将本地容器推送放到私服库
+docker push id地址:端口/镜像名称:tag
+（例：docker push 192.168.111.167:5000/wuzt:1.2）
+
+# 发起get请求，查看私有库中镜像
+curl -XGET http://192.xxx.xxx:5000/v2/_catalog
+
+# 拉取代码
+docker pull 192.168.111.167:5000/wuzt:1.2
+```
 
 
 
+![image-20230710132904250](images/Docker/image-20230710132904250.png)
 
+![image-20230710120033045](images/Docker/image-20230710120033045.png)
+
+
+
+#### docker容器数据卷
+
+> 容器数据卷：完成数据持久化存储的方式，将重要资料备份；方式：将容器内的数据备份+持久化到本地主机目录( 映射，容器内的数据到本地主机目录)
+>
+> - 卷：含义是目录或文件，存在于一个或多个容器中，由docker挂载到容器，但不属于镜像的联合文件系统的内容，提供用于持续存储或共享数据的特性
+> - 卷：设计目的就是`数据持久化`，完全独立于容器的生命周期，因此不会在容器删除时删除其挂载的数据卷
+
+- 特点：
+  1. 数据卷可在容器之间共享和重用数据
+  2. 卷中更改-实时生效，不需要手动拷贝
+  3. 数据卷中的更改不会包含在镜像的更新中
+  4. 数据卷的生命周期一直在持续到没有容器使用它为止
+- 权限扩容：
+  - 问题：Docker挂载主机目录访问，如果出现`cannot open directory:Permission denied`
+  - 解决办法：在挂载目录后多加一个 `--privileged=true`参数即可
+
+```shell
+# 命令：
+docker run -it --privileged=true -v /宿主机绝对路径:/容器内目录 镜像名
+
+
+例：docker run -d -p 5000:5000 -v /zzyyuse/myregistry/:/tem/registry --privileged=true registry
+
+# -v  运行一个带有容器卷存储功能的容器实例
+## /zzyyuse/myregistry/ 宿主机的路径
+## /tem/registry 容器内的地址 
+## --privileged=true 开启权限
+```
+
+
+
+## [31_容器卷和主机互通互联_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY/?p=31&spm_id_from=pageDriver&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
 
 ### 虚拟化技术
 
