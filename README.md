@@ -24,31 +24,38 @@
 
 - 已包含：
 
-  - [Vue](https://gitee.com/wzt521/personal-notes/tree/master/1.vue)、[React](https://gitee.com/wzt521/personal-notes/tree/master/2.React)、[小程序](https://gitee.com/wzt521/personal-notes/tree/master/3.小程序)、[NodeJS](https://gitee.com/wzt521/personal-notes/blob/master/NodeJS.md)、[H5C3](https://gitee.com/wzt521/personal-notes/blob/master/H5C3补充.md)、[Git](https://gitee.com/wzt521/personal-notes/blob/master/Git.md)、[数据库](https://gitee.com/wzt521/personal-notes/tree/master/4.数据库)、[js数据结构与算法](https://gitee.com/wzt521/personal-notes/blob/master/js数据结构与算法.md)
+  - [Vue](https://gitee.com/wzt521/personal-notes/tree/master/1.vue)、[React](https://gitee.com/wzt521/personal-notes/tree/master/2.React)、[小程序](https://gitee.com/wzt521/personal-notes/tree/master/3.小程序)、[NodeJS](https://gitee.com/wzt521/personal-notes/blob/master/NodeJS.md)、[TypeScript](https://gitee.com/wzt521/personal-notes/blob/master/TypeScript.md)、[H5C3](https://gitee.com/wzt521/personal-notes/blob/master/H5C3补充.md)、[Git](https://gitee.com/wzt521/personal-notes/blob/master/Git.md)、[数据库](https://gitee.com/wzt521/personal-notes/tree/master/4.数据库)、[js数据结构与算法](https://gitee.com/wzt521/personal-notes/blob/master/js数据结构与算法.md)
   - [JS设计模式](https://gitee.com/wzt521/personal-notes/blob/master/其他概念.md#设计模式)、[前端性能优化](https://gitee.com/wzt521/personal-notes/blob/master/其他概念.md#前端性能优化)、[常见概念及技巧](https://gitee.com/wzt521/personal-notes/blob/master/其他概念.md#概念)、云服务器使用教程、开发流程（其他概念.md）
   - 更多使用技巧隐藏其中！！！🎨🎨🎨
   - HTML、CSS、JS仅部分内容，大多数存在于手写笔记🤣
 
-- 计划中的内容：Vite（进程5%）、[TypeScript](https://gitee.com/wzt521/personal-notes/blob/master/TypeScript.md)（进程30%）、WebGL、mongoDB
+- 计划中的内容：Vite、WebGL、WebGPU、mongoDB
 
  - 记录 自学前端路上的点点滴滴！
 
    > - 学习历程 2020.11 - 至今
-   >  - 毕业于B站大学（全日制本科），持续课余学习长视频累计超过700小时
-   >   - 借助学校图书馆及自行购买相关书籍并看完的不低于8本
-   >   - 通过技术文档、b站推送、交流群、主动搜索等方式保持新技术敏感度
+   >
+   >   - 通过技术文档、相关书籍、b站、交流群、主动搜索等方式保持新技术敏感度
+   >
    > - 里程碑：
    >   - 2021.03  开发个人网站，使用云服务器及周边技术，曾改版四次
+   >   
    >   - 2021.09  独立全栈开发维护自动假条软件，获得收益，改版三次
+   >   
    >   - 2021.10-2022.02  通过网上接单锻炼能力，后续觉得不如继续学习有趣便停了
-   >   - 2022.06-至今，从事正式前端开发工作，持续沉淀技术中...！
+   >   
+   >   - 2022.06-2023.03，亚信科技前端开发
+   >   
+   >     > 至今很怀念那里的生活，一切都很好，但我有个愿望-杭州行
+   >   
+   >   - 2023.03-2023.06，杭州安托盟丘-前端开发
+   >   
+   >     > 怎么说呢？创业公司-一言难尽
 
 
 
 
 ### 查缺补漏
-
-range响应头，实现切片下载？
 
 - 通用编程基础
 
@@ -97,6 +104,7 @@ range响应头，实现切片下载？
 
 - 前端工程化
 
+  - 微前端框架？
   - Node.js
     - 进程管理
   - 打包构建工具
