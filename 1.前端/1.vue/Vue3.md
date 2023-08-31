@@ -1346,7 +1346,8 @@ const routes = [{
     ]
 }]
 const router = createRouter({
-    history:createWebHashHistory(),
+    history:createWebHashHistory(),	// # hash模式
+    // history:createWebHistory(),	// H5模式
     routes
 })
 export default router

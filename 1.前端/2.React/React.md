@@ -2509,7 +2509,7 @@ import { Helmet } from 'react-helmet-async';
 
 
 
-##### useState hook
+##### useState
 
 ```jsx
 (1). State Hook让函数组件也可以有state状态, 并进行状态数据的读写操作
@@ -2529,7 +2529,7 @@ import { Helmet } from 'react-helmet-async';
 
 
 
-##### useEffect hook
+##### useEffect
 
 ```jsx
 (1). Effect Hook 可以让你在函数组件中执行副作用操作(用于模拟类组件中的生命周期钩子)
@@ -2627,6 +2627,20 @@ export default App
 ```
 
 ![image-20230330110824808](images/React/image-20230330110824808.png)
+
+
+
+
+
+
+
+徐凡雅邀请你加入飞书视频会议
+会议主题：前端开发工程师-吴忠添-视频一面
+会议时间：8月3日 (今天) 14:00 - 15:00 (GMT+8)
+会议 ID：705 408 486
+会议链接：https://vc.feishu.cn/j/705408486加入飞书视频会议随时随地与团队成员高效协作https://vc.feishu.cn/j/705408486
+
+
 
 
 
@@ -2740,6 +2754,22 @@ function App() {
 - useLayoutEffect 和 useEffect 的最大差别在于执行时机的不同，useEffect 会在浏览器绘制完成之后调用，而 useLayoutEffect 则会在 React 更新 dom 之后，浏览器绘制之前执行，并且会阻塞后面的绘制过程，因此适合在 useLayoutEffect 中进行更改布局、及时获取最新布局信息等操作。
 - 使用场景：
   - 为了避免在 React render中多次声明 ResizeObserver 实例，我们可以把实例化过程放在 useLayoutEffect 或 useEffect 中。并且在非 SSR 场景中，我们应该尽量使用 useLayoutEffect 而不是 useEffect。
+
+
+
+#### React.memo
+
+> 函数组件，在任何情况下都会重新渲染，没有生命周期，官方提供React.memo优化手段
+
+- 用于函数组件，通过对前后props进行**浅比较**，如果前后props不一致，该组件将重新渲染，反之，不进行渲染，使用缓存中的组件。
+
+
+
+#### Memo
+
+![image-20230803105940870](images/React/image-20230803105940870.png)
+
+
 
 
 
