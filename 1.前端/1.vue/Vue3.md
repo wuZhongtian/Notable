@@ -378,6 +378,123 @@ export default{
 
 
 
+
+
+##### 模板引用
+
+> `ref` 是一个特殊的 attribute，和 `v-for` 章节中提到的 `key` 类似
+>
+> 允许我们在一个特定的 DOM 元素或子组件实例被挂载后，获得对它的直接引用
+
+使用细节
+
+- 如果不使用 `<script setup>`，需确保从 `setup()` 返回 ref 的引用input
+- 只可以**在组件挂载后**才能访问模板引用，初次渲染时元素不存在，值为null
+  - 可用 watchEffect 侦听模板引用的变化。
+
+```vue
+<script setup lang="ts">
+import { ref, watchEffect } from 'vue'
+
+// 声明一个 ref 来存放该元素的引用
+// 必须和模板里的 ref 同名
+const input = ref<HTMLInputElement | null>(null)
+
+watchEffect(() => {
+  if (input.value) {
+    input.value.focus()
+  } else {
+    // 此时还未挂载，或此元素已经被卸载（例如通过 v-if 控制）
+  }
+})
+    
+</script>
+
+<template>
+  <input ref="input" />
+</template>
+```
+
+
+
+
+
+##### v-for中的模板引用
+
+> 在 `v-for` 中使用模板引用时，对应的 ref 中包含的值是一个数组，它将在元素被挂载后包含对应整个列表的所有元素
+>
+> - 注意：ref 数组**并不**保证与源数组相同的顺序
+
+```vue
+<script setup>
+import { ref, onMounted } from 'vue'
+const list = ref([1,2,3])
+const itemRefs = ref([])
+onMounted(() => console.log(itemRefs.value))
+</script>
+<template>
+  <ul>
+    <li v-for="item in list" ref="itemRefs">
+      {{ item }}
+    </li>
+  </ul>
+</template>
+```
+
+
+
+
+
+##### 组件ref
+
+> 能够获得组件实例
+
+注意：
+
+- 使用了 `<script setup>` 的组件是**默认私有**的：一个父组件无法访问到一个使用了 `<script setup>` 的子组件中的任何东西，除非子组件在其中通过 `defineExpose` 宏显式暴露：
+
+```vue
+<script setup>
+import { ref, onMounted } from 'vue'
+import Child from './Child.vue'
+
+const child = ref(null)
+const a = ref(null)
+
+onMounted(() => {
+  // child.value 是 <Child /> 组件的实例
+})
+// 像 defineExpose 这样的编译器宏不需要导入
+defineExpose({
+  a
+})
+</script>
+
+<template>
+  <Child ref="child" />
+</template>
+```
+
+
+
+
+
+
+
+##### 函数模板引用
+
+> `ref` attribute 还可以绑定为一个函数，会在每次组件更新时都被调用。该函数会收到元素引用作为其第一个参数
+>
+> 需要使用动态的 `:ref` 绑定才能够传入一个函数。当绑定的元素被卸载时，函数也会被调用一次，此时的 `el` 参数会是 `null`
+
+```vue
+<input :ref="(el) => { /* 将 el 赋值给一个数据属性或 ref 变量 */ }">
+```
+
+
+
+
+
 #### reactive函数
 
 - 作用: 定义一个`对象类型`的响应式数据（基本类型，要用```ref```函数）

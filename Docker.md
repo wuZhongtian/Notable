@@ -325,7 +325,7 @@ docker pull 192.168.111.167:5000/wuzt:1.2
 
 
 
-#### docker容器数据卷
+#### 容器数据卷
 
 > 容器数据卷：完成数据持久化存储的方式，将重要资料备份；方式：将容器内的数据备份+持久化到本地主机目录( 映射，容器内的数据到本地主机目录)
 >
@@ -345,18 +345,65 @@ docker pull 192.168.111.167:5000/wuzt:1.2
 # 命令：
 docker run -it --privileged=true -v /宿主机绝对路径:/容器内目录 镜像名
 
-
 例：docker run -d -p 5000:5000 -v /zzyyuse/myregistry/:/tem/registry --privileged=true registry
 
 # -v  运行一个带有容器卷存储功能的容器实例
 ## /zzyyuse/myregistry/ 宿主机的路径
 ## /tem/registry 容器内的地址 
 ## --privileged=true 开启权限
+
+
+
+
+# 查看容器卷是否挂载成功
+docker inspect 容器id	# 查看容器内部细节的 Mounts配置， 
+
+
+
+# 默认容器卷 rw可读可写 ro只读 wo只写
+# 限制在容器内只能读，不能写
+docker run -it --privileged=true -v /宿主机绝对路径:/容器内目录:ro 镜像名 
+
+
+
+# 卷的继承和共享
+# 实现在容器2、3中继承某个容器原有的容器卷规则，进行继承容器卷
+- 容器1完成和宿主机的映射
+- 容器2继承容器1的卷规则
+
+docker run -it --privileged=true -v /宿主机绝对路径:/容器1目录:ro 镜像名1
+
+docker run -it --privileged=true -volumes-from 父类容器名 --name 容器名2 镜像名	# -volumes-from 简写 -v ：继承
 ```
 
 
 
-## [31_容器卷和主机互通互联_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY/?p=31&spm_id_from=pageDriver&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
+
+
+
+
+
+
+
+
+
+
+#### 常规软件安装
+
+1. 搜索镜像（dockerhub）
+2. 拉取
+3. 查看镜像
+4. 启动镜像 - 服务端口映射
+5. 停止容器
+6. 移除容器
+
+
+
+
+
+#### [35_tomcat安装上集_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY?p=35&spm_id_from=pageDriver&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
+
+
 
 ### 虚拟化技术
 
