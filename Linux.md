@@ -850,3 +850,24 @@ int mkfifo(const char *pathname, mode_t mode);
 
 ```
 
+
+
+
+
+
+
+
+
+
+
+## 使用解答
+
+
+
+### vm相关
+
+- [安装VMware Tools](https://blog.csdn.net/weixin_46829095/article/details/128528922)
+- [ubuntu虚拟机设置静态ip](https://blog.csdn.net/m0_57168310/article/details/128176238)
+
+
+

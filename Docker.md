@@ -47,6 +47,14 @@
 
 
 
+### 核心概念
+
+#### UnionFS 联合文件系统
+
+> UnionFS：一种分层、轻量级，高性能的文件系统，支持将文件系统的修改作为一次提交进行层层叠加，同时可以将不同目录挂载到同一虚拟文件系统下。
+
+
+
 
 
 
@@ -124,6 +132,8 @@ docker exec -it 容器id /bin/bash（bashshell位置） # 在容器中打开新�
 -d		## 后台运行容器并返回容器id，（守护式容器-后台运行）
 -i		## 以交互模式运行容器，通常与 -t 同时使用
 -t		## 为容器分配一个伪输入终端，通常与 -i 同时使用
+-p		## 小写p，主机端口:docker容器端口 -p 8080:8080
+-P		## 大写P，随机分配端口
 docker attach 容器id	# 直接进入容器的命令终端，不会启动新的进程1，exit退出会导致容器的停止
 
 
@@ -137,7 +147,7 @@ docker commit -m='提交的描述信息' -a='作者' 容器id 要创建的镜像
 
 
 
-
+docker build -t 镜像名:版本号 .		# 根据当前路径下的Dockerfile文件生成镜像
 
 
 # 其他重要内容：
@@ -399,13 +409,165 @@ docker run -it --privileged=true -volumes-from 父类容器名 --name 容器名2
 
 
 
+##### 安装/使用Mysql
+
+[37_mysql安装上集_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY?p=37&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
+
+....
 
 
-#### [35_tomcat安装上集_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY?p=35&spm_id_from=pageDriver&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
+
+
+
+### 进阶知识
+
+#### Dockerfile
+
+> 用来构建Docker镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本。能够通过“配置文件”形式，一次性安装完成多项任务。
+>
+> Dockerfile定义了进程需要的一切东西，涉及内容包括执行代码、文件、环境变量、依赖包、运行时环境、动态链接库、操作系统的发行版、服务进程、内核进程等等。
+>
+> 基础images镜像上多次commit生成新功能完整的镜像 == Dockerfile一次生成的镜像
+>
+> 一般将Dockerfile与项目文件放在同一文件夹下，执行Dockerfile，完成镜像打包
+
+
+
+- 使用三部曲：
+  1. 编写`Dockerfile`文件
+  2. `docker build 新镜像名:版本号 .` 命令，构建产生一个镜像
+  3. `docker run` 运行镜像容器实例
+- 基础知识
+  - 每条**保留字指令**都必须为**大写字母**，且后面至少跟一个参数
+  - 指令按照从上到下顺序执行
+  - `#` 表示注释
+  - 每条指令都会创建一个新的镜像层（基础镜像上新增内容为层），并对镜像进行提交
+- 总结
+  - Dockerfile - 面向开发者
+  - Docker镜像 - 交付标准
+  - Docker容器 - 涉及部署和运维
+
+
+
+```dockerfile
+# dockerfile 保留字
+
+FROM xxx:1.0 # 一般都出现在第一行，当前新镜像是基于哪个镜像的，指定一个已存在的镜像作为模板
+
+MAINTAINER # 镜像维护者的姓名和邮箱
+
+# 容器构建（docker build）时需要运行的命令
+## 格式1 shell 例子：RUN yum -y insatll vim
+## 格式2 exec 例子：RUN ["./test.php","dev","offline"]  等同 RUN ./test.php dev offline
+RUN <命令行命令>
+
+WORKDIR	# 指定创建容器后，终端默认打开的目录，默认/
+
+USER # 指定该镜像以什么用户去执行，默认为root
+
+# ENV  构建过程中设置环境变量
+## 这个环境变量在后续的任何RUN指令中使用，也可在其他指令中直接使用
+## 例：
+ENV MY_PATH /usr/mytest
+WORKDIR $MY_PATH
+
+VOLUME # 容器数据卷，用于数据保存和持久化工作
+# 例子：VOLUME
+
+ADD # 将宿主机目录下的文件拷贝进镜像且会自动处理URL和解压tar压缩包，相当于copy+解压
+
+# COPY - 类似ADD，拷贝文件和目录到镜像中
+## <src源路径>：源文件或者源目录
+## <dest目标路径>：容器内的指定路径，该路径不用事先建好，路径不存在的话，会自动创建
+COPY src dest 
+COPY ["src","dest"]
+
+EXPOSE # 当前容器对外暴露出的端口,一般放在末尾
+
+ CMD # 容器启动(docker run)后要做的事，格式与RUN命令相同
+ ## Dockerfile中可以有多个CMD命令，但只有最后一个生效，
+ ## 同时CMD会被docker run 启动容器时后面的内容替换掉，
+ 例子：
+ CMD ["catalina.sh","run"]
+ 当使用 docker run -it -p 80:80 3esahhd /bin/bash 时，cmd被替换
+ CMD ["/bin/bash","run"]
+ 
+ 
+ENTRYPOINT # 用来指定一个容器启动时要运行的命令
+## 类似于CMD指令，但是ENTRYPOINT不会被docker run后面的命令覆盖，而且这些命令行参数会被当作参数送给ENTRYPOINT指定的程序
+ENTRYPOINT ["nginx","-c"]	# 定参
+CMD ["/etc/ngnix/ngnix.conf"] # 变参
+
+
+```
+
+![image-20230908152525997](images/Docker/image-20230908152525997.png)
+
+
+
+
+
+![image-20230908003512758](images/Docker/image-20230908003512758.png)
+
+![image-20230908002746547](images/Docker/image-20230908002746547.png)
+
+
+
+
+
+##### Dockerflie示例
+
+```dockerfile
+FROM ubuntu
+MAINTAINER wuZhongtian<wuzhongtian666@qq.com>
+
+# 使用alpine版本的node
+FROM node:8-alpine
+# 复制项目到镜像的根目录中
+COPY . /dockernode/jwtDemo
+# 启动容器时，进入的目录
+WORKDIR /dockernode/jwtDemo
+# 安装node依赖,linux需要有网络，否则执行到RUN npm i会出现[Warning] IPv4 forwarding is disabled. Networking will not work，解决办法：https://blog.csdn.net/a772304419/article/details/100924842
+RUN npm i
+# 该向外暴露端口是jwtDemo项目的端口
+EXPOSE 3011
+ENTRYPOINT ["npm","start"]
+```
+
+
+
+
+
+#### 虚悬镜像
+
+> build构建 或 删除镜像时，出现错误，导致出现镜像名和版本都为`<none>`的情况，这种镜像被成为“虚悬镜像”，应使用kill将其删除，避免对系统造成影响。
+
+```sh
+docker image ls -f dangling=true		# 查询虚悬镜像
+docker images prune		# 删除查出的所有虚悬镜像，需要回复，y，表示确认
+```
+
+
+
+
+
+
+
+#### Docker网络
+
+
+
+
+
+
 
 
 
 ### 虚拟化技术
 
 #### KVM-基于内核的虚拟机
+
+
+
+
 

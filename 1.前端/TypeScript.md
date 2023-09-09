@@ -899,3 +899,24 @@ let timeInterval:ReturnType<typeof setInterval>;	// setInterval定时器
 let timerId: ReturnType<typeof setTimeout>;		//  setTimeout定时器         
 ```
 
+
+
+
+
+
+
+
+
+
+
+### 使用记录
+
+#### 未找到声明文件
+
+> 常见情景：在使用第三方插件时，正常引入，但会提示找不到对应的声明文件
+>
+> ts配置中`  "typeRoots": ["./node_modules/@types"],`
+
+- 解决方案：
+  1. 通过对应插件文档寻找并下载对应的type声明文件，放在node_module的@types下
+  2. 在src根目录中创建@types并创建`插件名.d.ts`的文件并写入`declare module '插件名';`

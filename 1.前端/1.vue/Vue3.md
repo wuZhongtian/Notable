@@ -1436,6 +1436,12 @@ store.getTimu()
 
 
 
+#### 持久化存储
+
+> 问题：pinia/vuex管理的状态，在手动刷新浏览器时，状态管理的数据都会丢失，被初始化，需要进行持久化存储，常用方式是sessionStroage或localStorage手动保存，或借助第三方插件完成。
+
+[Getting started | Pinia Plugin Persist (seb-l.github.io)](https://seb-l.github.io/pinia-plugin-persist/)
+
 
 
 
@@ -1506,6 +1512,16 @@ authentication(token).then((res)=>{
 ```
 
 
+
+
+
+#### useRouter/useRoute区别
+
+- 作用：
+  - `useRouter`返回路由器实例，
+  - `useRoute`返回当前的路由地址。
+- `useRouter`提供了全局路由信息，如`.push()`, `.replace()`, `.go()`, `.back()`, `.forward()`等方法
+- `useRoute`提供了当前路由的信息，如`.path`, `.hash`, `.query`, `.params`, `.fullPath`等。
 
 
 
