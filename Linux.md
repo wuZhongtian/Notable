@@ -35,6 +35,10 @@ apt-get -y install xxx 	 # 安装指定软件
 kill -l			# 在linux中查看信号和编码的对应关系
 kill <-kill编码> 进程号		# kill命令，通过信号编码，控制进程
 # 常用： kill -9 进程号		## 强制结束指定进程
+
+
+ps -ef		# 显示所有的进程信息
+grep mysql	# 查找含有mysql相关的信息
 ```
 
 
@@ -868,6 +872,13 @@ int mkfifo(const char *pathname, mode_t mode);
 
 - [安装VMware Tools](https://blog.csdn.net/weixin_46829095/article/details/128528922)
 - [ubuntu虚拟机设置静态ip](https://blog.csdn.net/m0_57168310/article/details/128176238)
+
+
+
+### 开机无网络
+
+- 打开主机打开网络和共享中心，点击更改适配器 选择本地连接VMnet8 右键->属性->ipv4协议->属性->选择“自动获得IP、自动获得DNS服务器
+- VMware Workstation11的编辑（E）-->虚拟网络编辑器（N），点击更改设置，将VMnet0移除，只剩下VMnet1 和 VMnet8,点击确定
 
 
 

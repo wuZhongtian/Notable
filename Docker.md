@@ -571,3 +571,30 @@ docker images prune		# 删除查出的所有虚悬镜像，需要回复，y，�
 
 
 
+### 具体使用
+
+#### mysql 
+
+```sh
+docker pull mysql
+docker run -p 3306:3306 --name=YKmysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+# 后台模式运行mysql镜像，-e MYSQL_ROOT_PASSWORD=12345 设置默认ROOT用户密码
+## -e MYSQL_ROOT_PASSWORD=root 设置root密码
+## MYSQL_ALLOW_EMPTY_PASSWORD 允许密码为空
+
+
+
+docker exec -it 容器id /bin/bash		# 进入mysql容器
+mysql -u root -p	# 登入mysql
+```
+
+![image-20230910151311312](images/Docker/image-20230910151311312.png)
+
+
+
+
+
+
+
+
+
