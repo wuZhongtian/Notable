@@ -871,6 +871,8 @@ int mkfifo(const char *pathname, mode_t mode);
 ### vm相关
 
 - [安装VMware Tools](https://blog.csdn.net/weixin_46829095/article/details/128528922)
+  - [Ubuntu22.04安装完vmware tools还是不能在和win之间拖拽文件复制粘贴](https://blog.csdn.net/qq_45060188/article/details/132154379)
+
 - [ubuntu虚拟机设置静态ip](https://blog.csdn.net/m0_57168310/article/details/128176238)
 
 

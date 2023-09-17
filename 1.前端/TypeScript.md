@@ -920,3 +920,29 @@ let timerId: ReturnType<typeof setTimeout>;		//  setTimeout定时器
 - 解决方案：
   1. 通过对应插件文档寻找并下载对应的type声明文件，放在node_module的@types下
   2. 在src根目录中创建@types并创建`插件名.d.ts`的文件并写入`declare module '插件名';`
+
+
+
+#### 使用for...in
+
+```ts
+interface ABC {
+    a: string
+    b: string
+}
+const x: ABC = {
+    a:'1',
+    b:'2'
+}
+const y: ABC = {
+    a:'3',
+    b:'4'
+}
+
+let key:keyof ABC
+//@ts-ignore
+for (key in x) {
+    x[key] = y[key]
+}
+```
+

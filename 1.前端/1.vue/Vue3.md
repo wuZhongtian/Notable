@@ -1538,7 +1538,7 @@ const NETWORK_ERROR='网络请求出错，稍后再试'
 import axios from 'axios'
 // 创建axios实例对象
 const service =axios.create({ 
-    baseUrl:'xxxx.xxx',
+    baseURL:'xxxx.xxx',
     timeout:5000   // 设置超时时间
 })
 
@@ -1605,6 +1605,22 @@ proxy.$api.getTableDate(params).then(()=>{
     
 })
 ```
+
+
+
+
+
+## 进阶内容
+
+
+
+### Vue模板解析
+
+> vue模板 -> AST -> render函数 -> vnode
+>
+> - AST 用一个JSON对象来描述一个元素信息
+> - vnode 同样用来标识模板，优势在于进行diff对比时性能更好
+> - 优化真实dom生成的过程
 
 
 
