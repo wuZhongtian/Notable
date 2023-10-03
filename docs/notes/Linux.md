@@ -1,4 +1,4 @@
-## Linux
+# Linux
 
 > CentOS与Ubuntu常见差异：  
 >

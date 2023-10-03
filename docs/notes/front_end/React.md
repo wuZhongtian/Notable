@@ -1,4 +1,4 @@
-## [React](https://zh-hans.reactjs.org/docs/hello-world.html)
+# [React](https://zh-hans.reactjs.org/docs/hello-world.html)
 
 1. 特点：
    - *标记与逻辑**没有分离**到不同文件*，二者共同存放在“组件”的松散耦合单元之中
