@@ -1670,8 +1670,6 @@ vm.$watch('xxx',function(newvalue,oldvalue){
   </style>
   ```
 
-- ![image-20211122190430519](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20211122190430519.png)
-
 
 
 #### style样式

@@ -240,7 +240,7 @@
   toString()    // 
   ```
 
-  ![image-20220809144354539](C:\Users\wzt\AppData\Roaming\Typora\typora-user-images\image-20220809144354539.png)
+  ![image-20220809144354539](images/js数据结构与算法/image-20220809144354539.png)
 
   ```js
   function LinkedList(){

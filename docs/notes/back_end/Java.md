@@ -132,7 +132,7 @@ String name =	'zhangsan';
 
 ```
 
-<img src="images/Java/image-20230607190123221.png" alt="image-20230607190123221" style="zoom:50%;" />
+![image-20230607190123221.png](images/Java/image-20230607190123221.png)
 
 
 
@@ -170,9 +170,7 @@ int i1 = (int)d; // 强制转换，多余的浮点值会被抹去。
 
 
 
-
-
-<img src="images/Java/image-20230609160855970.png" alt="image-20230609160855970" style="zoom: 25%;" />
+![image-20230609160855970.png](images/Java/image-20230609160855970.png)
 
 
 
@@ -220,7 +218,10 @@ int b3 = b1 + b2;
 byte b3 = (byte)(b1 + b2); // 强制转换 
 ```
 
-<img src="images/Java/image-20230609163954513.png" alt="image-20230609163954513" style="zoom: 33%;" />
+
+![image-20230609163954513.png](images/Java/image-20230609163954513.png)
+
+
 
 
 

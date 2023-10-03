@@ -437,7 +437,7 @@ pr 样例：注意：后面要有空格
 
 ![image-20220825121741326](images/Git/image-20220825121741326.png)
 
-<img src="images/Git/git.jpg" alt="git" style="zoom:150%;" />
+![git](images/Git/git.jpg)
 
 
 

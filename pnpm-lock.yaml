@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
+  '@vuepress/bundler-vite':
+    specifier: 2.0.0-beta.67
+    version: 2.0.0-beta.67
   '@vuepress/client':
     specifier: 2.0.0-beta.67
     version: 2.0.0-beta.67

@@ -694,8 +694,8 @@ kill -l			# 在linux中查看信号和编码的对应关系
   - 恢复停止的进程：让停止的进程会恢复运行
 
   ![image-20230809155537985](images/Linux/image-20230809155537985.png)
-
-<img src="images/Linux/image-20230809162343928.png" alt="image-20230809162343928" style="zoom: 80%;" />
+  
+  ![image-20230809162343928](images/Linux/image-20230809162343928.png)
 
 ![image-20230809142917852](images/Linux/image-20230809142917852.png)
 
