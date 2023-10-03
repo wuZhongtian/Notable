@@ -24,6 +24,6 @@ footer: 不忘初心，方得始终
 
 
 - 个人笔记 - 纯干货（持续更新）- 
-[ 立刻开始 ](https://wu-zhongtian-github-io.vercel.app/)
+[ 立刻开始 ](https://wuzhongtian.vercel.app/)
 
 
