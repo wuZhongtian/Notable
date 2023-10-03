@@ -5,7 +5,6 @@ import { nprogressPlugin } from '@vuepress/plugin-nprogress'
 import { docsearchPlugin } from '@vuepress/plugin-docsearch'
 
 export default {
-  base:"/docs/",
   plugins: [
     nprogressPlugin(),
     // docsearchPlugin({}),
