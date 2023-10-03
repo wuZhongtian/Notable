@@ -25,7 +25,7 @@ export default {
       },
       {
         text: "开始阅读",
-        link: "/notes/Git.md",
+        link: "/notes/directory",
       },
     ],
     sidebar: {
