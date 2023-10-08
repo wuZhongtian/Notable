@@ -43,6 +43,7 @@ export default {
               children: [
                 "/notes/front_end/小程序/微信小程序.md",
                 "/notes/front_end/小程序/uniapp.md",
+                "/notes/front_end/小程序/小程序模板开发.md",
               ],
             },
             "/notes/front_end/前后端通讯.md",
