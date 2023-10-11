@@ -53,6 +53,7 @@ export default {
             "/notes/front_end/JS设计模式.md",
             "/notes/front_end/H5C3补充.md",
             "/notes/front_end/其他概念.md",
+            "/notes/front_end/JS周边库.md",
           ],
         },
         {
