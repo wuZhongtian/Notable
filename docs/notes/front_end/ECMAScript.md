@@ -97,14 +97,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                           
+  >                                                                                                                                                                                                                             
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                           
+  >                                                                                                                                                                                                                             
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -3098,9 +3098,30 @@ socket.emit('go',{password:'123'});
 
 - 分块 Tiling
 
-  > 将每一层分为多个小的区域
+  > 将每一层分为多个小的区域，交给多个线程完成
   >
-  > 
+  
+- 光栅化 Raster
+
+  > 将每个块的信息转化为位图，即每个点的颜色值，有限处理靠近用户视口的块。
+  >
+  > 光栅化会使用到GPU进程进行加速，GPU进程又会使用多个线程完成
+  >
+  > ![image-20231004121124207](images/ECMAScript/image-20231004121124207.png)
+
+- 画 Draw
+
+  > 这里的GPU进程是指浏览器的GPU进程，由GPU进程产生系统调用，交给GPU硬件完成最终屏幕成像。
+  >
+  > 为何不直接交给硬件绘制？
+  >
+  > - 渲染进程（渲染主线程、合成线程）都在一个沙盒中，可以很好的保护系统安全，不会直接发起对系统的调用。
+  >
+  > quad指引信息标识着每个位图绘画的位置，以及旋转、缩放变形等。
+  >
+  > 因此，transform属性的变动是发生在合成进程中，不会导致渲染主线程重绘，从而具备高效的特点。
+  >
+  > ![image-20231004121450989](images/ECMAScript/image-20231004121450989.png)
 
 
 
@@ -3119,9 +3140,83 @@ socket.emit('go',{password:'123'});
 
 ###### 参考答案
 
+![image-20231004121744275](images/ECMAScript/image-20231004121744275.png)
+
 ![image-20231003015708789](images/ECMAScript/image-20231003015708789.png)
 
 ![image-20231003025322792](images/ECMAScript/image-20231003025322792.png)
 
-![image-20231003025313118](images/ECMAScript/image-20231003025313118.png)
+![image-20231004120905347](images/ECMAScript/image-20231004120905347.png)
+
+![image-20231004120848384](images/ECMAScript/image-20231004120848384.png)
+
+
+
+##### 相关点
+
+###### reflow 重排/回流
+
+> 当修改元素的几何信息（宽、高、边距等）时，会导致回流重排。渲染主线程重新执行....
+>
+> - 为避免多次操作DOM，导致布局树反复计算，浏览器会合并某次JS代码中的所有改动排在任务队列中统一一次计算，所以reflow是异步进行的。
+> - 但当在JS中又**出现获取相关信息的代码**时，为确保拿到最新数据，浏览器会将其改为同步任务，立即进行reflow。
+>
+> ![image-20231004122515092](images/ECMAScript/image-20231004122515092.png)
+>
+> ![image-20231004123014493](images/ECMAScript/image-20231004123014493.png)
+
+
+
+###### repaint重绘
+
+> 当可见样式改变时，触发渲染主线程中的paint，相比于reflow重新执行的内容会少一些。
+>
+> ![image-20231004123410352](images/ECMAScript/image-20231004123410352.png)
+
+
+
+###### transform效率高
+
+```vue
+<!--
+实验：当点击死循环后，渲染主线程被阻塞，但ball1依旧保持运动，ball2依赖渲染主线程绘制，导致被卡死
+-->
+
+<button @click=delay(50000)>死循环</button>
+<div class="ball1"></div>
+<div class="ball2"></div>
+
+<script>
+function delay(duration){
+	var start = Date.now();
+	while(Date.now - start <duration){}
+}
+</script>
+<style>
+    @keyframes move1{
+        to{
+            transfrom:translate(100px)
+        }
+    }
+      @keyframes move2{
+        to{
+            left:100px
+        }
+    }
+</style>
+```
+
+
+
+
+
+
+
+
+
+#### 歌词播放器
+
+
+
+
 
