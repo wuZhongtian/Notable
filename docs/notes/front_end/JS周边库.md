@@ -179,7 +179,73 @@ screenSelectElement	 // 选中事件监听，回调
 
 
 
+## Vue-Easy-DnD
 
+```js
+import { Drag, Drop } from "vue-easy-dnd";
+
+<Drag/>  // 拖动de元素
+
+@dragstart 	// 拖拽开始事件
+
+
+type	// 允许设置 drag的type类型，仅支持两种 Number string
+data	// 拖拽中携带的数据
+drag-image-opacity	// 定义被拖拽元素的透明度 0-1
+disabled	// 禁止此元素的拖拽，可用来做 前端权限校验！！
+go-back		// 未拖动到容器的元素视为“失败”，将失败的元素以动画形式，原路返回
+delta		// Number-定义拖拽效果 - 开始响应的距离，默认 3px
+delay		// Number-选中元素到相应为拖拽的时长，类似于长按选中。默认 0ms
+drag-class	// 给拖拽的浮动元素 自定义样式类
+vibration	// Number-当拖动事件开始时，支持的移动设备上的振动反馈(默认0ms =无反馈)
+handle		// 拖拽时的鼠标样式	？？
+scrolling-edge-size	// 当将此元素拖到其边界容器/列表的边缘时，像素量定义了它将自动向上/向下/向左/向右滚动的距离容器边缘的距离(0 =在其边界容器上不滚动)
+
+    
+<Drop/>		// 容器
+    
+@dragend	// 拖拽停止事件
+	- 回调函数中大量有价值的返回信息（往下看）
+Modes 		// 模式 -默认copy copy源不影响 cut删除源
+// 如果拖动操作源自没有声明cut事件侦听器的Drag组件，则禁止在声明cut模式的Drop组件上放置。
+
+accepts-type="number"	// 接受Drag中对应type的内容
+:accepts-data="(d) => d === 2"	// 对接受的内容进行判断，只接受符合条件的元素
+drag-image-opacity	// 定义被拖拽元素的透明度 0-1
+
+
+
+
+// 内部样式 - 类名直接使用，声名样式即可
+.drop-allowed{ background: rgba(167, 230, 22, 0.795); }	// 拖拽元素时，匹配可接受该元素的容器样式
+drop-forbidden	// 拖拽元素时，type匹配但accepts-data不匹配的容器样式
+.drop-in	// 拖拽元素进入容器范围中时，容器的样式
+
+    
+    
+    
+// @dragend 回调 参数 
+/*
+	clientX和clientY与x，y一样的，都是客户区域坐标，指鼠标的坐标，以浏览器显示区域的左上角开始
+	offsetX，offsetY 针对目标元素的左上角坐标（e.target）
+	layerX,layerY 往上找有定位属性的父元素的左上角（自身有定位属性的话就是相对于自身），都没有的话，就是相对于body的左上角
+	pageX， pageY相对页面左上角的距离(包含滚动上去的距离)
+	screenX screenY 相对屏幕左上角的位置（脱离浏览器位置）
+*/
+    data: 携带的自定义数据
+    native: {
+        clientX	// 相较于浏览器视口左侧的X轴位置
+        clientY	// 相较于浏览器视口顶部的Y轴位置
+        screenX	// 相较于浏览器 整页左侧的X轴位置
+        screenY	// 相较于浏览器 整页顶部的Y轴位置
+        offsetX	// 相对于Drop容器的X轴位置 - √√
+        offsetY	// 相对于Drop容器的Y轴位置 - √√
+        layerX	// 相对于Drop容器的X轴位置 - √
+        layerY	// 相对于Drop容器的Y轴位置 - √
+    }
+	position:
+	....
+```
 
 
 

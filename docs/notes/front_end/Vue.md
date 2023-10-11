@@ -1384,6 +1384,22 @@ store.getTimu()
 
 
 
+```js
+// store 数据使用时响应式问题：
+// 直接解构使用时，数据不具备响应式，只能获取第一次默认的值
+
+// 解决方法1：使用 Pian 的 storeToRefs() 方法
+// 得到的数据在script中使用需要带 .value
+// template中使用不需要带 .value
+imoprt useMainStore from './stort/index'
+let store = useMainStore()
+import { storeToRefs } from 'pinia'
+let { count } = storeToRefs(store)
+
+```
+
+
+
 #### 持久化存储
 
 > 问题：pinia/vuex管理的状态，在手动刷新浏览器时，状态管理的数据都会丢失，被初始化，需要进行持久化存储，常用方式是sessionStroage或localStorage手动保存，或借助第三方插件完成。
