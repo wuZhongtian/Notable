@@ -1202,10 +1202,16 @@ Reflect.defineProperty(obj,'c',{
 
   ```vue
   <script setup>
+  import {toRefs} from 'vue'
   // 相比于 <script> 不需要再通过return返回内容，直接使用
   import { capitalize } from './helpers'
+  const props = defineProps({		// props
+      text:String,
+      message:Number
+  })
+  const {text} = toRefs(props) // 保留text响应式
   const msg = 'Hello!'   // 变量
-  function log() { console.log(msg) }   // 函数
+  function log() { console.log(props.text,msg) }   // 函数
   </script>
   
   <template>
@@ -5765,13 +5771,18 @@ methods:{
 #### 打包后资源路径问题：
 
 > 默认可以直接放在服务器根目录，但如果放在子集目录下资源请求可能会存在问题
+>
+> - vite创建的vue项目	参看[构建生产版本 | Vite 官方文档 ](https://cn.vitejs.dev/guide/build.html#public-base-path)
+> - vue-cli创建的项目：
 
 ```js
-// 在项目根目录新建 vue.config.js
+// vue cli创建的项目， 在项目根目录新建 vue.config.js
 
 module.exports = {
     publicPath: '/html/front',    // 放置index.html的服务器路径
 }
+
+
 ```
 
 

@@ -1,4 +1,6 @@
-### PixiJS
+# JS周边库
+
+## PixiJS
 
 > Pixi是一个非常快的2D sprite渲染引擎。
 >
@@ -142,4 +144,147 @@ app.stage,addChild(sprite);
 
 // 实现动画
 ```
+
+
+
+
+
+## iDraw.js
+
+- 优点
+  - 支持元素多选、固定、隐藏....
+  - 支持导入、导出 data
+  - 
+
+```js
+// 方法记录
+idraw.方法名
+idraw.setData(data,{triggerChangeEvent:true});	// 设置绘制数据 - 以最后一次 setData的data为准 - 因此可以用它清除画布
+const resultData = idraw.getData();	// 获取画布JSON数据
+
+selectElement(resultData.elements[0].uuid);	// 根据元素id,选中对应元素，一般没啥用，uuid没有时会自动创建，需求：拖拽创建元素后，默认选中创建的元素
+selectElementByIndex()	// 根据元素在 data.elements中的索引位置选中。
+cancelElement	// 根据uuid取消元素选中状态
+cancelElementByIndex(0)	// 根据元素在 data.elements中的索引位置取消选中
+getSelectedElements	// 读取被选中的元素数组数据
+updateElement	// 更新画布中的元素
+
+// 事件监听
+idraw.on('事件名', (e) => { })	
+changeData		// 绘图监听，画布数据变化时，获取最新数据，需配合setData的配置
+screenSelectElement	 // 选中事件监听，回调
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## D3js
+
+> Data-Driven Documents：**基于数据驱动文档工作方式的一款JavaScript函数库，主要用于网页作图、生成互动图形，是最流行的可视化库之一。D3使你有能力借助HTML，SVG和CSS来生动地可视化各种数据**
+
+- 优点：
+  1. 提供了一种通过 Web 构建图形的便捷方式
+  2. 简化了创建动画和交互式图形的方式
+  3. 易学易用的框架，擅长做通用的 DOM 处理
+
+
+
+### 基础使用
+
+1. 安装
+
+   - ```vue
+     <!-- 方式1：直接引入js文件  
+     	注：现在已经是V5版本。V5和V3的很多语法还是有区别的！
+     -->
+     <script src="http://d3js.org/d3.v5.min.js"></script>
+     
+     
+     <!-- 模块化引入  -->
+     <script>
+         import * as d3 from 'd3';
+     </script>
+     ```
+
+
+
+#### 选择器
+
+> Selections 允许强大的数据驱动文档对象模型(DOM)：设置attributes,styles,HTML 或 text 内容，选择集的方法通常选择当前的选择当前的选择集或者新的选择集，因此允许进行链式调用。
+
+```js
+// 选中符合条件的第一个元素，选择条件为 selector 字符串。如果没有元素被选中则返回空选择集，如果选择器有多个，那就返回匹配第一个选择集
+d3.select('selector') 
+
+// 选择所有与制定的selector匹配的元素，返回一个数组。如果没有元素被选中，则返回的空的选择集
+d3.selectAll('selector')
+
+
+
+// const p = d3.selectAll("p");
+// p.attr("class","fd-tag");
+// p.style("color","red");
+// 等价于 以下代码：
+d3.selectAll("p")
+      .attr("class","fd-tag")
+      .style("color","red");
+
+```
+
+
+
+
+
+
+
+#### d3-zoom
+
+> *视图移动以及缩放是一种流行的交互技术 缩放行为通过*d3-zoom*模块来实现，缩放本身与DOM元素无关，可以用于SVG，HTML 或者 Canvas。*
+
+1. 引入d3-zoom 
+   - `<script src="htts://d3js.org.js/d3-zoom.v1.min.js"></script>`
+   - `npm install d3-zoom`
+
+```js
+// 引入d3-zoom
+d3.zoom()
+
+// 创建一个新的缩放行为,并返回该行为。zoom既是一个对象又是一个函数，通过selection.call()来应用到元素本身上
+selection.call(d3.zoom().on( "zoom" , zoomed))
+
+// 事件绑定 .zoom 双击禁用缩放 以及 禁止滚动齿轮缩放
+  selection.on("dblclick.zoom",null)
+  selection.on("wheel.zoom",null)
+
+selection.call( d3.zoom()
+         // extent 即将当前视口范围设置为指定的数组[[x0,y0],[x1,y1]] 
+        // x0,y0为视口的左上角，x1,y1为视口的右下角
+        .extent([0,0],["画布的宽度","画布的高度"])
+        // 缩放的范围[k0,k1]     k0 为缩放的最小范围，  k1为缩放的最大范围
+        .scaleExtent([0.4,1])    // 缩放范围
+        .on("zoom",()=>{
+            // zoom事件跟缩放的回调函数   d3.event.transform 
+            selection.attr( "transform" , d3.event.transform )
+    })
+ )
+```
+
+
+
+
+
+
+
+
 
