@@ -46,9 +46,10 @@ export default {
           text: "大前端",
           collapsible: true,
           children: [
-            "/notes/front_end/Vue3.md",
             "/notes/front_end/Vue2.md",
+            "/notes/front_end/Vue3.md",
             "/notes/front_end/React.md",
+            "/notes/front_end/React+.md",
             "/notes/front_end/NodeJS.md",
             {
               text: "小程序",
