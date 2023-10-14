@@ -11,15 +11,50 @@ export default {
   plugins: [
     nprogressPlugin(),
     docsearchPlugin({
-      appId: 'JHHY5HKLHZ',
-      apiKey: '83e9600ad75bd3e09509fb5bb8ddd568',
-      indexName: 'wuzhongtian',
-      '/': {
-        placeholder: '搜索文档',
-        translations: {
-          button: {
-            buttonText: '搜索文档',
+      appId: "JHHY5HKLHZ",
+      apiKey: "83e9600ad75bd3e09509fb5bb8ddd568",
+      indexName: "wuzhongtian",
+      translations: {
+        button: {
+          buttonText: "搜索文档",
+          buttonAriaLabel: "搜索文档",
+        },
+        modal: {
+          searchBox: {
+            resetButtonTitle: "清除查询条件",
+            resetButtonAriaLabel: "清除查询条件",
+            cancelButtonText: "取消",
+            cancelButtonAriaLabel: "取消",
           },
+          startScreen: {
+            recentSearchesTitle: "最近搜索",
+            noRecentSearchesText: "最近没有搜索",
+            saveRecentSearchButtonTitle: "保存此搜索",
+            removeRecentSearchButtonTitle: "删除此历史记录",
+            favoriteSearchesTitle: "收藏夹",
+            removeFavoriteSearchButtonTitle: "从收藏夹中删除此搜索",
+          },
+          errorScreen: {
+            titleText: "无法获取结果",
+            helpText: "您可能需要检查网络连接。",
+          },
+          // footer: {
+          //   selectText: "to select",
+          //   selectKeyAriaLabel: "Enter key",
+          //   navigateText: "to navigate",
+          //   navigateUpKeyAriaLabel: "Arrow up",
+          //   navigateDownKeyAriaLabel: "Arrow down",
+          //   closeText: "to close",
+          //   closeKeyAriaLabel: "Escape key",
+          //   searchByText: "Search by",
+          // },
+          // noResultsScreen: {
+          //   noResultsText: "No results for",
+          //   suggestedQueryText: "Try searching for",
+          //   reportMissingResultsText:
+          //     "Believe this query should return results?",
+          //   reportMissingResultsLinkText: "Let us know.",
+          // },
         },
       },
     }),
@@ -27,7 +62,7 @@ export default {
 
   theme: defaultTheme({
     logo: "/logo.png",
-    repo: "https://github.com/wuZhongtian/wuZhongtian.github.io",
+    repo: "https://github.com/wuZhongtian",
     editLink: false,
     sidebarDepth: 4,
     navbar: [
