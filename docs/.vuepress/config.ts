@@ -10,7 +10,19 @@ export default {
   head: [["link", { rel: "icon", href: "/logo.png" }]],
   plugins: [
     nprogressPlugin(),
-    // docsearchPlugin({}),
+    docsearchPlugin({
+      appId: 'JHHY5HKLHZ',
+      apiKey: '83e9600ad75bd3e09509fb5bb8ddd568',
+      indexName: 'wuzhongtian',
+      '/': {
+        placeholder: '搜索文档',
+        translations: {
+          button: {
+            buttonText: '搜索文档',
+          },
+        },
+      },
+    }),
   ],
 
   theme: defaultTheme({
