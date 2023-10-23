@@ -147,6 +147,12 @@ app.stage,addChild(sprite);
 
 
 
+## fabric.js
+
+> [关于本文档 | fabric.js中文教程 (gitee.io)](https://k21vin.gitee.io/fabric-js-doc/docs/)
+
+
+
 
 
 ## iDraw.js
