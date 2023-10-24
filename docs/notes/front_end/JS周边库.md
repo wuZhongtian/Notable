@@ -360,3 +360,30 @@ selection.call( d3.zoom()
 
 
 
+## [Tailwind CSS](https://www.tailwindcss.cn/)
+
+> css in js 方案
+>
+> 基础的使用描述，参考文档链接即可；此处仅提供不常用的小问题解决方法
+
+### 样式冲突
+
+> tailwind css 样式与 其他UI库 共同使用中可能会发生样式冲突，毕竟 lg、flex这类样式名作为内置真的很好用
+>
+> 例：使用element-plus/antd 引入tailwind 可能导致正常的按钮样式变为“透明”！
+
+```js
+// 解决方法：
+// 关闭tailwind的样式预设
+// 将 @tailwind base; 引入它到项目时会包含默认的预设样式
+// 通过tailwind.config.js 禁用Preflight预设样式
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  corePlugins: {
+    preflight: false,	// 禁用Preflight预设样式
+  },
+};
+```
+
+
+

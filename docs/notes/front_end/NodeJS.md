@@ -1663,6 +1663,60 @@ fs.writeFileSync('./abc.xlsx',nodeXlsx.build(ok),"binary");
 
 
 
+#### CryptoJS前端加解密
+
+> [【全栈之旅】NodeJs登录流程以及Token身份验证 - 掘金 (juejin.cn)](https://juejin.cn/post/6894065644933906445)
+>
+>  `crypto-js`是一个纯 javascript 写的加密算法类库 ，可以非常方便地在 javascript 进行 MD5、SHA1、SHA2、SHA3、RIPEMD-160 哈希散列，进行 AES、DES、Rabbit、RC4、Triple DES 加解密。
+
+```js
+const CryptoJS = require('crypto-js');
+/**
+ * 加密
+ */
+function encrypt(word) {
+  const key = CryptoJS.enc.Utf8.parse('yyq1234567890yyq');//16位随机公钥
+  const srcs = CryptoJS.enc.Utf8.parse(word);
+  const encrypted = CryptoJS.AES.encrypt(srcs, key, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  });
+  return encrypted.toString();
+}
+/**
+ * 解密
+ */
+function decrypt(word) {
+  // 需要16位
+  const key = CryptoJS.enc.Utf8.parse('yyq1234567890yyq');//16位随机公钥
+  const srcs = CryptoJS.enc.Utf8.stringify(word);
+  const decrypt = CryptoJS.AES.decrypt(srcs, key, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  });
+  console.log(decrypt);
+  return CryptoJS.enc.Utf8.stringify(decrypt).toString();
+}
+module.exports = {
+  encrypt,
+  decrypt
+};
+```
+
+
+
+
+
+#### JWT(Json Web Tokens)
+
+>  生成Token的解决方案有许多，但是我这里使用的是`JWT（Json web token ）`
+
+```js
+pnpm i jsonwebtoken
+```
+
+
+
 
 
 #### [alipay-sdk](https://www.npmjs.com/package/alipay-sdk)
