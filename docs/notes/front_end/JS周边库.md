@@ -358,6 +358,11 @@ selection.call( d3.zoom()
 
 
 
+## 控制台禁用
+
+[disable-devtool/README.cn.md at master · theajack/disable-devtool (github.com)](https://github.com/theajack/disable-devtool/blob/master/README.cn.md)
+
+
 
 
 ## [Tailwind CSS](https://www.tailwindcss.cn/)
