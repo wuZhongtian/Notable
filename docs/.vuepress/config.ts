@@ -110,9 +110,12 @@ export default {
           collapsible: true,
           children: [
             "/notes/embedded/stm32.md",
+            "/notes/embedded/ESP32-Python.md",
             "/notes/embedded/模电数电.md",
             "/notes/embedded/C语言.md",
             "/notes/embedded/计算机网络.md",
+            "/notes/embedded/51单片机.md",
+            "/notes/embedded/其他概念.md",
           ],
         },
         {
