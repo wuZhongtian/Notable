@@ -21,6 +21,72 @@ import { gsap } from "gsap";	// 引入
 
 
 
+### 补间动画
+
+> gsap在早期flash繁荣时期就已存在，其核心为**补间动画**
+>
+> 主要的补间动画：
+>
+> - gsap.to()	// 从元素的起始默认状态，动画到指定的结束值
+> - gsap.from()  // 从指定的起始值，动画到元素默认的状态，与to() 相反
+> - gsap.fromTo()  // 自定义起始值和结束值
+> - gsap.set()  // 立即设置属性（无动画）
+
+- [Easing](https://gsap.com/docs/v3/Eases/) ：动画曲线选择配置
+
+```js
+gsap.to()	// 由初始状态变化为动画指定的状态
+
+// 参数1：选择器，支持id、class、标签
+// 参数2：动画配置对象
+gsap.to('.box',{
+	scale: 0.1,	// 缩放为10%
+	x: -100,	// x轴移动-100px
+    y: 60,	// 向y轴移动60px
+    xPercent: 50,	// 水平移动元素宽度的百分比，50%
+    yPercent:50,	// 垂直移动元素高度的百分比，50%
+    rotation:360,	// 旋转，360°
+    duration: 1,	// 动画持续时间1s
+    repeat: -1,	// 重复次数 -1 无限重复； 3 重复3次
+    yoyo: true,	// 往复模式,正向运动结束后，反向运动；默认为一直重复正向运动
+    // stagger: 0.2, // 设置被选中全部的元素，动画依次生效间隔时间0.2s；默认为全部一起运动
+    // stagger 高级配置
+    stagger:{
+        amount: 1.5,	// 所有动画交错完成的总时间，单位s
+        grid:"auto",
+        from:"center"	// 动画开始的位置，向其他位置扩散展开；center||end||edges||random||数字
+    },
+})
+
+
+gsap.from()	// 由指定状态变化为当前默认的状态
+
+gsap.from('.box',{
+    scale:0.5,
+    y:-50,
+    opacity:0,	// 透明度，初始为0
+    easy:'power1.out',	// 动画运动曲线；power1||power2||back||....  看官网
+    delay : 1,		// 动画延迟时间
+})
+
+
+gsap.fromTo('.box',{ x:-40,fill:'blue' },{ x:40,fill:"green" })
+
+gsap.set('.box',{x:100})
+```
+
+
+
+
+
+### 时间线
+
+> 时间线 timeline：是创建易于调整、有弹性的动画序列的关键。将补间动画添加到时间线时，默认情况下，补间动画将按照添加顺序依次播放。将多组动画编排动作，从而控制整个序列。
+
+```js
+
+```
+
 
 
 
