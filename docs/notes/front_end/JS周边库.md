@@ -1,5 +1,30 @@
 # JS周边库
 
+
+
+
+
+
+
+## [GSAP](https://gsap.com/)
+
+> GSAP 是一个强大的 JavaScript 工具集，可以将开发人员变成动画超级英雄。构建适用于所有主流浏览器的高性能动画。动画化 CSS、SVG、画布、React、Vue、WebGL、颜色、字符串、运动路径、通用对象……任何 JavaScript 可以触及的东西！ GSAP 的 ScrollTrigger 插件可让您使用最少的代码创建令人惊叹的基于滚动的动画。
+>
+> - [使用GSAP写出令人惊叹的动画！ - 掘金 (juejin.cn)](https://juejin.cn/post/7184080621831422011)
+> - [Parallax scroll animation (codepen.io)](https://codepen.io/isladjan/pen/abdyPBw)
+> - [10 个功能强大的 JavaScript 动画库，打造引人入胜的用户体验-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/2327140)
+
+```js
+pnpm install gsap	// 安装
+import { gsap } from "gsap";	// 引入
+```
+
+
+
+
+
+
+
 ## PixiJS
 
 > Pixi是一个非常快的2D sprite渲染引擎。
