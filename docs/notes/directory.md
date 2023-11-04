@@ -1,3 +1,4 @@
+<WaterMark />
 
 ### 热爱生命
 
@@ -19,9 +20,6 @@
 只要热爱生命
 
 一切，都在意料之中
-
-
-
 
 
 <!-- - [VuePress2配置详解：主页、导航、搜索以及样式 | Forever Study (yydnas.cn)](https://www.yydnas.cn/2023/04/2023.04.06-VuePress2配置详解：主页、导航、搜索以及样式/index.html)

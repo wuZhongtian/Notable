@@ -30,7 +30,6 @@ const domMutations = (dom,dom2, str, container)=>{
  * @param {需要设置水印的容器} container
  */
 const setWatermark = (str, container,type="all") => {
-    console.log(container);
 //   const id = container.__vue__._uid
   const id = "setWatermark"+Math.random()
  
