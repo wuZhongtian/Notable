@@ -14,6 +14,7 @@
 > - [使用GSAP写出令人惊叹的动画！ - 掘金 (juejin.cn)](https://juejin.cn/post/7184080621831422011)
 > - [Parallax scroll animation (codepen.io)](https://codepen.io/isladjan/pen/abdyPBw)
 > - [10 个功能强大的 JavaScript 动画库，打造引人入胜的用户体验-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/2327140)
+> - [练习动画最好的方式：用GSAP实现可滚动和可拖动的时间轴 - 掘金 (juejin.cn)](https://juejin.cn/post/7136508854422110244#heading-12)
 
 ```js
 pnpm install gsap	// 安装
