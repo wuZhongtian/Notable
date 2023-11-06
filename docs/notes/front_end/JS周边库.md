@@ -108,16 +108,79 @@ t.to(".box4",{ x:600, duration:2 },"+=1")		// 第二步动画结束后执行
 
 
 
+### 回调动画
 
+> 所有的时间线和补间都有以下回调：
 
-
-
-### ScrollTrigger
+- onStart：在动画开始时调用
+- onUpata：每次动画更新时调用（在动画处于活跃状态时的每一帧上）
+- onRepeat：每次动画重复时调用
+- onComplete：在动画完成时回调
+- onReverseComplete：当动画反转时、再次到达起点时调用？
 
 ```js
+gsap.to(".box4",{ 
+    x:600, 
+    duration:2,
+	onStart:()=>{
+      console.log("动画开始了")  
+    }
+},"+=1")	
+```
+
+
+
+
+
+
+
+### [ScrollTrigger 滚动触发器](https://gsap.com/docs/v3/Plugins/ScrollTrigger/)
+
+- ScrollTrigger 回调函数
+  - `onUpdata`：更新时
+    
+    > 每次ScrollTrigger 的进度更改（滚动条位置变化）时，都会触发的回调
+    >
+    > - 参数self：获取滚动条的相关信息
+    >   - self.progress  滚动的整体进度，取值 0-1
+    >   - 
+    
+    - 用途：可做背景视频联动播放卡点
+    
+  - `onScrubComplete`：在擦除完成时
+
+```js
+// 引入
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+// 使用（可单独使用，也可添加到gsap的时间轴中）
 ScrollTrigger.create({
     trigger:".box",	// 要绑定的元素
-    
+    start:"top top",	// 滚动触发器的起始位置
+    end:"+=100",	// 滚动触发器的结束位置
+    scrub:true,	// 擦洗动画，就是滚动回去时是否还原动画
+    pin:true,	// 动画时是否固定屏幕，true-固定当前屏幕（不下滑） false-滚动下滑 || Element-指定元素
+    animation:
+    	gsap.to('.box',{y:1000,x:500}),
+    markers:true,	// true-开启标注功能，便于开发时观察
+    toggleClass:"",	// String||Object 当滚动时向元素添加的class类名
+})
+
+
+ScrollTrigger.create({
+    trigger:".box",	// 要绑定的元素
+    start:"top-=500 top",	// 滚动触发器的起始位置
+    end:"+=2000",	// 滚动触发器的结束位置（滚动动画关联的滚动长度）
+    scrub:true,	// 
+    pin:true,	// 动画时是否固定屏幕，true-固定当前屏幕（不下滑） false-滚动下滑 || Element-指定元素
+    animation:
+    	gsap.timeline()
+    	.fromTo('.box1',{y:1000,x:500},{y:0,x:1000}),
+    	.fromTo('.box2',{width:"100em",height:"500px"},{width:"0em",height:"500px"},"<"),
+    markers:true,	// true-开启标注功能，便于开发时观察
+    toggleClass:"",	// String||Object 当滚动时向元素添加的class类名
+    onUpdata(self){
+        console.log("当前滚动的进度：",self.progress)
+    }
 })
 ```
 
