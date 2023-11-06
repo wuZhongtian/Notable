@@ -1,3 +1,4 @@
+<WaterMark />
 # ECMAScript
 
 ### 基础知识

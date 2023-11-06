@@ -1,3 +1,4 @@
+<WaterMark />
 ### 四库 vue
 
 - 路由配置

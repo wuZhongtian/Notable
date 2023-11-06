@@ -1,3 +1,4 @@
+<WaterMark />
 # [Vue2](https://cn.vuejs.org/)
 
 一套用于<span style='color:#DA9B00'>构建用户界面</span>的<span style='color:#E83F11'>渐进式</span>JavaScript框架。(可以自底向上逐层应用)； -----作者：尤雨溪

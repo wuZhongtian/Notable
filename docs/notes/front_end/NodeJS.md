@@ -1,3 +1,4 @@
+<WaterMark />
 [前言 · 千锋大前端小册-GP19-Node.js (gitee.io)](https://lurongtao.gitee.io/felixbooks-gp19-node.js/)
 
 [Node.js专业中文社区 (cnodejs.org)](https://cnodejs.org/)
