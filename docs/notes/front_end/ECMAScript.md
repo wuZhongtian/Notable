@@ -97,14 +97,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                             
+  >                                                                                                                                                                                                                               
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                             
+  >                                                                                                                                                                                                                               
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2330,6 +2330,31 @@ getCookie("xxxx")  // 要获取的cookie key值
 ## DOM
 
 - `document.documentElement   获取整个html最外层的标签`
+
+
+
+### [Intersection Observer](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
+
+> 提供异步检测目标元素与祖先元素或 [viewport](https://developer.mozilla.org/zh-CN/docs/Glossary/Viewport) 相交情况变化的方法。
+>
+> - 适用场景：
+>   - 图片懒加载——当图片滚动到可见区时才进行加载
+>   - 内容无限滚动——也就是用户滚动到接近内容底部时直接加载更多，而无需用户操作翻页，给用户一种网页可以无限滚动的错觉
+>   - 检测广告的曝光情况——为了计算广告收益，需要知道广告元素的曝光情况
+>   - 在用户看见某个区域时执行任务或播放动画
+> - API思路：
+>   - Intersection Observer API 会注册一个回调函数，每当被监视的元素进入或者退出另外一个元素时 (或者 [viewport](https://developer.mozilla.org/zh-CN/docs/Glossary/Viewport) )，或者两个元素的相交部分大小发生变化时，该回调方法会被触发执行。而不需要主线程持续监听元素相交变化，浏览器会自行优化元素相交管理。
+> - 其它
+>   - 如果要观察相对于根 (**root**) 元素的交集，请指定根 (**root**) 元素为`null`
+>   - 目标 (**target**) 元素与根 (**root**) 元素之间的交叉度是交叉比，介于0和1之间
+
+
+
+```js
+// 方法
+```
+
+
 
 
 
