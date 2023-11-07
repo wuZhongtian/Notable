@@ -98,14 +98,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                               
+  >                                                                                                                                                                                                                                     
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                               
+  >                                                                                                                                                                                                                                     
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2336,23 +2336,61 @@ getCookie("xxxx")  // 要获取的cookie key值
 
 ### [Intersection Observer](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
 
-> 提供异步检测目标元素与祖先元素或 [viewport](https://developer.mozilla.org/zh-CN/docs/Glossary/Viewport) 相交情况变化的方法。
+> 提供异步检测目标元素与祖先元素或 [viewport](https://developer.mozilla.org/zh-CN/docs/Glossary/Viewport) 相交情况变化的回调方法。
+>
+> 留意：注册的回调函数将会在主线程中执行，要尽可能的快。一些耗时的操作执行，建议使用[requestIdleCallback](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback) 方法
 >
 > - 适用场景：
 >   - 图片懒加载——当图片滚动到可见区时才进行加载
 >   - 内容无限滚动——也就是用户滚动到接近内容底部时直接加载更多，而无需用户操作翻页，给用户一种网页可以无限滚动的错觉
->   - 检测广告的曝光情况——为了计算广告收益，需要知道广告元素的曝光情况
->   - 在用户看见某个区域时执行任务或播放动画
+>   - 埋点曝光、滚动动画
 > - API思路：
 >   - Intersection Observer API 会注册一个回调函数，每当被监视的元素进入或者退出另外一个元素时 (或者 [viewport](https://developer.mozilla.org/zh-CN/docs/Glossary/Viewport) )，或者两个元素的相交部分大小发生变化时，该回调方法会被触发执行。而不需要主线程持续监听元素相交变化，浏览器会自行优化元素相交管理。
 > - 其它
 >   - 如果要观察相对于根 (**root**) 元素的交集，请指定根 (**root**) 元素为`null`
 >   - 目标 (**target**) 元素与根 (**root**) 元素之间的交叉度是交叉比，介于0和1之间
-
-
+> - 回调触发时机：
+>   1. Observer 第一次监听目标元素时
+>   2. 目标 (**target**) 元素与设备视窗或者其他指定元素发生交集时执行
+>      - 默认为设备视窗。如果要观察相对于根 (**root**) 元素的交集，请指定根 (**root**) 元素为`null`
 
 ```js
+// 创建 intersection observer
+//  配置参数
+let options = {
+  root: document.querySelector("#scrollArea"),	// 指定根元素，必须是目标元素的父元素
+  rootMargin: "0px",	// px 或 % ，距离根元素的矩形偏移量，时触发,默认全为0px
+  threshold: 1.0,	// 值为number或number数组，相交程度达到该值时触发回调。1.0表示目标元素完全出现在 root 选项指定的元素中可见时，回调函数将会被执行
+};
+
+// 触发的回调
+let callback = (entries, observer)=>{
+    console.log(entries)
+    // 每个条目描述一个观察到的目标元素的交集变化：(因为可以为多个元素注册observer进行观察)
+    entries.forEach((entry) => {
+    // .boundingClientRect	返回包含目标元素的边界信息
+    // .intersectionRatio	返回目标元素出现在可视区的比例（常用）
+    // .intersectionRect	用来描述root和目标元素的相交区域
+    // .isIntersecting		返回布尔值，true-目标元素出现在root可视区；false-从root可视区消失；（常用）
+    // entry.rootBounds		描述交叉区域观察者(intersection observer)中的根.
+    // entry.target			目标元素
+    // entry.time			从 IntersectionObserver 的时间原点到交叉被触发的时间的时间戳
+    })
+}
+
+let observer = new IntersectionObserver(callback,options);
+
+
+// 给定要观察的目标元素
+let target = document.querySelector("#listItem");
+observer.observe(target);
+
+
 // 方法
+observe()		开始监听一个目标元素
+unobserve()		停止监听特定目标元素
+takeRecords()	返回所有观察目标的IntersectionObserverEntry对象数组
+disconnect()	使IntersectionObserver对象停止全部监听工作
 ```
 
 
