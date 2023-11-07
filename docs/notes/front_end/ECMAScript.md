@@ -98,14 +98,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                                     
+  >                                                                                                                                                                                                                                       
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                                     
+  >                                                                                                                                                                                                                                       
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -1560,6 +1560,13 @@ for (let x of cars) {
 
 ### 模块化
 
+> - commonjs与es module 区别
+>   - CommonJS 运行时 - 来源与民间
+>   - ES Module 编译时 - 来源于官方
+>     - 也决定了ESM的依赖引入只能放在代码头部，
+>     - 动态导入方法：`import('./a.js')`
+> - 因此更推荐使用 ESM，为编译时导入，代码执行前就完成依赖关系规划，有利于依赖优化。
+
 - <span style="color:#E2A62A">理解：</span>将复杂的程序依据一定规则**拆**分为单个文件，使用时再组**合**在一起
 
 - 特点：模块的内部数据是私有的，仅向外暴露一定的属性和方法
@@ -1617,44 +1624,46 @@ for (let x of cars) {
   - 分别暴露：export 暴露内容        //直接在要暴露的内容前加`export`
   - 统一暴露：export { ... , ...}
     - 可以使用 as 对要暴露的内容重命名
-  - 同一个文件中，可以采用多种暴露方式，引入时再按照对应合适的方式引入即可
-- 引入模块
-  - 方法1：`import xxx from '模块路径'`   // 适用于默认暴露
-  - 方法2：`import  {name,age,ren,...} from '模块路径' `    // 适用于分别暴露和统一暴露
-  - 方法3：`import * as module1 from "模块路径/模块名"; `    // 通用的导入方式
+- 静态导入（因为ESM为编译时运行，所以默认为静态）
+  - `import xxx from '模块路径'`   // 默认暴露
+  - `import {name,age,ren,...} from '模块路径' `  // 分别暴露和统一暴露
+  - `import * as module1 from "模块路径/模块名"; `    // 通用的导入方式
   - 导入模块时，也可以使用as进行重命名
+- 动态导入（可在代码中根据逻辑动态导入）
+  - `import("./xxx.js")`
 
 ```js
-//分别暴露
+// 分别暴露
 const data = 'atguigu';
 export const name = 'zyy';
 export function showName(){
     console.log(data);
 }
 
-// 统一暴露 都声明好了，再暴露出去
+// 统一暴露 都声明好，再暴露出去
 export {name,showName}
-// 使用as重命名
+// 暴露时使用as重命名
 export {name as username ,showName as show}
 
 // 默认暴露，直接放在一个对象中，全部暴露
 export default {
-    	school: 'ATLUCA',
-    	change: function(){
-        	console.log("m3---我们可以改变你!!");
-    	}
+   school: 'ATLUCA',
+   change: ()=>{
+       console.log("我可以改变世界！");
+    }
 }
 ```
 
 ```js
-//引入 适用于分别暴露和统一暴露    可使用 as 进行重命名
+// 导入 适用于分别暴露和统一暴露    可使用 as 进行重命名
 import { myName, myAge, myfn as fn, myClass } from "./test.js";
 
-// 1. 通用的导入方式
-// 引入 m1.js 模块内容
+// 通用方式：导入 m1.js 模块内容
 import * as _m1 from "js/m1.js";
 _m1.teach();
 ```
+
+
 
 
 
@@ -2267,9 +2276,54 @@ try {
 
 
 
-## BOM
 
-### [matchMedia() 方法](https://www.runoob.com/jsref/met-win-matchmedia.html)
+
+
+
+
+
+## BOM/DOM
+
+- `document.documentElement   获取整个html最外层的标签`
+
+
+
+
+
+### cookie
+
+> `document.cookie`
+
+```js
+// 获取cookie的值
+document.cookie
+// 获取cookie的函数
+function getCookie(name){
+    var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+    return r ? r[1] : undefined;
+}
+
+getCookie("xxxx")  // 要获取的cookie key值
+```
+
+
+
+
+
+### 观察器API
+
+> - 屏幕尺寸变化 - js中使用媒体查询
+> - 元素出现在可视区回调 - 懒加载/埋点
+> - 元素属性内容变化回调 - 获取变化信息，做出反应
+> - 元素大小变化回调 - 性能更好的响应式元素大小设置
+>
+> 
+
+
+
+
+
+#### [matchMedia() 方法](https://www.runoob.com/jsref/met-win-matchmedia.html)
 
 > - `matchMedia()` 方法返回 `MediaQueryList`对象，表示指定的媒体查询字符串解析后的结果。
 >   - `MediaQueryList`对象的 属性、方法
@@ -2304,37 +2358,11 @@ x.addListener(myFunction) // 状态改变时添加监听器
 
 
 
-### cookie
-
-> `document.cookie`
-
-```js
-// 获取cookie的值
-document.cookie
-// 获取cookie的函数
-function getCookie(name){
-    var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
-    return r ? r[1] : undefined;
-}
-
-getCookie("xxxx")  // 要获取的cookie key值
-```
 
 
 
 
-
-
-
-
-
-## DOM
-
-- `document.documentElement   获取整个html最外层的标签`
-
-
-
-### [Intersection Observer](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
+#### [Intersection Observer](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
 
 > 提供异步检测目标元素与祖先元素或 [viewport](https://developer.mozilla.org/zh-CN/docs/Glossary/Viewport) 相交情况变化的回调方法。
 >
@@ -2399,7 +2427,7 @@ disconnect()	使IntersectionObserver对象停止全部监听工作
 
 
 
-### MutationObserver 元素观察器
+#### MutationObserver 元素观察器
 
 > 用来监视DOM树的任何变动，比如：增减、属性的变动、文本内容的变动
 >
@@ -2460,7 +2488,7 @@ observer.takeRecords()
 
 
 
-### MutationRecord 对象
+#### MutationRecord 对象
 
 > MutationObserver 元素观察器，监测到的**变动记录**是该对象的实例
 
@@ -2536,7 +2564,7 @@ ready(".ttt",function(e){
 
 
 
-### [ResizeObserver](https://developer.mozilla.org/zh-CN/docs/Web/API/ResizeObserver)
+#### [ResizeObserver](https://developer.mozilla.org/zh-CN/docs/Web/API/ResizeObserver)
 
 > 监听 [`Element`](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FElement) 的内容区域  / [`SVGElement`](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FSVGElement)的边界框改变（专门用来观察DOM元素的尺寸是否发生了变化）
 >
@@ -2591,7 +2619,7 @@ ro.observe(someElement);
 
 
 
-### 总结-Dom变化
+##### 总结-Dom变化
 
 |                      |                                                              |                                                              |
 | -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -2972,6 +3000,10 @@ socket.emit('go',{password:'123'});
 
 
 
+## 蓝牙
+
+
+
 
 
 ## 进阶大师
@@ -3283,4 +3315,62 @@ function delay(duration){
 
 
 
+
+
+
+### 工程化
+
+> 发展： 函数（污染）、文件（依赖关系复杂）、包、模块化（ESM CommonJS）、包管理（npm pnpm）、语言本身的问题（html、js、css：兼容性、语言缺陷）、工程问题、流程问题（打包、发布、运维）
+>
+
+#### JS工具链
+
+> - 兼容性问题：
+>   - API增强
+>     - polyfill：填充物，没有的api，手动实现并使用，从而实现兼容性（core-js）
+>       - 但并不是100%实现polyfill问题：例如浏览器等环境本身的能力问题
+>   - 语法兼容（大量的工具，一个工具解决几个问题）
+>     - syntax transformer（runtime）：语法转换，运行时转换
+>     - 常见工具：regenerator - 可以处理 async await兼容性；
+>   - 代码集成转换工具（API增强、语法兼容本质都是对js代码进行转换）
+>     - babel：为大量转换工具搭建平台，进行集成
+>       - 处理兼容性只是其中之一的功能
+>       - 将代码 -> AST抽象语法树 -> 可在此使用插件进行一些转化处理 -> 输出代码
+>       - `.babel.config.js`babel配置文件，可配置大量的插件
+>       - babel 内置预设插件（一大堆插件的集合）`@babel/preset-env`
+> - 语言增强
+
+
+
+```js
+pnpm i -D core-js	// 安装core-js依赖，其中手写大量可能存在兼容性语法问题的api，从而解决Api兼容性问题
+
+pnpm i -D regenerator	// async await 语法兼容转换工具
+const regenerator= require("regenerator")
+const result = regenerator.compile(`原始代码`,{includeRuntime:true,})
+console.log("编译后的代码：",result.code)
+
+// @babel-core babel的核心，提供转换代码的api
+// @babel-cli 命令行工具，可通过命令行进行转换，本质是调用@babel/core中的内容
+pnpm i -D @babel/core @babel/cli
+babel 源文件相对路径 -o 输出的目标路径	// 转换命令
+
+pnpm i @babel/preset-env	// babel预设插件（一堆插件的集合）
+module.exports = {
+    presets:[
+        // 对插件进行配置
+        ['@babel/preset-env',{
+            targers:{
+                edge:"17",	// 浏览器兼容的最低版本好号
+                fixfox:"60",
+                chrome:"67"
+            },
+            useBuiltIns:"usage",	// 使用按需导入
+            core-js:"3.32.2"		// 配置core-js的版本
+        }]
+    ]
+}
+
+
+```
 
