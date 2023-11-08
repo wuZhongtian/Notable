@@ -98,14 +98,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                                         
+  >                                                                                                                                                                                                                                           
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                                         
+  >                                                                                                                                                                                                                                           
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -3002,7 +3002,32 @@ socket.emit('go',{password:'123'});
 
 ## 蓝牙
 
+```js
+// 设备是否支持蓝牙检测：
+navigator?.bluetooth.getAvailability().then((available)=>{
+    available? console.log("蓝牙已支持！") : console.log("Doh! 此设备暂不支持蓝牙");
+})
 
+
+// 暴露允许此来源访问的蓝牙设备 Promise
+// 注意：返回一个的BluetoothDevice数组， 允许当前源访问的设备，包括超出范围或断电的设备 
+getDevices()
+// 返回数据说明
+[
+    {
+        id:xx,	// String，设备唯一标识
+        name:"哈哈哈",	// 为设备提供的可读名称字符串
+        gatt:""	// A reference to the device's BluetoothRemoteGATTServer.
+        // BluetoothRemoteGATTServer 参考 https://developer.mozilla.org/en-US/docs/Web/API/BluetoothRemoteGATTServer
+        ...
+    }
+]
+
+
+// 为设备请求设置选项的对象。可用选项包括：
+requestDevice()
+requestDevice(options)
+```
 
 
 
