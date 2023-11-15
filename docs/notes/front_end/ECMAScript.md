@@ -98,14 +98,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                                           
+  >                                                                                                                                                                                                                                                 
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                                           
+  >                                                                                                                                                                                                                                                 
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2353,8 +2353,11 @@ function myFunction(x) {
  
 var x = window.matchMedia("(max-width: 700px)")
 myFunction(x) // 执行时调用的监听函数
-x.addListener(myFunction) // 状态改变时添加监听器
+x.addEventListener("change", myFunction); // 状态改变时添加监听器
+x.removeListener(myFunction)  // 移除监听器
 ```
+
+##### 应用实践
 
 
 
