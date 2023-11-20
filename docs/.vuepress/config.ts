@@ -100,6 +100,14 @@ export default {
                 "/notes/front_end/小程序/饿了么组件开发.md",
               ],
             },
+            {
+              text: "JS周边库",
+              collapsible: true,
+              children: [
+                "/notes/front_end/JS周边库/fabric.md",
+                "/notes/front_end/JS周边库.md",
+              ],
+            },
             "/notes/front_end/前后端通讯.md",
             "/notes/front_end/TypeScript.md",
             "/notes/front_end/构建工具.md",
@@ -107,7 +115,6 @@ export default {
             "/notes/front_end/JS设计模式.md",
             "/notes/front_end/H5C3补充.md",
             "/notes/front_end/其他概念.md",
-            "/notes/front_end/JS周边库.md",
           ],
         },
         {
