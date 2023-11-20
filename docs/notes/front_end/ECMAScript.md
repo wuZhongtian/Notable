@@ -98,14 +98,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                                                 
+  >                                                                                                                                                                                                                                                   
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                                                 
+  >                                                                                                                                                                                                                                                   
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -2277,6 +2277,15 @@ try {
 
 
 
+
+#### URL修改
+
+- 常见的直接修改url
+- `history.pushState() `
+  - 参数1：状态对象
+  - 参数2：document.title
+  - 参数3：提供了新历史纪录的地址，但不会直接加载这个URL，与原地址必须同源
+  - 一般使用：`不会去加载这个URL的特点  history.pushState('','',url) ` 
 
 
 
