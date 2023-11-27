@@ -1,5 +1,5 @@
 ---
-title: fabric.js | 夏之一周
+title: Fabric.js
 description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 ---
 
@@ -17,7 +17,9 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 >   - [沃姆科技-创意工具 (aliui.com)](https://aliui.com/design/)
 >   - [JSDoc: Home (fabricjs.com)](http://fabricjs.com/docs/)
 
-### Part 1
+
+
+### 基础指南
 
 #### Canvas 画布
 
@@ -131,8 +133,8 @@ circle.getAngleInRadians(); // 0.523...
 
 #### Images 图像
 
-- `fabric.Image`
-- `fabric.Image.fromURL`
+- `fabric.Image`：接收 image 元素
+- `fabric.Image.fromURL`：可以创建 URL 字符串的图像实例
 
 ```js
 <!--
@@ -160,6 +162,36 @@ fabric.Image.fromURL('my_image.png', (oImg)=>{
 });
 ```
 
+#### Image filters
+
+> 每个`fabric.Image`的实例都有一个“filters”属性，它是一个简单的过滤器数组。该数组中的每个过滤器都是一个 Fabric 过滤器的实例。或者您自己的自定义过滤器的实例。
+>
+> “filters”属性是一个简单的数组，可对它执行任何所需的操作-**删除**(`pop`，`splice`或`shift`)，**添加**filter(`push`，`splice`，`unshift`)，甚至联合收割机组合多个 filter。当我们调用`applyFilters`时，“filters”数组中的任何过滤器都将被一个接一个地应用。所以让我们试着创造一个既深褐色又明亮的图像。
+
+- 滤镜示例
+  - new fabric.Image.filters.Sepia() 深褐色
+  - new fabric.Image.filters.Grayscale() 灰度
+
+```js
+// 创建一个灰度图像
+fabric.Image.fromURL("pug.jpg", function (img) {
+  // add filter
+  img.filters.push(new fabric.Image.filters.Grayscale());
+  // 应用过滤器并重新渲染画布
+  img.applyFilters();
+  // 将图像添加到画布上（它也会重新渲染画布）
+  canvas.add(img);
+});
+
+// 联合多个属性
+fabric.Image.fromURL("pug.jpg", function (img) {
+  img.filters.push(new fabric.Image.filters.Sepia(), new fabric.Image.filters.Brightness({ brightness: 100 }));
+
+  img.applyFilters();
+  canvas.add(img);
+});
+```
+
 #### Paths 路径
 
 > Fabric 中的路径与[SVG 路径元素](http://www.w3.org/TR/SVG/paths.html#PathElement)相似。它们使用相同的命令集，可以从路径元素创建，并序列化到它们中。稍后我们将更深入地研究序列化和 SVG 解析，但现在值得一提的是，您可能很少手工创建 Path 实例。相反，您将使用 Fabric 的内置 SVG 解析器。但是为了理解 Path 对象是什么，让我们尝试手工创建一个简单的对象：
@@ -179,7 +211,9 @@ canvas.add(path);
 
 ```
 
-### Part 2
+
+
+
 
 #### animtion 动画
 
@@ -244,7 +278,7 @@ fabric.runningAnimations.length === 0;
   - `.toHex()`：RGB 与 alpha 通道
 - `new fabric.Gradient()`：创建渐变，然后指定给 fabric 对象进行填充或描边
   - coords：坐标，定义渐变如何在对象上延伸，最高点是`0`，最低点是`fabric对象的height`
-  - colorStops：定义渐变颜色梯度，0表示开始位置，1表示结束位置
+  - colorStops：定义渐变颜色梯度，0 表示开始位置，1 表示结束位置
 
 ```js
 // 颜色创建、转换、叠加（好像没什么用）
@@ -284,45 +318,31 @@ circle.set("fill", gradient);
 
 // 从左到右的五阶彩虹渐变的例子：
 var gradient = new fabric.Gradient({
-    type: 'linear',
-    // 像素单位形式
-    gradientUnits: 'pixels',
-    coords: { x1: 0, y1: 0, x2: circle.width, y2: 0 },
-     // 百分比形式
-	// gradientUnits: 'percentage',
-    // coords: { x1: 0, y1: 0, x2: 1, y2: 0 },
- 	colorStops:[
-    	{ offset: 0, color: 'red' },
-    	{ offset: 0.2, color: 'orange' },
-    	{ offset: 0.4, color: 'yellow' },
-   	 	{ offset: 0.6, color: 'green' },
-    	{ offset: 0.8, color: 'blue' },
-   		{ offset: 1, color: 'purple' }
-  	]
-  })
+  type: "linear",
+  // 像素单位形式
+  gradientUnits: "pixels",
+  coords: { x1: 0, y1: 0, x2: circle.width, y2: 0 },
+  // 百分比形式
+  // gradientUnits: 'percentage',
+  // coords: { x1: 0, y1: 0, x2: 1, y2: 0 },
+  colorStops: [
+    { offset: 0, color: "red" },
+    { offset: 0.2, color: "orange" },
+    { offset: 0.4, color: "yellow" },
+    { offset: 0.6, color: "green" },
+    { offset: 0.8, color: "blue" },
+    { offset: 1, color: "purple" },
+  ],
+});
 ```
 
-
-
-
-
-
-
-
-
-
-
-#### Text文本
+#### Text 文本
 
 > [Introduction to Fabric.js. Part 2. — Fabric.js Javascript Canvas Library (fabricjs.com)](http://fabricjs.com/fabric-intro-part-2)
 
-
-
-
-
 #### [Events 事件](http://fabricjs.com/events)
 
-> Fabric提供了一个广泛的事件系统，从低级的“鼠标”事件到高级的对象事件。
+> Fabric 提供了一个广泛的事件系统，从低级的“鼠标”事件到高级的对象事件。
 >
 > 事件可分为：画布事件、对象事件。可为他们分别注册事件，
 
@@ -330,13 +350,38 @@ var gradient = new fabric.Gradient({
   - 鼠标事件
     - `mouse:move` 经过
     - `mouse:down` 按下
-    - `mouse:up`    抬起
+    - `mouse:up` 抬起
+    
   - 渲染事件
     - `after：render` 整个画布被重新渲染后
     - `selection:created`：选择后
     - `before：selection：cleared`：删除选择前
     - `selection：cleared`：删除选择后
+    
   - 对象事件
+    
+    > Fabric.js中常用的对象事件如下：
+    >
+    > 1. mousedown：当鼠标按下时触发。
+    > 2. mouseup：当鼠标释放时触发。
+    > 3. mousemove：当鼠标移动时触发。
+    > 4. mouseover：当鼠标悬停在对象上时触发。
+    > 5. mouseout：当鼠标离开对象时触发。
+    > 6. touchstart：当触摸设备上开始触摸对象时触发。
+    > 7. touchmove：当手指在触摸设备上滑动对象时触发。
+    > 8. touchend：当手指从触摸设备上离开对象时触发。
+    > 9. added：当对象添加到Canvas时触发。
+    > 10. removed：当对象从Canvas中删除时触发。
+    > 11. modified：当对象被修改时触发。
+    >
+    > 除了以上列出的事件，还有其他一些更特殊的事件，例如：
+    >
+    > 1. rotating：当对象旋转时触发。
+    > 2. scaling：当对象缩放时触发。
+    > 3. moving：当对象移动时触发。
+    > 4. selected：当对象被选中时触发。
+    > 5. deselected：当取消选择对象时触发。
+    
     - `object:modified`：修改
     - `object:selected`： 选中
     - `object:moving`：移动
@@ -344,54 +389,45 @@ var gradient = new fabric.Gradient({
     - `object:rotating`：旋转
     - `object:added`：被添加到画布上
     - `object:removed`：删除
+  
 - `on`方法初始化事件侦听器，`off`方法删除它
-  - options回调对象
+  - options 回调对象
     - `e`：原始事件对象
     - `target`：画布上的单击对象，仅在您确实单击画布上的某个对象时才存在，也只传递给有意义的事件处理程序，例如 `mouse:down`而非`after：render`
+  
 - 注意事项
   - 每当对象移动（或缩放）一个像素时，类似“object：moving”（或“object：scaling”）的事件就会连续触发。
   - 但“object：modified”或`selection：created`这样的事件只在动作结束时（对象修改或选择创建）被触发。
   - 当一个页面上有多个画布，它们相互独立，可为每个画布附加不同的事件侦听器。
-  - Fabric允许您将侦听器直接附加到画布对象
+  - Fabric 允许您将侦听器直接附加到画布对象
 
 ```js
-var canvas = new fabric.Canvas('...');
+var canvas = new fabric.Canvas("...");
 // 鼠标按下时触发-画布事件
-canvas.on('mouse:down', function(options) {
+canvas.on("mouse:down", function (options) {
   console.log(options.e.clientX, options.e.clientY);
   if (options.target) {
-    console.log('an object was clicked! ', options.target.type);
+    console.log("an object was clicked! ", options.target.type);
   }
 });
 
-
 // 对象事件
-var rect = new fabric.Rect({ width: 100, height: 50, fill: 'green' });
-rect.on('selected', function() {
-  console.log('selected a rectangle');
+var rect = new fabric.Rect({ width: 100, height: 50, fill: "green" });
+rect.on("selected", function () {
+  console.log("selected a rectangle");
 });
 
-var circle = new fabric.Circle({ radius: 75, fill: 'blue' });
-circle.on('selected', function() {
-  console.log('selected a circle');
+var circle = new fabric.Circle({ radius: 75, fill: "blue" });
+circle.on("selected", function () {
+  console.log("selected a circle");
 });
 ```
 
-
-
 ![image-20231120152620458](images/fabric/image-20231120152620458.png)
-
-
-
-
-
-
-
-
 
 ### [Part 3](http://fabricjs.com/fabric-intro-part-3)
 
-#### Groups组
+#### Groups 组
 
 - `new fabric.Group()`：创建组
 - `group.item(0).set()`：设置组中第一个对象的值
@@ -404,130 +440,103 @@ circle.on('selected', function() {
   - `add()`：向组中添加对象
   - `remove()`：从组中删除对象
 - 注意：
-  - 在使用图像形成组时，需要确保这些图像已完全加载。Fabric已经提供相关方法来确保图像被加载
+  - 在使用图像形成组时，需要确保这些图像已完全加载。Fabric 已经提供相关方法来确保图像被加载
 
 ```js
-var circle = new fabric.Circle({ radius: 100, fill: '#eef', scaleY: 0.5, originX: 'center', originY:'center' });
+var circle = new fabric.Circle({ radius: 100, fill: "#eef", scaleY: 0.5, originX: "center", originY: "center" });
 
-var text = new fabric.Text('hello world', { fontSize: 30, originX: 'center', originY: 'center'});
+var text = new fabric.Text("hello world", { fontSize: 30, originX: "center", originY: "center" });
 
 // 创建组
-var group = new fabric.Group([ circle, text ], { left: 150, top: 100, angle: -10 });
+var group = new fabric.Group([circle, text], { left: 150, top: 100, angle: -10 });
 canvas.add(group);
-group.item(0).set('fill', 'red');
+group.item(0).set("fill", "red");
 group.item(1).set({
-  text: 'trololo',
-  fill: 'white'
+  text: "trololo",
+  fill: "white",
 });
 
-
 // 绘制三个并排的圆
-var circle1 = new fabric.Circle({radius: 50, fill: 'red', left: 0 });
-var circle2 = new fabric.Circle({radius: 50, fill: 'green', left: 100 });
-var circle3 = new fabric.Circle({radius: 50, fill: 'blue', left: 200 });
-var group = new fabric.Group([ circle1, circle2, circle3 ], { left: 200, top: 100});
+var circle1 = new fabric.Circle({ radius: 50, fill: "red", left: 0 });
+var circle2 = new fabric.Circle({ radius: 50, fill: "green", left: 100 });
+var circle3 = new fabric.Circle({ radius: 50, fill: "blue", left: 200 });
+var group = new fabric.Group([circle1, circle2, circle3], { left: 200, top: 100 });
 canvas.add(group);
 
-
 // 注意：在使用图像形成组时，需要确保这些图像已完全加载。Fabric已经提供相关方法来确保图像被加载
-fabric.Image.fromURL('/assets/pug.jpg', function(img) {
+fabric.Image.fromURL("/assets/pug.jpg", function (img) {
   var img1 = img.scale(0.1).set({ left: 100, top: 100 });
-  fabric.Image.fromURL('/assets/pug.jpg', function(img) {
+  fabric.Image.fromURL("/assets/pug.jpg", function (img) {
     var img2 = img.scale(0.1).set({ left: 175, top: 175 });
-    fabric.Image.fromURL('/assets/pug.jpg', function(img) {
+    fabric.Image.fromURL("/assets/pug.jpg", function (img) {
       var img3 = img.scale(0.1).set({ left: 250, top: 250 });
-        
-      canvas.add(new fabric.Group([ img1, img2, img3], { left: 200, top: 200 }))
+
+      canvas.add(new fabric.Group([img1, img2, img3], { left: 200, top: 200 }));
     });
   });
 });
-
-
-
-
 ```
 
-
-
-
-
-
-
-#### Serialization序列化
+#### Serialization 序列化
 
 ##### toObject, toJSON
 
-> 使用的是ES5的`JSON.stringify()`方法，它隐式地调用传递对象的`toJSON`方法，如果该方法存在的话。由于Fabric中的canvas实例有`toJSON`方法，因此可调用`JSON.stringify(canvas.toJSON())`。
+> 使用的是 ES5 的`JSON.stringify()`方法，它隐式地调用传递对象的`toJSON`方法，如果该方法存在的话。由于 Fabric 中的 canvas 实例有`toJSON`方法，因此可调用`JSON.stringify(canvas.toJSON())`。
 
-- `canvas.toObject()`：是迭代所有画布对象并委托给它们自己的toObject方法的结果
+- `canvas.toObject()`：是迭代所有画布对象并委托给它们自己的 toObject 方法的结果
 - `canvas.toJSON()`：自定义序列化输出，本质上是一个字符串化的`toObject`输出
 - 注意：
-  - 您可以将对象标记为不可导出，设置为excludeFromExport到true。这样，在序列化过程中，画布上的一些辅助对象将不会被保存。
+  - 您可以将对象标记为不可导出，设置为 excludeFromExport 到 true。这样，在序列化过程中，画布上的一些辅助对象将不会被保存。
 
 ```js
 // 空画布
-var canvas = new fabric.Canvas('c');
+var canvas = new fabric.Canvas("c");
 JSON.stringify(canvas); // '{"objects":[],"background":"rgba(0, 0, 0, 0)"}'
 
 // 为画布设置背景
-canvas.backgroundColor = 'red';
+canvas.backgroundColor = "red";
 JSON.stringify(canvas); // '{"objects":[],"background":"red"}'
 
 // 自定义替换对象的序列化导出
 var rect = new fabric.Rect();
-rect.toObject = function() {
-  return { name: 'trololo' };
+rect.toObject = function () {
+  return { name: "trololo" };
 };
 canvas.add(rect);
-console.log(JSON.stringify(canvas));	// '{"objects":[{"name":"trololo"}],"background":"rgba(0, 0, 0, 0)"}'
-
+console.log(JSON.stringify(canvas)); // '{"objects":[{"name":"trololo"}],"background":"rgba(0, 0, 0, 0)"}'
 
 // 自定义扩展序列化导出
 var rect = new fabric.Rect();
-rect.toObject = (function(toObject) {
-  return function() {
+rect.toObject = (function (toObject) {
+  return function () {
     return fabric.util.object.extend(toObject.call(this), {
-      name: this.name
+      name: this.name,
     });
   };
 })(rect.toObject);
 
 canvas.add(rect);
-rect.name = 'trololo';
+rect.name = "trololo";
 console.log(JSON.stringify(canvas));
 //  '{"objects":[{"type":"rect","left":0,"top":0,"width":0,"height":0,"fill":"rgb(0,0,0)","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":false,"transparentCorners":true,"perPixelTargetFind":false,"rx":0,"ry":0,"name":"trololo"}],"background":"rgba(0, 0, 0, 0)"}'
 ```
 
-
-
-
-
-
-
 ##### [toSVG+解析器](http://fabricjs.com/fabric-intro-part-3)
 
+#### ☆ Subclassing 子类化
 
-
-
-
-
-
-
-
-#### ☆ Subclassing子类化
-
-- `fabric.util.createClass`实用程序方法、是对JavaScript原型继承的一个简单抽象
+- `fabric.util.createClass`实用程序方法、是对 JavaScript 原型继承的一个简单抽象
 
 ```js
 // 创建一个简单的Point“类”
 var Point = fabric.util.createClass({
-  initialize: function(x, y) {
+  initialize: function (x, y) {
     this.x = x || 0;
     this.y = y || 0;
   },
-  toString: function() {
-    return this.x + '/' + this.y;
-  }
+  toString: function () {
+    return this.x + "/" + this.y;
+  },
 });
 
 // 使用 point
@@ -538,21 +547,22 @@ point.toString(); // "10/20"
 
 // 创建一个“Point”类的子类-比如一个彩色点
 var ColoredPoint = fabric.util.createClass(Point, {
-  initialize: function(x, y, color) {
-    this.callSuper('initialize', x, y);
-    this.color = color || '#000';
+  initialize: function (x, y, color) {
+    this.callSuper("initialize", x, y);
+    this.color = color || "#000";
   },
-  toString: function() {
-    return this.callSuper('toString') + ' (color: ' + this.color + ')';	// 为避免重复，它会调用父类的方法
-  }
+  toString: function () {
+    return this.callSuper("toString") + " (color: " + this.color + ")"; // 为避免重复，它会调用父类的方法
+  },
 });
 
 // 使用彩色点
-var redPoint = new ColoredPoint(15, 33, '#f55');
+var redPoint = new ColoredPoint(15, 33, "#f55");
 redPoint.x; // 15
 redPoint.y; // 33
 redPoint.color; // "#f55"
-redPoint.toString(); "15/33 (color: #f55)"
+redPoint.toString();
+("15/33 (color: #f55)");
 ```
 
 ```js
@@ -566,14 +576,14 @@ var LabeledRect = fabric.util.createClass(fabric.Rect, {
     this.set('label', options.label || '');
   	this.set({ width: 100, height: 50 });	// 设置默认值，width-100 height-50
   },
-	
+
   // 序列化扩展
   toObject: function() {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       label: this.get('label')
     });
   },
-    
+
   // 负责实际绘制实例
   _render: function(ctx) {
     this.callSuper('_render', ctx);
@@ -620,27 +630,13 @@ fabric.labeledRect.fromObject = function(object, callback) {
 
 ```
 
-
-
-
-
-
-
 ### [Part4](http://fabricjs.com/fabric-intro-part-4)
 
 #### 自由绘画
 
 #### 定制
 
-#### Node.js上的Fabric
-
-
-
-
-
-
-
-
+#### Node.js 上的 Fabric
 
 ### [更多]([Tutorial — Fabric.js Javascript Canvas Library (fabricjs.com)](http://fabricjs.com/articles/))
 
@@ -652,5 +648,45 @@ fabric.labeledRect.fromObject = function(object, callback) {
 
 #### 位图字体和文本框字体
 
-#### clipPaths剪切
+#### clipPaths 剪切
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 使用记录
+
+### 导出Json
+
+- fabric.js自定义属性添加和导出
+
+  > `reac.set(xxx,xxx)`修改数据，会被直接添加到对应数据中，但导出时 fabric.js默认只会保存自己默认拥有的对象数据。
+  >
+  > 解决：需要将toJSON中加入Array,Array内包含所添加的所有自定义属性。`canvas.toJSON(['id']);`
+
+  ```js
+  // 添加自定义数据 
+  activeObject.set('href', state.href);
+   
+  // 导出逻辑，toJSON中添加自定义的属性，否则不会被导出
+  this.canvas.toJSON(['href', 'id', 'gradientAngle', 'selectable', 'hasControls']);
+  ```
+
+  
+
+
+
+
+
+
+
+
 

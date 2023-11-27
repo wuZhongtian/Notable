@@ -257,7 +257,7 @@ yarn config set registry https://registry.npm.taobao.org   # 切换yarn下载源
 ```shell
 npm i -g pnpm 	# 安装前提：node>=16.14
 
-pnpm		# 直接启动当前项目
+pnpm dev		# 直接启动当前项目
 pnpm -F 项目名 dev	# 在根目录通过-F过滤执行命令
 pnpm add <pkg>	# 安装软件包以及其依赖的任何软件包，默认为生产依赖项 -D开发依赖
 pnpm install	# 安装依赖
@@ -287,7 +287,9 @@ pnpm -F main add common # 给main项目添加common的内容
 import {xxx} from common # 在main项目中引入common
 ```
 
+- `pnpm run dev`和`pnpm dev`的区别：
 
+  > `pnpm run dev` 需要您在命令行中指定要运行的项目的入口文件（通常是 `index.js` 或 `main.js`），而 `pnpm dev` 则会自动查找项目中的 `package.json` 文件中指定的入口文件。
 
 
 

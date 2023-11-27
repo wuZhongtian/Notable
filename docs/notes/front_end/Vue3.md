@@ -1331,7 +1331,7 @@ app.use(pinia)
 
 // 组件中使用 store
 // 1. 导入数据对象
-imoprt useMainStore from './stort/index'
+import useMainStore from './stort/index'
 let store = useMainStore()
 // 2.在标签中使用
 ` <p>{{ store.count }}</p> `
@@ -1776,9 +1776,7 @@ myChart.setOption({
 
 #### 动态引入图片
 
-- 如下图，使用时直接掉用 getImgSrc方法
-
-![image-20220926164328693](images/Vue2/image-20220926164328693.png)
+- 如下图，使用时直接掉用 getImgSrc方法![image-20220926164328693](images/Vue2/image-20220926164328693.png)
 
 
 
@@ -2751,15 +2749,15 @@ myChart.setOption({
 
 
     #### provide 与 inject
-
+    
     - 作用：实现<strong style="color:#DD5145">祖与后代组件间</strong>通信
-
+    
     - 套路：父组件有一个 `provide` 选项来提供数据，后代组件有一个 `inject` 选项来开始使用这些数据
-
+    
     - 具体写法：
-
+    
       1. 祖组件中：
-
+    
          ```js
          setup(){
          	......
@@ -2768,9 +2766,9 @@ myChart.setOption({
              ......
          }
          ```
-
+    
       2. 后代组件中：
-
+    
          ```js
          setup(props,context){
          	......
@@ -2780,38 +2778,41 @@ myChart.setOption({
          }
          ```
 
-    
 
-    
+​    
+
+​    
 
     #### 响应式数据的判断
-
+    
     > 返回值 true / false
-
+    
     - isRef: 检查一个值是否为一个 ref 对象
     - isReactive: 检查一个对象是否是由 `reactive` 创建的响应式代理
     - isReadonly: 检查一个对象是否是由 `readonly` 创建的只读代理
     - isProxy: 检查一个对象是否是由 `reactive` 或者 `readonly` 方法创建的代理
 
-    
+
+​    
 
     ### 新增组件
-
+    
     #### Fragment
-
+    
     - 在Vue2中: 组件必须有一个根标签
     - 在Vue3中: 组件可以没有根标签, 内部会将多个标签包含在一个Fragment虚拟元素中
     - 好处: 减少标签层级, 减小内存占用
 
-    
+
+​    
 
     #### Teleport
-
+    
     - 什么是Teleport？—— `Teleport` 是一种能够将我们的<strong style="color:#DD5145">组件html结构</strong>移动到指定位置的技术。
-
+    
       - to 的值可以是 id` #app ` 标签名 `body ` 的形式
       - 能够将其中包裹的内容移动到指定的位置进行显示，无论它所在的组件结构有多深
-
+    
       ```vue
       <teleport to="移动位置">
       	<div v-if="isShow" class="mask">
@@ -2823,23 +2824,24 @@ myChart.setOption({
       </teleport>
       ```
 
-    
+
+​    
 
     #### Suspense
-
+    
     - 等待异步组件时渲染一些额外内容，让应用有更好的用户体验
-
+    
     - 使用步骤：
-
+    
       - 异步引入组件
-
+    
         ```js
         import {defineAsyncComponent} from 'vue'
         const Child = defineAsyncComponent(()=>import('./components/Child.vue'))
         ```
-
+    
       - 使用```Suspense```包裹组件，并配置好```default``` 与 ```fallback```
-
+    
         ```vue
         <template>
         	<div class="app">
@@ -2855,53 +2857,55 @@ myChart.setOption({
         	</div>
         </template>
         ```
-
+    
     - 只有使用异步引入，使用该组件标签的情况下，组件返回值，才能写成如下形式，否则页面无法显示该组件！
-
+    
     ![image-20220825183342674](images/Vue/image-20220825183342674.png)
 
-    
 
-    
+​    
+
+​    
 
     ### 响应式原理
-
+    
     ##### vue2的响应式
-
+    
     - 实现原理：
-
+    
       - 对象类型：通过`Object.defineProperty()`对属性的读取、修改进行拦截（数据劫持）。
-
+    
       - 数组类型：通过重写更新数组的一系列方法来实现拦截。（对数组的变更方法进行了包裹）。
-
+    
         ```js
         Object.defineProperty(data, 'count', {
             get () {}, 
             set () {}
         })
         ```
-
+    
     - 存在问题：
-
+    
       - Object.defineProperty() 捕获不到 新增属性、删除属性的操作, 无法直接相应式更新界面。
       - 直接通过下标修改数组, 界面不会自动更新。
 
-    
+
+​    
 
     ##### Vue3的响应式
-
+    
     - 实现原理: 
-
+    
       - 通过Proxy（代理）:  拦截对象中任意属性的变化, 包括：属性值的读写、属性的添加、属性的删除等。
-
+    
       - 通过Reflect（反射）:  对源对象的属性进行操作。
-
+    
       - MDN文档中描述的Proxy与Reflect：
-
+    
         - Proxy：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy
-
+    
         - Reflect：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect
-
+    
           ```js
           new Proxy(data, {
           	// 拦截读取属性值
@@ -2921,12 +2925,13 @@ myChart.setOption({
           proxy.name = 'tom'   
           ```
 
-    
+
+​    
 
     ##### 模拟Vue3响应式数据原理
-
+    
     ###### Proxy  代理对象
-
+    
     - Proxy构造函数 参数
       - 参数1：源数据
       - 参数2：配置对象，get、set、deleteProperty 函数
@@ -2939,7 +2944,7 @@ myChart.setOption({
       - 参数3：修改后的值
     - deleteProperty 函数 **删除数据**
       - 参数同 get 函数
-
+    
     ```js
     // 原数据
     let person = {
@@ -2963,18 +2968,19 @@ myChart.setOption({
     // 此时通过p修改属性值，会导致person的值一起改，实现代理操作
     ```
 
-    
 
-    
+​    
+
+​    
 
     ###### Reflect 反射对象
-
+    
     - Reflect 优点
       - 重复追加同一个属性，
         - Object.defineProperty对导致代码出错挂掉
         - Reflect.defineProperty不会导致代码挂掉，代码依旧能执行，会返回true/false告知是否成追加成功
           - 只有第一次成功返回ture，第二次失败返回false
-
+    
     ```js
     // 使用window身上的Reflect对象  
     let obj={a:1,b:2}
@@ -2990,54 +2996,58 @@ myChart.setOption({
     })
     ```
 
-    
 
-    
+​    
 
-    
+​    
+
+​    
 
     ### Composition API优势
-
+    
     - Options API  - 命令式api  存在的问题
       - 使用传统OptionsAPI中，新增或者修改一个需求，就需要分别在data，methods，computed里修改 。
-
+    
     - Composition API  - 声明式api 的优势
       - 可以更加好的组织代码、函数。将同一功能的相关代码放在一起。
 
-    
 
-    
+​    
 
-    
+​    
 
-    
+​    
+
+​    
 
 
     ### `<script setup>`
-
+    
     > 是在单文件组件 (SFC) 中使用组合式 API 的编译时语法糖。当同时使用 SFC 与组合式 API 时该语法是默认推荐。相比于普通的 `<script>` 语法，它具有更多优势：
 
-    
+
+​    
 
     优势：
-
+    
     - 更少的样板内容，更简洁的代码。
     - 能够使用纯 TypeScript 声明 props 和自定义事件。
     - 更好的运行时性能 (其模板会被编译成同一作用域内的渲染函数，避免了渲染上下文代理对象)。
     - 更好的 IDE 类型推导性能 (减少了语言服务器从代码中抽取类型的工作)。
 
-    
+
+​    
 
     特点：
-
+    
     - 类似与React的render？
-
+    
     - 里面的代码会被编译成组件 `setup()` 函数的内容。这意味着与普通的 `<script>` 只在组件被首次引入的时候执行一次不同，`<script setup>` 中的代码会在**每次组件实例被创建的时候执行**。
-
+    
     - 任何在 `<script setup>` 声明的顶层的绑定 (包括变量，函数声明，以及 import 导入的内容) 都能在模板中直接使用：
-
+    
     - import 导入的内容也会以同样的方式暴露。这意味着我们可以在模板表达式中直接使用导入的 helper 函数，而不需要通过 `methods` 选项来暴露它：
-
+    
       ```vue
       <script setup>
       import {toRefs} from 'vue'
@@ -3058,17 +3068,18 @@ myChart.setOption({
       </template>
       ```
 
-    
 
-    
+​    
+
+​    
 
 
     ## 全家桶
-
+    
     ### [Vuex ](https://vuex.vuejs.org/zh/guide/#最简单的-store)
-
+    
     > 模块化写法同 VUEX3
-
+    
     ```js
     npm install vuex -S // 下载
     
@@ -3087,16 +3098,18 @@ myChart.setOption({
             }
         }
     })
-    
-    
-    // main.js
-    import store from './store/index.js'
-    app.use(store)      // app是 createApp(App)
-    
-    
-    // 组件中使用 store中的数据，不需要this
-    <p :xxx="$store.state.xxx" />
-        
+
+
+​    
+​    // main.js
+​    import store from './store/index.js'
+​    app.use(store)      // app是 createApp(App)
+
+
+​    
+​    // 组件中使用 store中的数据，不需要this
+​    <p :xxx="$store.state.xxx" />
+​        
     // 组件中调用 mutations
     // 在setup中使用store时也需采用该方法
     import { useStore } from 'vuex'
@@ -3109,10 +3122,11 @@ myChart.setOption({
     
     ```
 
-    
+
+​    
 
     ### Pinia
-
+    
     > Vuex的迭代方案，与Vuex的API类似，作者是Vue.js及Vuex的核心成员之一。
     >
     > - 独特之处
@@ -3122,7 +3136,7 @@ myChart.setOption({
     >   - Vue浏览器插件支持Pinia，提供更好的开发体验
     >   - 能够构建多个stores，可直接分模块化的使用,并自动的代码拆分
     >   - 兼容Vue2、Vue3 及其轻量（1kb）
-
+    
     ```js
     // 安装pinia
     yarn add pinia
@@ -3166,29 +3180,30 @@ myChart.setOption({
                 }
             }
     	})  
-    
-    
-    // 组件中使用 store
-    // 1. 导入数据对象
-    imoprt useMainStore from './stort/index'
-    let store = useMainStore()
-    // 2.在标签中使用
-    ` <p>{{ store.count }}</p> `
-    // 3.1修改store    借助解构赋值、storeToRefs()      
-    import { storeToRefs } from 'pinia'
-    let { count } = storeToRefs(store)
-    function handleClick(){
-        count.value++  // 此时可以通过解构赋值得到的变量修改操作store中的store
-    }
-    // 3.2 修改store   使用$patch：对象式/函数式
-    function handleClick(){
-        store.list.push({name:"watch",money:2000})
-        store.$patch({ 
-            count:store.count++,
-            list:store.list,
-        })  // 相比于3.1 可同时修改多个数据 
-    }
-    
+
+
+​    
+​    // 组件中使用 store
+​    // 1. 导入数据对象
+​    imoprt useMainStore from './stort/index'
+​    let store = useMainStore()
+​    // 2.在标签中使用
+​    ` <p>{{ store.count }}</p> `
+​    // 3.1修改store    借助解构赋值、storeToRefs()      
+​    import { storeToRefs } from 'pinia'
+​    let { count } = storeToRefs(store)
+​    function handleClick(){
+​        count.value++  // 此时可以通过解构赋值得到的变量修改操作store中的store
+​    }
+​    // 3.2 修改store   使用$patch：对象式/函数式
+​    function handleClick(){
+​        store.list.push({name:"watch",money:2000})
+​        store.$patch({ 
+​            count:store.count++,
+​            list:store.list,
+​        })  // 相比于3.1 可同时修改多个数据 
+​    }
+​    
     store.$patch((state)=>{
         store.count += 10;
     	store.list.push({
@@ -3205,11 +3220,12 @@ myChart.setOption({
              { name:"watch2",money:2100 },
         ]
     }
-    
-    
-    // 5.重置store 恢复为初始状态
-    store.$reset()
-    
+
+
+​    
+​    // 5.重置store 恢复为初始状态
+​    store.$reset()
+​    
     // 6.监听整个仓库变化
     store.$subscribe((mutation,state)=>{
         console.log(mutation)
@@ -3220,7 +3236,8 @@ myChart.setOption({
     store.getTimu()
     ```
 
-    
+
+​    
 
     ```js
     // store 数据使用时响应式问题：
@@ -3236,24 +3253,26 @@ myChart.setOption({
     
     ```
 
-    
+
+​    
 
     #### 持久化存储
-
+    
     > 问题：pinia/vuex管理的状态，在手动刷新浏览器时，状态管理的数据都会丢失，被初始化，需要进行持久化存储，常用方式是sessionStroage或localStorage手动保存，或借助第三方插件完成。
-
+    
     [Getting started | Pinia Plugin Persist (seb-l.github.io)](https://seb-l.github.io/pinia-plugin-persist/)
 
-    
 
-    
+​    
+
+​    
 
     ### router 4
-
+    
     #### 基本使用
-
+    
     - 与 router 3  大致一致
-
+    
     ```js
     // 1.安装 npm i vue-router
     // router文件夹下 index.js
@@ -3276,25 +3295,28 @@ myChart.setOption({
         routes
     })
     export default router
-    
-    
-    // main.js
-    .use(router)
-    
-    
-    // 在组件中使用
-    import { useRouter } from 'vue-router';
-    const router = useRouter()
-    // 使用
-    router.push({
-        name:'xxx'
-    })
-    ```
 
-    
+
+​    
+​    // main.js
+​    .use(router)
+
+
+​    
+​    // 在组件中使用
+​    import { useRouter } from 'vue-router';
+​    const router = useRouter()
+​    // 使用
+​    router.push({
+​        name:'xxx'
+​    })
+​    ```
+
+
+​    
 
     #### 动态添加路由
-
+    
     ```js
     import { authentication } from "../api/common"
     import { useRouter } from 'vue-router';
@@ -3313,28 +3335,30 @@ myChart.setOption({
     })
     ```
 
-    
 
-    
+​    
+
+​    
 
     #### useRouter/useRoute区别
-
+    
     - 作用：
       - `useRouter`返回路由器实例，
       - `useRoute`返回当前的路由地址。
     - `useRouter`提供了全局路由信息，如`.push()`, `.replace()`, `.go()`, `.back()`, `.forward()`等方法
     - `useRoute`提供了当前路由的信息，如`.path`, `.hash`, `.query`, `.params`, `.fullPath`等。
 
-    
 
-    
+​    
 
-    
+​    
+
+​    
 
     ### axios封装
-
+    
     > 携带必要的请求信息，处理同样的相应状态码等，逻辑一致时，进行封装统一操作
-
+    
     ```js
     const NETWORK_ERROR='网络请求出错，稍后再试'
     import axios from 'axios'
@@ -3363,22 +3387,23 @@ myChart.setOption({
             return Promise.reject( msg || NETWORK_ERROR )
         }   
     })
-    
-    
-    // 封装的核心函数
-    function request(options){
-        options.method = options.method || 'get'
-        if(options.method.toLowerCase()=='get'){
-            options.params=options.data
-        }
-        return service(options)
-    }
-    
+
+
+​    
+​    // 封装的核心函数
+​    function request(options){
+​        options.method = options.method || 'get'
+​        if(options.method.toLowerCase()=='get'){
+​            options.params=options.data
+​        }
+​        return service(options)
+​    }
+​    
     export default request
     ```
-
+    
     - api.js  整个项目的api管理
-
+    
     ```js
     // 整个项目的api管理
     import request from './request.js'
@@ -3395,71 +3420,77 @@ myChart.setOption({
         getxxxxx(){...},
         ....
     }
-    
-    
-    // 将api挂载到全局中  main.js
-    import api from './api/api.js'
-    app.config.globalProperties.$api = api  // app 是 createApp(App)
-    // 在组件中调用
-    import { getCurrentInstance } from 'vue'
-    const {proxy} = getCurrentInstance();  // proxy类似于vue2中的this
-    proxy.$api.getTableDate(params).then(()=>{
-        
+
+
+​    
+​    // 将api挂载到全局中  main.js
+​    import api from './api/api.js'
+​    app.config.globalProperties.$api = api  // app 是 createApp(App)
+​    // 在组件中调用
+​    import { getCurrentInstance } from 'vue'
+​    const {proxy} = getCurrentInstance();  // proxy类似于vue2中的this
+​    proxy.$api.getTableDate(params).then(()=>{
+​        
     })
     ```
 
-    
 
-    
+​    
+
+​    
 
     ## 进阶内容
 
-    
+
+​    
 
     ### Vue模板解析
-
+    
     > vue模板 -> AST -> render函数 -> vnode
     >
     > - AST 用一个JSON对象来描述一个元素信息
     > - vnode 同样用来标识模板，优势在于进行diff对比时性能更好
     > - 优化真实dom生成的过程
 
-    
 
-    
+​    
+
+​    
 
     ## 其他内容
-
+    
     ### IDE及插件
-
+    
     - VsCode
-
+    
     > - 强烈推荐 [Visual Studio Code](https://code.visualstudio.com/) (VSCode)，因为它对 TypeScript 有着很好的内置支持。
     > - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) 是官方的 VSCode 扩展，提供了 Vue 单文件组件中的 TypeScript 支持，还伴随着一些其他非常棒的特性。
     > - 注意：Volar 取代了我们之前为 Vue 2 提供的官方 VSCode 扩展 [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)。如果你之前已经安装了 Vetur，请确保在 Vue 3 的项目中禁用它。
-
+    
     - [WebStorm](https://www.jetbrains.com/webstorm/) 对 TypeScript 和 Vue 也都提供了开箱即用的支持
 
-    
+
+​    
 
     ### tag 实战步骤
-
+    
     > 1. 首页的 tag一开始就会存在，而且是不能进行删除的
     > 2. 当点击左侧栏的时候，如果tag没有该菜单名称则新增并置为蓝色，如果有则当前tag背景变为蓝色
     > 3. 删除当前tag，如果是最后一个，那么路由调整为前一个标签并背景变蓝；如果不是最后一个那么路由调整为后一个标签并且背景变蓝
 
-    
 
-    
+​    
 
-    
+​    
 
-    
+​    
+
+​    
 
     ### Mock模拟数据
-
+    
     - 本地[Mock](http://mockjs.com/)
-
+    
     ```js
     // 下载mock插件
     npm i mockjs -S
@@ -3483,20 +3514,22 @@ myChart.setOption({
     // 在代码中使用axios get请求 /home/getData 接口即可拿到数据
     ```
 
-    
+
+​    
 
     - 在线mock
 
-    
 
-    
+​    
 
-    
+​    
+
+​    
 
     ### [Element+](https://element-plus.gitee.io/zh-CN)
-
+    
     - 安装
-
+    
       ```sh
       # 选择一个你喜欢的包管理器
       
@@ -3509,9 +3542,9 @@ myChart.setOption({
       # pnpm
       $ pnpm install element-plus
       ```
-
+    
     - 完整引入
-
+    
       ```js
       // main.js
       import { createApp } from 'vue'
@@ -3522,9 +3555,9 @@ myChart.setOption({
       
       createApp(App).mount('#app').use(ElementPlus)
       ```
-
+    
     - 按需自动引入（代码中可直接使用）
-
+    
       ```js
       // 安装unplugin-vue-components 和 unplugin-auto-import这两款插件
       npm install -D unplugin-vue-components unplugin-auto-import
@@ -3550,15 +3583,16 @@ myChart.setOption({
       
       //webpack 插入配置，参看官网
       ```
-
+    
     - 手动引入（麻烦）
 
-    
 
-    
+​    
+
+​    
 
     ### [ECharts](https://echarts.apache.org/zh/index.html)
-
+    
     ```js
     // 1.下载 echarts
     npm install echarts -S
@@ -3605,30 +3639,32 @@ myChart.setOption({
     });
     ```
 
-    
 
-    
+​    
 
-    
+​    
+
+​    
 
     ### 动态引入
-
+    
     #### 动态引入图片
-
+    
     - 如下图，使用时直接掉用 getImgSrc方法
-
+    
     ![image-20220926164328693](images/Vue/image-20220926164328693.png)
 
-    
+
+​    
 
     #### 动态引入组件
-
+    
     - 借助 `<component :is='xxx'>`
-
+    
     - 由于组件是通过变量引用而不是基于字符串组件名注册的，在 `<script setup>` 中要使用动态组件的时候，应该使用动态的 `:is` 来绑定：
-
+    
     - 请注意组件是如何在三元表达式中被当做变量使用的。
-
+    
       ```vue
       <script setup>
       import Foo from './Foo.vue'
@@ -3641,13 +3677,14 @@ myChart.setOption({
       </template>
       ```
 
-    
 
-    
+​    
 
-    
+​    
 
-    
+​    
+
+​    
 
     - vue插件
       - Vuetify：开源组件库
