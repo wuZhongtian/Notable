@@ -219,6 +219,37 @@ canvas.add(path);
 
 > `animate`在每次更改后不会自动重新渲染画布的原因是性能问题。毕竟，我们可以在画布上有成千上百个动画对象，不能让他们中的每一个都试图重新渲染屏幕。在有很多对象的情况下，可以使用类似`requestAnimationFrame`（或其他基于计时器的）循环来连续地渲染画布，而不需要为每个对象调用`renderAll`。但大多数时候，您可能需要显式地指定`canvas.renderAll`作为“onChange”回调。
 
+> animate方法的配置选项支持以下属性：
+>
+> 1. left：目标位置的左侧坐标。
+> 2. top：目标位置的顶部坐标。
+> 3. scaleX：目标水平缩放比例。
+> 4. scaleY：目标垂直缩放比例。
+> 5. angle：目标旋转角度。
+> 6. opacity：目标透明度。
+> 7. width：目标宽度。
+> 8. height：目标高度。
+> 9. radius：目标半径。
+> 10. fill：目标填充颜色。
+> 11. stroke：目标描边颜色。
+> 12. strokeWidth：目标描边宽度。
+
+> 可使用easing属性来指定要使用的运动曲线类型
+>
+> 1. fabric.util.ease.linear：线性运动曲线。
+> 2. fabric.util.ease.easeInQuad：二次方缓入运动曲线。
+> 3. fabric.util.ease.easeOutQuad：二次方缓出运动曲线。
+> 4. fabric.util.ease.easeInOutQuad：二次方缓入缓出运动曲线。
+> 5. fabric.util.ease.easeInCubic：三次方缓入运动曲线。
+> 6. fabric.util.ease.easeOutCubic：三次方缓出运动曲线。
+> 7. fabric.util.ease.easeInOutCubic：三次方缓入缓出运动曲线。
+> 8. fabric.util.ease.easeInQuart：四次方缓入运动曲线。
+> 9. fabric.util.ease.easeOutQuart：四次方缓出运动曲线。
+> 10. fabric.util.ease.easeInOutQuart：四次方缓入缓出运动曲线。
+> 11. fabric.util.ease.easeInQuint：五次方缓入运动曲线。
+> 12. fabric.util.ease.easeOutQuint：五次方缓出运动曲线。
+> 13. fabric.util.ease.easeInOutQuint：五次方缓入缓出运动曲线。
+
 - `xxx.animate()`：为 fabric 对象设置动画(每个 Fabric 对象都有 animate 方法)
   - 参数 1：设置要动画的属性
     - `旋转-设置角度、left-top-移动、width-height-伸缩、opacity-淡入淡出`
@@ -249,7 +280,7 @@ rect.animate('angle', '-=5', { onChange: canvas.renderAll.bind(canvas) });
 rect.animate('left', '+=100', { onChange: canvas.renderAll.bind(canvas) });
 
 // 动画参数
-rect.animate('left', 500, {
+rect.animate({left:500,angle:'+=5'} {
   onChange: canvas.renderAll.bind(canvas),
   duration: 1000,
   easing: fabric.util.ease.easeOutBounce
@@ -268,6 +299,12 @@ cancelled[i].cancel === cancel;
 fabric.runningAnimations.length === 0;
 
 ```
+
+
+
+
+
+
 
 #### 颜色/渐变
 
@@ -442,6 +479,10 @@ circle.on("selected", function () {
 - 注意：
   - 在使用图像形成组时，需要确保这些图像已完全加载。Fabric 已经提供相关方法来确保图像被加载
 
+
+
+
+
 ```js
 var circle = new fabric.Circle({ radius: 100, fill: "#eef", scaleY: 0.5, originX: "center", originY: "center" });
 
@@ -524,6 +565,8 @@ console.log(JSON.stringify(canvas));
 ##### [toSVG+解析器](http://fabricjs.com/fabric-intro-part-3)
 
 #### ☆ Subclassing 子类化
+
+> [Fabric.js 自定义子类，创建属于自己的对象](https://juejin.cn/post/7143794070513516581#heading-5)
 
 - `fabric.util.createClass`实用程序方法、是对 JavaScript 原型继承的一个简单抽象
 
@@ -664,6 +707,8 @@ fabric.labeledRect.fromObject = function(object, callback) {
 
 ## 使用记录
 
+
+
 ### 导出Json
 
 - fabric.js自定义属性添加和导出
@@ -684,7 +729,30 @@ fabric.labeledRect.fromObject = function(object, callback) {
 
 
 
+### 设置旋转中心
 
+```js
+var rect = new fabric.Rect({
+  left: 100,
+  top: 100,
+  width: 50,
+  height: 50,
+  fill: 'red',
+  originX: 'center', // 将原点设置为中心点
+  originY: 'center'  // 将原点设置为中心点
+});
+
+canvas.add(rect);
+
+// 执行旋转动画
+rect.animate('angle', 45, {
+  duration: 1000,
+  onChange: canvas.renderAll.bind(canvas),
+  onComplete: function() {
+    console.log('旋转动画完成');
+  }
+});
+```
 
 
 
