@@ -958,12 +958,6 @@ export default {
 
 ### 新增组件
 
-#### Fragment
-
-- 在Vue2中: 组件必须有一个根标签
-- 在Vue3中: 组件可以没有根标签, 内部会将多个标签包含在一个Fragment虚拟元素中
-- 好处: 减少标签层级, 减小内存占用
-
 
 
 #### Teleport
@@ -3110,16 +3104,16 @@ myChart.setOption({
 ​    // 组件中使用 store中的数据，不需要this
 ​    <p :xxx="$store.state.xxx" />
 ​        
-    // 组件中调用 mutations
-    // 在setup中使用store时也需采用该方法
-    import { useStore } from 'vuex'
-    setup(){
-        let store = useStore()
-        ...
-        // 在触发的方法中写commit
-    	store.commit('mutation中的名字',)
-    }
-    
+​    // 组件中调用 mutations
+​    // 在setup中使用store时也需采用该方法
+​    import { useStore } from 'vuex'
+​    setup(){
+​        let store = useStore()
+​        ...
+​        // 在触发的方法中写commit
+​    	store.commit('mutation中的名字',)
+​    }
+​    
     ```
 
 
@@ -3204,14 +3198,14 @@ myChart.setOption({
 ​        })  // 相比于3.1 可同时修改多个数据 
 ​    }
 ​    
-    store.$patch((state)=>{
-        store.count += 10;
-    	store.list.push({
-            name:"watch",
-            money:2000
-        })
-    })
-    
+​    store.$patch((state)=>{
+​        store.count += 10;
+​    	store.list.push({
+​            name:"watch",
+​            money:2000
+​        })
+​    })
+​    
     // 4.修改store 将现在的整个state进行替换
     store.$store={
         count:100,
@@ -3226,12 +3220,12 @@ myChart.setOption({
 ​    // 5.重置store 恢复为初始状态
 ​    store.$reset()
 ​    
-    // 6.监听整个仓库变化
-    store.$subscribe((mutation,state)=>{
-        console.log(mutation)
-        console.log(state)
-    })
-    
+​    // 6.监听整个仓库变化
+​    store.$subscribe((mutation,state)=>{
+​        console.log(mutation)
+​        console.log(state)
+​    })
+​    
     // 7.调用axios的方法，获取异步数据
     store.getTimu()
     ```
@@ -3399,9 +3393,9 @@ myChart.setOption({
 ​        return service(options)
 ​    }
 ​    
-    export default request
-    ```
-    
+​    export default request
+​    ```
+​    
     - api.js  整个项目的api管理
     
     ```js
@@ -3431,8 +3425,8 @@ myChart.setOption({
 ​    const {proxy} = getCurrentInstance();  // proxy类似于vue2中的this
 ​    proxy.$api.getTableDate(params).then(()=>{
 ​        
-    })
-    ```
+​    })
+​    ```
 
 
 ​    

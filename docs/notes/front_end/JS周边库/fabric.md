@@ -254,13 +254,14 @@ canvas.add(path);
   - 参数 1：设置要动画的属性
     - `旋转-设置角度、left-top-移动、width-height-伸缩、opacity-淡入淡出`
   - 参数 2：动画的目标形态
-    - 假设初始化角度为 15，参数 2 设置为 45，那么它将从-15° 到 45° 动画
+    - 假设初始化角度为 15，参数 2 设置为 45，那么它将从15° 到 45° 动画
   - 参数 3：指定了动画的细节--持续时间、回调、缓动等
     - **from**：指定动画属性的起始值（如果我们不想使用当前值）。
     - **duration**：动画的持续时间，单位 ms，默认值 500。
     - **onComplete**：在动画结束时调用的回调。
-    - **easing**：缓动功能，默认- easeInSine
-      - `easeInCubic || easeOutCubic || easeInElastic || easeOutElastic || easeInBounce || easeOutExpo`
+    - **easing**：动效函数，默认- easeInSine
+      
+      `easeInCubic || easeOutCubic || easeInElastic || easeOutElastic || easeInBounce || easeOutExpo`
 - `fabric.runningAnimations`：访问当前正在按 Fabric 运行的动画，它是一个对象数组，每个对象都是动画上下文对象。
   - `fabric.runningAnimations.findAnimation(signature)` ：返回与`signature`匹配的动画上下文，这是由`fabric.util.animate`返回的中止函数。
   - `fabric.runningAnimations.findAnimationIndex(signature)`：与`findAnimation`相同，返回索引。

@@ -135,6 +135,11 @@ export default {
           collapsible: true,
           children: ["/notes/database/MySQl.md", "/notes/database/MongoDB.md"],
         },
+        {
+          text: "鸿蒙开发",
+          collapsible: true,
+          children: ["/notes/harmonyos/应用开发.md", "/notes/harmonyos/设备开发.md"],
+        },
         "/notes/Git.md",
         "/notes/Docker.md",
         "/notes/Linux.md",
