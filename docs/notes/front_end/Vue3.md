@@ -1197,7 +1197,7 @@ Reflect.defineProperty(obj,'c',{
   <script setup>
   import {toRefs} from 'vue'
   // 相比于 <script> 不需要再通过return返回内容，直接使用
-  import { capitalize } from './helpers'
+  
   const props = defineProps({		// props
       text:String,
       message:Number
@@ -1209,7 +1209,6 @@ Reflect.defineProperty(obj,'c',{
   
   <template>
     <button @click="log">{{ msg }}</button>
-    <div>{{ capitalize('hello') }}</div>
   </template>
   ```
 
@@ -3114,7 +3113,7 @@ myChart.setOption({
 ​    	store.commit('mutation中的名字',)
 ​    }
 ​    
-    ```
+​    ```
 
 
 ​    
@@ -3206,14 +3205,14 @@ myChart.setOption({
 ​        })
 ​    })
 ​    
-    // 4.修改store 将现在的整个state进行替换
-    store.$store={
-        count:100,
-        list:[
-             { name:"watch",money:2000 },
-             { name:"watch2",money:2100 },
-        ]
-    }
+​    // 4.修改store 将现在的整个state进行替换
+​    store.$store={
+​        count:100,
+​        list:[
+​             { name:"watch",money:2000 },
+​             { name:"watch2",money:2100 },
+​        ]
+​    }
 
 
 ​    
@@ -3226,9 +3225,9 @@ myChart.setOption({
 ​        console.log(state)
 ​    })
 ​    
-    // 7.调用axios的方法，获取异步数据
-    store.getTimu()
-    ```
+​    // 7.调用axios的方法，获取异步数据
+​    store.getTimu()
+​    ```
 
 
 ​    
@@ -3396,8 +3395,8 @@ myChart.setOption({
 ​    export default request
 ​    ```
 ​    
-    - api.js  整个项目的api管理
-    
+​    - api.js  整个项目的api管理
+​    
     ```js
     // 整个项目的api管理
     import request from './request.js'
