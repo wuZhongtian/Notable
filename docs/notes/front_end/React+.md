@@ -6,7 +6,7 @@
 
 
 
-### 入口文件
+## 入口文件
 
 ```js
 // react 18 及以后
@@ -28,17 +28,17 @@ ReactDOM.render(<App />, document.getElementById('root'););
 
 
 
-### 自带标签
+## 自带标签
 
 
 
-#### Fragment 空标签
+### Fragment 空标签
 
 - 等同于`<></>` ，表示空标签
 
 
 
-#### Helmet 动态head
+### Helmet 动态head
 
 - 用来在页面组件中动态修改页面的`<head>`中的标签，如修改标题`<title>`、`<link>` `<meta>`等时，可以用这个实现
 
@@ -52,7 +52,7 @@ import { Helmet } from 'react-helmet-async';
 
 
 
-### 常见的Hook
+## 常见的Hook
 
 > - 函数式组件无生命周期的概念
 > - Hook是React 16.8.0版本增加的新特性/新语法
@@ -81,7 +81,7 @@ import { Helmet } from 'react-helmet-async';
 
 
 
-##### useState
+### useState
 
 ```jsx
 (1). State Hook让函数组件也可以有state状态, 并进行状态数据的读写操作
@@ -101,7 +101,7 @@ import { Helmet } from 'react-helmet-async';
 
 
 
-##### useEffect
+### useEffect
 
 ```jsx
 (1). Effect Hook 可以让你在函数组件中执行副作用操作(用于模拟类组件中的生命周期钩子)
@@ -142,7 +142,7 @@ import { Helmet } from 'react-helmet-async';
 
 
 
-##### useRef
+### useRef
 
 - 与类式组件中的 React.createRef()  用法一致
 
@@ -164,7 +164,7 @@ import { Helmet } from 'react-helmet-async';
 
   
 
-##### useContext
+### useContext
 
 - 实现跨组件间的数据传输
 
@@ -204,17 +204,17 @@ export default App
 
 
 
-##### 自定义hook
+### 自定义hook
 
 
 
 
 
-#### 18新hooks
+### 18新hooks
 
 
 
-##### useId
+#### useId
 
 - `useId`是一个生成全局唯一id的hooks，它可以用在client和service端，从而可以避免水化过程中的不匹配，下面是一个简单的示例
 
@@ -240,7 +240,7 @@ const CheckBox = () => {
 
 
 
-### react-router-dom
+## react-router-dom
 
 - 127
 - https://www.yuque.com/fechaichai/qeamqf/smoknz#JRD2D
@@ -266,7 +266,7 @@ console.log(param.id)
 
 
 
-### react-hook-form
+## react-hook-form
 
 - https://www.jianshu.com/p/fa6e3d76bcaa
 
@@ -307,7 +307,7 @@ function App() {
 
 
 
-### 性能优化
+## 性能优化
 
 #### useLayoutEffect/useEffect
 
@@ -317,7 +317,7 @@ function App() {
 
 
 
-#### React.memo
+### React.memo
 
 > 函数组件，在任何情况下都会重新渲染，没有生命周期，官方提供React.memo优化手段
 
@@ -325,7 +325,7 @@ function App() {
 
 
 
-#### Memo
+### Memo
 
 ![image-20230803105940870](images/React+/image-20230803105940870.png)
 
@@ -336,7 +336,7 @@ function App() {
 
 
 
-#### 组件优化
+### 组件优化
 
 1. Component的2个问题 
 
@@ -381,7 +381,7 @@ function App() {
 
 
 
-#### 错误边界
+### 错误边界
 
 > 错误边界(Error boundary)：用来捕获后代组件错误，渲染出备用页面
 
@@ -414,7 +414,7 @@ function App() {
 
 
 
-#### render props
+### render props
 
 > 向组件内部动态传入带有内容的结构（标签/组件）
 
@@ -442,15 +442,43 @@ React中:
 
 
 
+### 打包体积分析
+
+> 通过分析打包体积，能更好的进行项目优化
+
+- 使用步骤
+
+  1. 安装分析打包体积的包 yarn add source-map-explorer
+
+  2. 在package.json.中的scripts 标签中，添加分析打包体积的命令
+
+  3. 对项目打包 yarn build （如果已经打包，可跳过）
+
+  4. 运行分析命令：yarn analyze
+
+  5. 通过浏览器打开的页面，进行分析
+
+     ```js
+     // package.json 中：
+     // source-map-explorer 'build/static/js/*.js' 表示分析打包后的所有js文件
+     "script":{
+       "analyze":"source-map-explorer 'build/static/js/*.js'"
+     }
+     ```
+
+  ![image-20230402225930811](images/React+/image-20230402225930811.png)
 
 
 
 
-### 周边库
 
 
 
-#### react-cookies
+## 周边库
+
+
+
+### react-cookies
 
 > 可设置失效时间。如果在浏览器端生成Cookie，默认是关闭浏览器后失效
 > 大小4K左右
@@ -482,7 +510,7 @@ cookie.save('userId', "123",{ expires: inFifteenMinutes });
 
 
 
-#### [Ant Design](https://ant.design/index-cn)
+### [Ant Design](https://ant.design/index-cn)
 
 - 按需引入：[在 create-react-app 中使用 - Ant Design](https://3x.ant.design/docs/react/use-with-create-react-app-cn)
 - 自定义主题：
@@ -544,9 +572,7 @@ yarn add antd
 
 ## 使用记录
 
-#### 知识点
-
-##### 深度监视
+### 深度监视
 
 > 使用global声明的class 都不会被编译成哈希字符串
 >
@@ -562,7 +588,7 @@ yarn add antd
 
 
 
-##### @符配置 别名路径
+### @符配置 别名路径
 
 > - cra创建的项目，默认将所有工程化配置，都隐藏在react-script包中；如果要修改CRA的默认配置有以下两种方案：
 >   - 通过第三方库修改，@craco/craco  （推荐）
@@ -620,7 +646,7 @@ yarn add antd
 
 
 
-##### 文件下载
+### 文件下载
 
 ```jsx
 // 借助a标签下载文件
@@ -632,37 +658,9 @@ yarn add antd
 
 
 
-##### 打包体积分析
-
-> 通过分析打包体积，能更好的进行项目优化
-
-- 使用步骤
-
-  1. 安装分析打包体积的包 yarn add source-map-explorer
-
-  2. 在package.json.中的scripts 标签中，添加分析打包体积的命令
-
-  3. 对项目打包 yarn build （如果已经打包，可跳过）
-
-  4. 运行分析命令：yarn analyze
-
-  5. 通过浏览器打开的页面，进行分析
-
-     ```js
-     // package.json 中：
-     // source-map-explorer 'build/static/js/*.js' 表示分析打包后的所有js文件
-     "script":{
-       "analyze":"source-map-explorer 'build/static/js/*.js'"
-     }
-     ```
-
-  ![image-20230402225930811](images/React+/image-20230402225930811.png)
 
 
-
-
-
-#### 优化配置CDN
+### 优化配置CDN
 
 > 通过 craco修改webpack配置，对第三方包使用CDN优化
 >
@@ -676,7 +674,7 @@ yarn add antd
 
 
 
-#### vite+react项目搭建
+### vite+react项目搭建
 
 - https://zhuanlan.zhihu.com/p/456407867?utm_id=0
 
@@ -690,7 +688,7 @@ yarn add antd
 
 
 
-#### Docusaurus记录
+### Docusaurus记录
 
 
 

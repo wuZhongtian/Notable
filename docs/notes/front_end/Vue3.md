@@ -1,9 +1,9 @@
 <WaterMark />
 # Vue3
 
-### 基础内容
+## 基础内容
 
-#### 创建项目
+### 创建项目
 
 - 使用 Vue-cli 创建（Vue-cli 版本4.5.0  +）
 
@@ -29,7 +29,7 @@
   npm run dev //运行项目 
   ```
 
-#### 关闭语法检查
+### 关闭语法检查
 
 - 在 项目根目录下 vue.config.js 中进行配置
 
@@ -41,7 +41,7 @@ module.exports = {
 
 
 
-#### main.js
+### main.js
 
 - 入口文件 发生改动（不兼容Vue2的写法）
 
@@ -67,7 +67,7 @@ createApp(App).mount('#app')  // app为index.html容器的id
 
 
 
-#### 全局API的转移
+### 全局API的转移
 
 - Vue 2.x 有许多全局 API 和配置。
 
@@ -102,7 +102,7 @@ createApp(App).mount('#app')  // app为index.html容器的id
     | Vue.use                   | app.use                                     |
     | Vue.prototype             | app.config.globalProperties                 |
 
-#### 其他改变
+### 其他改变
 
 - data选项应始终被声明为一个函数。
 
@@ -166,7 +166,7 @@ createApp(App).mount('#app')  // app为index.html容器的id
 
 
 
-#### 预处理器
+### 预处理器
 
 - 代码块可以使用 `lang` 这个 attribute 来声明预处理器语言，最常见的用例就是在 `<script>` 中使用 TypeScript：
 
@@ -191,7 +191,7 @@ createApp(App).mount('#app')  // app为index.html容器的id
 
   
 
-#### 杂项
+### 杂项
 
 1. Vue文件结构中可以 存在多个标签，不再要求只有一个根标签包裹
 
@@ -251,9 +251,9 @@ createApp(App).mount('#app')  // app为index.html容器的id
 
 
 
-### 组合式API（常用）
+## 组合式API（常用）
 
-#### setup配置
+### setup配置
 
 > - Vue3中的一个配置项，值为一个函数；是所有Composition API(组合式api)的`表演舞台`
 > - 组件中所有用到的：数据、方法、计算属性等，均要配置在setup中
@@ -329,7 +329,7 @@ export default{
 
 
 
-#### ref函数
+### ref函数
 
 - 作用: 定义一个**响应式的数据**
 
@@ -383,7 +383,7 @@ export default{
 
 
 
-##### 模板引用
+#### 模板引用
 
 > `ref` 是一个特殊的 attribute，和 `v-for` 章节中提到的 `key` 类似
 >
@@ -422,7 +422,7 @@ watchEffect(() => {
 
 
 
-##### v-for中的模板引用
+#### v-for中的模板引用
 
 > 在 `v-for` 中使用模板引用时，对应的 ref 中包含的值是一个数组，它将在元素被挂载后包含对应整个列表的所有元素
 >
@@ -448,7 +448,7 @@ onMounted(() => console.log(itemRefs.value))
 
 
 
-##### 组件ref
+#### 组件ref
 
 > 能够获得组件实例
 
@@ -484,7 +484,7 @@ defineExpose({
 
 
 
-##### 函数模板引用
+#### 函数模板引用
 
 > `ref` attribute 还可以绑定为一个函数，会在每次组件更新时都被调用。该函数会收到元素引用作为其第一个参数
 >
@@ -498,7 +498,7 @@ defineExpose({
 
 
 
-#### reactive函数
+### reactive函数
 
 - 作用: 定义一个`对象类型`的响应式数据（基本类型，要用```ref```函数）
 - 语法：`const 代理对象= reactive(源对象)`
@@ -531,7 +531,7 @@ setup(){
 
 
 
-#### reactive与ref
+### reactive与ref
 
 -  从定义数据角度对比：
    -  ref用来定义：基本类型数据
@@ -546,9 +546,9 @@ setup(){
 
 
 
-#### 计算与侦听属性
+### 计算与侦听属性
 
-##### computed计算属性
+#### computed计算属性
 
 - 使用步骤  与vue2中基本一致
 
@@ -587,7 +587,7 @@ setup(){
 
 
 
-##### watch侦听属性
+#### watch侦听属性
 
 - watch三个参数
   - 参数1：需要监视的响应式数据，可以是对象
@@ -659,7 +659,7 @@ export default {
 
 
 
-##### watchEffect
+#### watchEffect
 
 - watch的套路是：既要指明监视的属性，也要指明监视的回调。
 
@@ -683,7 +683,7 @@ export default {
 
 
 
-#### Vue3生命周期
+### Vue3生命周期
 
 - Vue3.0中 **可以继续使用Vue2.x中的生命周期钩子**，但有有两个被更名：
 
@@ -721,7 +721,7 @@ export default {
 
 
 
-#### hook函数
+### hook函数
 
 > 本质是一个函数，把setup函数中使用的Composition API进行了封装。
 >
@@ -758,7 +758,7 @@ export default {
 
 
 
-#### toRef与toRefs
+### toRef与toRefs
 
 - 作用：创建一个 ref 对象，其value值指向另一个对象中的某个属性，保留响应式
 
@@ -793,9 +793,9 @@ export default {
 
 
 
-### 组合式API（其他）
+## 组合式API（其他）
 
-#### shallowReactive 与 shallowRef
+### shallowReactive 与 shallowRef
 
 - shallowReactive：只处理对象最外层属性的响应式（浅响应式）。
 
@@ -816,7 +816,7 @@ export default {
 
 
 
-#### readonly 与 shallowReadonly
+### readonly 与 shallowReadonly
 
 - readonly: 让一个响应式数据变为只读的（深只读）。
 
@@ -846,7 +846,7 @@ export default {
 
   
 
-#### toRaw 与 markRaw
+### toRaw 与 markRaw
 
 - toRaw：
   - 作用：将一个由```reactive```生成的<strong style="color:orange">响应式对象</strong>转为<strong style="color:orange">普通对象</strong>。
@@ -859,7 +859,7 @@ export default {
 
 
 
-#### customRef  自定义Ref
+### customRef  自定义Ref
 
 - 作用：创建一个自定义的 ref，并对其依赖项跟踪和更新触发进行显式控制。
 
@@ -911,7 +911,7 @@ export default {
 
 
 
-#### provide 与 inject
+### provide 与 inject
 
 - 作用：实现<strong style="color:#DD5145">祖与后代组件间</strong>通信
 
@@ -945,7 +945,7 @@ export default {
 
 
 
-#### 响应式数据的判断
+### 响应式数据的判断
 
 > 返回值 true / false
 
@@ -956,11 +956,11 @@ export default {
 
 
 
-### 新增组件
+## 新增组件
 
 
 
-#### Teleport
+### Teleport
 
 - 什么是Teleport？—— `Teleport` 是一种能够将我们的<strong style="color:#DD5145">组件html结构</strong>移动到指定位置的技术。
 
@@ -980,7 +980,7 @@ export default {
 
 
 
-#### Suspense
+### Suspense
 
 - 等待异步组件时渲染一些额外内容，让应用有更好的用户体验
 
@@ -1019,9 +1019,9 @@ export default {
 
 
 
-### 响应式原理
+## 响应式原理
 
-##### vue2的响应式
+### vue2的响应式
 
 - 实现原理：
 
@@ -1043,7 +1043,7 @@ export default {
 
 
 
-##### Vue3的响应式
+### Vue3的响应式
 
 - 实现原理: 
 
@@ -1078,9 +1078,9 @@ export default {
 
 
 
-##### 模拟Vue3响应式数据原理
+### 模拟Vue3响应式数据原理
 
-###### Proxy  代理对象
+#### Proxy  代理对象
 
 - Proxy构造函数 参数
   - 参数1：源数据
@@ -1122,7 +1122,7 @@ const p = new Proxy(person,{
 
 
 
-###### Reflect 反射对象
+#### Reflect 反射对象
 
 - Reflect 优点
   - 重复追加同一个属性，
@@ -1151,7 +1151,7 @@ Reflect.defineProperty(obj,'c',{
 
 
 
-### Composition API优势
+## Composition API优势
 
 - Options API  - 命令式api  存在的问题
   - 使用传统OptionsAPI中，新增或者修改一个需求，就需要分别在data，methods，computed里修改 。
@@ -1168,7 +1168,7 @@ Reflect.defineProperty(obj,'c',{
 
 
 
-### `<script setup>`
+## `<script setup>`
 
 > 是在单文件组件 (SFC) 中使用组合式 API 的编译时语法糖。当同时使用 SFC 与组合式 API 时该语法是默认推荐。相比于普通的 `<script>` 语法，它具有更多优势：
 

@@ -19,9 +19,9 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 
 
 
-### 基础指南
+## 基础指南
 
-#### Canvas 画布
+### Canvas 画布
 
 - `fabric.StaticCanvas()` 创建静态画布，取消了交互的事件处理，更轻量。
 
@@ -57,7 +57,7 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 
 - `canvas.remove(xxx)`：从画布中删除指定 fabric 对象
 
-#### 基本形状
+### 基本形状
 
 - [fabric.Circle](http://fabricjs.com/docs/fabric.Circle.html) 圆
 - [fabric.Ellipse](http://fabricjs.com/docs/fabric.Ellipse.html) 椭圆
@@ -131,7 +131,7 @@ var circle = new fabric.Circle({ angle: 30, radius: 10 });
 circle.getAngleInRadians(); // 0.523...
 ```
 
-#### Images 图像
+### Images 图像
 
 - `fabric.Image`：接收 image 元素
 - `fabric.Image.fromURL`：可以创建 URL 字符串的图像实例
@@ -162,7 +162,7 @@ fabric.Image.fromURL('my_image.png', (oImg)=>{
 });
 ```
 
-#### Image filters
+### Image filters
 
 > 每个`fabric.Image`的实例都有一个“filters”属性，它是一个简单的过滤器数组。该数组中的每个过滤器都是一个 Fabric 过滤器的实例。或者您自己的自定义过滤器的实例。
 >
@@ -192,7 +192,7 @@ fabric.Image.fromURL("pug.jpg", function (img) {
 });
 ```
 
-#### Paths 路径
+### Paths 路径
 
 > Fabric 中的路径与[SVG 路径元素](http://www.w3.org/TR/SVG/paths.html#PathElement)相似。它们使用相同的命令集，可以从路径元素创建，并序列化到它们中。稍后我们将更深入地研究序列化和 SVG 解析，但现在值得一提的是，您可能很少手工创建 Path 实例。相反，您将使用 Fabric 的内置 SVG 解析器。但是为了理解 Path 对象是什么，让我们尝试手工创建一个简单的对象：
 
@@ -215,7 +215,7 @@ canvas.add(path);
 
 
 
-#### animtion 动画
+### animtion 动画
 
 > `animate`在每次更改后不会自动重新渲染画布的原因是性能问题。毕竟，我们可以在画布上有成千上百个动画对象，不能让他们中的每一个都试图重新渲染屏幕。在有很多对象的情况下，可以使用类似`requestAnimationFrame`（或其他基于计时器的）循环来连续地渲染画布，而不需要为每个对象调用`renderAll`。但大多数时候，您可能需要显式地指定`canvas.renderAll`作为“onChange”回调。
 
@@ -307,7 +307,7 @@ fabric.runningAnimations.length === 0;
 
 
 
-#### 颜色/渐变
+### 颜色/渐变
 
 - `new fabric.Color();`创建颜色实例
 - 颜色转换
@@ -374,11 +374,11 @@ var gradient = new fabric.Gradient({
 });
 ```
 
-#### Text 文本
+### Text 文本
 
 > [Introduction to Fabric.js. Part 2. — Fabric.js Javascript Canvas Library (fabricjs.com)](http://fabricjs.com/fabric-intro-part-2)
 
-#### [Events 事件](http://fabricjs.com/events)
+### [Events 事件](http://fabricjs.com/events)
 
 > Fabric 提供了一个广泛的事件系统，从低级的“鼠标”事件到高级的对象事件。
 >
@@ -463,7 +463,7 @@ circle.on("selected", function () {
 
 ![image-20231120152620458](images/fabric/image-20231120152620458.png)
 
-### [Part 3](http://fabricjs.com/fabric-intro-part-3)
+## [Part 3](http://fabricjs.com/fabric-intro-part-3)
 
 #### Groups 组
 
@@ -674,7 +674,7 @@ fabric.labeledRect.fromObject = function(object, callback) {
 
 ```
 
-### [Part4](http://fabricjs.com/fabric-intro-part-4)
+## [Part4](http://fabricjs.com/fabric-intro-part-4)
 
 #### 自由绘画
 
@@ -682,7 +682,11 @@ fabric.labeledRect.fromObject = function(object, callback) {
 
 #### Node.js 上的 Fabric
 
-### [更多]([Tutorial — Fabric.js Javascript Canvas Library (fabricjs.com)](http://fabricjs.com/articles/))
+
+
+
+
+## [更多]([Tutorial — Fabric.js Javascript Canvas Library (fabricjs.com)](http://fabricjs.com/articles/))
 
 #### 平移和缩放画布
 

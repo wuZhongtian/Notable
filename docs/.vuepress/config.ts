@@ -68,7 +68,7 @@ export default {
     logo: "/logo.png",
     repo: "https://github.com/wuZhongtian",
     editLink: false,
-    sidebarDepth: 4,
+    sidebarDepth:5,
     navbar: [
       {
         text: "首页",
