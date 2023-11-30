@@ -958,6 +958,12 @@ export default {
 
 ### 新增组件
 
+#### Fragment
+
+- 在Vue2中: 组件必须有一个根标签
+- 在Vue3中: 组件可以没有根标签, 内部会将多个标签包含在一个Fragment虚拟元素中
+- 好处: 减少标签层级, 减小内存占用
+
 
 
 #### Teleport
@@ -1197,7 +1203,7 @@ Reflect.defineProperty(obj,'c',{
   <script setup>
   import {toRefs} from 'vue'
   // 相比于 <script> 不需要再通过return返回内容，直接使用
-  
+  import { capitalize } from './helpers'
   const props = defineProps({		// props
       text:String,
       message:Number
@@ -1209,6 +1215,7 @@ Reflect.defineProperty(obj,'c',{
   
   <template>
     <button @click="log">{{ msg }}</button>
+    <div>{{ capitalize('hello') }}</div>
   </template>
   ```
 
@@ -1324,7 +1331,7 @@ app.use(pinia)
 
 // 组件中使用 store
 // 1. 导入数据对象
-import useMainStore from './stort/index'
+imoprt useMainStore from './stort/index'
 let store = useMainStore()
 // 2.在标签中使用
 ` <p>{{ store.count }}</p> `
@@ -1383,7 +1390,7 @@ store.getTimu()
 // 解决方法1：使用 Pian 的 storeToRefs() 方法
 // 得到的数据在script中使用需要带 .value
 // template中使用不需要带 .value
-imoprt useMainStore from './stort/index'
+import useMainStore from './stort/index'
 let store = useMainStore()
 import { storeToRefs } from 'pinia'
 let { count } = storeToRefs(store)
@@ -1769,7 +1776,9 @@ myChart.setOption({
 
 #### 动态引入图片
 
-- 如下图，使用时直接掉用 getImgSrc方法![image-20220926164328693](images/Vue2/image-20220926164328693.png)
+- 如下图，使用时直接掉用 getImgSrc方法
+
+![image-20220926164328693](images/Vue2/image-20220926164328693.png)
 
 
 
@@ -3094,26 +3103,26 @@ myChart.setOption({
 
 
 ​    
-​    // main.js
-​    import store from './store/index.js'
-​    app.use(store)      // app是 createApp(App)
+    // main.js
+    import store from './store/index.js'
+    app.use(store)      // app是 createApp(App)
 
 
 ​    
-​    // 组件中使用 store中的数据，不需要this
-​    <p :xxx="$store.state.xxx" />
-​        
-​    // 组件中调用 mutations
-​    // 在setup中使用store时也需采用该方法
-​    import { useStore } from 'vuex'
-​    setup(){
-​        let store = useStore()
-​        ...
-​        // 在触发的方法中写commit
-​    	store.commit('mutation中的名字',)
-​    }
-​    
-​    ```
+    // 组件中使用 store中的数据，不需要this
+    <p :xxx="$store.state.xxx" />
+        
+    // 组件中调用 mutations
+    // 在setup中使用store时也需采用该方法
+    import { useStore } from 'vuex'
+    setup(){
+        let store = useStore()
+        ...
+        // 在触发的方法中写commit
+    	store.commit('mutation中的名字',)
+    }
+    
+    ```
 
 
 ​    
@@ -3176,58 +3185,58 @@ myChart.setOption({
 
 
 ​    
-​    // 组件中使用 store
-​    // 1. 导入数据对象
-​    imoprt useMainStore from './stort/index'
-​    let store = useMainStore()
-​    // 2.在标签中使用
-​    ` <p>{{ store.count }}</p> `
-​    // 3.1修改store    借助解构赋值、storeToRefs()      
-​    import { storeToRefs } from 'pinia'
-​    let { count } = storeToRefs(store)
-​    function handleClick(){
-​        count.value++  // 此时可以通过解构赋值得到的变量修改操作store中的store
-​    }
-​    // 3.2 修改store   使用$patch：对象式/函数式
-​    function handleClick(){
-​        store.list.push({name:"watch",money:2000})
-​        store.$patch({ 
-​            count:store.count++,
-​            list:store.list,
-​        })  // 相比于3.1 可同时修改多个数据 
-​    }
-​    
-​    store.$patch((state)=>{
-​        store.count += 10;
-​    	store.list.push({
-​            name:"watch",
-​            money:2000
-​        })
-​    })
-​    
-​    // 4.修改store 将现在的整个state进行替换
-​    store.$store={
-​        count:100,
-​        list:[
-​             { name:"watch",money:2000 },
-​             { name:"watch2",money:2100 },
-​        ]
-​    }
+    // 组件中使用 store
+    // 1. 导入数据对象
+    imoprt useMainStore from './stort/index'
+    let store = useMainStore()
+    // 2.在标签中使用
+    ` <p>{{ store.count }}</p> `
+    // 3.1修改store    借助解构赋值、storeToRefs()      
+    import { storeToRefs } from 'pinia'
+    let { count } = storeToRefs(store)
+    function handleClick(){
+        count.value++  // 此时可以通过解构赋值得到的变量修改操作store中的store
+    }
+    // 3.2 修改store   使用$patch：对象式/函数式
+    function handleClick(){
+        store.list.push({name:"watch",money:2000})
+        store.$patch({ 
+            count:store.count++,
+            list:store.list,
+        })  // 相比于3.1 可同时修改多个数据 
+    }
+    
+    store.$patch((state)=>{
+        store.count += 10;
+    	store.list.push({
+            name:"watch",
+            money:2000
+        })
+    })
+    
+    // 4.修改store 将现在的整个state进行替换
+    store.$store={
+        count:100,
+        list:[
+             { name:"watch",money:2000 },
+             { name:"watch2",money:2100 },
+        ]
+    }
 
 
 ​    
-​    // 5.重置store 恢复为初始状态
-​    store.$reset()
-​    
-​    // 6.监听整个仓库变化
-​    store.$subscribe((mutation,state)=>{
-​        console.log(mutation)
-​        console.log(state)
-​    })
-​    
-​    // 7.调用axios的方法，获取异步数据
-​    store.getTimu()
-​    ```
+    // 5.重置store 恢复为初始状态
+    store.$reset()
+    
+    // 6.监听整个仓库变化
+    store.$subscribe((mutation,state)=>{
+        console.log(mutation)
+        console.log(state)
+    })
+    
+    // 7.调用axios的方法，获取异步数据
+    store.getTimu()
+    ```
 
 
 ​    
@@ -3291,19 +3300,19 @@ myChart.setOption({
 
 
 ​    
-​    // main.js
-​    .use(router)
+    // main.js
+    .use(router)
 
 
 ​    
-​    // 在组件中使用
-​    import { useRouter } from 'vue-router';
-​    const router = useRouter()
-​    // 使用
-​    router.push({
-​        name:'xxx'
-​    })
-​    ```
+    // 在组件中使用
+    import { useRouter } from 'vue-router';
+    const router = useRouter()
+    // 使用
+    router.push({
+        name:'xxx'
+    })
+    ```
 
 
 ​    
@@ -3383,20 +3392,20 @@ myChart.setOption({
 
 
 ​    
-​    // 封装的核心函数
-​    function request(options){
-​        options.method = options.method || 'get'
-​        if(options.method.toLowerCase()=='get'){
-​            options.params=options.data
-​        }
-​        return service(options)
-​    }
-​    
-​    export default request
-​    ```
-​    
-​    - api.js  整个项目的api管理
-​    
+    // 封装的核心函数
+    function request(options){
+        options.method = options.method || 'get'
+        if(options.method.toLowerCase()=='get'){
+            options.params=options.data
+        }
+        return service(options)
+    }
+    
+    export default request
+    ```
+    
+    - api.js  整个项目的api管理
+    
     ```js
     // 整个项目的api管理
     import request from './request.js'
@@ -3416,16 +3425,16 @@ myChart.setOption({
 
 
 ​    
-​    // 将api挂载到全局中  main.js
-​    import api from './api/api.js'
-​    app.config.globalProperties.$api = api  // app 是 createApp(App)
-​    // 在组件中调用
-​    import { getCurrentInstance } from 'vue'
-​    const {proxy} = getCurrentInstance();  // proxy类似于vue2中的this
-​    proxy.$api.getTableDate(params).then(()=>{
-​        
-​    })
-​    ```
+    // 将api挂载到全局中  main.js
+    import api from './api/api.js'
+    app.config.globalProperties.$api = api  // app 是 createApp(App)
+    // 在组件中调用
+    import { getCurrentInstance } from 'vue'
+    const {proxy} = getCurrentInstance();  // proxy类似于vue2中的this
+    proxy.$api.getTableDate(params).then(()=>{
+        
+    })
+    ```
 
 
 ​    
