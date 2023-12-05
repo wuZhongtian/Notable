@@ -3,7 +3,9 @@ title: Fabric.js
 description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 ---
 
-# Fabric.js
+
+
+# [Fabric.js](http://fabricjs.com/articles/)
 
 > 功能强大的 JavaScript 库，提供 canvas**对象模型**、SVG 解析器、交互层一整套工具。
 >
@@ -11,15 +13,12 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 >
 > [Fabric.js software gallery | Devpost](https://devpost.com/software/built-with/fabric-js)
 >
-> - 浏览器最后记录
->   - [Introduction to Fabric.js. Part 1. — Fabric.js Javascript Canvas Library (fabricjs.com)](http://fabricjs.com/fabric-intro-part-1)
->   - [Tutorial — Fabric.js Javascript Canvas Library (fabricjs.com)](http://fabricjs.com/articles/)
->   - [沃姆科技-创意工具 (aliui.com)](https://aliui.com/design/)
->   - [JSDoc: Home (fabricjs.com)](http://fabricjs.com/docs/)
+> - [沃姆科技-创意工具 (aliui.com)](https://aliui.com/design/)
+> - [JSDoc: Home (fabricjs.com)](http://fabricjs.com/docs/)
 
 
 
-## 基础指南
+## 基础部分
 
 ### Canvas 画布
 
@@ -463,9 +462,11 @@ circle.on("selected", function () {
 
 ![image-20231120152620458](images/fabric/image-20231120152620458.png)
 
-## [Part 3](http://fabricjs.com/fabric-intro-part-3)
 
-#### Groups 组
+
+
+
+### Groups 组
 
 - `new fabric.Group()`：创建组
 - `group.item(0).set()`：设置组中第一个对象的值
@@ -479,8 +480,6 @@ circle.on("selected", function () {
   - `remove()`：从组中删除对象
 - 注意：
   - 在使用图像形成组时，需要确保这些图像已完全加载。Fabric 已经提供相关方法来确保图像被加载
-
-
 
 
 
@@ -519,7 +518,11 @@ fabric.Image.fromURL("/assets/pug.jpg", function (img) {
 });
 ```
 
-#### Serialization 序列化
+
+
+
+
+### Serialization 序列化
 
 ##### toObject, toJSON
 
@@ -563,9 +566,23 @@ console.log(JSON.stringify(canvas));
 //  '{"objects":[{"type":"rect","left":0,"top":0,"width":0,"height":0,"fill":"rgb(0,0,0)","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":false,"transparentCorners":true,"perPixelTargetFind":false,"rx":0,"ry":0,"name":"trololo"}],"background":"rgba(0, 0, 0, 0)"}'
 ```
 
+
+
+
+
+
+
+
+
 ##### [toSVG+解析器](http://fabricjs.com/fabric-intro-part-3)
 
-#### ☆ Subclassing 子类化
+
+
+
+
+
+
+### ☆ Subclassing 子类化
 
 > [Fabric.js 自定义子类，创建属于自己的对象](https://juejin.cn/post/7143794070513516581#heading-5)
 
