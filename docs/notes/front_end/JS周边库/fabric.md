@@ -478,6 +478,8 @@ circle.on("selected", function () {
   - `forEachObject()`：
   - `add()`：向组中添加对象
   - `remove()`：从组中删除对象
+  - `.addWithUpdate(rect)`     // 将对象动态添加到 Group 中
+  - `.removeWithUpdate(rect)`     // 将对象从Group中动态删除
 - 注意：
   - 在使用图像形成组时，需要确保这些图像已完全加载。Fabric 已经提供相关方法来确保图像被加载
 
@@ -780,3 +782,7 @@ rect.animate('angle', 45, {
 
 
 
+### 视图更新bug
+
+- 当使用set修改元素对象的值时，数值的小数点长度应当做好限制，过长时会导致视图无法更新
+- 不合适的缩放，会导致视图无法更新
