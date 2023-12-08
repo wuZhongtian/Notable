@@ -451,3 +451,5 @@ pr 样例：注意：后面要有空格
 ## 其他
 
 - [GitHub 页面 |您和您的项目的网站，直接从您的 GitHub 存储库托管。只需编辑、推送，您的更改即可生效。](https://pages.github.com/)
+- [解决window下使用git clone时没有提示输入用户名密码认证的问题（gitlab使用https协议）_git拉取代码时没有账号密码输入 ](https://blog.csdn.net/hacker_lpy/article/details/124078021)
+  - 解决办法：控制面板 - 凭据管理 - windows凭据 - 删除对应仓库的信息，重新拉取！

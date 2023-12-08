@@ -66,32 +66,17 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 - [fabric.Rect](http://fabricjs.com/docs/fabric.Rect.html) 正方形
 - [fabric.Triangle](http://fabricjs.com/docs/fabric.Triangle.html) 三角形
 
-- 设置/获取 Fabric 对象
-
-  - 设置 `rect.set()`
-
-  - 读取 `rect.get()`
-
-    ```js
-    rect.set('fill', 'red');
-    rect.set({ strokeWidth: 5, stroke: 'rgba(100,200,200,0.5)' }); // 设置边框线
-    rect.set('angle', 15).set('flipY', true);	// 设置旋转+Y轴翻转
 
 
-    // 对于“公共”对象属性 width || stroke || strokeWidth || angle 等
-    get('width') 或 getWidth()
-    get('scaleX') 或 getScaleX()
-    ```
+#### 属性
 
   - 更新画布
 
     - `canvas.renderAll();` // 重新绘制画布，以便看到更改后的效果
 
-- 来源
-
-  > 大多数对象继承自根`fabric.Object` 它代表一个二维形状，具有`left/top/width/height/填充/描边/角度/不透明度/翻转`等属性。继承的 Fabric 对象都是通用的。
-  >
-  > - 可在`fabric.Object` 上定义方法，共享给所有子类
+    > 大多数对象继承自根`fabric.Object` 它代表一个二维形状，具有`left/top/width/height/填充/描边/角度/不透明度/翻转`等属性。继承的 Fabric 对象都是通用的。
+    >
+    > - 可在`fabric.Object` 上定义方法，共享给所有子类
 
 ```js
 // 尝试使用 Fabric 画个矩形
@@ -106,6 +91,11 @@ var rect = new fabric.Rect({
   width: 20, // 宽
   height: 20, // 高
   angle: 45, // 旋转角度
+  flipX:true,	// 水平翻转
+  flipY:true,	// 垂直翻转
+  scaleY: 1,	// Y轴缩放倍数
+  scaleX: 1,	// X轴缩放倍数
+  opacity: 1,	// 透明度
 });
 
 var circle = new fabric.Circle({
@@ -129,6 +119,60 @@ rect.getAngleInRadians(); // 0.785...
 var circle = new fabric.Circle({ angle: 30, radius: 10 });
 circle.getAngleInRadians(); // 0.523...
 ```
+
+
+
+#### 方法
+
+- 设置/获取 Fabric 对象
+
+  - 设置 `rect.set()`
+
+  - 读取 `rect.get()`
+
+- `.setCoords()`
+
+  > 更新对象边界框坐标，当进行旋转、缩放或改变大小时，使用 `setCoords()` 方法可以更新这些坐标，以便能够正确地进行对象的选择、碰撞检测和其他操作
+
+- `requestRenderAll()`
+
+  > 用于请求重新渲染画布的方法，触发重新渲染；大多数情况下，Fabric.js 会自动检测并更新画布内容，无需手动调用 `requestRenderAll()` 方法适用于不断的更新画布的某个属性时。
+  >
+  > ```js
+  > canvas.add(circle);	// 将圆形对象添加到画布中
+  > 
+  > // 创建一个计时器，用于不断更新圆形对象的位置
+  > var interval = setInterval(function() {
+  >   // 更新圆形对象的位置
+  >   circle.set({ left: circle.left + 1, top: circle.top + 1 });
+  >   // 请求重新渲染画布
+  >   canvas.requestRenderAll();
+  > }, 10);
+  > ```
+  >
+  > 
+
+```js
+rect.set('fill', 'red');
+rect.set({ strokeWidth: 5, stroke: 'rgba(100,200,200,0.5)' }); // 设置边框线
+rect.set('angle', 15).set('flipY', true);	// 设置旋转+Y轴翻转
+
+
+// 对于“公共”对象属性 width || stroke || strokeWidth || angle 等
+get('width') 或 getWidth()
+get('scaleX') 或 getScaleX()
+
+// 对矩形对象进行旋转和缩放
+rect.set({
+  angle: 45,
+  scaleX: 1.5,
+  scaleY: 0.5
+});
+// 更新矩形对象的边界框坐标
+rect.setCoords()
+```
+
+
 
 ### Images 图像
 
