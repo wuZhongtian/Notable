@@ -513,17 +513,30 @@ circle.on("selected", function () {
 ### Groups 组
 
 - `new fabric.Group()`：创建组
+
 - `group.item(0).set()`：设置组中第一个对象的值
+
 - 相关方法
   - `getObjects()`：返回一个数组，其中包含一个组中的所有对象
+  
   - `size()`：返回一个数组，其中包含一个组中的所有对象
+  
   - `contains()`：允许检查特定对象是否在组中
+  
   - `item()`：允许检索组中的特定对象
+  
   - `forEachObject()`：
+  
   - `add()`：向组中添加对象
+  
   - `remove()`：从组中删除对象
-  - `.addWithUpdate(rect)`     // 将对象动态添加到 Group 中
+  
   - `.removeWithUpdate(rect)`     // 将对象从Group中动态删除
+  
+    > remove 与 removeWithUpdate 区别：removeWithUpdate 能触发Group重新计算宽高，自动伸缩，而 remove 后依旧保持原始宽高，会有周边留白
+  
+  - `.addWithUpdate(rect)`     // 将对象动态添加到 Group 中
+  
 - 注意：
   - 在使用图像形成组时，需要确保这些图像已完全加载。Fabric 已经提供相关方法来确保图像被加载
 
