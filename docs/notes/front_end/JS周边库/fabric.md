@@ -9,10 +9,16 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 
 > 功能强大的 JavaScript 库，提供 canvas**对象模型**、SVG 解析器、交互层一整套工具。
 >
-> [关于本文档 | fabric.js 中文教程 (gitee.io)](https://k21vin.gitee.io/fabric-js-doc/docs/)
->
-> [Fabric.js software gallery | Devpost](https://devpost.com/software/built-with/fabric-js)
->
+> - [关于本文档 | fabric.js 中文教程 (gitee.io)](https://k21vin.gitee.io/fabric-js-doc/docs/)
+> - [Fabric.js software gallery | Devpost](https://devpost.com/software/built-with/fabric-js)
+> - [19.4K 的 fabricjs](https://blog.csdn.net/xgangzai/article/details/119975663)
+>   - [Fabric.js 从入门到________ - 掘金 (juejin.cn)](https://juejin.cn/post/7026941253845516324#heading-3)
+>   - [Fabric.js 自由绘制椭圆 ](https://juejin.cn/post/7101906776202838024)
+>   - [Fabric.js 笔刷 ](https://juejin.cn/post/7103569758473175070#heading-10)
+>   - [Fabric.js 锁定背景图，不受缩放和拖拽的影响🎃 ](https://juejin.cn/post/7105789686395699230)
+>   - canvas.defaultCursor  自定义鼠标指针样式
+> - https://aliui.com/banner/editor/#/
+> - https://aliui.com/banner/editors/#/
 > - [沃姆科技-创意工具 (aliui.com)](https://aliui.com/design/)
 > - [JSDoc: Home (fabricjs.com)](http://fabricjs.com/docs/)
 
@@ -753,6 +759,17 @@ fabric.labeledRect.fromObject = function(object, callback) {
 ## [Part4](http://fabricjs.com/fabric-intro-part-4)
 
 #### 自由绘画
+
+```js
+// Fabric canvas 的 isDrawingMode 属性设置为 true 即可实现自由绘制模式.
+// 这样画布上的点击和移动就会被立刻解释为铅笔或刷子。
+let canvas = new fabric.Canvas("canvas");
+canvas.isDrawingMode = true;
+canvas.freeDrawingBrush.color = "blue";
+canvas.freeDrawingBrush.width = 5;
+```
+
+
 
 #### 定制
 
