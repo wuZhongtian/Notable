@@ -372,9 +372,16 @@ screenSelectElement	 // 选中事件监听，回调
 
 
 
-## Vue-Easy-DnD
+## [Vue-Easy-DnD](https://rlemaigre.github.io/Easy-DnD/)
+
+- 普通拖拽
+  - `<Drag/>     <Drop/>`
+- 列表排序拖拽
+  - [DropList](https://rlemaigre.github.io/Easy-DnD/components/droplist.html) - 在editors中使用过
 
 ```js
+pnpm install vue-easy-dnd@latest --save  // 安装依赖
+
 import { Drag, Drop } from "vue-easy-dnd";
 
 <Drag/>  // 拖动de元素
@@ -399,7 +406,7 @@ scrolling-edge-size	// 当将此元素拖到其边界容器/列表的边缘时�
     
 @dragend	// 拖拽停止事件
 	- 回调函数中大量有价值的返回信息（往下看）
-Modes 		// 模式 -默认copy copy源不影响 cut删除源
+mode 		// 模式 -默认copy copy源不影响 cut删除源
 // 如果拖动操作源自没有声明cut事件侦听器的Drag组件，则禁止在声明cut模式的Drop组件上放置。
 
 accepts-type="number"	// 接受Drag中对应type的内容

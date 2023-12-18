@@ -1819,3 +1819,18 @@ myChart.setOption({
   - PC端UI：[Element UI](https://element.eleme.cn/#/zh-CN)、[iView](https://www.iviewui.com/)、[AT UI](https://at-ui.github.io/at-ui/#/zh/docs/introduction)、[beauty2](https://fe-driver.github.io/vue-beauty/#/components/button)、[Buefy](https://buefy.org/)
 
 ​    
+
+
+
+
+
+
+
+
+
+## 使用记录
+
+### markRaw或者shallowRef代替ref
+
+- [vue3告警:用markRaw或者shallowRef代替ref - 掘金 (juejin.cn)](https://juejin.cn/post/7235906062310473784)
+

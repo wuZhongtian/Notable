@@ -17,6 +17,7 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 >   - [Fabric.js 笔刷 ](https://juejin.cn/post/7103569758473175070#heading-10)
 >   - [Fabric.js 锁定背景图，不受缩放和拖拽的影响🎃 ](https://juejin.cn/post/7105789686395699230)
 >   - canvas.defaultCursor  自定义鼠标指针样式
+>   - [psd文件转fabric.js画布模板json的实现原理 - 掘金 (juejin.cn)](https://juejin.cn/post/7304991873416740900?searchId=2023121810515097596363DE1C1241F2DA)
 > - https://aliui.com/banner/editor/#/
 > - https://aliui.com/banner/editors/#/
 > - [沃姆科技-创意工具 (aliui.com)](https://aliui.com/design/)
@@ -27,6 +28,10 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 ## 基础部分
 
 ### Canvas 画布
+
+> [JSDoc: Class: StaticCanvas (fabricjs.com)](http://fabricjs.com/docs/fabric.StaticCanvas.html)
+>
+> 画布设置：背景图、背景色、边框......
 
 - `fabric.StaticCanvas()` 创建静态画布，取消了交互的事件处理，更轻量。
 
