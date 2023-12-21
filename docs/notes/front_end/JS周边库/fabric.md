@@ -14,6 +14,8 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 > - [19.4K 的 fabricjs](https://blog.csdn.net/xgangzai/article/details/119975663)
 >   - [Fabric.js 从入门到________ - 掘金 (juejin.cn)](https://juejin.cn/post/7026941253845516324#heading-3)
 >   - [Fabric.js 自由绘制椭圆 ](https://juejin.cn/post/7101906776202838024)
+>   - [Fabric.js 自由绘制圆形 - 掘金 (juejin.cn)](https://juejin.cn/post/7061277449652273165)
+>   - [Fabric.js 自由绘制矩形（逐一分析4种操作方向带来的影响） - 掘金 (juejin.cn)](https://juejin.cn/post/7058093223566114847)
 >   - [Fabric.js 笔刷 ](https://juejin.cn/post/7103569758473175070#heading-10)
 >   - [Fabric.js 锁定背景图，不受缩放和拖拽的影响🎃 ](https://juejin.cn/post/7105789686395699230)
 >   - canvas.defaultCursor  自定义鼠标指针样式
@@ -865,3 +867,18 @@ rect.animate('angle', 45, {
 
 - 当使用set修改元素对象的值时，数值的小数点长度应当做好限制，过长时会导致视图无法更新
 - 不合适的缩放，会导致视图无法更新
+
+
+
+
+
+
+
+
+
+### 自定义控制线
+
+> - [学习整理fabric.js自定义选择控制框样式和增加控制图标_fabric mtr-CSDN博客](https://blog.csdn.net/guo_qiangqiang/article/details/127259900)
+> - [fabric.js学习（二）之 fabric.js控制器样式的修改_fabricjs 修改控制器-CSDN博客](https://blog.csdn.net/qq_36483750/article/details/105344428)
+
+ 通过 设置 fabric.Object.prototype.controls对象的值（控制点信息），进行控制展示
