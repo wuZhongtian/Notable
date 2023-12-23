@@ -5,7 +5,7 @@ import { nprogressPlugin } from "@vuepress/plugin-nprogress";
 import { docsearchPlugin } from "@vuepress/plugin-docsearch";
 
 export default {
-  base: "/apps/notes",
+  // base: "/apps/notes",
   title: "夏之一周间",
   description: "探索者的成长日记",
   head: [
