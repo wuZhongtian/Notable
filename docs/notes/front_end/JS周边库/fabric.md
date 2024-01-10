@@ -69,6 +69,12 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 
 - `canvas.remove(xxx)`：从画布中删除指定 fabric 对象
 
+- `setActiveObject()` 设置 canvas 画布选中元素
+
+- `getActiveObject()` 获取 canvas 画布选中元素
+
+- `discardActiveObject()` 取消 canvas 画布中所有对象的选中状态
+
 ### 基本形状
 
 - [fabric.Circle](http://fabricjs.com/docs/fabric.Circle.html) 圆
@@ -442,19 +448,29 @@ var gradient = new fabric.Gradient({
 
 - 事件
   - 鼠标事件
-    - `mouse:move` 经过
+    - `mouse:move` 移动
     - `mouse:down` 按下
     - `mouse:up` 抬起
+    - **mouse:dblclick**  双击
     
   - 渲染事件
     - `after：render` 整个画布被重新渲染后
-    - `selection:created`：选择后
-    - `before：selection：cleared`：删除选择前
-    - `selection：cleared`：删除选择后
+    - `selection:created`：初次选中画布
+    - **selection:updated** 画布选择变化
+    - `before：selection：cleared`：取消选中前
+    - `selection：cleared`：清空画布选中
     
   - 对象事件
     
     > Fabric.js中常用的对象事件如下：
+    >
+    > - **mouseup:before** 鼠标抬起前
+    > - **mousedown:before** 鼠标按下前
+    > - **mousemove:before** 鼠标移动前
+    > - **mousedblclick** 鼠标双击
+    > - **mousewheel** 鼠标滚动
+    > - **mouseover** 鼠标移入
+    > - **mouseout** 鼠标移除
     >
     > 1. mousedown：当鼠标按下时触发。
     > 2. mouseup：当鼠标释放时触发。
@@ -476,13 +492,13 @@ var gradient = new fabric.Gradient({
     > 4. selected：当对象被选中时触发。
     > 5. deselected：当取消选择对象时触发。
     
-    - `object:modified`：修改
+    - `object:modified`：编辑图层
     - `object:selected`： 选中
-    - `object:moving`：移动
+    - `object:moving`：移动图层
     - `object:scaling`：缩放
     - `object:rotating`：旋转
     - `object:added`：被添加到画布上
-    - `object:removed`：删除
+    - `object:removed`：对象被移除
   
 - `on`方法初始化事件侦听器，`off`方法删除它
   - options 回调对象
@@ -882,3 +898,39 @@ rect.animate('angle', 45, {
 > - [fabric.js学习（二）之 fabric.js控制器样式的修改_fabricjs 修改控制器-CSDN博客](https://blog.csdn.net/qq_36483750/article/details/105344428)
 
  通过 设置 fabric.Object.prototype.controls对象的值（控制点信息），进行控制展示
+
+
+
+
+
+### 图层设置
+
+- 自定义层级 `moveTo()`方法
+
+  ```js
+  canvas.moveTo(triangle, 10)  // 使用canvas设置，triangle是'准备阶段'中创建的fabricjs元素
+  // 或者
+  triangle.moveTo(10)   // triangle为fabricjs创建的元素，传参为要设置的层级数
+  ```
+
+- 顶层/底层/上下一层
+
+  ```js
+  rect.bringToFront()   // 移至顶层	或 	..
+  triangle.sendToBack() // 移至底层	或	..
+  rect.bringForward()   // 上移一层	或	..
+  rect.bringForward()	  // 下移一层   或   canvas.sendBackwards(rect)
+  ```
+
+  
+
+
+
+
+
+
+
+
+
+
+

@@ -559,6 +559,29 @@ selection.call( d3.zoom()
 
 
 
+
+
+
+## 用户指引
+
+> - [Install Intro.js | Intro.js Docs (introjs.com)](https://introjs.com/docs/getting-started/install)
+> - [Vue3网站用户引导功能【Intro.js】_introjs主题-CSDN博客](https://blog.csdn.net/QQ675396947/article/details/134812734)
+
+
+
+## [Lodash 简介 ](https://www.lodashjs.com/)
+
+> Lodash 通过降低 array、number、objects、string 等等的使用难度从而让 JavaScript 变得更简单
+
+### [防抖函数](https://www.lodashjs.com/docs/lodash.debounce)
+
+```js
+// 防抖函数 debounce
+```
+
+![image-20240105163938275](images/JS周边库/image-20240105163938275.png)
+
+
 ## [Tailwind CSS](https://www.tailwindcss.cn/)
 
 > css in js 方案
