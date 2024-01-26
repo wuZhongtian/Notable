@@ -48,11 +48,16 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
     selection: true,		// true-(默认)画布内容可交互，false-禁用交互
     selectionColor: 'blue',
     selectionLineWidth: 2,
+    selectionFullyContained: true, // 开启精准选框
+    fireRightClick: true, // 启用右键，button的数字为3
+    stopContextMenu: true, // 禁止默认右键菜单
+    controlsAboveOverlay: true, // 超出clipPath后仍然展示控制条
+    preserveObjectStacking: true, // 保持对象堆叠顺序，选中元素后不将其置顶，默认为自动置顶选中元素
     // ...
   })
-
+  
   或
-
+  
   var canvas = new fabric.Canvas('c');
   canvas.setBackgroundImage('http://...');
   canvas.onFpsUpdate = function(){ /* ... */ };
@@ -63,7 +68,11 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 
 - `canvas.add()`：添加 fabric 对象
 
+  - `canvas.add(...[xxx])`：同时添加多个 fabric 对象
+
 - `canvas.item(n)`：获取画布中的第 n 个
+
+- `canvas.getObjectsAt(100, 100)`  获取画布指定位置区域中的所有元素
 
 - `canvas.getObjects()`：获取画布上的所有对象
 
@@ -74,6 +83,8 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
 - `getActiveObject()` 获取 canvas 画布选中元素
 
 - `discardActiveObject()` 取消 canvas 画布中所有对象的选中状态
+
+![image-20240118175147824](images/fabric/image-20240118175147824.png)
 
 ### 基本形状
 
@@ -445,6 +456,8 @@ var gradient = new fabric.Gradient({
 > Fabric 提供了一个广泛的事件系统，从低级的“鼠标”事件到高级的对象事件。
 >
 > 事件可分为：画布事件、对象事件。可为他们分别注册事件，
+>
+> - [4、Fabric.js 常用的方法&事件_fabric.js 事件-CSDN博客](https://blog.csdn.net/beauty_600/article/details/129667676#:~:text=4、Fabric.js 常用的方法%26事件 1 getObjects () 获取 canvas 画布的所有对象,canvas 画布中所有对象的选中状态 5 selection canvas 画布框选选中：默认为true，设置为false 则不可被选中。 可以用于同时选中多个元素对象的情况。)
 
 - 事件
   - 鼠标事件
@@ -828,6 +841,10 @@ canvas.freeDrawingBrush.width = 5;
 
 ## 使用记录
 
+> - [Fabric.js 避坑指南_fabric setcoords-CSDN博客](https://blog.csdn.net/weixin_43907564/article/details/113361126?spm=1001.2101.3001.6650.9&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-9-113361126-blog-129558492.235^v40^pc_relevant_3m_sort_dl_base4&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-9-113361126-blog-129558492.235^v40^pc_relevant_3m_sort_dl_base4&utm_relevant_index=16)
+
+
+
 
 
 ### 导出Json
@@ -896,6 +913,7 @@ rect.animate('angle', 45, {
 
 > - [学习整理fabric.js自定义选择控制框样式和增加控制图标_fabric mtr-CSDN博客](https://blog.csdn.net/guo_qiangqiang/article/details/127259900)
 > - [fabric.js学习（二）之 fabric.js控制器样式的修改_fabricjs 修改控制器-CSDN博客](https://blog.csdn.net/qq_36483750/article/details/105344428)
+> - [摆脱Fabric.js中的旋转控制-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/ask/sof/150123)
 
  通过 设置 fabric.Object.prototype.controls对象的值（控制点信息），进行控制展示
 
@@ -928,9 +946,60 @@ rect.animate('angle', 45, {
 
 
 
+### 缓存/不及时生效
+
+> - objectCaching 属性控制是否在内存中缓存图像。如果设置为 true，则图像将在内存中缓存，这意味着在绘制图像时不会重新加载图像。如果设置为 false，则图像将在每次绘制时重新加载。默认值为 true。
+
+```js
+// 修改默认的缓存配置
+objectCaching: false
+
+```
 
 
 
 
 
+
+
+### 播放视频
+
+> - 官网案例：[HTML5  element | Fabric.js Demos (fabricjs.com)](http://fabricjs.com/video-element)
+
+```js
+function addApwx_jsp(option) {
+  const videoEl = document.createElement('video');
+  videoEl.src = 'https://cloud.video.taobao.com//play/u/800803731/p/1/e/6/t/1/342345518642.mp4';
+  videoEl.poster ='https://img.alicdn.com/imgextra/i3/6000000005213/O1CN01uADuON1oNbLmSah54_!!6000000005213-0-tbvideo.jpg';
+  videoEl.height = 720;
+  videoEl.width = 1280;
+  console.log(videoEl.target);
+  const video1 = new fabric.Image(videoEl, {
+    left: 0,
+    top: 0,
+    originX: 'left',
+    originY: 'top',
+    objectCaching: false,
+    id: uuid(),
+    name: 'apwx_jsp',
+    scaleX: 0.5,
+    scaleY: 0.5,
+    imgUrl: videoEl.poster,
+    src: videoEl.poster,
+    href: videoEl.src,
+    effect: 'true',
+    src2: {},
+    ...option,
+  });
+
+  canvasEditor.canvas.add(video1);
+  canvasEditor.canvas.setActiveObject(video1);
+  video1.getElement().play();
+
+  fabric.util.requestAnimFrame(function render() {
+    canvasEditor.canvas.renderAll();
+    fabric.util.requestAnimFrame(render);
+  });
+}
+```
 

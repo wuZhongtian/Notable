@@ -609,3 +609,22 @@ module.exports = {
 
 
 
+
+
+
+
+# unplugin-auto-import
+
+> **自动导入常用的使用的第三方库的 API**，方便开发，提升效率
+>
+> - [告别手动引入依赖：unplugin-auto-import 插件助你提升编码体验（内附实现原理） - 掘金 (juejin.cn)](https://juejin.cn/post/7208099384070815803)
+> - 
+
+![image-20240115134202453](images/JS周边库/image-20240115134202453.png)
+
+
+
+
+
+### 使用方法
+

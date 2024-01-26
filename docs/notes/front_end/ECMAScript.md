@@ -98,14 +98,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                                                   
+  >                                                                                                                                                                                                                                                     
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                                                   
+  >                                                                                                                                                                                                                                                     
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -261,11 +261,27 @@
 
 - 拖放事件 7
 
+- video视频事件
+
+  > [ video标签 获取视频时间+播放相关事件 ](https://blog.csdn.net/yunchong_zhao/article/details/103896309)
+
+  -  ended	视频结束触发得事件		this.duration - 视频总时长
+
+  - canplay   视频准备就绪触发
+
+  - timeupdate  播放事件发生变化       this.currentTime - 视频当前播放时长
+
+  - pause  暂停事件
+
+  - playing   视频已经在开始在播放触发的事件
+
+  - volumechange     视频已经在开始在播放触发的事件
+
 - 移动端事件 
 
   - 触摸事件 Touch Event
 
-    - touchstart：当触摸屏幕时触发
+    - touchstart：当触摸屏幕时触发 
     - touchmove：手指在屏幕上滑动时触发
     - touchend：手指离开屏幕时触发
     - touchcancel：系统停止跟踪触摸时触发
@@ -288,46 +304,46 @@
     ```
     
   - 手势事件 
-  
+
     - gesturestart：当手势开始时触发（两根或多根手指触摸屏幕）
     - gesturechange：当手势改变时触发（两根或多根手指触摸屏幕，且发生移动）
     - gestureend：当手势结束时触发（倒数第二根手指离开屏幕)
-  
+
     ```sh
     # event对象是 GestureEvent类型 
     # 除了包含 screenX、screenY、clientX、clientY等信息外还包含如下内容
     scale   # 缩放比例，即手指移动过程中分开/合拢的比例，默认为1，相对初始位置，手指分散开值变大，合拢值变小
     rotation  # 旋转角度，手指间连线旋转的角度，默认为0.0，逆时针为负，顺时针为正值
     ```
-  
+
   - 传感器事件 Sensor Event
-  
+
     - deviceorientation事件（提供设备的物理方向信息）
-  
+
       > 当屏幕水平放置时：屏幕指向西方 `{alpha:90,beta:0,gamma:0}`
-  
+
       - alpha：在围绕Z轴，左右旋转时的，Y轴度数差
       - beta：在围绕X轴旋转时，前后旋转时，Z轴度数差
       - gamma：在围绕Y轴旋转时，扭转设备，X轴的度数差
-  
+
     - devicemotion事件 
-  
+
       > 提供设备的加速度信息，表示为定义在设备上的坐标系中的笛卡尔坐标，其还提供了设备在坐标系中的自转速率  可以实现“摇一摇”的交互效果
-  
+
       - accelerationIncludingGravity：重力加速度，X Y Z轴三个值（包括重心引力9.8）
       - acceleration：设备加速度 （需要设备陀螺仪支持） X Y Z轴三个值
       - rotationRate（alpha，beat，gamma）；旋转速度，包含alpha、beta、gamma
       - interval：获取的时间间隔，单位毫秒
-  
+
       ```js
        window.addEventListener("devicemotion", function(event) {
             // 处理event.acceleration.x、event.accelerationIncludingGravity.y、
             // event.rotationRate和event.interval
         }, true);
       ```
-  
+
     - orientationchange事件 监听设备的方向变化
-  
+
       - event对象并不包含方向信息
       - 通过`screen.orientation.angle`对象获取 0 180表示竖屏、90 270表示横屏
       - ios通过 `window.orientation`获取   0 180表示竖屏、90  -90表示横屏
