@@ -42,9 +42,9 @@ exit 或 quit 或 ctrl+D        # 退出终端
 
 例子：
 
-进入 c 盘 ` cd  /c`
+进入 c 盘 ` cd /c`
 
-进入文件 `cd  文件名`（tab 键自动补全路径）
+进入文件 `cd 文件名`（tab 键自动补全路径）
 
 删库跑路(强制删除根目录)：`rm / -rf`
 
@@ -442,14 +442,21 @@ pr 样例：注意：后面要有空格
 
 ![git](images/Git/git.jpg)
 
+## gitee 工作流
 
+> - [Gitee Go 流水线构建镜像并推送到阿里云容器镜像服务 ACR | 草梅友仁的博客 (cmyr.ltd)](https://blog.cmyr.ltd/archives/26f5ba7.html)
+> - 或使用阿里云 服务器部署关联，需要创建阿里云子账号并授权
 
+- gitee 流水线，关联阿里云服务器，实现代码 push，自动打包更新服务器 build 资源
 
+## github page
 
+> - 新建存储库，命名为 `姓名.github .io`
 
+## github 工作流
 
 ## 其他
 
 - [GitHub 页面 |您和您的项目的网站，直接从您的 GitHub 存储库托管。只需编辑、推送，您的更改即可生效。](https://pages.github.com/)
-- [解决window下使用git clone时没有提示输入用户名密码认证的问题（gitlab使用https协议）_git拉取代码时没有账号密码输入 ](https://blog.csdn.net/hacker_lpy/article/details/124078021)
-  - 解决办法：控制面板 - 凭据管理 - windows凭据 - 删除对应仓库的信息，重新拉取！
+- [解决 window 下使用 git clone 时没有提示输入用户名密码认证的问题（gitlab 使用 https 协议）\_git 拉取代码时没有账号密码输入 ](https://blog.csdn.net/hacker_lpy/article/details/124078021)
+  - 解决办法：控制面板 - 凭据管理 - windows 凭据 - 删除对应仓库的信息，重新拉取！
