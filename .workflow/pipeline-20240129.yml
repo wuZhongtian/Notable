@@ -9,7 +9,7 @@ triggers:
         - ''
 stages:
   - name: stage-e9b24000
-    displayName: 未命名
+    displayName: Node打包
     strategy: naturally
     trigger: auto
     executor:
@@ -36,7 +36,7 @@ stages:
         strategy:
           retry: '0'
   - name: stage-f431c1c6
-    displayName: 未命名
+    displayName: 主机部署
     strategy: naturally
     trigger: auto
     executor: []
@@ -66,7 +66,7 @@ stages:
         strategy:
           retry: '0'
   - name: stage-3361438d
-    displayName: 未命名
+    displayName: 人工审核
     strategy: naturally
     trigger: auto
     executor: []
