@@ -442,18 +442,28 @@ pr 样例：注意：后面要有空格
 
 ![git](images/Git/git.jpg)
 
-## gitee 工作流
+
+
+## Workflows
+
+> - [Collaborating more effectively with Git using workflows_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13L4y1A79T?p=1&vd_source=12c717d82cfc8f0cc3894516956cc8b3) 视频教程
+> - [Gitee Go 流水线构建镜像并推送到阿里云容器镜像服务 ACR | 草梅友仁的博客 (cmyr.ltd)](https://blog.cmyr.ltd/archives/26f5ba7.html)
+
+### gitee 工作流
 
 > - [Gitee Go 流水线构建镜像并推送到阿里云容器镜像服务 ACR | 草梅友仁的博客 (cmyr.ltd)](https://blog.cmyr.ltd/archives/26f5ba7.html)
+>
 > - 或使用阿里云 服务器部署关联，需要创建阿里云子账号并授权
+>
+>   ![image-20240130001049076](images/Git/image-20240130001049076.png)
 
 - gitee 流水线，关联阿里云服务器，实现代码 push，自动打包更新服务器 build 资源
 
-## github page
+### github page
 
 > - 新建存储库，命名为 `姓名.github .io`
 
-## github 工作流
+### github 工作流
 
 ## 其他
 
