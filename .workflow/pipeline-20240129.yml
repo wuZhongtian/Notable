@@ -83,7 +83,7 @@ stages:
         name: tool_review
         displayName: 人工卡点
         reviewer:
-          - wzt521
+          - wuZhongtian
         notify: []
         strategy:
           retry: '0'
