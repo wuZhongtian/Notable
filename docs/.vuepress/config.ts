@@ -12,6 +12,14 @@ export default {
     ["link", { rel: "icon", href: "/logo.ico" }],
     ['meta', { name: 'keywords', content: '夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添' }],
     ['meta', { name: 'description', content: '夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添' }],
+    ["script", {},
+      `var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7d6014f90608f65e2463d1bde602b37a";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();`]
   ],
   plugins: [
     nprogressPlugin(),
