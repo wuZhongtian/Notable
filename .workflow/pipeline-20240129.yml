@@ -1,4 +1,4 @@
-version: '1.0'
+version: "1.0"
 name: pipeline-20240129
 displayName: pipeline-20240129
 triggers:
@@ -6,24 +6,24 @@ triggers:
   push:
     branches:
       prefix:
-        - ''
+        - ""
 stages:
   - name: stage-e9b24000
     displayName: Node打包
     strategy: naturally
     trigger: auto
     executor:
-      - wzt521
+      - wuZhongtian
     steps:
       - step: build@nodejs
         name: build_nodejs
         displayName: Nodejs 构建
         nodeVersion: 17.8.0
         commands:
-          - '# 设置NPM源，提升安装速度'
+          - "# 设置NPM源，提升安装速度"
           - npm config set registry https://registry.npmmirror.com
-          - ''
-          - '# 执行编译命令'
+          - ""
+          - "# 执行编译命令"
           - npm install && npm run docs:build
         artifacts:
           - name: BUILD_ARTIFACT
@@ -34,7 +34,7 @@ stages:
           - ~/.pnpm
         notify: []
         strategy:
-          retry: '0'
+          retry: "0"
   - name: stage-f431c1c6
     displayName: 主机部署
     strategy: naturally
@@ -54,25 +54,25 @@ stages:
             target: /www/wwwroot
             dependArtifact: BUILD_ARTIFACT
         script:
-          - '# 功能：部署脚本会在部署主机组的每台机器上执行'
-          - '# 使用场景：先将制品包解压缩到指定目录中，再执行启动脚本deploy.sh，脚本示例地址：https://gitee.com/gitee-go/spring-boot-maven-deploy-case/blob/master/deploy.sh'
-          - '# mkdir -p /home/admin/app'
-          - '# tar zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/app'
-          - '# sh /home/admin/app/deploy.sh restart'
-          - '# 如果你是php之类的无需制品包的制品方式，可以使用 git clone 或者 git pull 将源代码更新到服务器，再执行其他命令'
-          - '# git clone ***@***.git'
-          - ''
-          - ''
+          - "# 功能：部署脚本会在部署主机组的每台机器上执行"
+          - "# 使用场景：先将制品包解压缩到指定目录中，再执行启动脚本deploy.sh，脚本示例地址：https://gitee.com/gitee-go/spring-boot-maven-deploy-case/blob/master/deploy.sh"
+          - "# mkdir -p /home/admin/app"
+          - "# tar zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/app"
+          - "# sh /home/admin/app/deploy.sh restart"
+          - "# 如果你是php之类的无需制品包的制品方式，可以使用 git clone 或者 git pull 将源代码更新到服务器，再执行其他命令"
+          - "# git clone ***@***.git"
+          - ""
+          - ""
           - rm -rf /www/wwwroot/notes
           - mkdir -p /www/wwwroot/notes
           - tar zxvf /www/wwwroot/notes.tar.gz -C /www/wwwroot/notes
-          - ''
+          - ""
           - echo 'Hello Gitee Go!'
-          - ''
-          - ''
+          - ""
+          - ""
         notify: []
         strategy:
-          retry: '0'
+          retry: "0"
   - name: stage-3361438d
     displayName: 人工审核
     strategy: naturally
@@ -86,4 +86,4 @@ stages:
           - wuZhongtian
         notify: []
         strategy:
-          retry: '0'
+          retry: "0"
