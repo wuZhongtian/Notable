@@ -23,6 +23,22 @@
 
 
 
+
+
+### 赞助
+
+> 如有帮助，欢迎赞助，收到赞助款后，我会及时更新 [赞助墙/赞助信息]
+
+<br/>
+
+
+
+<img src="./images/directory/df6d002c-ff42-4f2b-b82d-350c20e3cb2a.png" alt="df6d002c-ff42-4f2b-b82d-350c20e3cb2a" style="zoom:33%;" />
+
+<img src="./images/directory/85855ade-80b7-4329-925f-b10853016bc3.png" alt="85855ade-80b7-4329-925f-b10853016bc3" style="zoom:33%;" />
+
+
+
 <!-- - [VuePress2配置详解：主页、导航、搜索以及样式 | Forever Study (yydnas.cn)](https://www.yydnas.cn/2023/04/2023.04.06-VuePress2配置详解：主页、导航、搜索以及样式/index.html)
 
 ### 查缺补漏
