@@ -948,13 +948,23 @@ rect.animate('angle', 45, {
 
 ### 缓存/不及时生效
 
-> - objectCaching 属性控制是否在内存中缓存图像。如果设置为 true，则图像将在内存中缓存，这意味着在绘制图像时不会重新加载图像。如果设置为 false，则图像将在每次绘制时重新加载。默认值为 true。
+> - 方式1：fabricjs 中 dirty 属性 【有效】
+>   - 当对象属性发生更改时，此属性设置为 true。这用于确定对象是否需要重新渲染。
+> - 方式2：objectCaching 属性控制是否在内存中缓存图像。如果设置为 true，则图像将在内存中缓存，这意味着在绘制图像时不会重新加载图像。如果设置为 false，则图像将在每次绘制时重新加载。默认值为 true。
 
 ```js
+// dirty 为true 会重新渲染图表
+activeObject.set('dirty', true);
+
 // 修改默认的缓存配置
 objectCaching: false
-
 ```
+
+
+
+
+
+
 
 
 
