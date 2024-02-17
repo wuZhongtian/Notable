@@ -241,8 +241,11 @@ createApp(App).mount('#app')  // app为index.html容器的id
            text:String,
            message:Number
        })
+       
+       // 或
+       const props = defineProps(['text', 'message'])
        ```
-
+       
        
 
 5. 具名插槽
