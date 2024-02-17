@@ -572,6 +572,36 @@ yarn add antd
 
 ## 使用记录
 
+### 基础细节
+
+- React组件首字母大小写，使用时带`< />`
+
+  ```jsx
+  function Header() {
+    return <h1>Develop. Preview. Ship.</h1>;
+  }
+   
+  function HomePage() {
+    return (
+      <div>
+        {/* Nesting the Header component */}
+        <Header />
+      </div>
+    );
+  }
+   
+  const root = ReactDOM.createRoot(app);
+  root.render(<Header />);
+  ```
+
+  
+
+
+
+
+
+
+
 ### 深度监视
 
 > 使用global声明的class 都不会被编译成哈希字符串
