@@ -22,6 +22,44 @@
 
 
 
+### 相关优化
+
+#### 优化字体
+
+> [Learn Next.js: Optimizing Fonts and Images | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/optimizing-fonts-images)
+
+
+
+#### 优化图片
+
+> - 优化点
+>   - 防止在加载图像时自动切换布局
+>   - 调整图像大小以避免将大图像传送到具有较小视口的设备
+>   - 默认情况下延迟加载图像（图像在进入视口时加载）
+>   - 在浏览器支持的情况下，使用现代格式图像，例如 [WebP](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#webp) and 和 [AVIF](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#avif_image)
+
+- 使用 `<Image>` 组件 替换 HTML的`<img>`标签
+
+```react
+import Image from 'next/image';
+
+export default function Page() {
+  return (
+    // ...
+      <Image
+        src="/hero-desktop.png"
+        width={1000} // 单位px
+        height={760} // 单位px
+        className="hidden md:block"  // 在桌面端才显示，其他设备中隐藏
+        alt="Screenshots of the dashboard project showing desktop version"
+      />
+    //...
+  );
+}
+```
+
+
+
 ### [[Network Boundary 网络边界](https://nextjs.org/learn/react-foundations/server-and-client-components#network-boundary)
 
 > - 网络边界是分隔不同环境的概念线
@@ -88,11 +126,16 @@ jsconfig.json	JavaScript 的配置文件
 
 
 
+#### 创建布局和页面
+
+> - 使用文件系统路由创建路由
+> - Next.js使用文件系统路由，其中文件夹用于创建嵌套路由。每个文件夹代表一个映射到URL段的路由段。
 
 
 
 
-### 问题解决
+
+## 问题解决
 
 #### 编辑器报错
 
