@@ -1013,3 +1013,38 @@ function addApwx_jsp(option) {
 }
 ```
 
+
+
+
+
+
+
+### 内置属性
+
+#### `__eventListeners`
+
+> **事件对象**
+>
+> - 每个 Vue 实例都会有一个 `__eventListeners` (内置)属性，用于存储该实例上所有的事件监听器。
+> - 给 Vue 实例添加事件监听器，实际就是在 `__eventListeners` 属性中添加了一个新的键值对。
+> - 注意：在 JavaScript 中并没有这个属性！
+
+```js
+// 例:以下代码为 canvasEditor 组件添加了一个 "mouseover" 事件监听
+canvasEditor.addEventListener('mouseover', function() {
+  console.log('Mouse is over the canvasEditor');
+});
+
+// 执行上述代码后，canvasEditor.__eventListeners 属性中将会添加一个名为 "mouseover" 的键值对，其值为一个包含事件处理函数的数组。
+
+!canvasEditor.__eventListeners['mouseover']  // 检查是否已经存在名为 "mouseover" 的监听器
+
+```
+
+
+
+#### _getTopOffset
+
+> **偏移方法**
+>
+> - 
