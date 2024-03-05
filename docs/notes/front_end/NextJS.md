@@ -2,9 +2,11 @@
 
 > - 样式：支持您首选的样式化方法，包括 CSS Modules、Tailwind CSS 和 CSS-in-JS
 > - [路由](https://nextjs.org/docs/app/building-your-application/routing)：基于文件系统的路由器，构建在服务器组件之上，支持布局、嵌套路由、加载状态、错误处理等
-> - 渲染：Client-side and Server-side Rendering with Client and Server Components.通过 Next.js 在服务器上使用静态和动态渲染进一步优化 Edge 和 Node.js 运行时上的流媒体。
+> - 内置服务器渲染：Client-side and Server-side Rendering with Client and Server Components.通过 Next.js 在服务器上使用静态和动态渲染进一步优化 Edge 和 Node.js 运行时上的流媒体。
 > - 优化：图像、字体和脚本优化，以改善应用程序的核心 Web 关键点和用户体验。
 > - Next.js 现在默认附带 TypeScript，ESLint 和 Tailwind CSS 配置。
+> - 特性：可添加伪后端代码，适用于文件系统、链接数据库，添加API
+> - 其他特点：更好的SEO优化、
 
 ## 基础入门
 
@@ -158,7 +160,7 @@ jsconfig.json	JavaScript 的配置文件
       "presets": ["next/babel"],
       "plugins": []
   }
-
+  
   // 根目录创建 .eslintrc 文件夹
   {
     "extends": ["next/babel","next/core-web-vitals"]
