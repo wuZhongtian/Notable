@@ -146,6 +146,18 @@ jsconfig.json	JavaScript 的配置文件
 
 ![image-20240219172313063](images/NextJS/image-20240219172313063.png)
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## 问题解决
 
 #### 编辑器报错
