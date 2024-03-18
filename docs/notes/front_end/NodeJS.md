@@ -1880,15 +1880,11 @@ pnpm i jsonwebtoken
 
 
 
-#### [Express](https://www.expressjs.com.cn/)
+### [Express框架](https://www.expressjs.com.cn/)
 
-- 快速、开发、极简的**web开发框架**，可以用来创建web服务
-- 用途：
-  - <span style='color:hotpink'>Web 网站服务器：</span>专门对外提供web网页资源的服务器
-  - <span style='color:hotpink'>API接口：</span>专门对外提供 API 接口的服务器。
-- 使用
-  1. 安装 Express  `npm i express`
-  2. 创建基本服务器
+> 对外提供：web网页资源、API 接口
+
+- 安装 Express  `npm i express`
 
 ```js
 //导入 express
@@ -1897,86 +1893,129 @@ const express = require('express');
 const app = express();
 
 //创建路由规则 见3、4
+app.get('/home',(req,res)=>res.send('hello'));
 //利用 app.listen(端口号、回调函数)；监听端口  启动服务器
 app.listen(80,() => {
-    console.log('express server running at http://127.0.0.1')
-    console.log('80默认端口监听中')
+    console.log('80默认端口监听中：express server running at http://127.0.0.1')
 })
 ```
 
 
 
-- `app.get()` 方法，监听客户端的 get请求。
-  - 配置路由规则，可以响应的访问路径、请求的方式（如果不配置 前端请求时会报错）
-- ` app.post()` 方法，监听客户端的 post请求。
-- `app.all()` 方法， 监听所有类型的请求。
-- `res.redirect("/login")`   重定向，跳转到指定接口继续执行代码
+#### 路由方法
+
+> 配置路由规则，可以响应的访问路径、请求的方式（如果不配置 前端请求时会报错）
+
+| 方法       | 说明                     |
+| ---------- | ------------------------ |
+| app.get()  | 监听客户端的 get请求     |
+| app.post() | 监听客户端的 post请求    |
+| app.all()  | 监听客户端所有类型的请求 |
+
+
+
+#### 请求参数req
+
+- 原生获取【可用】
+
+  ```js
+  req.method; 	// 请求方法
+  req.url;		// 请求url
+  req.httpVersion; // 请求版本
+  req.headers;	 // 请求头
+  ```
+
+- express封装获取
+
+  ```js
+  req.path;  // 请求路径，原生req.pathname
+  req.query;  // 获取 url中携带的查询参数，{xx:xx,a:xx}
+  req.params  // 获取url的动态参数
+  
+  
+  req.ip;		// 获取请求者的ip
+  req.get('host'); // 获取特定名的请求头信息
+  
+  
+  app.get(':/id.html',(res,req)=>{
+     console.log(req.params.id)
+  })
+  ```
+
+  <img src="images/NodeJS/image-20220826160241678.png" alt="image-20220826160241678" style="zoom:67%;" />
+
+  
+
+
+
+#### 响应设置res
+
+- 原生
+
+  ```js
+  res.statusCode = 404;  // 设置响应状态码
+  res.statusMessage =  'love';  // 设置状态描述
+  res.setHeader('xxx','yyy');	  // 设置响应头
+  res.write('hello word');	  // 设置响应体
+  res.end('response');		  // 设置响应体+发送响应
+  ```
+
+- express封装
+
+  - res.send() 方法，把处理好的内容，发送给客户端、应写在监听请求处理函数的末尾
+  - send中的数据必须是字符串类型、如果是对象或其他数据格式，需要使用js方法进行转化
+
+  ```js
+  res.status();	// 设置状态码
+  res.set('xxx','xxx');	// 设置响应头
+  res.send('hello');		// 设置响应体+发送响应
+  // 简写
+  res.status(500).set('xxx','xxxx').send('hello');
+  
+  
+  // 其他一些特殊的响应
+  res.redirect("/login");   // 重定向，跳转到指定接口继续执行代码
+  res.download('文件绝对路径'); // 返回指定文件，并由用户浏览器自动下载
+  res.json({name:'xxx'});		// 响应json结构结果
+  res.sendFile('文件路径');	 // 响应文件内容,给浏览器展示
+  ```
+
 - `res.render('xxxx')`   配合模板引擎，返回渲染的页面（用在前后端不分离中）
 - `res.writeHead(200)`  设置响应头中的状态码
 
 ```js
-// request：对请求报文的封装，包含与请求相关的属性和方法   
-// response：是对响应报文的封装，包含与响应相关的属性和方法
 // 参数1：客户端请求的 url 地址        参数2：请求的回调函数
-
-app.get('请求的url',function(reqest,response){ 
+app.get('请求的url',(req,res)=>{ 
     // 设置响应头，允许跨域  *表示所有的url请求都支持
-    response.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader('Access-Control-Allow-Origin','*');
     // 表示接受任意的请求头信息，针对前端的自定义请求头信息
-    response.setHeader("Access-Control-Allow-Headers","*");
-    /*处理函数*/
-    response.send('hello express'); 
+    res.setHeader("Access-Control-Allow-Headers","*");
+    //向客户端发送 json 对象
+    res.send({  name:'zs',  age:20, gender:'男' })
 })
 
-app.post('请求的url',function(req,res){ 
-    /*处理函数*/
-    res.send('hello express'); //设置响应体
+app.post('/url',(req,res)=>{ 
+    res.send('请求成功'); //向客户端发送文本内容
 })
 
-app.all('请求的url',function(req,res){ 
-    /*处理函数*/  
-    res.send('hello express');  //设置响应体  
-})
+app.all('/url',(req,res)=>{ res.send('hello express') })
 ```
 
 
 
-- 向客户端发送相应信息
-  - 通过 res.send() 方法，可以把处理好的内容，发送给客户端
-  - res.send() 应该写在监听请求处理函数的末尾
-  - send中的数据必须是字符串类型
-  - 如果是对象或其他数据格式，需要使用js方法进行转化
+#### 兜底请求响应
 
 ```js
-app.get('/url',(req,res) => {
-    //向客户端发送 json 对象
-    res.send({
-        name:'zs',
-        age:20,
-        gender:'男'
-    })
-})
-
-app.post('/url',(req,res) => {
-    //向客户端发送文本内容
-    res.send('请求成功');
+// 上述路由都不匹配时执行的路由规则
+// 404 响应
+app.all('*',(res,req)=>{
+    res.send('404 not Found');
 })
 ```
 
 
 
-##### req请求参数
-
-- `req.query对象`
-  - 获取 url中携带的查询参数
-  - 可以访问到客户端通过查询字符串的形式，发送到服务器的参数：
-- `req.params 对象`
-  - 获取url的动态参数
-  - 访问到 URL 中，匹配到的动态参数：
-
-![image-20220826160241678](images/NodeJS/image-20220826160241678.png)
-
-##### 解决跨域问题
+#### 解决跨域问题
 
 ```js
 app.all('*', function(req, res, next) {
@@ -1992,7 +2031,7 @@ app.all('*', function(req, res, next) {
 });
 ```
 
-##### 静态资源及post请求问题
+#### 静态资源及post请求问题
 
 ```js
 // 解决POST请求参数无法解析的问题
@@ -2010,7 +2049,7 @@ res.header("Content-Type", "application/json;charset=utf-8");
 
 
 
-##### 接口开发
+#### 接口开发
 
 ```js
 const express = require("express")   // 导入express框架
@@ -2035,7 +2074,7 @@ app.use(postport)
 
 
 
-##### pathinfo参数的获取
+#### pathinfo参数的获取
 
 ```js
 // 前端中使用
@@ -2052,7 +2091,7 @@ app.get("/detail/:id/:type/...",(req,res)=>{
 
 
 
-##### 处理请求前执行钩子函数
+#### 处理请求前执行钩子函数
 
 > 如果在执行处理请求的函数之前想执行一些代码，例如验证是否已经登录的工作；可以在`app.use(utile.xxx, routers);`前面加一个函数
 
