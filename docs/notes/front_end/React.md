@@ -2,10 +2,8 @@
 # [React](https://zh-hans.reactjs.org/docs/hello-world.html)
 
 1. 特点：
-   - *标记与逻辑**没有分离**到不同文件*，二者共同存放在“组件”的松散耦合单元之中
-   - 采用组件化，声明式编码，提高开发效率
-   - 可以使用React Navite 进行 移动端开发
-   - 使用虚拟DOM + Diffing 算法，尽量减少操作真实DOM
+   - 组件化、声明式编码；虚拟DOM + Diffing 算法，减少DOM操作
+   - 可使用React Navite 开发移动端
 
 ```jsx
 // hello word
@@ -19,9 +17,8 @@ root.render(<h1>Hello, world!</h1>);
 
 #### CDN引入
 
-- 默认 `<script>`标签type类型为 `text/javascript`
-  - jsx的 type类型应为  `text/babel`才能解析
-- 引入顺序 react 核心文件  --> react-dom  --> babel
+-  `<script>`标签的 type类型，默认为 `text/javascript`；jsx应使用`text/babel`
+- 引入顺序： react 核心  --> react-dom  --> babel
 
 ```html
 <body>
@@ -49,12 +46,11 @@ root.render(<h1>Hello, world!</h1>);
 
 
 
-#### 使用插件
+#### VSCode插件
 
-- `ES7+React/Readux...`
-- 快捷指令，代码块    
-- rfc、rcc       分别是函数组件、类式组件
-- imp、imn       引入模块、样式
+> `ES7+React/Readux...`
+>
+> - 快捷键：rfc 函数组件、rcc 类式组件、imp、imn       引入模块、样式
 
 
 
