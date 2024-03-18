@@ -10,16 +10,19 @@ export default {
   description: "探索者的成长日记",
   head: [
     ["link", { rel: "icon", href: "/logo.ico" }],
-    ['meta', { name: 'keywords', content: '夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添' }],
-    ['meta', { name: 'description', content: '夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添' }],
-    ["script", {},
+    ["meta", { name: "keywords", content: "夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
+    ["meta", { name: "description", content: "夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
+    [
+      "script",
+      {},
       `var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
       hm.src = "https://hm.baidu.com/hm.js?7d6014f90608f65e2463d1bde602b37a";
       var s = document.getElementsByTagName("script")[0]; 
       s.parentNode.insertBefore(hm, s);
-    })();`]
+    })();`,
+    ],
   ],
   plugins: [
     nprogressPlugin(),
@@ -94,6 +97,7 @@ export default {
           text: "大前端",
           collapsible: true,
           children: [
+            "/notes/front_end/NextJS.md",
             "/notes/front_end/Vue2.md",
             "/notes/front_end/Vue3.md",
             "/notes/front_end/React.md",
@@ -102,20 +106,12 @@ export default {
             {
               text: "小程序",
               collapsible: true,
-              children: [
-                "/notes/front_end/小程序/微信小程序.md",
-                "/notes/front_end/小程序/uniapp.md",
-                "/notes/front_end/小程序/有赞组件开发.md",
-                "/notes/front_end/小程序/饿了么组件开发.md",
-              ],
+              children: ["/notes/front_end/小程序/微信小程序.md", "/notes/front_end/小程序/uniapp.md", "/notes/front_end/小程序/有赞组件开发.md", "/notes/front_end/小程序/饿了么组件开发.md"],
             },
             {
               text: "JS周边库",
               collapsible: true,
-              children: [
-                "/notes/front_end/JS周边库/fabric.md",
-                "/notes/front_end/JS周边库.md",
-              ],
+              children: ["/notes/front_end/JS周边库/fabric.md", "/notes/front_end/JS周边库.md"],
             },
             "/notes/front_end/前后端通讯.md",
             "/notes/front_end/TypeScript.md",
@@ -129,15 +125,7 @@ export default {
         {
           text: "嵌入式",
           collapsible: true,
-          children: [
-            "/notes/embedded/stm32.md",
-            "/notes/embedded/ESP32-Python.md",
-            "/notes/embedded/模电数电.md",
-            "/notes/embedded/C语言.md",
-            "/notes/embedded/计算机网络.md",
-            "/notes/embedded/51单片机.md",
-            "/notes/embedded/其他概念.md",
-          ],
+          children: ["/notes/embedded/stm32.md", "/notes/embedded/ESP32-Python.md", "/notes/embedded/模电数电.md", "/notes/embedded/C语言.md", "/notes/embedded/计算机网络.md", "/notes/embedded/51单片机.md", "/notes/embedded/其他概念.md"],
         },
         {
           text: "数据库",
