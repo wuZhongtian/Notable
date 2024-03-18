@@ -11,17 +11,11 @@
 
 - 可以实现的功能：
 
-  - web 服务器
-  - 命令行工具
-  - 网络爬虫
-  - 桌面应用程序开发
-  - app
-  - 游戏
-  - 嵌入式（物联网设备）
+  - web 服务器、命令行工具、网络爬虫、桌面应用程序开发、app、游戏
   - 读写和操作数据库、创建使用的命令行工具辅助前端开发
+  - 嵌入式（物联网设备）、在树莓派上使用node.js
   - 作为硬件控制工具代替C/C++,Noduino允许经由websocket或串来凝结实现arduino访问
-  - 在树莓派上使用node.js
-
+  
 - 常用框架
 
   - [基于Express框架]([Express - 基于 Node.js 平台的 web 应用开发框架 - Express 中文文档 | Express 中文网 (expressjs.com.cn)](https://www.expressjs.com.cn/))，可以快速构建web应用
@@ -30,18 +24,12 @@
 
     基于restify框架，可快速构建api接口项目
 
-- 内置API
-
-  - fs 、path、http、js内置对象、querystring、ect...... 
-
 - Node.js特性
 
   - 可解析js代码( 没有浏览器安全级别限制) 提供很多系统级别的API
-  - 浏览器自带有安全杀箱，存在跨域等一些列问题，
-  - 文件的读写
-  - 进程的管理
-  - 网络通信，不存在跨域的问题
-
+  - Node.js 网络通信；无浏览器安全杀箱，不存在跨域
+  - 文件读写、进程管理
+  
 - node.js特点
 
   - 借助谷歌V8引擎，更高效的处理并发、异步等性能问题
@@ -62,112 +50,29 @@
 
 - 注意事项：
 
-  - 可以使用：ES6这些js语法、node提供的API，但没有DOM和BOM这些浏览器中的东西;jquery也不能直接用
+  - 可以使用：ES6这些js语法、node提供的API，但没有浏览器的DOM、BOM
   - 实际开发的文件命名建议使用全英文
 
-- 学习路线
 
-  - js基础语法+node内置api模块（fs、http、path..）+第三方api模块（mysql、express。。。）
-  
-- 安装Node.js
-
-  - 下载nvm（node版本控制工具）
-  - 下载node（使用nvm进行下载）
-  - 使用nvm命令选择并使用相应的node版本
-
-
-
-#### 项目结构
-
-- app.js:项目的入口和程序启动文件
-
-- public:项目的静态文件(css,js,img)
-
-  - 就是一些图片或者音频文件,还有一些js插件
-
-- routes:项目的路由
-
-  - 里面是一些路由,也就是自己封装的一些接口,响应前端的一些请求
-
-- views:视图目录文件(相当有[mvc](https://so.csdn.net/so/search?q=mvc&spm=1001.2101.3001.7020)里的v)
-
-  - 其实就是html文件 模板引擎
-
-- **/src 存放源码，一般会对这个文件进行编译打包**
-
-  **/src/common 存放写的一些轮子，通用的代码，导入逻辑层被调用**
-
-  **/src/dbs 存放项目所需所有数据库接入文件和配置文件**
-
-  **/src/models 存放orm层的文件或者dao层文件**
-
-  **/src/middleware 存放自己写的中间件，这个相当于功能组件轮子，导入控制层做中间件**
-
-  **/src/services 存放逻辑层文件，这个是控制层的功能函数，导入控制层被调用**
-
-  **/src/controlers 存放控制层文件**
-
-  **/src/views 存放前端页面模板**
-
-  **/src/access 存放**别的服务**接入代码，例如接入机器学习，把数据接入处理，导出数据到C层输出**
-
-  **/src/app.js 项目入口文件**
-
-  **/src/deploy.js 项目自动化部署文件**
-
-  **/test 测试文件夹，存放功能测试、健壮性测试、性能测试、压测等文件**
-
-  **.gitignore git忽略文件**
-
-  **.eslintrc.json 代码格式检查配置文件**
-
-  **.pm2.json 集群配置文件**
-
-  **package.json 项目依赖信息说明文件**
-
-  **webpack.config.js 项目打包编译配置文件**
-
-#### Buffer数据类型
-
-> js语言自身只有字符串数据类型，没有二进制数据类型。但在处理文件流相关内容是，必须使用到二进制数据。因此Node.js中定义Buffer类，用来创建专门存放二进制数据的缓冲区 (类似于一个整数数组)
-
-| 方法              | 描述                                                         |
-| ----------------- | ------------------------------------------------------------ |
-| Buffer.from()     | 创建一个buffer对象                                           |
-| Buffer.alloc(10)  | 创建一个可以存放10个字符的buffer对象，用不到位置它默认会由00占位 |
-| buf3.write('abc') | 往buffer对象中写入信息(转2再转16存起来)                      |
-| .toString()       | 将16进制buffer内容 转为可识别的内容                          |
-
-**创建buffer对象**
-
-```js
-let buf1 = Buffer.from([97,98,99]);   // 根据一个数组创建Buffer对象
-console.log(buf1);    // <Buffer 61 62 63> 以16进制形式存储在Buffer对象中
-console.log(buf1.toString());  // abc 将buffer内容转为可识别的内容
-
-
-let buf2 = Buffer.from('nodejs');     // 根据一个字符串创建Buffer对象
-
-let buf3 = Buffer.alloc(10);   // 创建可以存放10个字符的buffer对象
-buf3.write('abc');             // 按照ASCLL表的价值，转16进制，存在Buffer中
-```
 
 
 
 ####  windows命令行
 
 - PowerShell  cmd    两种window版本工具，powershell为新版的，相比于cmd的功能更完善
+  - PowerShell的使用，在目录文件夹下，鼠标右键`在windows终端下打开`即可
 
-- PowerShell的使用，在目录文件夹下，鼠标右键`在windows终端下打开`即可
+  - cmd 的使用，win+R  cmd进入
 
-- cmd 的使用，win+R  cmd进入
 
 
 
 #### [NVM](https://www.cnblogs.com/cencenyue/p/10430618.html)
 
-- [Releases · coreybutler/nvm-windows · GitHub](https://github.com/coreybutler/nvm-windows/releases)
-- https://github.com/nvm-sh/nvm
+> - nvm - node版本控制工具
+> - [Releases · coreybutler/nvm-windows · GitHub](https://github.com/coreybutler/nvm-windows/releases)
+> - https://github.com/nvm-sh/nvm
+
 - Node版本的管理工具 当需要多个版本的node时，使用Nvm可以同时管理过个版本；
 
 - `安装Nvm之前，需要删除现有的node`
@@ -178,7 +83,7 @@ buf3.write('abc');             // 按照ASCLL表的价值，转16进制，存在
   - 我的安装目录：C:\Users\wzt\AppData\Roaming\nvm
   - 加入：node_mirror:https://npm.taobao.org/mirrors/node/
     npm_mirror:https://npm.taobao.org/mirrors/npm/
-  
+
 
 
 
@@ -327,9 +232,10 @@ esc            # 快速清空当前输入的命令
 
 ### 全局对象
 
-- 在浏览器中，window是全局对象
-- Node.js中全局对象`global`,所有全局变量都是`global`
-- Node.js中声明的**变量**，不会直接挂载到global上，但global上挂载的内容可以在任何地方使用
+> - 全局对象：浏览器中 - window       Node.js中 - global
+> - Node.js中声明的**变量**，不会直接挂载到global上，但global上挂载的内容可以在任何地方使用
+> - ES2020：新增 `globalThis`指向顶级对象，不同环境下`global == globalThis  global == window`
+
 - 交互模式下
   - this 指向`global`
   - 交互模式下只有module.exports，没有exports
@@ -484,60 +390,170 @@ console.log(process.arch)
 
 ### 内置模块
 
+
+
+#### Buffer类型
+
+> - 在处理文件流时，必须使用到二进制数据。但 JS中没有，因此Node.js中定义Buffer，主要用来存放二进制数据的缓冲区，用于表示固定长度的字节序列
+> - 中文译为【缓冲区】，**固定长度**的内存空间，用于处理二进制数据
+> - 特点：大小固定无法调整、性能好，直接操作计算机内存、每个元素的小为1字节byte
+> - 注意点：
+>   - Buffer 是Node.js内置模块，启动时自动导入，无需手动引入
+>   - Buffer 的每个字节为8bit，溢出超出时会自动**舍去高位**的值
+>   - 对应中文字符，每个字占3个字节
+
+| 方法                    | 描述                                                         |
+| ----------------------- | ------------------------------------------------------------ |
+| Buffer.from('hello')    | 通过字符串创建 buffer                                        |
+| Buffer.alloc(10)        | 创建一个可以存放10个字符的buffer对象，用不到位置它默认会由00占位 |
+| Buffer.allocUnsafe(100) | 创建定长buffer，默认为旧的值，速度更快                       |
+| buf3.write('abc')       | 往buffer对象中写入信息(转2再转16存起来)                      |
+| .toString()             | 将16进制buffer内容 转为可识别的内容                          |
+
+```js
+// 创建buffer对象
+let buf = Buffer.alloc(10);   // 创建一个10字节空间的buffer，每个bit位默认被清为0
+let buf_2 = Buffer.allocUnsafe(10);  // 创建一个10字节空间的buffer，每个bit位默认为旧的值
+let buf_3 = Buffer.from('hello');   // hello 先转unicode再转二进制 68 65 6c
+
+let buf1 = Buffer.from([97,98,99]);   // 根据一个数组创建Buffer对象
+console.log(buf1);    // <Buffer 61 62 63> 以16进制形式存储在Buffer对象中
+console.log(buf1.toString());  // abc 将buffer内容转为可识别的内容
+
+
+let buf2 = Buffer.from('nodejs');     // 根据一个字符串创建Buffer对象
+
+let buf3 = Buffer.alloc(10);   // 创建可以存放10个字符的buffer对象
+buf3.write('abc');             // 按照ASCLL表的价值，转16进制，存在Buffer中
+```
+
+
+
+
+
 #### fs 文件系统模块
 
-| 方法              | 描述                                                         |
-| ----------------- | ------------------------------------------------------------ |
-| fs.readFile()     | 读取指定文件中的内容，异步读取                               |
-| fs.readFileSync() | 同步读取指定文件内容，读取完毕后再执行后面的代码，不需要回调函数 |
-| fs.writeFile()    | 向指定的文件中写入内容，异步写入                             |
-| fs.renameSync()   | 修改指定文件的文件名                                         |
-| fs.readdirSync()  | 获取指定路径下的文件列表，数组形式(包含文件和文件夹)         |
-|                   |                                                              |
+| 方法                               | 描述                                                         |
+| ---------------------------------- | ------------------------------------------------------------ |
+| fs.readFile()                      | 读取指定文件中的内容，异步读取                               |
+| fs.readFileSync()                  | 同步读取指定文件内容，读取完毕后再执行后面的代码，不需要回调函数 |
+| fs.createReadStream()              | 流式读取文件，针对大文件占用的内存空间更小                   |
+| fs.writeFile()                     | 向指定的文件中写入内容，异步写入                             |
+| fs.writeFileSync()                 | 等待向指定的文件中写入内容，同步写入                         |
+| fs.appendFile()                    | 在文件中追加写入，异步写入；  【 .appendFileSync  同步】     |
+| fs.createWriteStream()             | 流式写入，适合写入较频繁的场景                               |
+| fs.rename()                        | 修改、移动  指定文件路径(名)，异步；  【 .renameSync   同步】 |
+|                                    |                                                              |
+| fs.readdir('文件夹路径',callback)  | 获取指定路径下的文件列表，数组形式(包含文件和文件夹) 【.readdirSync   同步】 |
+| fs.mkdir('文件夹路径',callback)    | 创建文件夹，默认只能创建一级，参数二：{recursive:true}  递归创建 |
+| fs.rmdir('文件夹路径',callback)    | 删除文件夹，默认只能删除空文件夹                             |
+|                                    |                                                              |
+| fs.unlink('文件路径',callback)     | 删除文件，异步；    【 .unlinkSync  同步 】                  |
+| [推荐]  fs.rm('文件路径',callback) | 删除文件，异步；    【 .rmSync  同步 】                      |
+| fs.stat('文件路径',callback)       | 查看资源信息                                                 |
 
 - fs.readFile(`path`[,`options`],`callback`)        异步的，读取指定文件中的内容
   - 参数 path：字符串格式，表示文件的路径
   - 参数 options：可选参数，表示用什么编码格式读取文件,字符串格式
   - 参数 callback：回调函数，文件读取后，通过回调函数拿到读取的结果
-
-```js
-// 导入fs模块
-const fs =require('fs')
-fs.readFile('./one.txt','utf-8',function(err,dataStr){
-    console.log(err);   //当接收到的err 为 null 时，表示文件读取成功；
-    console.log(dataStr);   //当文件读取失败时，值为null ；成功时返回文件的内容
-})
-```
-
-
+  
+  ```js
+  // 导入fs模块
+  const fs =require('fs')
+  fs.readFile('./one.txt','utf-8',(err,dataStr)=>{
+      console.log(err);   //当接收到的err 为 null 时，表示文件读取成功；
+      console.log(dataStr);   //当文件读取失败时，值为null ；成功时返回文件的内容
+  })
+  ```
 
 - fs.writeFile(`file,data[,options],callback`)         用于向指定的文件中写入内容   
-  - 参数 file ：指定文件路径的字符串
-  - 参数 data：表示写入的内容
-  - 参数 options ：表示写入的编码格式，默认utf-8；
-  - 参数 callback ：文件写入完成后的回调函数
-- 当文件不存在时，fs.writeFile() 方法可以创建文件;但不能用来创建文件夹(路径)
-- 重复调用 fs.writeFile() 写入同一个文件，新写入的内容会覆盖之前的旧内容
+  - 当文件不存在时，fs.writeFile() 方法可以创建文件;但不能用来创建文件夹(路径)
+  - 重复调用 fs.writeFile() 写入同一个文件，新写入的内容会覆盖之前的旧内容
+  
+  ```js
+  /*
+  - file ：指定文件路径的字符串
+  - data：表示写入的内容
+  - options ：表示写入的编码格式，默认utf-8；
+  - callback ：文件写入完成后的回调函数
+  */
+  
+  fs.writeFile('./two.txt','hello node,js!',(err)=>{
+     console.log(err);     //当返回值 err 为 null 时，表示写入成功；
+     // 判断文件是否写入成功
+     if(err){  
+        return  console.log('文件写失败'+ err.message)
+     }
+     console.log('文件写入成功！');
+  })
+  ```
+  
+- fs.rename(旧文件名,新文件名)      修改指定文件的文件名
 
-```js
-const fs =require('fs');
-fs.writeFile('./two.txt','hello node,js!',function(err){
-   console.log(err);     //当返回值 err 为 null 时，表示写入成功；
-   // 判断文件是否写入成功
-   if(err){  
-      return  console.log('文件写失败'+ err.message)
-   }
-   console.log('文件写入成功！');
-})
-```
+  ```js
+  // 重命名 和 修改文件路径的本质一致：修改文件路径
+  fs.rename('./a.txt','../b.txt',err=>{});  // 移动 并 修改 文件名
+  ```
 
+- fs.readdir(__dirname)       获取指定文件夹路径下的文件名组成的数组
 
-
-- fs.renameSync(旧文件名,新文件名)      修改指定文件的文件名
-- fs.readdirSync(__dirname)       获取指定文件夹路径下的文件名组成的数组
   - 返回值：[旧文件名1,旧文件名2,旧文件名3.....]
 
-**小练习：批量修改文件的命名**
+- fs.createWriteStream()    流式写入，适合频繁的写入
+
+  ```js
+  const ws = fs.createWriteStream('./测试文本.txt')	// 创建写入流对象，要写入的文件
+  ws.write('一夫当关/r/n');
+  ws.write('万夫莫开/r/n');
+  
+  ws.close(); 	// 关闭通道
+  ```
+
+- fs.createReadStream()    流式读取
+
+  ```js
+  const fs = require('fs');
+  const rs = fs.createReadStream('../测试.video');
+  const ws = fs.createWriteStream('./写入的文件.video')	// 创建写入流对象，要写入的文件
+  
+  // 读取事件
+  rs.on('data',chunk=>{
+      // chunk 块
+       console.log(chunk.length);  //64kb
+  })
+  
+  // 可选事件，读取完成时触发
+  rs.on('end',()=>{
+      console.log('读取完成');
+  })
+  
+  // 简便写法： 将 rs读取流 直接交给 ws写入流 
+  rs.pipe(ws);
+  ```
+
+- fs.stat()    查看文件信息
+
+  ```js
+  fs.stat('./aaa',(err,data)=>{
+      if(err){
+          console.log('操作失败',err)
+          return ;
+      }
+      console.log(data);  // 查看资源信息
+      console.log(data.isFile()); // true 目标资源是个文件
+      console.log(data.isDirectory()); // true 目标资源是文件夹
+  })
+  ```
+
+  
+
+
+
+
+
+
+
+
 
 
 
@@ -660,20 +676,38 @@ console.log(pathStr2);
 
   ![image-20230304173623583](images/NodeJS/image-20230304173623583.png)
 
-.......
+
+
+- **补充：**
+
+  - process.memoryUsage()    获取代码的内存占用量
+
+  ```js
+  const process = require('process');
+  console.log(process.memoryUsage());
+  /* 
+  {
+  	res:xxxxx, 整个内存的占用大小
+  } 
+  */
+  ```
+
+  
+
+
+
+
+
+
 
 
 
 #### http模块
 
-- 用于创建 web 服务器的模块。
-- 什么是服务器：
+> 用于创建 web 服务器的模块。在 Node.js 中，无需使用 IIS、Apache 等三方 web服务器软件。http模块可轻松的实现服务器软件。
 
-  - 服务器和普通电脑的区别在于，服务器上安装了 web 服务器软件，例如：IIS、Apache 等。通过安装这些服务器软件，就能把一台普通的电脑变成一台 web 服务器。
-  - 在 Node.js 中，我们不需要使用 IIS、Apache 等这些第三方 web 服务器软件。因为我们可以基于 Node.js 提供的 http 模块，通过几行简单的代码，就能轻松的手写一个服务器软件，从而对外提供 web 服务。
-  - 通过 http 模块的 http.createServer() 方法，能方便的把电脑变成 Web 服务器，从而对外提供 Web 资源服务。
-  - 一台电脑中，可以运行成百上千个 web 服务。每个 web 服务都对应一个唯一的端口号。客户端发送过来的网络请求，通过端口号，可以被准确地交给对应的 web 服务进行处理。
-    **端口号范围：0——65536**
+- 通过 http 模块的 http.createServer() 方法，能方便的把电脑变成 Web 服务器，从而对外提供 Web 资源服务。
+- 端口号范围：0——65536
 
 ##### 服务器端
 
@@ -2068,6 +2102,8 @@ app.use(utile.func,getport) // 在执行getport里面的函数之前，先执行
   - JS源码 抽象为 语法树
   - 转化为本地机器码
   - 直接运行
+
+
 
 ### Node.js安装
 

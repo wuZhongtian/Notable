@@ -142,13 +142,48 @@ jsconfig.json	JavaScript 的配置文件
 > - Next.js 使用文件系统路由，其中文件夹用于创建嵌套路由。每个文件夹代表一个映射到 URL 段的路由段。
 
 - 创建路由页面：在 app 目录下新建文件夹，`文件夹名 = 路由名`，文件夹下的`page.tsx = 入口文件`；同理可在当前文件夹下继续嵌套更深层级的路由。
+
 - 创建共享导航：文件夹下新建`layout.tsx 文件`，实现多个页面之间共享的 UI
+
+- 动态路由，文件夹命名为`[xxx]`,使用中括号包裹，可实现再当前路由层级输入任何内容
+
+  - 获取路由参数 params.xxx ， 取值为文件命名的xxx
+
+  ![image-20240313090209231](images/NextJS/image-20240313090209231.png)
 
 ![image-20240219172313063](images/NextJS/image-20240219172313063.png)
 
 
 
+#### layout.js
 
+```jsx
+// app/blog/[post]/layout.js
+
+const BlogLayout = ({children})=>{
+    return children;
+}
+export default BlogLayout;
+
+export async function generateMetadata({arams}){
+    return{
+        title:params.post,	// 自定义浏览器标签页的文字
+    }
+}
+```
+
+
+
+
+
+
+
+#### API设置
+
+```js
+import { NextResponse } from 'next/server';
+export async function 
+```
 
 
 

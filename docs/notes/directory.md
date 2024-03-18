@@ -2,28 +2,17 @@
 
 ### 热爱生命
 
-​             -- 汪国真
+-- 汪国真
 
-我不去想是否能够成功
-既然选择了远方
-便只顾风雨兼程
+我不去想是否能够成功既然选择了远方便只顾风雨兼程
 
-我不去想能否赢得爱情
-既然钟情于玫瑰
-就勇敢地吐露真诚
+我不去想能否赢得爱情既然钟情于玫瑰就勇敢地吐露真诚
 
-我不去想身后会不会袭来寒风冷雨
-既然目标是地平线
-留给世界的只能是背影
+我不去想身后会不会袭来寒风冷雨既然目标是地平线留给世界的只能是背影
 
-我不去想未来是平坦还是泥泞
-只要热爱生命
+我不去想未来是平坦还是泥泞只要热爱生命
 
 一切，都在意料之中
-
-
-
-
 
 ### 赞助
 
@@ -31,13 +20,22 @@
 
 <br/>
 
-
-
 <img src="./images/directory/df6d002c-ff42-4f2b-b82d-350c20e3cb2a.png" alt="df6d002c-ff42-4f2b-b82d-350c20e3cb2a" style="zoom:33%;" />
 
 <img src="./images/directory/85855ade-80b7-4329-925f-b10853016bc3.png" alt="85855ade-80b7-4329-925f-b10853016bc3" style="zoom:33%;" />
 
+<br/>
+<br/>
 
+### 感谢
+
+<div style="display: flex; justify-content:space-around; marginTop:30px;">
+<div  style="display: flex; justify-content:space-around; flex-direction: column;align-items: center; ">
+  <img src="./images/directory/Snipaste_2024-03-18_17-10-41-17107535165434.jpg" alt="image-20240318165602562" style="width:120px" />
+  <span>赞助值：10元</span>
+  <span>留言：绵薄之力，致敬开源！</span>
+</div>
+</div>
 
 <!-- - [VuePress2配置详解：主页、导航、搜索以及样式 | Forever Study (yydnas.cn)](https://www.yydnas.cn/2023/04/2023.04.06-VuePress2配置详解：主页、导航、搜索以及样式/index.html)
 
@@ -45,24 +43,24 @@
 
 - 自传（成就 or 伟大）
 
-  - 亚信科技(中国)  -  xxxx事业部  - 前端开发
-  
+  - 亚信科技(中国) - xxxx 事业部 - 前端开发
+
     > 快乐的、漫长的、自由的，信手拈来，迫切希望新的挑战！
-  
+
     - [政企能力平台 (chinamobile.com)](https://gxpt.ge.chinamobile.com:18980/#/)
-  
-  - 安托盟丘(杭州)  -  前端开发
-  
+
+  - 安托盟丘(杭州) - 前端开发
+
     > 短暂的、忙碌的、美好的，学到大量工具、技术方面内容，有很大提升。工作氛围不要太尴尬...🤫
-  
-  - 沃姆科技(杭州)  -  前端开发
-  
-    > 
-  
+
+  - 沃姆科技(杭州) - 前端开发
+
+    >
+
 - 通用编程基础
 
   - 数据结构与算法
-    - 树 
+    - 树
     - 哈希
     - 图
   - 算法
@@ -76,7 +74,7 @@
       - 分治
       - 动态规划
       - 回溯
-  - 设计模式 (参考《JavaScript设计模式》-张容铭)
+  - 设计模式 (参考《JavaScript 设计模式》-张容铭)
 
 - 基本开发工具
 
@@ -100,9 +98,9 @@
     - Slate.js
     - ...
 
-  - mock数据
+  - mock 数据
 
-  - ### [*Lodash*](http://www.baidu.com/link?url=hqRui5I0GelJnAMCaM9mTS9KW6gi5AP_Jec0RcmLpBK)
+  - ### [_Lodash_](http://www.baidu.com/link?url=hqRui5I0GelJnAMCaM9mTS9KW6gi5AP_Jec0RcmLpBK)
 
 - 前端工程化
 
@@ -130,7 +128,7 @@
     - 性能测试/监控工具
       - WebPageTest
       - Lighthouse
-      - Performance工具
+      - Performance 工具
       - 。。。
 
 - 多端融合
