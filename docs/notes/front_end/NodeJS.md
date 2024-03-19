@@ -390,8 +390,6 @@ console.log(process.arch)
 
 ### 内置模块
 
-
-
 #### Buffer类型
 
 > - 在处理文件流时，必须使用到二进制数据。但 JS中没有，因此Node.js中定义Buffer，主要用来存放二进制数据的缓冲区，用于表示固定长度的字节序列
@@ -1702,6 +1700,9 @@ fs.writeFileSync('./abc.xlsx',nodeXlsx.build(ok),"binary");
 
 #### CryptoJS前端加解密
 
+> - [使用Crypto在Node.js中进行数据加密和解密 - 掘金 (juejin.cn)](https://juejin.cn/post/7174300450588459022)
+> - [AES算法（十一） NodeJS 环境中实战 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/462233761)
+>
 > [【全栈之旅】NodeJs登录流程以及Token身份验证 - 掘金 (juejin.cn)](https://juejin.cn/post/6894065644933906445)
 >
 >  `crypto-js`是一个纯 javascript 写的加密算法类库 ，可以非常方便地在 javascript 进行 MD5、SHA1、SHA2、SHA3、RIPEMD-160 哈希散列，进行 AES、DES、Rabbit、RC4、Triple DES 加解密。
@@ -1937,13 +1938,21 @@ app.listen(80,() => {
   req.get('host'); // 获取特定名的请求头信息
   
   
-  app.get(':/id.html',(res,req)=>{
-     console.log(req.params.id)
+  // 前端中使用
+  // <a href="/datali/1/news">新闻1</a>
+  // <a href="/datali/2">新闻2</a>
+  
+  // 后端_路径中使用 : 接受动态路径参数,可以连续写多个，和第一个获取方式一致
+  app.get("/detail/:id/:type/...",(req,res)=>{
+      console.log(req.params); // 例如 /detail/2 得到 {id:2}
+      console.log(req.params.id); // 例如 /detail/3 得到 3
   })
+  
+  app.get(':/id.html',(res,req)=>{ console.log(req.params.id) })
   ```
-
-  <img src="images/NodeJS/image-20220826160241678.png" alt="image-20220826160241678" style="zoom:67%;" />
-
+  
+  <img src="./images/NodeJS/image-20220826160241678.png" alt="image-20220826160241678" style="zoom:67%;" />
+  
   
 
 
@@ -2003,7 +2012,7 @@ app.all('/url',(req,res)=>{ res.send('hello express') })
 
 
 
-#### 兜底请求响应
+#### 兜底响应
 
 ```js
 // 上述路由都不匹配时执行的路由规则
@@ -2015,7 +2024,7 @@ app.all('*',(res,req)=>{
 
 
 
-#### 解决跨域问题
+#### 跨域问题
 
 ```js
 app.all('*', function(req, res, next) {
@@ -2031,7 +2040,11 @@ app.all('*', function(req, res, next) {
 });
 ```
 
+
+
 #### 静态资源及post请求问题
+
+- [Express无法通过req.body获取请求传递的数据 - 掘金 (juejin.cn)](https://juejin.cn/post/7173186357643182093)
 
 ```js
 // 解决POST请求参数无法解析的问题
@@ -2043,9 +2056,15 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // 解决静态资源中图片显示乱码问题 删除如下代码 即可！！！
 res.header("Content-Type", "application/json;charset=utf-8");
+
+// 依旧无法获取到数据
+原因：在请求中，没有设置请求头，也就是没有指明你传递的是什么格式的数据，需要设置请求头中Content-Type值。
+("Content-Type","application/json")   或   ("Content-Type","application/x-www-form-urlencoded")
 ```
 
 [指数 (mongodb.github.io)](http://mongodb.github.io/node-mongodb-native/3.1/api/index.html)
+
+
 
 
 
@@ -2074,41 +2093,32 @@ app.use(postport)
 
 
 
-#### pathinfo参数的获取
+
+
+#### Express中间件
+
+> 中间件本质：回调函数；分为全局中间件、路由中间件
+
+- 全局中间件，在所有的请求之前执行
+
+  > 使用场景：
+  >
+  > - 记录所有请求的 url 和 ip地址；
+  > - 登录信息校验/token校验，判定用户是否已登陆
+
+- 路由中间件，在指定路由之前执行
 
 ```js
-// 前端中使用
-// <a href="/datali/1/news">新闻1</a>
-// <a href="/datali/2">新闻2</a>
-
-// 后端_路径中使用 : 接受动态路径参数,可以连续写多个，和第一个获取方式一致
-app.get("/detail/:id/:type/...",(req,res)=>{
-    console.log(req.params); // 例如 /detail/2 得到 {id:2}
-    console.log(req.params.id); // 例如 /detail/3 得到 3
-    ...   // 其他操作
-})
-```
-
-
-
-#### 处理请求前执行钩子函数
-
-> 如果在执行处理请求的函数之前想执行一些代码，例如验证是否已经登录的工作；可以在`app.use(utile.xxx, routers);`前面加一个函数
-
-- 使用场景
-  - 登录信息校验/token校验，判定用户是否已经登陆
-  - 。。。。。。
-
-```js
+// 在执行处理请求的函数之前想执行一些代码，例如验证是否已经登录的工作；可以在`app.use(utile.xxx, routers);`前面加一个函数
 // 一般作为工具函数抽离出去，使用时再引入
 function func(req,res,next){
     ... // 要执行的提前操作
     console.log("执行在请求处理之前")
     
-    //如果没满足某些条件，组织继续执行
+    //如果没满足某些条件,直接返回结果
     if(xxx){
         res.send("xxx")
-        return
+        return;
     }
     next();  // 继续执行，接口处理的操作
 }
@@ -2122,8 +2132,6 @@ const getport = require("./routes/getport.js")
 const utile = require("./utile/index.js")
 app.use(utile.func,getport) // 在执行getport里面的函数之前，先执行func函数
 ```
-
-
 
 
 

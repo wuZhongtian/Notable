@@ -49,11 +49,119 @@
 
 
 
-## node操作
+## NodeJS操作
+
+
+
+### [MySQL2 ](https://sidorares.github.io/node-mysql2/zh-CN/docs)
+
+> - mysql：早期的 MySQL 操作模块，底层使用 回调函数（callback）实现异步操作。在处理大量并发请求时，在性能和可维护性上都有一定的劣势，在连接池等方面的表现也较为一般。
+>
+> - mysql2：是mysql模块的替代品，使用 Promise 和回调函数（callback）两种方式实现异步操作，更有优势。此外新增多语句查询、预处理语句等功能，提供了更丰富的 API，使用更方便。
+>
+> - 优势：
+>
+>   - 性能更好：mysql2 库在性能方面进行了优化，使用了更高效的底层实现。它使用了更快的连接池管理和查询执行机制，可以处理更高的并发请求，提供更好的性能表现。
+>
+>     支持 Promise 和 async/await：mysql2 库原生支持 Promise 和 async/await，使得编写异步代码更加方便和直观。您可以使用 promise().query() 方法执行查询，并使用 await 关键字等待查询结果。
+>
+>     支持流式查询：mysql2 库支持流式查询，可以通过创建可读流来处理大型查询结果集。这对于处理大量数据或需要逐行处理结果的情况非常有用，可以减少内存占用并提高性能。
+>
+>     更好的错误处理：mysql2 库提供了更好的错误处理机制，可以更详细地捕获和处理数据库操作中的错误。它返回的错误对象包含更多有用的信息，如 SQL 语句、错误代码和错误堆栈等，有助于更好地调试和排查问题。
+>
+>     支持预处理语句：mysql2 库支持预处理语句，可以使用占位符来安全地构建和执行 SQL 查询。这可以防止 SQL 注入攻击，并提高应用程序的安全性。
+
+
+
+#### 基础使用
+
+- 占位符  ?
+  - 替换表达式中的动态数据
+- 辅助函数  execute
+  - 如果再次执行相同的语句，他将从缓存中选取，这能有效的节省准备查询时间获得更好的性能
+
+```js
+// 安装：
+npm install --save mysql2
+
+// 导入模块
+import mysql from 'mysql2/promise';
+// 创建一个数据库连接
+const connection = await mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  database: 'test',
+});
+
+// 简单查询
+try {
+  const [results, fields] = await connection.query(
+    'SELECT * FROM `table` WHERE `name` = "Page" AND `age` > 45'
+  );
+  console.log(results,fields); // results结果集    fields额外的元数据（如果有的话）
+} catch (err) {
+  console.log(err);
+}
+
+// 使用占位符   ?  ?
+try {
+  const [results] = await connection.query(
+    'SELECT * FROM `table` WHERE `name` = ? AND `age` > ?',
+    ['Page', 45]
+  );
+
+  console.log(results);
+} catch (err) {
+  console.log(err);
+}
+```
+
+
+
+#### 连接池
+
+> 连接池通过重用以前的连接来帮助减少连接到 MySQL 服务器所花费的时间，当你完成它们时让它们保持打开而不是关闭。改善查询的延迟，避免建立新连接所带来的开销。
+
+```js
+import mysql from 'mysql2/promise';
+
+// 创建连接池，设置连接池的参数
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  database: 'test',
+  waitForConnections: true,
+  connectionLimit: 10,
+  maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
+  idleTimeout: 60000, // idle connections timeout, in milliseconds, the default value 60000
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
+});
+
+// 直接使用连接池
+try {
+  // For pool initialization, see above
+  const [rows, fields] = await pool.query('SELECT `field` FROM `table`');
+  // Connection is automatically released when query resolves
+} catch (err) {
+  console.log(err);
+}
+
+
+// 手动从池中获取连接并稍后返回
+const conn = await pool.getConnection();	// 初始化连接池
+await conn.query(/* ... */);	 // 操作
+pool.releaseConnection(conn);   或   conn.release();	 // 结束后释放连接
+```
+
+
+
+### mysql
 
 `npm install mysql`
 
-### 连接mysql
+#### 连接mysql
 
 ```javascript
 // 导入操作mysql模块
@@ -76,7 +184,7 @@ connection.connect(function (err,dos) {
 });
 ```
 
-### 查询数据
+#### 查询数据
 
 ```javascript
 // sql语句
@@ -93,7 +201,7 @@ connection.query(sql, function (err, result) {
 });
 ```
 
-### 插入数据
+#### 插入数据
 
 ```javascript
 var addSql = "insert into test (sex,age) values('男',15)";
@@ -108,7 +216,7 @@ connection.query(addSql,function (err, result) {
  
 ```
 
-### 修改数据
+#### 修改数据
 
 ```javascript
 var modSql = "update test set sex = '女', age = 18  where id  = 1";
@@ -122,7 +230,7 @@ connection.query(modSql,function (err, result) {
 });
 ```
 
-### 删除数据
+#### 删除数据
 
 ```javascript
 var delSql = 'delete from test where id = 1';
@@ -136,7 +244,7 @@ connection.query(delSql,function (err, result) {
 });
 ```
 
-### 防止SQL注入攻击
+#### 防止SQL注入攻击
 
 - 使用mysql模块提供的 escape() 方法
 
@@ -155,7 +263,7 @@ connection.query(delSql,function (err, result) {
 
 
 
-### node连接mysql方式2
+#### node连接mysql方式2
 
 ```js
 // db/db.js
@@ -194,6 +302,8 @@ aap.get("/api",(req,res)=>{
     })
 })
 ```
+
+
 
 
 
