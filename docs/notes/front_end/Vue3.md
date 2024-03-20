@@ -1269,7 +1269,7 @@ setup(){
 
 
 
-### Pinia
+### [Pinia ](https://pinia.vuejs.org/zh/)
 
 > Vuex的迭代方案，与Vuex的API类似，作者是Vue.js及Vuex的核心成员之一。
 >
