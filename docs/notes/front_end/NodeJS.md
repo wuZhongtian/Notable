@@ -5,6 +5,8 @@
 
 # Node.js
 
+## 基础
+
 ### Node.js
 
 - node：基于v8引擎的javascript运行环境，提供了一些特定的api；
@@ -52,6 +54,49 @@
 
   - 可以使用：ES6这些js语法、node提供的API，但没有浏览器的DOM、BOM
   - 实际开发的文件命名建议使用全英文
+
+
+
+#### 编译过程
+
+- Java
+  - 先把源码 编译为 字节码  ->    JVM优化执行 字节码	->	JRE(Java环境) 运行
+- V8引擎 
+  - JS源码 抽象为 语法树	->	转化为本地机器码	->	直接运行
+
+
+
+#### linux环境安装：
+
+- 使用库安装（epel仓库，为linux及衍生版提供高质量的软件安装源）
+
+  - ```shell
+    yum install epel-release   # 安装epel仓库
+    yum install nodejs         # 安装node.js
+    npm yum install npm        # 下载相关 NPM 的主要核心依赖包
+    ```
+
+- 使用源代码安装
+
+  - ```shell
+    wget https://npmmirror.com/mirrors/node/v14.18.2/node-v14.18.2.tar.gz # wget命令和下载参数 可以从网络下载安装包
+    
+    tar xvf node-v14.18.2.tar.gz      # 使用tar命令进行解压
+    cd node-V*                        # 使用cd命令进入解压后的目录
+    yum install gcc gcc-c++           # 安装相关的依赖库(gcc 和 gcc-c++)
+    
+    # 完成基本配置文件生成，指定配置目录 /usr/local/node 
+    # 使用configure命令，完成 MakeFile 配置文件的生成
+    ./configure --prefix=/usr/local/node
+    # 使用 make 命令，生成编译好的库文件
+    make
+    # 最后使用 make install 将软件安装在linux中
+    make install
+    ```
+
+- 两者差别：
+
+  - 库**安装的速度**快，但源代码安装 **运行的速度**更快。
 
 
 
@@ -227,6 +272,33 @@ esc            # 快速清空当前输入的命令
 ```
 
 （查看文件中：显示`<DIR>`表示它是个文件目录；时间表示此文件最后一次的修改时间 ）
+
+
+
+
+
+#### nrm源管理
+
+- 为了更方便的切换下包的镜像源，可以安装nrm工具，能够快速的查看和切换下包的镜像源
+- 必须在管理员模式下，解决无法运行脚本问题
+- ![image-20220727102619910](images/NodeJS/image-20220727102619910.png)
+
+```js
+//解决 安装后的警告：找到报错路径，替换掉报错的代码
+//const NRMRC = path.join(process.env.HOME, '.nrmrc');(注掉)
+const NRMRC = path.join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.nrmrc');
+```
+
+```sh
+# 常用nrm命令
+npm i nrm -g            # 将nrm包下载为全局工具
+nrm ls                  # 查看所有可用的镜像源
+nrm use 镜像源名         # 切换镜像源路径
+
+nrm test                # 测试并返回各个镜像源的速度
+```
+
+
 
 
 
@@ -939,6 +1011,18 @@ server.listen(8003);
 
 
 
+#### 进程管理
+
+> 感知、控制自身进程的运行环境和状态，可以创建子进程并与其协同工作，可以把多个程序组合在一起共同完成某项工作，并在其中充当胶水和调度器的作用。
+
+##### child_process模块
+
+> 可以创建和控制子进程。该模块提供的API中最核心的是`.spawn`，其余API都是针对特定使用场景对它的进一步封装，算是一种语法糖。
+
+
+
+
+
 ### Node模块化
 
 - node遵循 CommonJS模块化规范，规定了模块的特性、各模块之间如何相互依赖。
@@ -1355,6 +1439,10 @@ npm install 包名 --save-dev
 
 ### 其他第三方包
 
+#### JShaman代码混淆
+
+
+
 #### 5ting_toc 
 
 可以把 md 文档转为 html 页面的 工具。
@@ -1366,40 +1454,6 @@ npm install 包名 --save-dev
 npm i i5ting_toc -g
 # 调用i5ting_toc ,轻松实现md 转html的功能
 # i5ting_toc -f 要转换的md文件路径 -o
-```
-
-
-
-#### nrm源管理
-
-- 为了更方便的切换下包的镜像源，可以安装nrm工具，能够快速的查看和切换下包的镜像源
-- 必须在管理员模式下，解决无法运行脚本问题
-- ![image-20220727102619910](images/NodeJS/image-20220727102619910.png)
-
-```js
-//解决 安装后的警告：找到报错路径，替换掉报错的代码
-//const NRMRC = path.join(process.env.HOME, '.nrmrc');(注掉)
-const NRMRC = path.join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.nrmrc');
-```
-
-```sh
-# 常用nrm命令
-npm i nrm -g            # 将nrm包下载为全局工具
-nrm ls                  # 查看所有可用的镜像源
-nrm use 镜像源名         # 切换镜像源路径
-
-nrm test                # 测试并返回各个镜像源的速度
-```
-
-
-
-#### mongoose
-
-- 用于连接Node.js与MongoDB的中间层，
-
-```sh
-# 在项目中安装mongoose 包
-npm install mongoose --save -dev
 ```
 
 
@@ -1420,11 +1474,14 @@ nodemon 文件名
 #### 本地服务器
 
 - 快捷创建本地服务器   http-server
-- 命令行窗口：任意文件路径下 http-server
-  - 创建本地地址
-  - 局域网地址
 
+  ```sh
+  在任意文件路径下运行    http-server
+  ```
 
+  
+
+​    
 
 
 
@@ -1434,7 +1491,7 @@ nodemon 文件名
 
 - [Nodejs 定时执行(node-cron) – 隨習筆記 (pkcms.cn)](https://blog.pkcms.cn/archives/1441)
 
-- [nodejs实现给女朋友自动定时发送邮件 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/447973427)
+- [nodejs实现给自动定时发送邮件 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/447973427)
 
 - `nodeCron.schedule()` 方法
 
@@ -1687,14 +1744,6 @@ fs.writeFileSync('./abc.xlsx',nodeXlsx.build(ok),"binary");
 - [art-template Js模板引擎](http://aui.github.io/art-template/zh-cn/)
 
 
-
-#### 状态保持中间件
-
-##### [cookie-parser 基于express](https://github.com/expressjs/cookie-parser)
-
-##### [cookie-session 基于express](https://github.com/expressjs/cookie-session)
-
-##### [cookie-parser中间件](https://www.jianshu.com/p/7fc30d77cc5c)
 
 
 
@@ -2042,33 +2091,7 @@ app.all('*', function(req, res, next) {
 
 
 
-#### 静态资源及post请求问题
-
-- [Express无法通过req.body获取请求传递的数据 - 掘金 (juejin.cn)](https://juejin.cn/post/7173186357643182093)
-
-```js
-// 解决POST请求参数无法解析的问题
-app.use(express.json());
-// extended：true-接收的值为任意类型  false-接收的值为字符串或者数组
-app.use(express.urlencoded({ extended: true }));
-// 设置静态资源路径
-app.use(express.static(path.join(__dirname, 'public')))
-
-// 解决静态资源中图片显示乱码问题 删除如下代码 即可！！！
-res.header("Content-Type", "application/json;charset=utf-8");
-
-// 依旧无法获取到数据
-原因：在请求中，没有设置请求头，也就是没有指明你传递的是什么格式的数据，需要设置请求头中Content-Type值。
-("Content-Type","application/json")   或   ("Content-Type","application/x-www-form-urlencoded")
-```
-
-[指数 (mongodb.github.io)](http://mongodb.github.io/node-mongodb-native/3.1/api/index.html)
-
-
-
-
-
-#### 接口开发
+#### 接口开发+路由模块化
 
 ```js
 const express = require("express")   // 导入express框架
@@ -2088,7 +2111,29 @@ const postport = require("./routes/postport.js")
 const getport = require("./routes/getport.js")
 // 把路由对象注册到app下
 app.use(getport)
-app.use(postport)
+app.use(postport);
+                       
+                       
+// 路由模块化
+// 新建 src/router/index.js 模块
+const express = require('express');
+const router = express.Router();
+router.get('/xxx',(req,res)=>{
+    ......
+})
+router.post('/xxxx',(req,res)=>{
+    ......
+})
+module.exports = router;
+
+// index.js 中使用
+const indexRouter = require('./src/router/index.js');
+const app = express();
+app.use(indexRouter)		 // 1.直接使用
+// app.use('/xxx',indexRouter)   // 2.设置路由前缀
+app.all('*',(req,res)=>{
+    res.send('<h1>404</h1>')
+})
 ```
 
 
@@ -2097,94 +2142,108 @@ app.use(postport)
 
 #### Express中间件
 
-> 中间件本质：回调函数；分为全局中间件、路由中间件
+> 中间件本质：回调函数
 
-- 全局中间件，在所有的请求之前执行
+##### 路由中间件
 
-  > 使用场景：
-  >
-  > - 记录所有请求的 url 和 ip地址；
-  > - 登录信息校验/token校验，判定用户是否已登陆
+> - 使用场景：
+>   - 记录所有请求的 url 和 ip地址；
+>   - 登录信息校验/token校验，判定用户是否已登陆
+
+- 全局路由中间件，在所有的请求之前执行
+
+  ```js
+  // 1.声明中间件函数( 例：保存所有请求的url、ip)
+  function Middleware(req,res,next){
+      // 接口请求执行前的操作：
+      let {url,ip} = req;
+      fs.appendFileSync(path.resolve(__dirname,'./access.log'),`${url} ${ip}\r\n`);
+      	
+      if(xxx){		 
+          res.send("xxx")   // 根据需要判断是否继续执行接口请求
+  		return;
+      }
+      next();  // 继续执行后续接口操作
+  }
+  
+  // 2.使用中间件函数
+  app.use(Middleware);
+  ```
+
+  
 
 - 路由中间件，在指定路由之前执行
 
+  ```js
+  // 1.定义路由中间件(例：对用户请求参数进行判断)
+  const Middleware = (req,res,next)=>{
+      // 接口请求执行前的操作：
+      if(req.query.code=='666'){
+          next();
+      }else{
+          res.send('暗号错误')
+      }
+  }
+  
+  // 2.使用:放置在需要受约束的路由中
+  app.get('/setting',Middleware,(req,res)=>{
+      res.send('...');
+  })
+  ```
+
+
+
+##### 静态资源中间件
+
+> - 注意事项：
+>   - / 路径时，路由规则与静态资源规则，谁在前谁执行返回，后来者无效。
+>   - 路由相应动态资源，静态资源中间件用来处理静态资源
+
 ```js
-// 在执行处理请求的函数之前想执行一些代码，例如验证是否已经登录的工作；可以在`app.use(utile.xxx, routers);`前面加一个函数
-// 一般作为工具函数抽离出去，使用时再引入
-function func(req,res,next){
-    ... // 要执行的提前操作
-    console.log("执行在请求处理之前")
-    
-    //如果没满足某些条件,直接返回结果
-    if(xxx){
-        res.send("xxx")
-        return;
-    }
-    next();  // 继续执行，接口处理的操作
-}
-module.exports = {
-    func
-}
+// 设置静态资源路径
+app.use(express.static(path.join(__dirname, 'public')))
+
+// 解决静态资源中图片显示乱码问题 删除跨域问题解决中的如下代码！！！
+res.header("Content-Type", "application/json;charset=utf-8");
+```
 
 
-// 在app.js中使用
-const getport = require("./routes/getport.js")
-const utile = require("./utile/index.js")
-app.use(utile.func,getport) // 在执行getport里面的函数之前，先执行func函数
+
+##### 获取请求体数据
+
+```js
+// 解决POST请求参数无法解析的问题
+app.use(express.json());
+// extended：true-接收的值为任意类型  false-接收的值为字符串或者数组
+app.use(express.urlencoded({ extended: true }));
+
+// 依旧无法获取到数据
+可能原因：在请求中，没有设置请求头，也就是没有指明你传递的是什么格式的数据，需要设置请求头中Content-Type值。
+("Content-Type","application/json")   或   ("Content-Type","application/x-www-form-urlencoded")
 ```
 
 
 
 
 
-## Node概述
+##### 防盗链实践
 
-### 编译过程区别
+> 禁止该域名之外的网站访问资源，请求头中的 referer，会携带当前网站的协议、域名、端口
 
-- Java
-  - 先把源码 编译为 字节码
-  - JVM优化执行 字节码
-  - JRE(Java环境) 运行
-- V8引擎 
-  - JS源码 抽象为 语法树
-  - 转化为本地机器码
-  - 直接运行
-
-
-
-### Node.js安装
-
-- linux环境：
-
-  - 使用库安装（epel仓库，为linux及衍生版提供高质量的软件安装源）
-
-    - ```shell
-      yum install epel-release   # 安装epel仓库
-      yum install nodejs         # 安装node.js
-      npm yum install npm        # 下载相关 NPM 的主要核心依赖包
-      ```
-
-  - 使用源代码安装
-
-    - ```shell
-      wget https://npmmirror.com/mirrors/node/v14.18.2/node-v14.18.2.tar.gz # wget命令和下载参数 可以从网络下载安装包
-      
-      tar xvf node-v14.18.2.tar.gz      # 使用tar命令进行解压
-      cd node-V*                        # 使用cd命令进入解压后的目录
-      yum install gcc gcc-c++           # 安装相关的依赖库(gcc 和 gcc-c++)
-      
-      # 完成基本配置文件生成，指定配置目录 /usr/local/node 
-      # 使用configure命令，完成 MakeFile 配置文件的生成
-      ./configure --prefix=/usr/local/node
-      # 使用 make 命令，生成编译好的库文件
-      make
-      # 最后使用 make install 将软件安装在linux中
-      make install
-      ```
-
-  - 两者差别：
-
-    - 库**安装的速度**快，但源代码安装 **运行的速度**更快。
+```js
+// 使用中间件
+app.use((req,res,next)=>{
+    let referer = req.get('referer');	// 获取referer
+	if(referer){
+        const url = new URL(referer);	// 实例化
+    	let hostName = url.hostname;	// 获取hostname
+        if(hostname!='wudetian.top'){
+            res.status(404).send('<h1>404</h1>')
+        }
+    }
+    next();
+})
+```
 
 
 
@@ -2192,32 +2251,57 @@ app.use(utile.func,getport) // 在执行getport里面的函数之前，先执行
 
 
 
-## 进程管理
-
-> 感知、控制自身进程的运行环境和状态，可以创建子进程并与其协同工作，可以把多个程序组合在一起共同完成某项工作，并在其中充当胶水和调度器的作用。
-
-### child_process模块
-
-> 可以创建和控制子进程。该模块提供的API中最核心的是`.spawn`，其余API都是针对特定使用场景对它的进一步封装，算是一种语法糖。
 
 
+#### [generator生成器](https://www.expressjs.com.cn/)
 
-## 使用技能
+> 用于快速创建一个应用骨架，模板
 
-### 状态保持技术/会话跟踪技术
+```js
+// 在空文件夹中运行 express-generator 生成器
+npx express-generator
 
-> HTTP协议属于无状态的协议需要进行状态保持；websocket协议是在单个TCP连接上进行全双工通信的协议自带状态保持能力；
->
-> HTTP协议基于TCP协议，TCP协议又基于socket套接字；
+// 安装运行
+npm i
+npm start
+
+// ....
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 状态保持/会话跟踪
+
+> - HTTP协议属于无状态的协议需要进行状态保持；
+>   - HTTP协议基于TCP协议，TCP协议又基于socket套接字；
+> - websocket协议是在单个TCP连接上进行全双工通信的协议自带状态保持能力；
+>   - 常见的会话控制：cookie	session	token
 >
 > `cookie/客户端 + session/服务器端` 共同组成http协议下的状态保持技术
 
-#### cookie
 
-> - 由服务器生成，保存在浏览器的一小段文本信息，以键值对的形式进行存储在响应头中
-> - 浏览器在访问一个网站的服务时，会自动在**请求头**中把和本网站相关的所有cookie发送给服务器
-> - 基于域名安全、拥有过期时间，默认关闭浏览器之后过期
-> - 借助第三方模块 [expressjs/cookie-parser](https://github.com/expressjs/cookie-parser) 操作cookie
+
+
+
+#### [cookie](https://github.com/expressjs/cookie-parser)
+
+> - 由服务器生成，但保存在浏览器的数据，以键值对的形式进行存储在响应头中
+> - 向服务器发送请求时，会自动将当前域名下的cookie设置在请求头，发送给服务器
+> - 按照域名划分保存，拥有过期时间，默认关闭浏览器之后过期
+> - NodeJS中借助第三方模块 [expressjs/cookie-parser](https://github.com/expressjs/cookie-parser) 操作cookie
+>   - [cookie-parser中间件](https://www.jianshu.com/p/7fc30d77cc5c)
 
 - `res.cookie("key","value",{maxAge: 60*60 })`  可写多次，设置多个cookie并分别设置过期时间
   - 过期时间
@@ -2236,19 +2320,37 @@ app.use(cookieParser)  // const app = express()
 // 在接口处理函数中使用 设置name，值为node
 // 设置过期时间 毫秒ms {maxAge: 60*60*1000 }
 res.cookie("name","node",{})
+
 // 获取cookie,默认为undefined
 req.cookie(["name"])
+// 获取所有cookie
+req.cookies;
+
+// 删除cookie
+res.clearCookie('name');
 ```
 
 ![image-20230228212550939](images/NodeJS/image-20230228212550939.png)
 
 
 
+
+
 #### session
 
 > - 保存在服务器端、以键值对形式进行存储
+> - 实现会话控制，识别用户身份，快速获取当前用户信息
 > - 依赖于cookie，每个session信息对应的客户端标识保存在cookie中
-> - 借助第三方模块 [expressjs/cookie-session](https://github.com/expressjs/cookie-session)
+
+<img src="images/NodeJS/image-20230301114929482.png" alt="image-20230301114929482" style="zoom: 67%;" />
+
+
+
+
+
+##### 【不推荐】 [cookie-session](https://github.com/expressjs/cookie-session)
+
+> 将数据完全存放在客户端cookie中
 
 - `req.session['key'] = 'xxxxx'`   设置session
 - `req.session['key']`    获取session
@@ -2273,9 +2375,128 @@ req.session["name"]
 
 ```
 
-![image-20230301114929482](images/NodeJS/image-20230301114929482.png)
 
 
 
 
+##### [【推荐】express-session](https://github.com/expressjs/session#readme)
+
+> ![image-20240321142135306](images/NodeJS/image-20240321142135306.png)
+
+```js
+// 安装
+npm i express-session
+
+const express = require('express')
+const session = require('express-session')
+const MongoStore = require('connect-session')	// 用于将session持久化存储在数据库的包
+
+const app = express()
+app.use(session({
+    name:'sid',   // 设置cookie的name，默认值是 sid
+    secret:'xxxxasdadsa',	// 参与加密的字符串（签名 | 加盐）
+    saveUninitialized:false,	// 是否每次请求都设置一个cookie来存储session的id
+    resave:true,	// 是否在每次请求时重新保存session，请求时是否更新session过期时间
+    store:MongoStore.create({
+        mongoUrl:'mongodb://127.0.0.1:27017/xxxx', // 数据库的连接配置
+    }),
+    cookie:{
+        httpOnle:true,	// 开启后前端无法通过js操作，更安全
+        maxAge: 1000*300	// 设置sessionID的过期时间，1000ms*300 = 300s = 5min
+    }
+}))
+
+
+// 设置session信息
+// 最终将sid加密后的字符串存储在cookie中，对应的真实信息存储在服务器或数据库中
+req.session.xxxxx = 'yyy';
+
+// 读取session信息，检测用户是否登录(该过程中，中间件会自动从数据库中获取对应信息)
+req.session.xxxxx;
+
+// 消除session
+req.session.destroy(()=>{
+    res.send('session销毁成功，退出登录')
+})
+```
+
+
+
+
+
+##### connect-mongo
+
+> - `connect-mongo` 主要用于将 MongoDB 用作 session 存储，与 Express.js 和 session 中间件一起使用。
+> - `mongoose` 是一个全面的 MongoDB 对象模型工具，用于定义模型、执行查询和更新操作等。
+
+![image-20240321141750822](images/NodeJS/image-20240321141750822.png)
+
+
+
+
+
+
+
+
+
+#### cookie和session
+
+|            | cookie                 | session            |
+| ---------- | ---------------------- | ------------------ |
+| 位置       | 浏览器                 | 服务器             |
+| 安全性     | 明文存储，安全性低     | 存储在服务器，安全 |
+| 网络传输量 | 存在与请求头，影响效率 | 只传递 id，无影响  |
+| 存储限制   | 单个cookie不能超过4k   | 无限制             |
+
+
+
+
+
+
+
+#### 【推荐】token
+
+> - 服务端生成并返回给客户端的一串加密字符串，保存着用户信息
+> - 主要用于移动端App，网页端主要使用session+cookie
+> - 实现会话控制、用户身份识别
+> - 特点：
+>   - 发送请求时，需要手动将token添加在请求报文中，一般是请求头
+>   - 服务端压力小，数据保存在客户端
+>   - 相对安全，数据完全加密
+>   - 避免CSRF（跨站请求伪造），cookie会自动携带
+>   - 扩展性更强，便于服务间共享
+
+
+
+
+
+#### JWT
+
+> - JSON Web Token：目前流行的跨域认证解决方案，可用于基于token的身份验证
+> - 规范token的生成和校验
+
+```js
+// 安装
+npm i jsonwebtoken
+
+// 导入
+const jwt = require('jsonwebtoken')
+
+// 生成token
+// 时机：用户上传信息，经过服务器校验，没有问题时
+// let token = jwt.sign('用户数据','加密字符串','配置对象');
+let token = jwt.sign(
+    {name:'xxx',data:'xxx'},
+    'xxasdadwhuahudwadw...',
+    {
+        expiresIn:60,	// 生命周期，过期时间 单位 s
+    });
+
+// 校验token
+jwt.verify(token,'加密字符串',(err,data)=>{
+    if(err) return console.log('校验失败');
+    console.log(data);	// 获取用户信息+创建时间+过期时间
+})
+
+```
 
