@@ -2330,7 +2330,7 @@ req.cookies;
 res.clearCookie('name');
 ```
 
-![image-20230228212550939](images/NodeJS/image-20230228212550939.png)
+![image-20230228212550939](./images/NodeJS/image-20230228212550939.png)
 
 
 
@@ -2342,7 +2342,7 @@ res.clearCookie('name');
 > - 实现会话控制，识别用户身份，快速获取当前用户信息
 > - 依赖于cookie，每个session信息对应的客户端标识保存在cookie中
 
-<img src="images/NodeJS/image-20230301114929482.png" alt="image-20230301114929482" style="zoom: 67%;" />
+<img src="./images/NodeJS/image-20230301114929482.png" alt="image-20230301114929482" style="zoom: 67%;" />
 
 
 
@@ -2381,7 +2381,7 @@ req.session["name"]
 
 ##### [【推荐】express-session](https://github.com/expressjs/session#readme)
 
-> ![image-20240321142135306](images/NodeJS/image-20240321142135306.png)
+> ![image-20240321142135306](./images/NodeJS/image-20240321142135306.png)
 
 ```js
 // 安装
@@ -2429,7 +2429,7 @@ req.session.destroy(()=>{
 > - `connect-mongo` 主要用于将 MongoDB 用作 session 存储，与 Express.js 和 session 中间件一起使用。
 > - `mongoose` 是一个全面的 MongoDB 对象模型工具，用于定义模型、执行查询和更新操作等。
 
-![image-20240321141750822](images/NodeJS/image-20240321141750822.png)
+![image-20240321141750822](./images/NodeJS/image-20240321141750822.png)
 
 
 
