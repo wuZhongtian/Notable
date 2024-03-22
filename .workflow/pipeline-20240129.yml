@@ -1,6 +1,6 @@
 version: '1.0'
 name: pipeline-20240129
-displayName: pipeline-20240129
+displayName: 随手记Node上线部署
 triggers:
   trigger: auto
   push:
@@ -36,7 +36,7 @@ stages:
         strategy:
           retry: '0'
   - name: stage-f431c1c6
-    displayName: 主机部署
+    displayName: Notes主机部署
     strategy: naturally
     trigger: auto
     executor: []
