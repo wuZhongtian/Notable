@@ -4,43 +4,29 @@
 - [React 基础部分笔记](https://www.yuque.com/fechaichai/qeamqf/xbai87#e3638cf5)
 - [React Router6 基础部分](https://www.yuque.com/fechaichai/qeamqf/smoknz#JRD2D)
 
-> - React中：React组件 必须是大写字母开头、HTML 标签则必须是小写字母
->
-> - className：指定class类名，
->
 > - 以`use`开头的函数被称为Hook，且只能在【组件/其他Hook】的**顶层**调用hook
 >
 >   - 如果想在一个条件或循环中使用 `useState`，请提取一个新的组件并在组件内部使用它
 >
-> - 期望：
->
->   - 尽可能的精简 state 的使用（用于必要的交互）
->   - state的位置：
->     - 特定组件中、它们的公共父组件、单独创建组件管理，并添加在外层
->
 > - 组件件数据共享：
 >
 >   ```jsx
->   // 通过标签传值:数据、函数
+>  // 通过标签传值:数据、函数
 >   <MyButton count={count} onClick={handleClick} />
->   // 通过{函数参数}接收
+>  // 通过{函数参数}接收
 >   function MyButton({ count, onClick }) {
 >     return (
 >       <button onClick={onClick}>
->         Clicked {count} times
+>        Clicked {count} times
 >       </button>
->     );
+>    );
 >   }
 >   ```
->
+> 
 > - 官网推荐框架：Next.js、Remix、Gatsby、[Expo](https://docs.expo.dev/tutorial/introduction/)（用于原生应用）
->
+> 
 >   - [Next.js 的 App Router](https://nextjs.org/docs) 是对 Next.js API 的重新设计，旨在实现 React 团队的全栈架构愿景。它让你在异步组件中获取数据，这些组件甚至能在服务端构建过程中运行
->
-> - 在React中使用 [TypeScript](https://zh-hans.react.dev/learn/typescript#typescript-with-react-components)
->
->   - `.tsx`
->   
+> 
 > - 不要忘了还有浏览器插件 React  Developer Tools 可以使用
 
 
@@ -79,7 +65,7 @@ ReactDOM.render(<App />, document.getElementById('root'););
 
 - 定义组件
 
-  - **组件的名称必须以大写字母开头**，否则它们将无法运行！
+  - **React组件的名称必须以大写字母开头**，否则它们将无法运行！，相反HTML 标签则必须是小写字母
   - 组件可以渲染其他组件，但是 **请不要嵌套他们的定义**，性能差+bug产生；应在顶层定义每个组件。
 
 - 导入导出
@@ -130,9 +116,19 @@ ReactDOM.render(<App />, document.getElementById('root'););
   }
   ```
 
-- 条件渲染
+- 纯函数与副作用
 
-  - https://zh-hans.react.dev/learn/conditional-rendering
+  > 组件应该只 **返回** 它们的 JSX，而不 **改变** 在渲染前就已存在的任何对象或变量（改变会导致多次调用）；多组件共用此变量时，会导致无法预测的结果。
+
+  - 副作用
+    - 无需处理事件处理程序的副作用，因为组件内部的事件处理程序不会在渲染期间运行
+    - 无法避免的外层副作用，可使用`useEffect`方法将其包裹，告诉React在渲染结束后再执行它
+
+  - 尽可能的精简 state 的使用（用于必要的交互）
+    - 特定组件中、它们的公共父组件、单独创建组件管理，并添加在外层
+  - 优势：
+    - 可用于服务器组件，相同用的输入给出相同的结果。
+    - 提升性能，[跳过渲染](https://zh-hans.react.dev/reference/react/memo)未更改输入值的组件
 
 
 
