@@ -2518,7 +2518,7 @@ jwt.verify(token,'加密字符串',(err,data)=>{
 >
 >   - 后来朋友分享的下面内容，采纳：
 >
->     <img src="images/NodeJS/image-20240322164821172.png" alt="image-20240322164821172" style="zoom: 25%;" />
+>     <img src="./images/NodeJS/image-20240322164821172.png" alt="image-20240322164821172" style="zoom: 25%;" />
 
 
 

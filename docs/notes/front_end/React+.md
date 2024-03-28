@@ -69,6 +69,75 @@ ReactDOM.render(<App />, document.getElementById('root'););
 
 
 
+
+
+## 补充：
+
+> 转化器：[HTML to JSX (transform.tools)](https://transform.tools/html-to-jsx)
+>
+> 
+
+- 定义组件
+
+  - **组件的名称必须以大写字母开头**，否则它们将无法运行！
+  - 组件可以渲染其他组件，但是 **请不要嵌套他们的定义**，性能差+bug产生；应在顶层定义每个组件。
+
+- 导入导出
+
+  - 同一个文件有且仅有一个默认导出，但可以同时存在多个具名导出（但不建议在同一个文件中存在两种导出行为，不便于维护）
+
+  | 语法 | 导出语句                              | 导入语句                                |
+  | ---- | ------------------------------------- | --------------------------------------- |
+  | 默认 | `export default function Button() {}` | `import Button from './Button.js';`     |
+  | 具名 | `export function Button() {}`         | `import { Button } from './Button.js';` |
+
+- JSX
+
+  - 为什么多个 JSX 标签需要被一个父元素包裹？
+    - jsx 在底层其实被转化为了 JavaScript 对象，你不能在一个函数中返回多个对象，除非用一个数组把他们包装起来
+  - 内联 `style` 属性 使用驼峰命名法编写
+  - class  类定义改写为 className
+
+- Props
+
+  - 可以使用 `<Avatar {...props} />` JSX 展开语法转发所有 props，但不要过度使用它
+  - `<Card><Avatar /></Card>` 这样的嵌套 JSX，将被视为 `Card` 组件的 `children` prop
+  - Props 是只读的时间快照：每次渲染都会收到新版本的 props，希望修改时可设置 state
+
+  ```jsx
+  import Avatar from './Avatar.js';
+  
+  function Card({ children }) {
+    return (
+      <div className="card">
+        {children}
+      </div>
+    );
+  }
+  
+  export default function Profile() {
+    return (
+      <Card>
+        <Avatar
+          size={100}
+          person={{ 
+            name: 'Katsuko Saruhashi',
+            imageId: 'YfeOqp2'
+          }}
+        />
+      </Card>
+    );
+  }
+  ```
+
+- 条件渲染
+
+  - https://zh-hans.react.dev/learn/conditional-rendering
+
+
+
+
+
 ## 自带标签
 
 
