@@ -57,9 +57,8 @@ root.render(<h1>Hello, world!</h1>);
 #### 常用插件库
 
 1. react-router-dom
-   - 一共有三个版本，web版    移动版   通用版
-   - 本笔记只记录 web版
-
+   - 有三个版本，web版    移动版   通用版【当前笔记只记录 web版】
+   
 2. prop-types    类型限制
 
 3. qs   路径字符处理
