@@ -123,12 +123,18 @@ ReactDOM.render(<App />, document.getElementById('root'););
   - 副作用
     - 无需处理事件处理程序的副作用，因为组件内部的事件处理程序不会在渲染期间运行
     - 无法避免的外层副作用，可使用`useEffect`方法将其包裹，告诉React在渲染结束后再执行它
-
   - 尽可能的精简 state 的使用（用于必要的交互）
     - 特定组件中、它们的公共父组件、单独创建组件管理，并添加在外层
   - 优势：
     - 可用于服务器组件，相同用的输入给出相同的结果。
     - 提升性能，[跳过渲染](https://zh-hans.react.dev/reference/react/memo)未更改输入值的组件
+  
+- 状态管理
+
+  - reducer
+    - Reducer 可以让您合并多个状态变量到一个对象中并巩固所有相关的逻辑！
+    - [将状态提取到一个 reducer 中](https://zh-hans.react.dev/learn/extracting-state-logic-into-a-reducer)
+
 
 
 
@@ -209,6 +215,10 @@ import { Helmet } from 'react-helmet-async';
 (4). setXxx()2种写法:
         setXxx(newValue): 参数为非函数值, 直接指定新的状态值, 内部用其覆盖原来的状态值
         setXxx(value => newValue): 参数为函数, 接收原本的状态值, 返回新的状态值, 内部用其覆盖原来的状态值
+
+const [from,setFrom] = useState({name:'xxx',age:12})
+setFrom({...from,name:'new'})
+setFrom({name:'new',age:13})
 ```
 
 ![image-20230329185514560](images/React+/image-20230329185514560.png)
