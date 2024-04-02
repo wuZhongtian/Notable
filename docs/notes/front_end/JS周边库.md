@@ -582,7 +582,53 @@ selection.call( d3.zoom()
 ![image-20240105163938275](images/JS周边库/image-20240105163938275.png)
 
 
-## [Tailwind CSS](https://www.tailwindcss.cn/)
+
+
+
+## unplugin-auto-import
+
+> **自动导入常用的使用的第三方库的 API**，方便开发，提升效率
+>
+> - [告别手动引入依赖：unplugin-auto-import 插件助你提升编码体验（内附实现原理） - 掘金 (juejin.cn)](https://juejin.cn/post/7208099384070815803)
+> - 
+
+![image-20240115134202453](./images/JS周边库/image-20240115134202453.png)
+
+
+
+
+
+### 使用方法
+
+
+
+
+
+
+
+
+
+## css样式周边
+
+### classnames动态类名
+
+> js库，方便通过条件判断动态控制class类名的显示
+
+```react
+// 安装
+npm i classnames
+
+
+// 原始写法（React中）
+<p className={`nav ${type=='1' && 'active'}`} ></p>
+
+// 使用classname
+<p className={classNames('nav',{active:type=='1'})} ></p>
+```
+
+
+
+### [Tailwind CSS](https://www.tailwindcss.cn/)
 
 > css in js 方案
 >
@@ -610,21 +656,4 @@ module.exports = {
 
 
 
-
-
-
-# unplugin-auto-import
-
-> **自动导入常用的使用的第三方库的 API**，方便开发，提升效率
->
-> - [告别手动引入依赖：unplugin-auto-import 插件助你提升编码体验（内附实现原理） - 掘金 (juejin.cn)](https://juejin.cn/post/7208099384070815803)
-> - 
-
-![image-20240115134202453](images/JS周边库/image-20240115134202453.png)
-
-
-
-
-
-### 使用方法
 
