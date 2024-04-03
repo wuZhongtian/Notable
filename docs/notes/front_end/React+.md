@@ -59,9 +59,8 @@ ReactDOM.render(<App />, document.getElementById('root'););
 
 ## 补充：
 
-> 转化器：[HTML to JSX (transform.tools)](https://transform.tools/html-to-jsx)
+> 代码转化器：[HTML to JSX (transform.tools)](https://transform.tools/html-to-jsx)
 >
-> 
 
 - 定义组件
 
@@ -276,8 +275,8 @@ function Foo() {
 
 function Bar() {  
     // 底层组件通过useContext函数获取数据  
-    const name = useContext(Context)  
-    return <div>Bar {name}</div>
+    const data = useContext(Context)  
+    return <div>Bar {data}</div>
 }
 
 function App() {  
@@ -298,21 +297,18 @@ export default App
 
 
 
-### 自定义hook
 
 
+### useId
 
+- `useId`用于生成全局唯一id的hooks，可用在client、service端，能够避免其他id产品的水合问题
 
+- 适用场景：生成唯一 ID、用来连接 HTML 元素，比如 label 和 input。
 
-### 18新hooks
-
-
-
-#### useId
-
-- `useId`是一个生成全局唯一id的hooks，它可以用在client和service端，从而可以避免水化过程中的不匹配，下面是一个简单的示例
+  ![image-20240403173559928](images/React+/image-20240403173559928.png)
 
 ```jsx
+import { useId } from 'react';
 const CheckBox = () => {
   const id = useId();
   return (
@@ -323,10 +319,6 @@ const CheckBox = () => {
   )
 }
 ```
-
-
-
-- 
 
 
 
@@ -439,6 +431,43 @@ function App() {
      <A render={(data) => <C data={data}></C>}></A>
        // A组件: {props.render(内部state数据)} ???【存疑】
        // C组件: 读取A组件传入的数据显示 {props.data}
+     ```
+
+- 子传父
+
+  1. 子组件中调用父组件方法并传值
+
+     ```react
+     // 注意：不建议将父组件中的setState传递给子组件，子组件应只关心数据的使用渲染，而不包含修改
+     // 父组件中
+     function getMsg(data){...}
+     <A onGetMsqg={getMsg}></A>
+                       
+     // 子组件中
+     function A({onGetMsqg}){
+         return (
+         	<div onClick= { ()=>onGetMsqg('son') }>send</div>
+         )
+     }
+     ```
+
+- 兄弟组件通讯
+
+  1. 使用状态提升，由公共父组件管理
+
+     ```react
+     // 父组件中使用state
+     // 通过子传父，将子A中的数据传递给父组件
+     // 组件B中再通过props使用父组件的数据
+     ```
+
+- 跨层级组件通讯
+
+  1. 使用 Context 机制跨层级组件通信
+
+     ```react
+     // 在顶层组件中，使用 createContext 方法创建上下文对象ctx, ctx.Provider组件提供数据
+     // 在底层组件中，通过 useContext hook函数 消费使用数据
      ```
 
      
