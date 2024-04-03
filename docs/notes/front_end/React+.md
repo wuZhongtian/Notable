@@ -84,38 +84,6 @@ ReactDOM.render(<App />, document.getElementById('root'););
   - 内联 `style` 属性 使用驼峰命名法编写
   - class  类定义改写为 className
 
-- Props
-
-  - 可以使用 `<Avatar {...props} />` JSX 展开语法转发所有 props，但不要过度使用它
-  - `<Card><Avatar /></Card>` 这样的嵌套 JSX，将被视为 `Card` 组件的 `children` prop
-  - Props 是只读的时间快照：每次渲染都会收到新版本的 props，希望修改时可设置 state
-
-  ```jsx
-  import Avatar from './Avatar.js';
-  
-  function Card({ children }) {
-    return (
-      <div className="card">
-        {children}
-      </div>
-    );
-  }
-  
-  export default function Profile() {
-    return (
-      <Card>
-        <Avatar
-          size={100}
-          person={{ 
-            name: 'Katsuko Saruhashi',
-            imageId: 'YfeOqp2'
-          }}
-        />
-      </Card>
-    );
-  }
-  ```
-
 - 纯函数与副作用
 
   > 组件应该只 **返回** 它们的 JSX，而不 **改变** 在渲染前就已存在的任何对象或变量（改变会导致多次调用）；多组件共用此变量时，会导致无法预测的结果。
@@ -270,15 +238,15 @@ setFrom({name:'new',age:13})
 
 ### useRef
 
-- 与类式组件中的 React.createRef()  用法一致
+> 与 class类式组件中的 React.createRef()  相似，用于获取真实DOM
 
 - current属性存放拿到的dom对象
 
 - ```jsx
   (1). Ref Hook可以在函数组件中存储/查找组件内的标签或任意其它数据
   (2). 语法1: const refContainer = React.useRef()
-  		 语法2: import { useRef,useEffect } from "React"
-  						const h1ref = useRef(null)
+  	 语法2: import { useRef,useEffect } from "React"
+  		   const h1ref = useRef(null)
               
               useEffect(()=>{
                 console.log(h1ref.current)
@@ -431,9 +399,53 @@ function App() {
 
 
 
+## 进阶内容
 
 
-## 性能优化
+
+### 组件间通信
+
+- 父传子
+
+  1. 父组件通过标签属性传递数据、子组件通过props参数接收数据
+
+     - 可以使用 `<Avatar {...props} />` JSX 展开语法转发所有 props，但不要过度使用它
+     - `<Card><Avatar /></Card>` 这样的嵌套 JSX，将作为 `Card` 组件的 `prop.children`，不影响其他标签属性传递
+     - Props 是只读的时间快照：每次渲染都会收到新版本的 props，修改时可通过设置 state
+
+     ```react
+     // 基础用法
+     import Avatar from './Avatar.js';
+     function Card({ children,type }) {
+       return <div className="card"> {children} </div>;
+     }
+     export default function Profile() {
+       return (
+         <Card type='xxx'>
+           <Avatar size={100} person={{  name: 'Katsuko Saruhashi', imageId: 'YfeOqp2' }} />
+         </Card>
+       );
+     }
+     
+     /*
+     扩展：render props :向组件内部动态传入带有内容的结构（标签/组件）
+     	Vue中: 
+     		使用slot技术, 也就是通过组件标签体传入结构  <A><B/></A>
+     	React中:
+     		使用children props: 通过组件标签体传入结构
+     		使用render props: 通过组件标签属性传入结构,而且可以携带数据，一般用render函数属性
+     */
+     
+     <A render={(data) => <C data={data}></C>}></A>
+       // A组件: {props.render(内部state数据)} ???【存疑】
+       // C组件: 读取A组件传入的数据显示 {props.data}
+     ```
+
+     
+
+
+
+### 性能优化
 
 #### useLayoutEffect/useEffect
 
@@ -443,7 +455,7 @@ function App() {
 
 
 
-### React.memo
+#### React.memo
 
 > 函数组件，在任何情况下都会重新渲染，没有生命周期，官方提供React.memo优化手段
 
@@ -451,7 +463,7 @@ function App() {
 
 
 
-### Memo
+#### Memo
 
 ![image-20230803105940870](images/React+/image-20230803105940870.png)
 
@@ -539,32 +551,6 @@ function App() {
   
 
 
-
-### render props
-
-> 向组件内部动态传入带有内容的结构（标签/组件）
-
-```
-Vue中: 
-	使用slot技术, 也就是通过组件标签体传入结构  <A><B/></A>
-React中:
-	使用children props: 通过组件标签体传入结构
-	使用render props: 通过组件标签属性传入结构,而且可以携带数据，一般用render函数属性
-```
-
-- children props
-
-  <A>
-    <B>xxxx</B>
-  </A>
-  {this.props.children}
-  问题: 如果B组件需要A组件内的数据, ==> 做不到 
-
-- render props
-
-  `<A render={(data) => <C data={data}></C>}></A>`
-  A组件: {this.props.render(内部state数据)}
-  C组件: 读取A组件传入的数据显示 {this.props.data} 
 
 
 

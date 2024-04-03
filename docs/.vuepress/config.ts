@@ -84,11 +84,15 @@ export default {
     navbar: [
       {
         text: "首页",
-        link: "/",
+        link: "https://wudetian.top/",
       },
       {
         text: "开始阅读",
         link: "/notes/directory",
+      },
+      {
+        text: "Gitee",
+        link: "https://gitee.com/wuZhongtian",
       },
     ],
     sidebar: {

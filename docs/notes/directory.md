@@ -1,4 +1,5 @@
 <WaterMark />
+<br/>
 
 ### 热爱生命
 
@@ -14,11 +15,14 @@
 
 一切，都在意料之中
 
-### 赞助
-
-> 如有帮助，欢迎赞助，收到赞助款后，我会及时更新 [赞助墙/赞助信息]
-
 <br/>
+<br/>
+
+### 赞赏  Buy me a coffee .
+
+> 如有帮助，欢迎扫码助力；如需提供技术支持，可通过[主站](https://wudetian.top/ )上的任意方式联系我！
+>
+> ☆ Star 仓库不迷路！[gitee](https://gitee.com/wuZhongtian)，[github](https://github.com/wuZhongtian)
 
 <img src="./images/directory/df6d002c-ff42-4f2b-b82d-350c20e3cb2a.png" alt="df6d002c-ff42-4f2b-b82d-350c20e3cb2a" style="zoom:33%;" />
 
@@ -27,15 +31,18 @@
 <br/>
 <br/>
 
-### 感谢
+<br/>
+<br/>
 
-<div style="display: flex; justify-content:space-around; marginTop:30px;">
-<div  style="display: flex; justify-content:space-around; flex-direction: column;align-items: center; ">
-  <img src="./images/directory/Snipaste_2024-03-18_17-10-41-17107535165434.jpg" alt="image-20240318165602562" style="width:120px" />
-  <span>赞助值：10元</span>
-  <span>留言：绵薄之力，致敬开源！</span>
-</div>
-</div>
+### 感谢 THANKS TO
+
+| 捐赠人 | 捐赠日期   | 捐赠金额 | 寄语                 |
+| ------ | ---------- | -------- | -------------------- |
+| *涛    | 2024.03.18 | 10.00RMB | 绵薄之力，致敬开源！ |
+| *刻    | everyday   | 30.00RMB |                      |
+
+
+
 
 <!-- - [VuePress2配置详解：主页、导航、搜索以及样式 | Forever Study (yydnas.cn)](https://www.yydnas.cn/2023/04/2023.04.06-VuePress2配置详解：主页、导航、搜索以及样式/index.html)
 

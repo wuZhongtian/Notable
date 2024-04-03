@@ -618,6 +618,7 @@ selection.call( d3.zoom()
 // 安装
 npm i classnames
 
+import classnames from 'classnames'
 
 // 原始写法（React中）
 <p className={`nav ${type=='1' && 'active'}`} ></p>
@@ -634,7 +635,7 @@ npm i classnames
 >
 > 基础的使用描述，参考文档链接即可；此处仅提供不常用的小问题解决方法
 
-### 样式冲突
+#### 样式冲突
 
 > tailwind css 样式与 其他UI库 共同使用中可能会发生样式冲突，毕竟 lg、flex这类样式名作为内置真的很好用
 >
