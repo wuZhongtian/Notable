@@ -141,12 +141,12 @@ import { Helmet } from 'react-helmet-async';
 
 
 
-## 常见的Hook
+## React Hook
 
 > - 函数式组件无生命周期的概念
-> - Hook是React 16.8.0版本增加的新特性/新语法
-> - hooks只能用在函数式组件中（ 可以通过开发者工具查看hooks状态 ）
+> - hooks是React 16.8.0+增加，只能在函数式组件中使用（ 可通过开发者工具查看hooks状态 ）
 > - 只能在**函数最外层**调用 Hook，不能嵌套在if/for/其它函数中调用（react按照hooks的调用顺序识别每一个hook） 
+> - 只能在组件或其他自定义hook中调用
 
 - useState     `[ value,setValue ] = useState( defaultValue )`
 - useEffect      副作用 `useEffect(()=>{...})`
@@ -154,7 +154,8 @@ import { Helmet } from 'react-helmet-async';
 
 - useReducer
 - useCallback
-- useMemo
+- useMemo  缓存状态，类似于计算属性，只有指定依赖的值发生变化时才会执行相应的计算，而不会被其他不相关的更新触发
+- React.mome  缓存props，当props未发生变化时，跳过子组件的渲染
 - useRef
 - 自定义hook：实质就是个外部定义的函数，换成类似hook的写法
 - [React 18 新hooks](https://zhuanlan.zhihu.com/p/562815409)
@@ -165,6 +166,42 @@ import { Helmet } from 'react-helmet-async';
     - `deferring（延迟）`一个值，跟我们经常提到的debounce和throttle有点类似。在React 18中，当传递给`useDeferredValue`的值发生变化时，React会根据当前**渲染的优先级**来返回之前的值或者是最新的值
   - **useSyncExternalStore**
     - 
+
+
+
+
+
+### 自定义hook
+
+> 自定义以 use 开头的函数，实现实现逻辑的封装和复用。
+
+- 实现思路
+  - 声明一个 use 开头的函数
+  - 在函数体内部封装任何可复用的逻辑即可
+  - 把组件中用到的状态/回调，return 出去（对象或数据）
+  - 在需要使用的组件中，执行自定义use函数，解构并使用其中的状态/回调
+
+```react
+// 自定义hook举例：
+import { useState } from 'react'
+function useToggle(){
+    // 可复用的逻辑
+    const [value,setValue] = useState(true)
+    const taggle = () => setState(!value);
+    return {taggle,value}
+}
+function App(){
+    const {value,taggle} = useToggle();
+    return (
+    <div>
+            <p>{value ? "1" : "2"}</p>
+            <button onClick={taggle}</button>>tagger</button>
+     </div>
+    )
+}
+```
+
+
 
 
 
@@ -196,14 +233,26 @@ setFrom({name:'new',age:13})
 
 ### useEffect
 
+- 使用场景：
+
+  - 在函数组件中执行副作用操作(用于模拟类组件中的生命周期钩子)
+    - 常见副作用：发ajax请求数据获取、手动更改真实DOM、localstorage、设置订阅 / 启动定时器
+  - 用于创建不是由事件引起，而是由渲染本身引起的操作，例如：发起请求、更改DOM等
+
+- 执行时机
+
+  | 依赖项（第二个参数） | 副作用函数执行时机                  |
+  | -------------------- | ----------------------------------- |
+  | [ ]                  | 只在初次渲染时执行一次              |
+  | 没有写               | 组件初次渲染 + 组件更新时执行       |
+  | 添加特定依赖项       | 组件初次渲染 + 依赖项发生变化时执行 |
+
+- 清除副作用，执行时机：组件卸载时
+
+  - 在副作用函数中添加的定时器等操作，通过在 useEffect 中 通过 return 返回的函数中清理
+
 ```jsx
-(1). Effect Hook 可以让你在函数组件中执行副作用操作(用于模拟类组件中的生命周期钩子)
-(2). 常见的副作用操作:
-        发ajax请求数据获取
-        设置订阅 / 启动定时器
-        手动更改真实DOM
-        localstorage
-(3). 语法和说明: 
+/* 语法和说明: */
         useEffect(() => { 
           // 在此可以执行任何带副作用操作
           return () => { // 在组件卸载前执行 return
@@ -214,10 +263,10 @@ setFrom({name:'new',age:13})
 	// 如果不写，会检测所有数据变化时就执行，\
 	// 如果传入数据名，会检测数据变化时再执行
     
-(4). 可以把 useEffect Hook 看做如下三个函数的组合
-        componentDidMount()
-        componentDidUpdate()   
-    		componentWillUnmount()   // 有return返回值时，可当成componentWillUnmount钩子
+/* useEffect Hook 可看做如下三个函数的组合	*/
+        componentDidMount()		// 第二个参数为 []
+        componentDidUpdate()   	// 
+    	componentWillUnmount()   // 有return返回值时，可当成componentWillUnmount钩子
 
 
 
@@ -227,6 +276,15 @@ setFrom({name:'new',age:13})
       // 使用浏览器的 API 更新页面标题   
       document.title = `You clicked ${count} times`;  
   });
+
+
+// 例：清除副作用
+useEffect(()=>{
+   const timer = setInterval(()=>{...},1000);
+   return ()=>{
+   		clearInterval(timer);	// 清除副作用（组件卸载时自动执行）    
+   } 
+},[])
 ```
 
 
@@ -326,27 +384,140 @@ const CheckBox = () => {
 
 
 
-## react-router-dom
+### useReducer
 
-- 127
-- https://www.yuque.com/fechaichai/qeamqf/smoknz#JRD2D
+- 作用：和useState一样，但用于管理相对复杂的状态，类似于状态管理的过程，可封装指定的处理事件
 
-- useParams
-  - 返回URL参数的键/值对的对象。
-
-```jsx
-import { useNavigate, useParams } from 'react-router-dom';
-
-const param = useParams();
-console.log(param.id)
-
-/* 路由配置中制定路径参数 :id
-{
-    path: '/instance/trajectory/detail/:id',
-    component: lazy(() => import('../layouts/instance/trajectory/detail')),
-  },
-*/
+```react
+// 1.定义reducer函数，根据不同的action返回不同的新状态
+function reducer(state,action){
+    // 处理逻辑
+    switch(action.type){
+        case 'INC': return state+1;
+        case 'DEC': return state-1;
+        case 'SET': return action.payload;
+        default : return state; 
+    }
+}
+// 2.在组件中调用useReducer，并传入reducer函数和初始状态值
+const [state,dispatch] = useReducer(reducer,0)
+// 3.事件触发时，通过dispatch派发一个action对象(通知reducer要返回那个新状态并渲染UI)
+dispatch({type:'INC'});
+dispatch({type:'SEt',payload:100});
 ```
+
+
+
+
+
+
+
+### useCallback
+
+> 在组件多次重新渲染时，缓存函数
+
+```react
+// 使用useCallback包裹函数后，可保证在组件渲染时保持函数引用的稳定，在传递给子组件的引用不变
+import { useCallback } from 'react'
+
+const changeHandler = (value)=>{ console.log(value) }	// 改造前
+const changeHandler = useCallback((value)=>{ console.log(value) })	// 改造后
+```
+
+
+
+
+
+### uesMemo
+
+- 作用：在组件每次重新渲染时，缓存计算的结果，只有当指定的依赖项发生变化时，才再次执行计算的函数
+- 使用场景：
+  - 消耗非常大的计算时，例如递归的计算时，避免不相关的更新触发较大的计算逻辑
+
+
+```react
+import { useMemo } from 'react'
+// 基础语法
+useMemo(()=>{
+    // 依赖变化时，才重新计算并返回结果
+    return ...
+},[xxx])
+
+const [count1,setCount1] = useState(0)
+const [count2,setCount2] = useState(0)
+
+const result = useMemo(()=>{
+    // 使用useMemo做缓存后，可确保只有依赖项count1发生变化时才会重新执行计算并返回
+    return count1+1;
+},[count1])
+
+return (<>
+    	<button onClick={()=>setCount1(count1+1)}>{{count1}}</button>
+    	<button onClick={()=>setCount2(count2+1)}>{{count2}}</button>
+    	{{result}}
+    	</>)
+```
+
+
+
+### React.Memo
+
+> React默认渲染机制：只要父组件重新渲染，子组件就会无脑重新渲染
+
+- 作用：允许组件在Props没有没有改变时，跳过渲染，从而节约性能
+  - 通过对前后props进行**浅比较**，如果前后props不一致，将重新渲染，反之不进行渲染，使用缓存中的组件。
+- props的比较机制
+  - 使用memo缓存组件后，会对每一个prop使用`Object.is`比较，只有全部为true时，才会跳过渲染
+  - prop是简单类型
+    - Object.is(3,3);			// true
+  - prop 是复杂类型 - 每次重新执行，都会产生新的对象/数组引用
+    - 可结合 useMemo或useState使用，从而保证引用的类型地址不会变化
+    - Object.is([],[]);			// false
+
+```react
+// 使用memo函数包裹生成的缓存组件只有在props发生变化时才会重新渲染
+import {mome} from 'react'
+
+const MomoSon = memo(function Son(props){
+    // ...
+}) 
+```
+
+![image-20230803105940870](images/React+/image-20230803105940870.png)
+
+
+
+
+
+
+
+### React.forwardRef
+
+> 作用：使用ref暴露子组件的DOM节点交给父组件
+
+```react
+import {forwardRef,useRef} from 'react'
+// 子组件  使用forwardRef包裹子组件
+const Input =forwardRef((props,ref)=>{
+    return <input ref={ref} type='type'/>
+})
+
+// 父组件 
+function App(){
+    const inputRef = useRef(null)
+    return <Input  ref={inputRef}/>;
+}
+```
+
+
+
+
+
+### useInperativeHandle
+
+> 通过ref暴露子组件中的方法，可交给父组件使用
+
+![image-20240405235840767](./images/React+/image-20240405235840767.png)
 
 
 
@@ -472,6 +643,90 @@ function App() {
 
      
 
+### [React路由](https://www.yuque.com/fechaichai/qeamqf/smoknz#JRD2D)
+
+- 创建路由实例 `createBrowserRouter`
+- 使用路由标签`RouterProvider`
+- 路由跳转`useNavigate  Link`
+- 路由参数  `useSearchParams   useParams`
+- 嵌套路由`children    <Outlet />`
+- 路由模式：`createHashRouter    createBrowerRouter`
+
+```jsx
+// 安装 react-router-dom
+npm i react-router-dom
+
+import { createBrowserRouter,RouterProvider, useNavigate,Link, useSearchParams,useParams,Outlet } from 'react-router-dom';
+
+// 创建Router实例，并配置路由对应关系
+const router = createBrowserRouter([
+	{
+        path: '/instance/trajectory/detail/:id',
+        component: lazy(() => import('../layouts/instance/trajectory/detail')),
+    },
+    {
+        path: '/',
+        component: lazy(() => import('../layouts')),
+        // 嵌套子路由 定义
+        children:[
+            // 默认二级路由，不使用path配置
+            {
+                 index:true,
+            	component: lazy(() => import('../layouts/instance/detail')),
+            },
+            {
+                 path: 'detail/:id',
+            	component: lazy(() => import('../layouts/instance/detail')),
+            }
+        ]
+    },
+    // 404 路由配置,放置在路由末尾，path为 *
+    {
+        path:'*'，
+        component: lazy(() => import('../404')),
+    }
+])
+
+// 使用Router
+<RouterProvider router={router}></RouterProvider>
+
+
+// 路由跳转 navigate
+const Login =()=>{
+    const navigate = useNavigate();
+    return (
+        <div>
+            {/* 声明式写法 */}
+            <Link to='/active'>路由跳转</Link>
+            {/* 编程式写法，并传url参数 */}
+            <button onClick={()=>navigate('/active?id=100')}>路由跳转</button>
+            {/* 嵌套路由出口 <Outlet/>  */}
+            <Outlet/> 
+        </div>
+    )
+}
+
+// 获取url路由参数  /active?id=100
+const [params] = useSearchParams();
+let id = params.get('id');
+// 获取路径参数 /active/:id  /active/100  id为路由配置时的占位符命名
+const params = useParams();
+let id = params.id
+
+
+
+/* 路由配置中制定路径参数 :id
+{
+    path: '/instance/trajectory/detail/:id',
+    component: lazy(() => import('../layouts/instance/trajectory/detail')),
+  },
+*/
+```
+
+
+
+
+
 
 
 ### 性能优化
@@ -484,21 +739,23 @@ function App() {
 
 
 
-#### React.memo
-
-> 函数组件，在任何情况下都会重新渲染，没有生命周期，官方提供React.memo优化手段
-
-- 用于函数组件，通过对前后props进行**浅比较**，如果前后props不一致，该组件将重新渲染，反之，不进行渲染，使用缓存中的组件。
-
-
-
-#### Memo
-
-![image-20230803105940870](images/React+/image-20230803105940870.png)
 
 
 
 
+### 路由懒加载
+
+> 指路由的JS资源只有在被访问时才会动态获取，可优化项目首次打开的时间
+
+```react
+// 1.使用lazy函数将组件动态导入
+import { Suspense,lazy } from 'react'
+const Home = lazy(()=>import('@/pages/Home'))
+
+// 2.使用组件时，通过 <Suspense> 包裹，提供异步渲染能力
+// fallback属性用于指定在组件加载完成前显示的内容
+<Suspense fallback={'记载中'}><Home /></Suspense>
+```
 
 
 
@@ -578,6 +835,18 @@ function App() {
   ```
 
   
+
+
+
+
+
+### CDN优化
+
+> 优化点：体积较大的非业务JS文件，如 react、react-dom等，不需要经常做变动，直接CDN缓存即可
+>
+> - 利用CDN的缓存特性，将非业务JS文件排除在打包之外。
+> - 以CDN的方式重新引入资源
+> - 不同打包工具配置不同....【TODO:待完善】
 
 
 
