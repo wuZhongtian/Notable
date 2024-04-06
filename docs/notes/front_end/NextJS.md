@@ -22,29 +22,36 @@
 
 #### 样式相关
 
-##### [Tailwind CSS](https://tailwindcss.com/)
+- Sass支持：默认支持引入 scss 类型样式文件
 
-> CSS 框架
+- [Tailwind CSS](https://notes.wudetian.top/notes/front_end/JS周边库.html#tailwind-css)
 
-##### CSSModule
+- [UnoCSS: The instant on-demand Atomic CSS engine](https://unocss.dev/)
 
-```js
-// 新建 xxx.module.css文件
-.abc{ ... } // css样式内容
+  - [UnoCSS 中文网 (nodejs.cn)](https://unocss.nodejs.cn/)
 
-// 导入css模块化样式文件
-import styles from '@/app/ui/xxx.module.css';
-// 使用模块样式
-<div className={styles.shape} />
-```
+- CSSModule
 
-##### [clsx](https://github.com/lukeed/clsx)
+  > 优点：
+  >
+  > - 生成唯一的类名标识，只在引用的位置生效，有效避免出现全局的类名冲突
 
-> 实现 类名的轻松切换
+  ```js
+  // 新建 xxx.module.css文件
+  .abc{ ... } // css样式内容
+  
+  // 导入css模块化样式文件
+  import styles from '@/app/ui/xxx.module.css';
+  // 使用模块样式
+  <div className={styles.shape} />
+  ```
 
-##### Sass
+- [clsx](https://github.com/lukeed/clsx)：实现 类名的轻松切换
 
-> 默认支持引入 scss 类型文件
+  ```react
+  // TODO: 与classnames用法一致，but classnames针对所有浏览器，clsx主要针对react中使用
+  ...
+  ```
 
 ### 前置概念
 
