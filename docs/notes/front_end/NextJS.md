@@ -10,6 +10,14 @@
 
 ## 基础入门
 
+
+
+
+
+
+
+
+
 ### 推荐配置
 
 #### [mockAPI](https://mockapi.io/)
@@ -53,7 +61,13 @@
   ...
   ```
 
+
+
+
+
 ### 前置概念
+
+
 
 #### AppRouter vs PagesRouter
 
@@ -61,37 +75,9 @@
 >
 > 本文以 AppRouter 为主展开：
 
-#### 优化字体
 
-> [Learn Next.js: Optimizing Fonts and Images | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/optimizing-fonts-images)
 
-#### 优化图片
 
-> - 优化点
->   - 防止在加载图像时自动切换布局
->   - 调整图像大小以避免将大图像传送到具有较小视口的设备
->   - 默认情况下延迟加载图像（图像在进入视口时加载）
->   - 在浏览器支持的情况下，使用现代格式图像，例如 [WebP](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#webp) and 和 [AVIF](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#avif_image)
-
-- 使用 `<Image>` 组件 替换 HTML 的`<img>`标签
-
-```react
-import Image from 'next/image';
-
-export default function Page() {
-  return (
-    // ...
-      <Image
-        src="/hero-desktop.png"
-        width={1000} // 单位px
-        height={760} // 单位px
-        className="hidden md:block"  // 在桌面端才显示，其他设备中隐藏
-        alt="Screenshots of the dashboard project showing desktop version"
-      />
-    //...
-  );
-}
-```
 
 #### [[Network Boundary 网络边界](https://nextjs.org/learn/react-foundations/server-and-client-components#network-boundary)
 
@@ -102,22 +88,11 @@ export default function Page() {
 
 - 请在文件顶部添加 React `'use client'`指令。这告诉 React 在客户端上渲染组件。
 
-![image-20240211132830442](images/NextJS/image-20240211132830442.png)
+<img src="images/NextJS/image-20240211132830442.png" alt="image-20240211132830442" style="zoom: 67%;" />
 
-#### [安装 ](https://nextjs.org/docs/getting-started/installation)
 
-```sh
-# Node.js版本 18.17.0+
-# 自动安装(推荐) next.js
-npx create-next-app@latest
 
-# 手动安装
-- https://nextjs.org/docs/getting-started/installation
 
-# 创建用于学习的模板项目
-npx create-next-app@latest nextjs-dashboard --use-npm --example "https://github.com/vercel/next-learn/tree/main/dashboard/starter-example"
-
-```
 
 #### 目录结构
 
@@ -162,17 +137,156 @@ jsconfig.json	JavaScript 的配置文件
 
 
 
-#### layout.js
+
+
+
+
+
+
+### 相对关键
+
+#### [安装 ](https://nextjs.org/docs/getting-started/installation)
+
+```sh
+# Node.js版本 18.17.0+
+# 自动安装(推荐) next.js
+npx create-next-app@latest
+
+# 手动安装
+- https://nextjs.org/docs/getting-started/installation
+
+# 创建用于学习的模板项目
+npx create-next-app@latest nextjs-dashboard --use-npm --example "https://github.com/vercel/next-learn/tree/main/dashboard/starter-example"
+
+```
+
+
+
+#### 优化字体
+
+> [Learn Next.js: Optimizing Fonts and Images | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/optimizing-fonts-images)
+>
+> 追求美观，但自定义字体的获取与加载，会明显的影响性能
+>
+> - CLS：chrome 评估网站性能和用户体验的指标之一，衡量网页加载中布局的稳定性
+> - 浏览器显示页面->备用/系统字体->渲染显示->自定义字体下载->替换旧字体->布局偏移
+> - next/front 模块，会自动优化字体
+>   - 从 Google Fonts 加载字体：`next/font` 组件会自动从 Google Fonts 加载所需的字体。它会根据 `next.config.js` 中的配置，选择合适的字体文件。
+>   - 优化字体大小：自动根据设备的屏幕尺寸调整字体大小。在 `next.config.js` 文件中配置 `fontSizes` 属性，可以自定义要使用的字体大小。
+>   - 字体预加载：在页面加载时预加载所需的字体，从而提高页面加载速度。在 `next.config.js` 文件中配置 `preloadFonts` 属性，可以自定义要预加载的字体。
+>   - 使用 `woff2` 格式：Next.js 会自动将字体文件转换为 `woff2` 格式，这种格式可以提高字体加载速度。
+>   - 缓存字体：Next.js 会自动缓存加载的字体，以便在后续访问时直接使用。这可以减少网络请求，提高性能。
+>   - 在build构建时，将字体和静态资源打包在一起，避免依赖外部的三方请求
+
+- [subsets 配置项](https://fonts.google.com/knowledge/glossary/subsetting) 【需科学上网】
+- 推荐 tailwind css属性`antialiased`  // 让字体拥有更平滑的触感
 
 ```jsx
-// app/blog/[post]/layout.js
+// 导入Inter、Lusitana 两种 谷歌字体
+import { Inter,Lusitana } from 'next/font/google'
+// 使用Inter字体中的拉丁字符集【大写字母A到Z，小写字母a到z，以及数字0到9】
+export const inter = Inter({ subsets:['latin'] })	
+// 使用Lusitana字体中的拉丁字符集,以及weight为400 和700的部分
+export const lusitana = Lusitana({ subsets:['latin'],weight:['400','700'] })	
 
-const BlogLayout = ({children})=>{
+// 全局使用inter字符集 本质是个字符串
+( <body className={`${inter.className}`}>....</body> )
+
+// 局部使用Lusitana字体
+(<div className={`${lusitana.className}`}>....</div>)
+
+
+
+```
+
+
+
+
+
+#### 优化图片
+
+> - 优化点
+>   - 防止在加载图像过程中发生布局偏移
+>   - 自动调整图像大小，为客户端提供尺寸合适的图片，避免大图到小屏幕，而浪费带宽
+>   - 默认懒加载（图像将要进入视口时再加载）
+>   - 转化使用现代化的图像格式，例如 [WebP](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#webp) 和 [AVIF](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#avif_image)
+
+- 使用 `<Image>` 组件 替换 HTML 的`<img>`标签
+- 设置图片具体的宽高【宽高比】是个较好的行为
+
+```jsx
+import Image from 'next/image';
+
+export default function Page() {
+  return (
+    // ...
+      <Image
+        src="/hero-desktop.png"
+        width={1000} // 单位px
+        height={760} // 单位px
+        className="hidden md:block"  // 在桌面端才显示，其他设备中隐藏，移动端优先的写法
+        alt="Screenshots of the dashboard project showing desktop version"
+      />
+      <Image
+        src="/hero-moblie.png"
+        width={1000} // 单位px
+        height={760} // 单位px
+        className="block md:hidden"  // 在移动端才显示，其他设备中隐藏，移动端优先的写法
+        alt="Screenshots of the dashboard project showing moblie version"
+      />
+    //...
+  );
+}
+```
+
+
+
+#### 文件路由
+
+- `app/*/*`     文件夹名	===	url 路由名
+  - `page.tsx`	路由的入口文件
+  - `layout.tsx` 布局模板文件
+    - children 参数类似于vue中的 `<router-view />`
+    - 多个子路由中【共享数据】，也利于实现局部渲染
+    - 当前目录如果存在`page.tsx`，也会作为单独的路由页存在于当前的 `layout.tsx`
+  - 目录下的其他文件，不会被暴露在浏览器的路由中，只有 page.tsx
+
+```tsx
+// page.tsx
+export default function Page(){
+    return <h1>Page页面-路由入口</h1>
+}
+
+// layout.tsx	根路由
+import {inter} from '@/app/ui/fonts'	// 引入优化的字体
+export default function RootLayout({children}:{children:React.ReactNode;}){
+    return (
+        <html lang='en'>
+        	<body className={`${inter.className}`}>{children}</body>	<!--设置全局字体+路由总入口 -->
+        </html>
+    )
+}
+
+// layout.tsx   子路由
+import SideNav from 'xxxx'
+export default function Layout({children}:{children:React.ReactNode}){
+    return (<div> 
+                <SideNav /> 
+                <div>{children}</div> 
+            </div>);
+}
+
+
+
+
+////>>>>?????
+// app/blog/[post]/layout.js
+export default const BlogLayout = ({children})=>{
     return children;
 }
-export default BlogLayout;
 
-export async function generateMetadata({arams}){
+
+export async function generateMetadata({params}){
     return{
         title:params.post,	// 自定义浏览器标签页的文字
     }
@@ -180,6 +294,37 @@ export async function generateMetadata({arams}){
 ```
 
 
+
+
+
+### 路由导航
+
+- `<Link>` 组件替代 `<a>`
+- 优点：
+  - 基于路由刷新，不会造成整页刷新
+  - 代码自动分割（基于路由的分割刷新？）
+  - 代码预取（链接出现在可视区，提前加载背后的内容？）
+
+```tsx
+// 导入Link
+import Link from 'next/link'
+// 使用Link
+<Link href='xxx'>
+    
+// 基于页面url，设置激活状态
+'use client'
+import { usePathname }  from  'next/navigation'
+```
+
+
+
+
+
+
+
+
+
+## 其他
 
 
 
