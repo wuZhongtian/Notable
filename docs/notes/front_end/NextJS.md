@@ -82,7 +82,8 @@
 #### [[Network Boundary 网络边界](https://nextjs.org/learn/react-foundations/server-and-client-components#network-boundary)
 
 > - 网络边界是分隔不同环境的概念线
-> - **Next.js 默认使用服务器组件**，提高应用程序的性能
+
+
 
 #### 使用客户端组件
 
@@ -297,13 +298,18 @@ export async function generateMetadata({params}){
 
 
 
-### 路由导航
+### 路由跳转
 
-- `<Link>` 组件替代 `<a>`
-- 优点：
-  - 基于路由刷新，不会造成整页刷新
-  - 代码自动分割（基于路由的分割刷新？）
-  - 代码预取（链接出现在可视区，提前加载背后的内容？）
+- `<Link>` 组件替代 `<a>`标签
+  - 优点：
+    - 基于路由刷新页面，不会造成浏览器的刷新
+    - 如果页面的某一部分发生错误❌，其他部分依旧可以正常展示
+    - 代码自动分割（基于路由的分割刷新）
+    - 代码预取（链接出现在可视区，提前加载背后的内容）
+
+- `usePathname`
+  - 获取当前url
+
 
 ```tsx
 // 导入Link
@@ -314,6 +320,48 @@ import Link from 'next/link'
 // 基于页面url，设置激活状态
 'use client'
 import { usePathname }  from  'next/navigation'
+const pathname = usePathname()
+//  设置样式，通过判断 link的 href与pathname 是否一致
+```
+
+
+
+
+
+### 配置数据库
+
+......略（官网教学使用vercel数据库，可从   [Node.js操作  MySQL](https://notes.wudetian.top/notes/database/MySQL.html#nodejs操作) 中参考数据库的操作，使用大致同理）
+
+
+
+### 获取数据及API
+
+> - 写对外开放的API接口：使用 [Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) 创建API端点
+> - Next.js将数据的获取过程保留在服务端，更加安全
+> - **Next.js 默认使用服务器组件   RSC**，提高应用程序的性能
+>   - 在服务端完成 数据+模板 的组合形成具体页面
+>   - 不再需要API的映射，在服务器端完成数据的组合，不会暴露敏感信息
+
+
+
+#### 请求瀑布
+
+- 产生原因：数据无意中相互阻塞，形成多个请求的等待阻塞，从而影响性能！
+  - “瀑布”是指依赖于先前请求的完成的网络请求序列，例如先获取id，再获取id下的相关数据
+- 使用 await 一堆请求造成
+
+#### 并行数据获取
+
+- 同时发起所有请求 - 并行
+- [Learn Next.js: Fetching Data | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/fetching-data#parallel-data-fetching)
+
+```tsx
+// 请求瀑布
+await getOneData();
+await getTwoData();
+await getThreeData();
+
+// 
 ```
 
 
@@ -322,9 +370,53 @@ import { usePathname }  from  'next/navigation'
 
 
 
+### 静态/动态渲染
+
+> NEXT.JS默认状态下为 【静态渲染】，
+
+- 静态渲染
+  - 服务器端进行构建，不在客户端中执行，而是在服务端进行执行
+  - 特点：
+  - 实验：
+    - 强制刷新静态渲染的页面，只会在服务器中打印log，客户端中不执行
+    - 链接跳转，并不会向服务器发起请求，不会打印 log
+    - **☆** 在数据库中修改数据，服务器不会自动的进行重新渲染，【在构建部署 build 时就完成】
+- 动态渲染
+  - `unstable_noStore`：
+
+
+
+```tsx
+import {} from 'next'
+```
+
+
+
+|                | 静态渲染                                                     | 动态渲染                              |
+| -------------- | ------------------------------------------------------------ | ------------------------------------- |
+| 数据获取和渲染 | 服务器，在构建部署时完成渲染                                 | 服务器，每次请求时就渲染              |
+| 渲染结果       | 静态 html：可被分发、缓存的<br/>更快的访问体验、利于SEO<br/>没有变化的数据，多页面共享的数据 | 显示实时的数据、特定用户特定数据<br/> |
+|                |                                                              |                                       |
+
+
+
+
+
 
 
 ## 其他
+
+
+
+#### 修改tsconfig.json，防止vercel部署报错
+
+```json
+"baseUrl":".",
+"paths":{
+   "@/*":["./*"]
+   "@/app/*":["app/*"]
+}
+```
 
 
 

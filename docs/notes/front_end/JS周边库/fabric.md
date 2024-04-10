@@ -62,7 +62,8 @@ description: fabric.js中文  fabric fabric.js  前端 夏之一周间 Canvas
   canvas.setBackgroundImage('http://...');
   canvas.onFpsUpdate = function(){ /* ... */ };
   ...
-  canvas.selection = false; // 禁用组选择
+  canvas.selection = false; // false禁用多选  true开启多选
+  canvas.skipTargetFind = true; // true禁止选中画布元素   false开启选中
   rect.set('selectable', false); // 使对象不可选中
   ```
 
