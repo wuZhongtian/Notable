@@ -140,13 +140,7 @@ jsconfig.json	JavaScript 的配置文件
 
 
 
-
-
-
-
-### 相对关键
-
-#### [安装 ](https://nextjs.org/docs/getting-started/installation)
+### [安装 ](https://nextjs.org/docs/getting-started/installation)
 
 ```sh
 # Node.js版本 18.17.0+
@@ -163,7 +157,7 @@ npx create-next-app@latest nextjs-dashboard --use-npm --example "https://github.
 
 
 
-#### 优化字体
+### 优化字体
 
 > [Learn Next.js: Optimizing Fonts and Images | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/optimizing-fonts-images)
 >
@@ -204,7 +198,7 @@ export const lusitana = Lusitana({ subsets:['latin'],weight:['400','700'] })
 
 
 
-#### 优化图片
+### 优化图片
 
 > - 优化点
 >   - 防止在加载图像过程中发生布局偏移
@@ -242,7 +236,7 @@ export default function Page() {
 
 
 
-#### 文件路由
+### 文件路由
 
 - `app/*/*`     文件夹名	===	url 路由名
   - `page.tsx`	路由的入口文件
@@ -250,7 +244,12 @@ export default function Page() {
     - children 参数类似于vue中的 `<router-view />`
     - 多个子路由中【共享数据】，也利于实现局部渲染
     - 当前目录如果存在`page.tsx`，也会作为单独的路由页存在于当前的 `layout.tsx`
-  - 目录下的其他文件，不会被暴露在浏览器的路由中，只有 page.tsx
+  - `loading.tsx`  预备UI，在页面渲染未完成时的占位，用于做loading骨架屏效果！
+- `(xxxx)`    路由组
+  - 小括号包裹的文件夹，用来分类当前路径下的所有路由，可做不同的`page\layout\loading.tsx`配置
+  - url 路径中并不会包含 xxxx
+
+- 目录下的其他文件，不会被暴露在浏览器的路由中，只有 page.tsx
 
 ```tsx
 // page.tsx
@@ -346,14 +345,14 @@ const pathname = usePathname()
 
 #### 请求瀑布
 
-- 产生原因：数据无意中相互阻塞，形成多个请求的等待阻塞，从而影响性能！
+- 产生原因：数据请求无意中会相互阻塞，造成多个请求的等待，从而影响性能！
   - “瀑布”是指依赖于先前请求的完成的网络请求序列，例如先获取id，再获取id下的相关数据
 - 使用 await 一堆请求造成
 
 #### 并行数据获取
 
-- 同时发起所有请求 - 并行
-- [Learn Next.js: Fetching Data | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/fetching-data#parallel-data-fetching)
+- 同时发起所有请求 - 并行、提高性能
+- 使用` Promise.all() `或` Promise.allSettled()`函数同时启动所有promise
 
 ```tsx
 // 请求瀑布
@@ -361,7 +360,18 @@ await getOneData();
 await getTwoData();
 await getThreeData();
 
-// 
+// 并行数据获取 举例：
+const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
+const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
+const invoiceStatusPromise = sql`SELECT
+         SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
+         SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
+         FROM invoices`;
+const data = await Promise.all([
+      invoiceCountPromise,
+      customerCountPromise,
+      invoiceStatusPromise,
+]);
 ```
 
 
@@ -376,29 +386,78 @@ await getThreeData();
 
 - 静态渲染
   - 服务器端进行构建，不在客户端中执行，而是在服务端进行执行
-  - 特点：
   - 实验：
     - 强制刷新静态渲染的页面，只会在服务器中打印log，客户端中不执行
     - 链接跳转，并不会向服务器发起请求，不会打印 log
     - **☆** 在数据库中修改数据，服务器不会自动的进行重新渲染，【在构建部署 build 时就完成】
 - 动态渲染
-  - `unstable_noStore`：
-
-
+  - 内容在请求时，由服务器为每个用户生成不同内容
+  - `unstable_noStore`    局部退出静态渲染 【实验性API】
+  - [Route Segment Config](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config)   基于 page 或 layout 配置渲染行为  【稳定的API】
+  - 使用动态呈现，应用程序的速度受最慢的数据获取速度影响，延迟到它获取后再返回。
 
 ```tsx
-import {} from 'next'
+import { unstable_noStore as noStore } from 'next/cache'
+export async function fetchRevenue( query: string, currentPage: number,) {
+  // 使用 noStore() 退出局部的静态缓存； 相当于 fetch(..., {cache: 'no-store'}).
+  noStore();
+  // ...
+}
+
+// 基于 page.tsx 或 layout.tsx 配置动态或静态渲染
+export const dynamic = "force-dynamic"
+```
+
+|                    | 静态渲染                                                     | 动态渲染                               |
+| ------------------ | ------------------------------------------------------------ | -------------------------------------- |
+| 数据获取和渲染时机 | build构建 或 [重新验证](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating#revalidating-data)期间，缓存到cdn中不再变化 | 服务器，每次请求时就渲染               |
+| 渲染结果           | 静态 html，可被分发、缓存、利于SEO                           | 实时数据、特定用户的内容、请求数据获取 |
+| 适用场景           | 没有数据，或可共享数据的UI结构                               | 需要定期更新、使用个性化数据的UI结构   |
+
+
+
+
+
+### Streaming流
+
+> 目的：在数据获取缓慢情况下，改善用户体验
+
+- Stream 流：一种数据传输技术，它允许您将路由分解为更小的“块”，并在它们准备就绪时将它们从服务器逐步流式传输到客户端。
+  - 防止缓慢的数据请求阻塞整个页面
+  - 允许用户查看页面的各个部分并与之交互，而无需等待加载所有数据
+- 实现方式 - 并行呈现各个块
+  - `loading.tsx`文件：路由级流，在页面渲染完成前的替代品，骨架/loading效果！
+    - 一般用于动态渲染的界面
+    - 在文件系统中外层的位置，适用于下级所有页面，可通过 [Route Groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups) 进行分类，改变这一行为。
+  - `<Suspense>`：细粒度、特定组件的流
+
+```tsx
+// 使用 loading.tsx 流式传输 整个路由页 与 page.tsx平级
+// 将当前loading效果仅作用在当前组件: 利用Router Group在当前目录下新建 (xxx) 并将page.tsx 和 loading.tsx 移入即可
+export default function Loading(){
+    return <div>loadin....</div>
+}
+
+
+// 使用 <Suspense> 实现细粒度流
+import { Suspense } from 'react';
+import { RevenueChartSkeleton } from '@/app/ui/skeletons';
+...
+// 使用 Suspense 包裹，需要动态渲染的特定组件，并提供fallback组件用于loading效果
+<Suspense fallback={<RevenueChartSkeleton />}>
+	<RevenueChart />
+</Suspense>
 ```
 
 
 
-|                | 静态渲染                                                     | 动态渲染                              |
-| -------------- | ------------------------------------------------------------ | ------------------------------------- |
-| 数据获取和渲染 | 服务器，在构建部署时完成渲染                                 | 服务器，每次请求时就渲染              |
-| 渲染结果       | 静态 html：可被分发、缓存的<br/>更快的访问体验、利于SEO<br/>没有变化的数据，多页面共享的数据 | 显示实时的数据、特定用户特定数据<br/> |
-|                |                                                              |                                       |
+#### 部分预渲染【实验】
 
-
+- 现状：
+  - 大多数路由并不是完全静态或动态的，但处理时是，默认会按照完全静态或动态处理`export const dynamic = "force-dynamic"`
+- 部分预渲染
+  - 提供静态路由外壳，隔离路由的动态部分，并行进行加载
+- [Learn Next.js: Partial Prerendering (Optional) | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/partial-prerendering)
 
 
 
