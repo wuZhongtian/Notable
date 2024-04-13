@@ -89,7 +89,7 @@
 
 - 请在文件顶部添加 React `'use client'`指令。这告诉 React 在客户端上渲染组件。
 
-<img src="images/NextJS/image-20240211132830442.png" alt="image-20240211132830442" style="zoom: 67%;" />
+<img src="./images/NextJS/image-20240211132830442.png" alt="image-20240211132830442" style="zoom: 67%;" />
 
 
 
