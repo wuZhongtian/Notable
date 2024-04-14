@@ -119,6 +119,10 @@ jsconfig.json	JavaScript 的配置文件
 
 ![image-20240207003149030](images/NextJS/image-20240207003149030.png)
 
+
+
+
+
 #### 创建布局和页面
 
 > - 使用文件系统路由创建路由
@@ -135,6 +139,48 @@ jsconfig.json	JavaScript 的配置文件
   ![image-20240313090209231](images/NextJS/image-20240313090209231.png)
 
 ![image-20240219172313063](images/NextJS/image-20240219172313063.png)
+
+
+
+
+
+
+
+### url参数的操作
+
+- [URLSearchParams - Web API](https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams)
+
+  > - `URLSearchParams` 生成对象可直接在 [`for...of`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...of) 结构中，以键/值对形式，按顺序进行迭代
+
+  ```js
+  const paramsString = "q=URLUtils.searchParams&topic=api";
+  // 返回一个 URLSearchParams 对象
+  const searchParams = new URLSearchParams(paramsString);
+  // 遍历 URLSearchParams 对象，获取每一个参数以及它的值
+  for (const [key, value] of searchParams) { ... }
+  
+  searchParams.has('xxx');		// 返回 Boolean 判断是否存在此查询参数
+  searchParams.get('xxx');		// 获取指定查询参数的第一个值
+  searchParams.set('page', '1');		// 设置指定查询参数的值
+  searchParams.append('xxx');      // 插入一个指定的键/值对作为新的查询参数
+  searchParams.delete('xxx');      // 删除指定的查询参数及其对应的值。
+                                            
+  params.toString();	// 转化为字符串形式的url参数，不带 ? 号
+  ```
+
+  
+
+- useSearchParams     NextJS方法
+
+  > - 需要在客户端组件中使用，才能获取到url信息
+  > - 在服务器组件中，应使用`req` 对象进行解析获取
+
+  ```tsx
+  import { useSearchParams } from 'next/navigation';	// next.js方法
+  const searchParams = useSearchParams();		// 获取url参数
+  ```
+
+  
 
 
 
@@ -457,7 +503,65 @@ import { RevenueChartSkeleton } from '@/app/ui/skeletons';
   - 大多数路由并不是完全静态或动态的，但处理时是，默认会按照完全静态或动态处理`export const dynamic = "force-dynamic"`
 - 部分预渲染
   - 提供静态路由外壳，隔离路由的动态部分，并行进行加载
-- [Learn Next.js: Partial Prerendering (Optional) | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/partial-prerendering)
+- 使用：
+  - Suspense 包装组件不会使组件本身成为动态的，只作为路由的静态和动态部分之间的边界。
+  - 单独使用`unstable_noStore`实现此行为，
+  - [Partial Prerendering](https://nextjs.org/docs/app/api-reference/next-config-js/partial-prerendering)
+
+
+
+
+
+
+### 添加搜索和分页
+
+> 使用url参数：可被共享、可被服务器获取和渲染、便于用户行为追踪
+
+- `useSearchParams`：访问当前url参数例：`?page=1 ==> {page:"1"}`
+- `usePathname`：获取当前url路径名：`/dashboard/invoices`
+- `useRouter`：编程式路由导航实现：[ useRouter ](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter)
+
+```tsx
+'use client';	// 声明客户端组件
+ 
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+ 
+export default function Search() {
+  const searchParams = useSearchParams();	// 获取url参数
+  const pathname = usePathname();	// 获取url路径
+  const { replace } = useRouter();	// 获取路由跳转方法
+ 
+   // term 当用户输入搜索词时触发 
+  function handleSearch(term: string) {
+    const params = new URLSearchParams(searchParams);	// 创建url参数对象
+    if (term) {
+      params.set('query', term);	// 设置url参数的query参数
+    } else {
+      params.delete('query');
+    }
+    replace(`${pathname}?${params.toString()}`);	// 路由replace跳转,Next中跳转并不会造成刷新
+  }
+    
+    
+    
+    return (
+    	<input placeholder={placeholder}
+  			onChange={ (e) => handleSearch(e.target.value) }
+  			defaultValue={searchParams.get('query')?.toString()} 	// 同步url参数，或使用state
+     	/>
+    )
+}
+
+```
+
+
+
+
+
+https://nextjs.org/learn/dashboard-app/mutating-data
+
+
 
 
 
