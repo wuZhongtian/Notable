@@ -543,8 +543,6 @@ export default function Search() {
     replace(`${pathname}?${params.toString()}`);	// 路由replace跳转,Next中跳转并不会造成刷新
   }
     
-    
-    
     return (
     	<input placeholder={placeholder}
   			onChange={ (e) => handleSearch(e.target.value) }
@@ -559,7 +557,44 @@ export default function Search() {
 
 
 
-https://nextjs.org/learn/dashboard-app/mutating-data
+### Server Actions
+
+> - React Server Actions：
+>   - 允许您直接在服务器上运行异步代码，无需通过API改变数据
+>   - 通过POST请求、加密闭包、严格的输入检查、错误消息哈希和主机限制等保障安全
+> - 关于 from标签 的 action 属性
+>   - html中：向`action`属性传递URL
+
+- `<from>`
+
+  - `<from>`标签的`action`属性，将自动接收包含捕获数据的本机 FormData对象【在React中】
+  - 即使用户禁用 JavaScript，依据可以工作
+
+  ```tsx
+  // actions.tsx 文件，创建Server action操作
+  'use server'		// 将该文件导出的函数标记为服务器函数，可通用的导入客户端和服务器组件中
+  export async function createInvoice(formData: FormData) {
+      ...
+  }
+  
+  import { createInvoice } from '@/app/lib/actions';
+  export default function Form({ customers, }: { customers: customerField[]; }) {
+      /* async function create(formData: FormData) {
+  		'use server';		// 也可直接添加'use server'编写Server Actions   
+  		// .... 
+  	} */
+    	return (
+          <form action={createInvoice}>	<!-- 配置action属性，传入数据处理的Server Actions函数 -->
+            // ...
+    	)
+  }
+  ```
+
+
+
+- 服务器操作与Next.js[缓存](https://nextjs.org/docs/app/building-your-application/caching)深度集成。当通过服务器操作提交表单时，不仅可以使用该操作来改变数据，还可以使用`revalidatePath`和`revalidateTag`等API重新验证关联的缓存。
+
+[Learn Next.js: Mutating Data | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/mutating-data#3-extract-the-data-from-formdata)
 
 
 
