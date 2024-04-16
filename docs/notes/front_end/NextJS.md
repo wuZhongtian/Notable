@@ -295,6 +295,9 @@ export default function Page() {
   - 小括号包裹的文件夹，用来分类当前路径下的所有路由，可做不同的`page\layout\loading.tsx`配置
   - url 路径中并不会包含 xxxx
 
+- `[xxx]`     动态路由，此处的路由段为任意值
+  - 在路由跳转中可任意传值，在当前组件中，
+  
 - 目录下的其他文件，不会被暴露在浏览器的路由中，只有 page.tsx
 
 ```tsx
@@ -563,40 +566,67 @@ export default function Search() {
 >   - 允许您直接在服务器上运行异步代码，无需通过API改变数据
 >   - 通过POST请求、加密闭包、严格的输入检查、错误消息哈希和主机限制等保障安全
 > - 关于 from标签 的 action 属性
->   - html中：向`action`属性传递URL
-
-- `<from>`
-
-  - `<from>`标签的`action`属性，将自动接收包含捕获数据的本机 FormData对象【在React中】
-  - 即使用户禁用 JavaScript，依据可以工作
-
-  ```tsx
-  // actions.tsx 文件，创建Server action操作
-  'use server'		// 将该文件导出的函数标记为服务器函数，可通用的导入客户端和服务器组件中
-  export async function createInvoice(formData: FormData) {
-      ...
-  }
-  
-  import { createInvoice } from '@/app/lib/actions';
-  export default function Form({ customers, }: { customers: customerField[]; }) {
-      /* async function create(formData: FormData) {
-  		'use server';		// 也可直接添加'use server'编写Server Actions   
-  		// .... 
-  	} */
-    	return (
-          <form action={createInvoice}>	<!-- 配置action属性，传入数据处理的Server Actions函数 -->
-            // ...
-    	)
-  }
-  ```
-
-
+>   - html中：向`action`属性传递URL，提交表单的地址
+>   - React中：特殊的属性，Server Actions，传入一个服务器函数
+>   - Server Actions 执行时机：点击表单提交时执行在服务器中
+> - 数据验证的三方工具库 - [Zod](https://zod.dev/)
 
 - 服务器操作与Next.js[缓存](https://nextjs.org/docs/app/building-your-application/caching)深度集成。当通过服务器操作提交表单时，不仅可以使用该操作来改变数据，还可以使用`revalidatePath`和`revalidateTag`等API重新验证关联的缓存。
+  - Next.js使用 - [客户端路由器缓存](https://nextjs.org/docs/app/building-your-application/caching#router-cache)，在用户浏览器中[预取](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#1-prefetching)+存储路由数据，确保用户路由的快速切换，同时减少向服务器发出的请求数量。
+  - 当通过Server action 操作数据库后，希望清除缓存并触发对服务器请求时，可使用实现
 
-[Learn Next.js: Mutating Data | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/mutating-data#3-extract-the-data-from-formdata)
+- `<from>`
+  - `<from>`标签的`action`属性，将自动接收包含捕获数据的本机 FormData对象【在React中】
+  - 即使用户禁用 JavaScript，依据可以工作
+- [`revalidatePath`](https://nextjs.org/docs/app/api-reference/functions/revalidatePath)函数：清除指定路由页的缓存，获取最新数据`import { revalidatePath } from 'next/cache';`
+- [`redirect`](https://nextjs.org/docs/app/api-reference/functions/redirect)函数：重定向用户的路由，`import { redirect } from 'next/navigation';`
+
+```tsx
+/* 案例：通过from组件的action进行向数据库，提交新的数据 */
+// actions.tsx 文件，创建Server action操作
+'use server'		// 将该文件导出的函数标记为服务器函数，可通用的导入客户端和服务器组件中
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation';
+import {z} from 'zod'		// 数据预处理 - 借助 zod三方库
+const FormSchema = z.object({
+    id: z.string(),
+    customerId: z.string(),		// 检查customerId是否存在，并且值为string
+    amount: z.coerce.number(),	// 强制转化为number类型
+    status：z.string()
+})
+const CreateInvoice = FormSchema.omit({ id:true });		// 在已有验证器的基础上移除某个字段的规则，生成新的验证器
+export async function createInvoice(formData: FormData) {
+	// 将获取的表单数据进行 预处理,得到最终值
+	const { customerId,amount,status } = CreateInvoice.parse({
+    	customerId: formData.get('customerId'),
+    	amount: formData.get('amount'),
+    	status: formData.get('status'),
+	});
+    // .... 操作数据库
+    revalidatePath('/dashboard/xxxx');	// 清除指定路由页面的缓存，获取最新数据
+    redirect('/dashboard/xxx');		// 重定向用户的页面，实现数据的更新
+}
 
 
+// from 表单组件.tsx
+import { createInvoice } from '@/app/lib/actions';
+export default function Form({ customers, }: { customers: customerField[]; }) {
+    /* async function create(formData: FormData) {
+		'use server';		// 也可直接添加'use server'编写Server Actions   
+		// .... 
+	} */
+  	return (
+        <form action={createInvoice}>	<!-- 配置action属性，传入数据处理的Server Actions函数 -->
+          // ...
+  	)
+}
+```
+
+```tsx
+/* 案例：编辑现有的数据，并更新到数据库 */
+
+
+```
 
 
 
