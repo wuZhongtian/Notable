@@ -6,7 +6,7 @@
 > - 优化：图像、字体和脚本优化，以改善应用程序的核心 Web 关键点和用户体验。
 > - Next.js 现在默认附带 TypeScript，ESLint 和 Tailwind CSS 配置。
 > - 特性：可添加伪后端代码，适用于文件系统、链接数据库，添加API
-> - 其他特点：更好的SEO优化、
+> - 其他特点：更好的SEO优化、潜在问题：同级页面存在操作数据库的操作，刷新响应会很慢！
 
 ## 基础入门
 
@@ -291,12 +291,14 @@ export default function Page() {
     - 多个子路由中【共享数据】，也利于实现局部渲染
     - 当前目录如果存在`page.tsx`，也会作为单独的路由页存在于当前的 `layout.tsx`
   - `loading.tsx`  预备UI，在页面渲染未完成时的占位，用于做loading骨架屏效果！
+  - `error.tsx`   错误处理UI，必须是客户端组件，当前级别页面出错时展示
+  - `not-fount.tsx` 通过逻辑判断，手动调用错误展示，优先级高于error.tsx【更具体 de 自定义错误处理】
 - `(xxxx)`    路由组
   - 小括号包裹的文件夹，用来分类当前路径下的所有路由，可做不同的`page\layout\loading.tsx`配置
   - url 路径中并不会包含 xxxx
 
-- `[xxx]`     动态路由，此处的路由段为任意值
-  - 在路由跳转中可任意传值，在当前组件中，
+- `[xxx]`     [动态路由](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes)，此处的路由段为任意值
+  - 可在路由跳转中传任意值，并在当前路由的所有子路由page.tsx中，通过 params.xxx获取动态参数
   
 - 目录下的其他文件，不会被暴露在浏览器的路由中，只有 page.tsx
 
@@ -327,19 +329,45 @@ export default function Layout({children}:{children:React.ReactNode}){
 
 
 
-
-////>>>>?????
-// app/blog/[post]/layout.js
+// 动态路由参数
+// app/blog/[post]/page.tsx
+export async function generateMetadata({params}){
+    console.log(params.post);	// 获取动态路由的参数值
+    return{
+        title:params.post,	// 自定义浏览器标签页的文字
+    }
+}
+// app/blog/[post]/layout.tsx
 export default const BlogLayout = ({children})=>{
     return children;
 }
 
 
-export async function generateMetadata({params}){
-    return{
-        title:params.post,	// 自定义浏览器标签页的文字
-    }
+// error.tsx 错误处理UI - 客户端组件
+'use client'
+import { useEffect } from 'react'
+export default function Error({error,reset}:{
+    error:Error & { digest?: string};	// 错误信息
+    reset: ()=>void;	// 重试函数
+}){
+    useEffect(()=>{
+        console.log(error);
+    },[error])
+    return (<div>
+            	<p>页面出错了！！！</p>
+                <button onClick={()=>reset()}>重试</button>
+            </div>)
 }
+
+
+// notFound 函数
+import { notFound } from 'next/navigation';
+....
+// 当不满足需求时，手动调用notFound函数触发错误，展示当前路由下的not-font.tsx内容
+if (!invoice) {
+    notFound();
+}
+....
 ```
 
 
@@ -416,7 +444,7 @@ const invoiceStatusPromise = sql`SELECT
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
-const data = await Promise.all([
+const [data1,data2,data3] = await Promise.all([
       invoiceCountPromise,
       customerCountPromise,
       invoiceStatusPromise,
@@ -624,11 +652,89 @@ export default function Form({ customers, }: { customers: customerField[]; }) {
 
 ```tsx
 /* 案例：编辑现有的数据，并更新到数据库 */
-
-
+// 1.将初始数据展示到编辑区，用户通过修改并提交完成更新
+// - 技巧点：在from标签的action中传递多个参数时，默认只有一个参数为表单数据，通过bind方法，const xxaction = actionFn.bind(null,id),确保传递给服务器的数据都经过编码
+// 或通过使用隐藏的input作为表单内容提交，但不安全，可在源码中看到
+// <input type="hidden" name="id" value={invoice.id} />
+/* 案例：删除数据  */
 ```
 
 
+
+
+
+
+
+
+
+
+
+### 错误处理
+
+- 使用`try/catch`语句包裹数据库操作【服务器报错】
+- `error.tsx`错误处理文件，与page.tsx同级，当前级别路由发生错误时，使用error.tsx组件代替展示 - 客户端组件！【页面所有报错】
+- `not-fount.tsx` 通过逻辑判断，手动调用错误展示，优先级高于error.tsx【更具体 de 自定义错误处理】
+
+
+
+```tsx
+// try/catch 捕获错误
+try {
+  await sql`
+    INSERT INTO invoices (customer_id, amount, status, date)
+    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+  `;
+} catch (error) {
+  return {
+    message: 'Database Error: Failed to Create Invoice.',
+  };
+}
+
+// error.tsx 错误处理UI - 客户端组件
+'use client'
+import { useEffect } from 'react'
+export default function Error({error,reset}:{
+    error:Error & { digest?: string};	// 错误信息
+    reset: ()=>void;	// 重试函数
+}){
+    useEffect(()=>{
+        console.log(error);
+    },[error])
+    return (<div>
+            	<p>页面出错了！！！</p>
+                <button onClick={()=>reset()}>重试</button>
+            </div>)
+}
+
+// notFound 函数
+import { notFound } from 'next/navigation';
+....
+// 当不满足需求时，手动调用notFound函数触发错误，展示当前路由下的not-font.tsx内容
+if (!invoice) {
+    notFound();
+}
+....
+```
+
+
+
+
+
+
+
+### 可访问性|无障碍
+
+> - 无障碍：例如：图片的alt属性，在无障碍模式下，触摸到图片会读出alt的内容
+>   - nextJS默认安装了`eslint-plugin-jsx-a11y`插件，可用于检查代码是否符合**可访问性**要求
+> - 表单验证
+>   - 
+
+```tsx
+// 1.在package.js 中添加 "lint" ：next lint,
+npm run lint	// 2.检查代码
+```
+
+[Learn Next.js: Improving Accessibility | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/improving-accessibility)
 
 
 
@@ -654,7 +760,6 @@ export default function Form({ customers, }: { customers: customerField[]; }) {
 
 ```js
 import { NextResponse } from 'next/server';
-export async function 
 ```
 
 
