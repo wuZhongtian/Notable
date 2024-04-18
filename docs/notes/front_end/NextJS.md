@@ -722,19 +722,39 @@ if (!invoice) {
 
 
 
-### 可访问性|无障碍
+### 可访问性|表单验证
 
-> - 无障碍：例如：图片的alt属性，在无障碍模式下，触摸到图片会读出alt的内容
+> - 可访问性/无障碍：例如：图片的alt属性，在无障碍模式下，触摸到图片会读出alt的内容
 >   - nextJS默认安装了`eslint-plugin-jsx-a11y`插件，可用于检查代码是否符合**可访问性**要求
 > - 表单验证
->   - 
+>   - 如何实现服务器端的表单数据进行验证，并展示错误信息到用户界面？
+>   - 客户端验证存在局限性，服务器验证兜底保障数据安全！
+
+- `eslint-plugin-jsx-a11y` 辅助检验可访问性问题
+- `useFormState`   客户端hook
+  - 
 
 ```tsx
-// 1.在package.js 中添加 "lint" ：next lint,
-npm run lint	// 2.检查代码
+// 1.在package.js 中添加 lint 指令
+"scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "seed": "node -r dotenv/config ./scripts/seed.js",
+    "start": "next start",
+    "lint": "next lint"
+},
+npm run lint	// 2.运行指令，检查代码，根据提示修改代码【build构建过程的一部分】
 ```
 
+
+
+
+
 [Learn Next.js: Improving Accessibility | Next.js (nextjs.org)](https://nextjs.org/learn/dashboard-app/improving-accessibility)
+
+[ Next.js-14-表单验证 Form Validation丨useFormState](https://www.bilibili.com/video/BV1Zf421d7NL/?spm_id_from=333.1007.top_right_bar_window_history.content.click)
+
+
 
 
 
@@ -742,7 +762,7 @@ npm run lint	// 2.检查代码
 
 
 
-#### 修改tsconfig.json，防止vercel部署报错
+### 修改tsconfig.json，防止vercel部署报错
 
 ```json
 "baseUrl":".",
@@ -756,7 +776,11 @@ npm run lint	// 2.检查代码
 
 
 
-#### API设置
+### 部署在服务器子路径
+
+[Next.js 静态站如何部署在子路径 - 手册 (toulan.fun)](https://manual.toulan.fun/posts/nextjs-deploy-static-site-to-sub-folder/)
+
+### API设置
 
 ```js
 import { NextResponse } from 'next/server';
