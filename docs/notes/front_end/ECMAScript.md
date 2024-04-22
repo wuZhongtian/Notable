@@ -98,14 +98,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                                                     
+  >                                                                                                                                                                                                                                                           
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                                                     
+  >                                                                                                                                                                                                                                                           
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -3028,7 +3028,51 @@ socket.emit('go',{password:'123'});
 
 
 
-## 蓝牙
+## Web Bluetooth API
+
+> Web Bluetooth API 提供了与**低功耗蓝牙设备**进行连接和交互的能力
+
+- Bluetooth
+  - `getAvailability()`方法：检测设备是否支持蓝牙
+    - 支持但不一定可用，如用户禁用API、蓝牙未通电等
+  - `requestDevice()`方法：返回符合条件的设备列表
+    - filters 筛选器数组
+      - services：蓝牙设备必须支持的蓝牙[GATT](https://github.com/WebBluetoothCG/registries/blob/master/gatt_assigned_services.txt)服务，或传递完整的服务UUID
+  
+- 不建议使用【支持性差！】
+
+  - `getDevices(options)`方法：返回允许访问的蓝牙设备-包括超出范围并关闭的设备
+
+    - options：设备筛选条件
+
+      - `filters`：筛选器对象数组，指示将要匹配的设备的属性，设备必须满足所有条件！
+    
+      - [`acceptAllDevices`](https://developer.mozilla.org/en-US/docs/Web/API/Bluetooth/requestDevice#acceptalldevices)：布尔值，指示请求脚本可以接受所有蓝牙设备。 默认值为 。`false`
+    
+    
+      ```js
+      let options = {
+        filters: [
+          { services: ["heart_rate"] }, // 指示蓝牙支持的GATT
+          { services: [0x1802, 0x1803] }, // service IDs
+          { services: ["c48e6067-5295-48d3-8d5c-0395f61792b1"] }, // UUID
+          { name: "ExampleName" }, // 设备的精确名称
+          { namePrefix: "Prefix" }, // 名称前缀的字符串,所有名称以此字符串开头的设备都将匹配
+        ],
+        optionalServices: ["battery_service"], // 可选服务标识符的数组,与services数组的取值相同（GATT 服务名称、服务 UUID 或 UUID 短 16 位或 32 位形式）
+      };
+      
+      navigator.bluetooth
+        .requestDevice(options)
+        .then((device) => {
+          console.log(`Name: ${device.name}`);
+          // Do something with the device.
+        })
+        .catch((error) => console.error(`Something went wrong. ${error}`));
+      ```
+    
+    - 返回值：Promise，使用[`BluetoothDevice`](https://developer.mozilla.org/en-US/docs/Web/API/BluetoothDevice)对象的数组进行解析
+
 
 ```js
 // 设备是否支持蓝牙检测：
@@ -3037,9 +3081,11 @@ navigator?.bluetooth.getAvailability().then((available)=>{
 })
 
 
-// 暴露允许此来源访问的蓝牙设备 Promise
-// 注意：返回一个的BluetoothDevice数组， 允许当前源访问的设备，包括超出范围或断电的设备 
-getDevices()
+
+
+
+// 返回允许此来源访问的蓝牙设备 Promise
+navigator?.bluetooth.getDevices()
 // 返回数据说明
 [
     {
