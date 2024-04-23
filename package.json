@@ -10,5 +10,8 @@
 	"scripts": {
 		"docs:dev": "vuepress dev docs",
 		"docs:build": "vuepress build docs"
+	},
+	"dependencies": {
+		"@splinetool/runtime": "^1.1.5"
 	}
 }

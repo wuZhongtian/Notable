@@ -7,7 +7,7 @@ import { docsearchPlugin } from "@vuepress/plugin-docsearch";
 export default {
   // base: "/apps/notes",
   title: "夏之一周间",
-  description: "探索者的成长日记",
+  description: "",
   head: [
     ["link", { rel: "icon", href: "/logo.ico" }],
     ["meta", { name: "keywords", content: "夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
