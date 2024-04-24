@@ -150,6 +150,7 @@ export default {
         "/notes/Linux.md",
         "/notes/网络安全.md",
         "/notes/其他概念.md",
+        "/notes/工具资源.md",
       ],
     },
   }),
