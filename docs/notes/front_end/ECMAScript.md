@@ -98,14 +98,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                                                           
+  >                                                                                                                                                                                                                                                             
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                                                           
+  >                                                                                                                                                                                                                                                             
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -3082,26 +3082,18 @@ navigator?.bluetooth.getAvailability().then((available)=>{
 
 
 
-
-
-// 返回允许此来源访问的蓝牙设备 Promise
-navigator?.bluetooth.getDevices()
-// 返回数据说明
-[
-    {
-        id:xx,	// String，设备唯一标识
-        name:"哈哈哈",	// 为设备提供的可读名称字符串
-        gatt:""	// A reference to the device's BluetoothRemoteGATTServer.
-        // BluetoothRemoteGATTServer 参考 https://developer.mozilla.org/en-US/docs/Web/API/BluetoothRemoteGATTServer
-        ...
-    }
-]
-
-
 // 为设备请求设置选项的对象。可用选项包括：
 requestDevice()
 requestDevice(options)
 ```
+
+**暂停更新：使用taro 跨端方案，文档更完善，支持更好（原生太折磨人，且无法扩展到其他平台！）**
+
+
+
+
+
+
 
 
 
