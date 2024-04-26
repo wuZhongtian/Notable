@@ -1,3 +1,10 @@
+/*
+ * @Author: 夏之一周
+ * @Date: 2023-10-08 13:23
+ * @Description: 
+ * @LastEditors: 夏之一周 <https://wudetian.top>
+ * @LastEditTime: 2024-04-26 14:22
+ */
 // 配置文件
 
 import { defineUserConfig, defaultTheme } from "vuepress";
@@ -10,8 +17,9 @@ export default {
   description: ' ',
   head: [
     ["link", { rel: "icon", href: "/logo.ico" }],
-    ["meta", { name: "keywords", content: "夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
-    ["meta", { name: "description", content: "夏之一周间、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
+    ["meta", { name: "keywords", content: "夏之一周间、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
+    ["meta", { name: "description", content: "夏之一周间、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
+    ["meta", { name: "baidu-site-verification", content: "codeva-HRcMvYvHP8" }],
     [
       "script",
       {},
