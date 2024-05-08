@@ -1586,6 +1586,50 @@ proxy.$api.getTableDate(params).then(()=>{
 
 
 
+### define免引入方法
+
+#### defineProps
+
+#### defineEmits
+
+#### defineExpose
+
+>  使用 `<script setup> `语法糖的组件是默认关闭的，即通过`ref`或`$parent`获取组件，拿不到任何在 `<script setup>`中声明的绑定
+>
+> 使用defineExpose暴露需要外界使用的属性和方法
+
+```vue
+<script setup>
+/* 子组件 */
+import { ref } from 'vue'
+const name = ref("张三")
+const sayName = ()=>{
+    console.log("我叫 "+name.value)
+}
+defineExpose({ name, sayName });
+</script>
+
+// 父组件
+<template>
+    <Child ref="child"></Child>
+</template>
+<script setup>
+import { ref, onMounted } from 'vue'
+const child = ref(null)
+onMounted(()=>{
+    console.log(child.value.name)	// "张三"
+    child.value.sayName()		// "我叫张三"
+})
+</script>
+
+```
+
+
+
+
+
+
+
 ## 其他内容
 
 ### IDE及插件

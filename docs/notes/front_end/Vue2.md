@@ -2324,10 +2324,33 @@ export default {
   - props配置    单向数据流
   - this.$parent  访问父组件
   - Vue插槽   向子组件中插入的结构，可以使用父组件中的数据
+  
 - 子组件 => 父组件
   - 借助自定义事件 父组件中为子组件绑定事件，子组件中$emit()触发事件并传递数据
+  
   - slot 插槽占位，
+  
+    ```html
+    <!-- 父组件，接受子组件的值 -->
+     <son-com>
+          <!-- 必须用template标签包裹，val为自定义的属性值，接收到的是一个对象 -->
+          <template v-slot="{ index }">
+            <div>{{val.msg}}</div>		 <!--msg为子组件的自定义属性  -->
+          </template>
+    </son-com>
+    
+    <!-- 子组件,通过slot绑定值 -->
+    <div>
+        <!-- 自定义属性进行传值 -->
+        <slot :msg="message"></slot>
+        <div id="son">{{message2}}</div>
+    </div>
+    ```
+  
+    
+  
   - this.$children  访问子组件
+  
 - 任意组件间通信
   - $bus
   - 访问根实例 vm（$root 属性），在任意组件中都可以访问到vm上的内容

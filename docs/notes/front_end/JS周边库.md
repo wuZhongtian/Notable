@@ -606,9 +606,9 @@ selection.call( d3.zoom()
 
 
 
-
-
 ## css样式周边
+
+
 
 ### classnames动态类名
 
@@ -653,6 +653,22 @@ module.exports = {
   },
 };
 ```
+
+
+
+
+
+### [cva.style](https://cva.style/docs)
+
+- [Tailwind CSS + cva 实现样式变体组件 - 掘金 (juejin.cn)](https://juejin.cn/post/7290802328722276352)
+
+
+
+
+
+
+
+
 
 
 
