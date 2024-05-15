@@ -604,6 +604,12 @@ selection.call( d3.zoom()
 
 
 
+## Events.js
+
+[browserify/events: Node's event emitter for all engines. (github.com)](https://github.com/browserify/events#readme)
+
+
+
 
 
 ## css样式周边

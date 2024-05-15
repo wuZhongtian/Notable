@@ -2532,3 +2532,9 @@ jwt.verify(token,'加密字符串',(err,data)=>{
 
 
 
+## 进阶
+
+### EventEmitter
+
+- [Node.js EventEmitter | 菜鸟教程 (runoob.com)](https://www.runoob.com/nodejs/nodejs-event.html)
+
