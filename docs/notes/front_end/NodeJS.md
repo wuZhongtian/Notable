@@ -114,20 +114,19 @@
 
 #### [NVM](https://www.cnblogs.com/cencenyue/p/10430618.html)
 
-> - nvm - node版本控制工具
+> - nvm - node版本管理工具，实现多个Node版本的灵活切换
 > - [Releases · coreybutler/nvm-windows · GitHub](https://github.com/coreybutler/nvm-windows/releases)
 > - https://github.com/nvm-sh/nvm
-
-- Node版本的管理工具 当需要多个版本的node时，使用Nvm可以同时管理过个版本；
 
 - `安装Nvm之前，需要删除现有的node`
 
 - 加快node下载的速度
-  - nvm安装后，打开安装的目录文件setting.txt
-    -  C:\Program Files\nodejs
-  - 我的安装目录：C:\Users\wzt\AppData\Roaming\nvm
-  - 加入：node_mirror:https://npm.taobao.org/mirrors/node/
-    npm_mirror:https://npm.taobao.org/mirrors/npm/
+  ```sh
+  # nvm安装后，打开安装目录下的 setting.txt   （默认：C:\Program Files\nodejs）
+  # 加入：
+  nvm npm_mirror https://npmmirror.com/mirrors/npm/
+  nvm node_mirror https://npmmirror.com/mirrors/node/
+  ```
 
 
 

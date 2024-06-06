@@ -5,18 +5,17 @@
 
 ### 创建项目
 
-- 使用 Vue-cli 创建（Vue-cli 版本4.5.0  +）
+- 使用 Vue-cli 创建（已安装 18.3 或更高版本的 [Node.js](https://nodejs.org/)）
 
   > 官方更推荐使用 vite创建vue3项目
 
   ```js
-  vue -V // 查看Vue-cli 版本   （4.5.0+ 才能创建vue3）
+  vue -V
   
-  vue create 项目名  // *创建vue3项目
-  npm run serve //运行项目 
-  npm run build //项目打包
+  pnpm create vue@latest  // *创建vue3项目
+  pnpm dev //运行项目
   ```
-
+  
 - 使用 [Vite](https://vitejs.cn/) 创建
 
   ```js
@@ -1400,7 +1399,8 @@ let { count } = storeToRefs(store)
 
 > 问题：pinia/vuex管理的状态，在手动刷新浏览器时，状态管理的数据都会丢失，被初始化，需要进行持久化存储，常用方式是sessionStroage或localStorage手动保存，或借助第三方插件完成。
 
-[Getting started | Pinia Plugin Persist (seb-l.github.io)](https://seb-l.github.io/pinia-plugin-persist/)
+- 方案1：[pinia-plugin-persistedstate (prazdevs.github.io)](https://prazdevs.github.io/pinia-plugin-persistedstate/zh/)
+- 方案2：[Getting started | Pinia Plugin Persist (seb-l.github.io)](https://seb-l.github.io/pinia-plugin-persist/)
 
 
 
