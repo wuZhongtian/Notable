@@ -560,6 +560,10 @@ selection.call( d3.zoom()
 
 
 
+## [Vxe Table v4](https://vxetable.cn/#/start/install)
+
+
+
 
 
 ## 用户指引
@@ -572,6 +576,18 @@ selection.call( d3.zoom()
 ## [Lodash 简介 ](https://www.lodashjs.com/)
 
 > Lodash 通过降低 array、number、objects、string 等等的使用难度从而让 JavaScript 变得更简单
+>
+> - [安装lodash-es - 掘金 (juejin.cn)](https://juejin.cn/post/7354940462061715497)
+>   - **lodash-es**是一个基于著名的JavaScript实用工具库`lodash`的模块化版本，专为使用ECMAScript（ES）模块规范的现代项目设计   **更轻量、更易于优化**
+
+```js
+// 安装
+npm install --save lodash-es
+// 使用
+import { map, filter, reduce } from 'lodash-es';
+```
+
+
 
 ### [防抖函数](https://www.lodashjs.com/docs/lodash.debounce)
 
@@ -608,7 +624,7 @@ selection.call( d3.zoom()
 
 [browserify/events: Node's event emitter for all engines. (github.com)](https://github.com/browserify/events#readme)
 
-
+## [Day.js 时间处理](https://day.js.org/zh-CN/)
 
 
 

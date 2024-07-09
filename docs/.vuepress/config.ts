@@ -1,7 +1,7 @@
 /*
  * @Author: 夏之一周
  * @Date: 2023-10-08 13:23
- * @Description: 
+ * @Description:
  * @LastEditors: 夏之一周 <https://wudetian.top>
  * @LastEditTime: 2024-04-26 14:22
  */
@@ -14,11 +14,25 @@ import { docsearchPlugin } from "@vuepress/plugin-docsearch";
 export default {
   // base: "/apps/notes",
   title: "夏之一周间",
-  description: ' ',
+  description: " ",
   head: [
     ["link", { rel: "icon", href: "/logo.ico" }],
-    ["meta", { name: "keywords", content: "夏之一周间、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
-    ["meta", { name: "description", content: "夏之一周间、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添" }],
+    [
+      "meta",
+      {
+        name: "keywords",
+        content:
+          "夏之一周间、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添",
+      },
+    ],
+    [
+      "meta",
+      {
+        name: "description",
+        content:
+          "夏之一周间、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添",
+      },
+    ],
     ["meta", { name: "baidu-site-verification", content: "codeva-HRcMvYvHP8" }],
     [
       "script",
@@ -116,14 +130,26 @@ export default {
             "/notes/front_end/React+.md",
             "/notes/front_end/NodeJS.md",
             {
+              text: "微前端",
+              link: "/notes/front_end/微前端.md",
+            },
+            {
               text: "小程序",
               collapsible: true,
-              children: ["/notes/front_end/小程序/微信小程序.md", "/notes/front_end/小程序/uniapp.md", "/notes/front_end/小程序/有赞组件开发.md", "/notes/front_end/小程序/饿了么组件开发.md"],
+              children: [
+                "/notes/front_end/小程序/微信小程序.md",
+                "/notes/front_end/小程序/uniapp.md",
+                "/notes/front_end/小程序/有赞组件开发.md",
+                "/notes/front_end/小程序/饿了么组件开发.md",
+              ],
             },
             {
               text: "JS周边库",
               collapsible: true,
-              children: ["/notes/front_end/JS周边库/fabric.md", "/notes/front_end/JS周边库.md"],
+              children: [
+                "/notes/front_end/JS周边库/fabric.md",
+                "/notes/front_end/JS周边库.md",
+              ],
             },
             "/notes/front_end/前后端通讯.md",
             "/notes/front_end/TypeScript.md",
@@ -137,7 +163,15 @@ export default {
         {
           text: "嵌入式",
           collapsible: true,
-          children: ["/notes/embedded/stm32.md", "/notes/embedded/ESP32-Python.md", "/notes/embedded/模电数电.md", "/notes/embedded/C语言.md", "/notes/embedded/计算机网络.md", "/notes/embedded/51单片机.md", "/notes/embedded/其他概念.md"],
+          children: [
+            "/notes/embedded/stm32.md",
+            "/notes/embedded/ESP32-Python.md",
+            "/notes/embedded/模电数电.md",
+            "/notes/embedded/C语言.md",
+            "/notes/embedded/计算机网络.md",
+            "/notes/embedded/51单片机.md",
+            "/notes/embedded/其他概念.md",
+          ],
         },
         {
           text: "数据库",
@@ -147,7 +181,10 @@ export default {
         {
           text: "鸿蒙开发",
           collapsible: true,
-          children: ["/notes/harmonyos/应用开发.md", "/notes/harmonyos/设备开发.md"],
+          children: [
+            "/notes/harmonyos/应用开发.md",
+            "/notes/harmonyos/设备开发.md",
+          ],
         },
         {
           text: "Blender建模",
