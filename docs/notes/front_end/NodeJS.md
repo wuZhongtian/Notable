@@ -124,8 +124,8 @@
   ```sh
   # nvm安装后，打开安装目录下的 setting.txt   （默认：C:\Program Files\nodejs）
   # 加入：
-  nvm npm_mirror https://npmmirror.com/mirrors/npm/
-  nvm node_mirror https://npmmirror.com/mirrors/node/
+  node_mirror: https://npmmirror.com/mirrors/node/
+  npm_mirror: https://npmmirror.com/mirrors/npm/
   ```
 
 
