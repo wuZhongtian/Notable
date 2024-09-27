@@ -185,6 +185,30 @@ git rm -cached 文件名            # 从版本库中删除该文件
 git rev-parse --is-inside-work-tree   # 判断当前路径是不是git仓库，是则返回true；返回其他值，都是非git仓库。
 ```
 
+- git仓库代码量统计
+
+  ```sh
+  # 查看git上的个人代码量：  替换-name
+  git log --author="name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
+  
+  git log --author="wudetian.top" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
+  
+  # 统计某个时间段所有人的代码量：替换（时间 name-自己的名称）
+  git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --since ==2023–08-01 --until=2023-08-31 --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
+  
+  git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --since ==2024-08-28 --until=2024-09-28 --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
+  
+  # 统计某段时间个人的代码量：替换（时间 name-自己的名称）
+  git log --since="2023–10-01" --until="2023-10-31"  --author="name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s, 移除行数: %s, 总行数: %s\n", add, subs, loc }' 
+  
+  git log --since="2024-08-28" --until="2024-09-28"  --author="wudetian.top" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s, 移除行数: %s, 总行数: %s\n", add, subs, loc }' 
+  
+  # 统计每个人的增删行数
+  git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
+  ```
+
+  
+
 - 代码回退
   1. reset 是回退代码到某一版本，某一版本以后的代码都不保存
   2. revert 是只回退某一版本代码，对齐它版本代码不影响(推荐)
@@ -317,6 +341,8 @@ text.html        # 直接写文件名，忽略当前项目下所有名为 text.h
 /node_modules    # 忽略当前文件夹下的 node_modules 文件和文件夹
 ```
 
+
+
 ### 冲突合并
 
 - 合并分支前，需要先切换到合成的分支中，再合并需要合并的分支.
@@ -337,9 +363,9 @@ text.html        # 直接写文件名，忽略当前项目下所有名为 text.h
 - refs 分支信息：
 - index 暂存文件：存放暂存区文件的文件。
 
-### 多人协作
 
-Github 团队协作开发管理比较容易，可以创建一个组织。
+
+### 多人协作
 
 - 首页 — 右上角+号 — new Organization
 - 免费计划

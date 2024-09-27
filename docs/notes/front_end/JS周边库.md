@@ -562,7 +562,23 @@ selection.call( d3.zoom()
 
 ## [Vxe Table v4](https://vxetable.cn/#/start/install)
 
+### 问题记录
 
+- 问题1： VxeGrid使用重置按钮时  @form-reset="gridformReset"   第一次重置后的值带不过去，还是上一个条件的参数？！
+
+  - 解决方案：使用  nextTick   包裹
+
+    ```js
+    query: ({ page, form }) => {
+        return nextTick(async () => {
+        	...
+        })
+      }
+    ```
+
+- 问题2：
+
+  - 解决方案：
 
 
 
@@ -651,11 +667,119 @@ import classnames from 'classnames'
 
 
 
+
+
+### [UnoCSS](https://unocss.dev/)
+
+- [Next.js 中使用 UnoCSS 及其图标样式方案](https://juejin.cn/post/7340907184639442944)
+
+```js
+// 示例：nextJS中使用
+1. pnpm add -D unocss @unocss/postcss
+
+2. 创建 uno.config.ts 文件，配置样式预设
+
+3.globals.css 中 导入 
+	@import "@unocss/reset/tailwind.css";
+	@unocss all;
+
+4.修改postcss.config.ts
+module.exports = {
+  plugins: {
+    '@unocss/postcss': {
+      content: [
+        './pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './components/**/*.{js,ts,jsx,tsx,mdx}',
+        './app/**/*.{js,ts,jsx,tsx,mdx}',
+        '**/*.{html,js,ts,jsx,tsx}'
+      ]
+    }
+  }
+}
+
+5.使用图标库
+pnpm i @iconify-json/xxxx   // 安装所需图标库
+```
+
+
+
 ### [Tailwind CSS](https://www.tailwindcss.cn/)
 
-> css in js 方案
->
-> 基础的使用描述，参考文档链接即可；此处仅提供不常用的小问题解决方法
+#### 使用
+
+- [伪类 Hover, Focus...TailwindCSS汇总](https://www.tailwindcss.cn/docs/hover-focus-and-other-states#quick-reference)
+
+```css
+/* 主题 */
+dark:text-white   /* 默认为亮色模式，使用dark配置暗色模式样式 */
+
+/* 常用 */
+hover:bg-sky-700  /* 悬停 */
+focus:outline-none /* 聚焦 */
+odd:bg-white /* 奇数项 */
+even:bg-slate-50 /* 偶数项 */
+first:pt-0 last:pb-0 /* 第一个，最后一个 */
+
+group
+group-hover:text-white /* 基于父标识设置状态 group-focus group-hover */
+group/{name}   /* 为当前父元素指定命名name，后续嵌套中便于使用 */
+group-hover/{name}:text-white   /* 针对特定的父类，设置样式 */
+
+*:rounded-full *:border *:border-sky-100  /* 设置子元素样式，且子元素再设置同类样式时无效 */
+has-*:bg-red has-[img]:bg-red has-[:focus]:bg-indigo-50 /* 设置指定类型或状态的子元素样式 */
+
+before
+after:content-['*'] after:ml-0.5 after:text-red-500   /* after 伪元素，content默认为'' */
+
+marker:text-sky-400 /* marker 符号样式，例如 li的标点 */
+
+selection:bg-fuchsia-300 selection:text-fuchsia-900  /* 文本高亮，文本选中时的样式，可继承 */
+
+
+min-[320px]:text-center max-[600px]:bg-sky-300  /* 自定义响应式，更多参见下图 */
+```
+
+![image-20240801154948733](images/JS%E5%91%A8%E8%BE%B9%E5%BA%93/image-20240801154948733.png)
+
+
+
+
+
+#### 自定义
+
+##### 黑暗模式
+
+> [Dark Mode - TailwindCSS中文文档 | TailwindCSS中文网](https://www.tailwindcss.cn/docs/dark-mode)
+
+
+
+
+
+##### 自定义响应式
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    screens: {
+      'tablet': '640px',
+      // => @media (min-width: 640px) { ... }
+
+      'laptop': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'desktop': '1280px',
+      // => @media (min-width: 1280px) { ... }
+    },
+  }
+}
+```
+
+
+
+
+
+
 
 #### 样式冲突
 

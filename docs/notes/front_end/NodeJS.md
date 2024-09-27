@@ -202,6 +202,8 @@ yarn config set registry https://registry.npm.taobao.org   # 切换yarn下载源
   > 创建非扁平的node_modules
   >
   > 使用到软连接、硬链接
+  >
+  > - [pnpm monorepo实践 | 愧怍 (kuizuo.cn)](https://kuizuo.cn/blog/pnpm-monorepo-practice/)
 
 ```shell
 npm i -g pnpm 	# 安装前提：node>=16.14

@@ -1586,7 +1586,45 @@ proxy.$api.getTableDate(params).then(()=>{
 
 
 
-### define免引入方法
+### define宏
+
+#### [defineOptions](https://cn.vuejs.org/api/sfc-script-setup.htm#defineoptions)
+
+> Vue3.3+中新增的新特性
+
+- 作用
+  1. name 提供组件命名方式 
+     - 默认需使用 传统name写法   或借助插件在script 中 写name值
+     - 通过`defineOptions`宏定义name
+  2. inheritAttrs 穿透配置
+     - 根标签存在多个，那么透传将失效
+     - 默认开启，可手动配置禁用传值穿透
+
+```vue
+// 组件的默认组件名为.vue单文件组件[SFC]文件的名字，如果需要修改组件名则需要结合Options API进行配置
+<!-- src/components/Com.vue -->
+<script>
+export default {
+  name: 'ComponentName',  // 传统写法
+  inheritAttrs: false
+}
+</script>
+
+<script setup>
+defineOptions({
+  name: 'ComponentName',
+  inheritAttrs: false,
+})
+</script>
+
+
+```
+
+
+
+
+
+
 
 #### defineProps
 
@@ -1881,3 +1919,71 @@ myChart.setOption({
 
 - [vue3告警:用markRaw或者shallowRef代替ref - 掘金 (juejin.cn)](https://juejin.cn/post/7235906062310473784)
 
+
+
+
+
+### 自定义组件之v-model
+
+[Vue父子组件间双向数据绑定：v-model与dineModel详解 - 雨月空间站 (mintimate.cn)](https://www.mintimate.cn/2024/01/17/vModelVue/#v-model)
+
+
+
+
+
+
+
+
+
+
+
+### 引入组件方式
+
+```js
+// Unknown variable dynamic import: ../views/ 解决
+
+let modules = import.meta.glob('../views/BlogGather/**/**/*.vue')
+console.log(modules)
+export const routes=[
+    {
+        name: "index",
+        path: "/",
+        component: ()=>import(`../views/BlogGather/IndexPage/${path}IndexPage.vue`),
+        meta: {title: "博客"},
+    },
+    {
+        name: "xxx",
+        path: "/xxxx",
+        component: modules[(`../${path}.vue`)],
+        meta: {title: "详情页面"},
+    },
+];
+```
+
+
+
+
+
+### 动态设置组件name
+
+> 需求场景：系统路由根据接口返回，其中包含对应路由是否缓存的配置；对于缓存配置，keep-alive是通过组件name而非router的name进行动态配置；因此为了确保每个想要缓存的路由信息都是唯一的，避免出现缓存冲突。在动态路由生成时对组件进行动态命名
+>
+> - [Vue3 如何在＜script setup＞里设置组件name属性_script setup name-CSDN博客](https://blog.csdn.net/XianZhe_/article/details/134211764)
+
+```js
+let modules = import.meta.glob('../views/BlogGather/**/**/*.vue')
+
+const comp = modules[`../${component}.vue`]
+comp().then((res: any) => {
+	res.default.name = permissionId
+})
+```
+
+
+
+
+
+### tabs页签
+
+> - [超细的tab标签页缓存方案（Vue2/Vue3） - 掘金 (juejin.cn)](https://juejin.cn/post/7158017171816185869#heading-18)
+> - [Vite + Vue + TS (xiaocheng555.github.io)](https://xiaocheng555.github.io/vue-tabs-cache/#/)
