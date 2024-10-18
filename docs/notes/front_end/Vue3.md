@@ -1987,3 +1987,11 @@ comp().then((res: any) => {
 
 > - [超细的tab标签页缓存方案（Vue2/Vue3） - 掘金 (juejin.cn)](https://juejin.cn/post/7158017171816185869#heading-18)
 > - [Vite + Vue + TS (xiaocheng555.github.io)](https://xiaocheng555.github.io/vue-tabs-cache/#/)
+
+
+
+
+
+### 锚点定位及跳转
+
+[4种方法实现html 页面内锚点定位及跳转项目中经常会出现点击跳转锚点的方法，比如给一个a标签一个href=“#锚点”， - 掘金 (juejin.cn)](https://juejin.cn/post/6908965295109603335)
