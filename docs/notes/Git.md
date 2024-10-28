@@ -1,4 +1,3 @@
-<WaterMark />
 # Git
 
 ## Linux 命令 /Git Bash 命令
@@ -52,11 +51,7 @@ exit 或 quit 或 ctrl+D        # 退出终端
 
 新建文件/查看当前文件下的文件，可以不切换路径：在输入命令时后面跟个路径就可以了。
 
-## zsh 命令
 
-```shell
-
-```
 
 ## Vim 文本编辑器
 
@@ -185,29 +180,27 @@ git rm -cached 文件名            # 从版本库中删除该文件
 git rev-parse --is-inside-work-tree   # 判断当前路径是不是git仓库，是则返回true；返回其他值，都是非git仓库。
 ```
 
-- git仓库代码量统计
+- git 仓库代码量统计
 
   ```sh
   # 查看git上的个人代码量：  替换-name
   git log --author="name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
-  
+
   git log --author="wudetian.top" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
-  
+
   # 统计某个时间段所有人的代码量：替换（时间 name-自己的名称）
   git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --since ==2023–08-01 --until=2023-08-31 --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
-  
+
   git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --since ==2024-08-28 --until=2024-09-28 --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
-  
+
   # 统计某段时间个人的代码量：替换（时间 name-自己的名称）
-  git log --since="2023–10-01" --until="2023-10-31"  --author="name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s, 移除行数: %s, 总行数: %s\n", add, subs, loc }' 
-  
-  git log --since="2024-08-28" --until="2024-09-28"  --author="wudetian.top" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s, 移除行数: %s, 总行数: %s\n", add, subs, loc }' 
-  
+  git log --since="2023–10-01" --until="2023-10-31"  --author="name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s, 移除行数: %s, 总行数: %s\n", add, subs, loc }'
+
+  git log --since="2024-08-28" --until="2024-09-28"  --author="wudetian.top" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s, 移除行数: %s, 总行数: %s\n", add, subs, loc }'
+
   # 统计每个人的增删行数
   git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
   ```
-
-  
 
 - 代码回退
   1. reset 是回退代码到某一版本，某一版本以后的代码都不保存
@@ -341,8 +334,6 @@ text.html        # 直接写文件名，忽略当前项目下所有名为 text.h
 /node_modules    # 忽略当前文件夹下的 node_modules 文件和文件夹
 ```
 
-
-
 ### 冲突合并
 
 - 合并分支前，需要先切换到合成的分支中，再合并需要合并的分支.
@@ -362,8 +353,6 @@ text.html        # 直接写文件名，忽略当前项目下所有名为 text.h
 - objects 仓库目录：每次版本的更改都会保存再里面。
 - refs 分支信息：
 - index 暂存文件：存放暂存区文件的文件。
-
-
 
 ### 多人协作
 
@@ -468,11 +457,9 @@ pr 样例：注意：后面要有空格
 
 ![git](images/Git/git.jpg)
 
-
-
 ## Workflows
 
-> - [Collaborating more effectively with Git using workflows_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13L4y1A79T?p=1&vd_source=12c717d82cfc8f0cc3894516956cc8b3) 视频教程
+> - [Collaborating more effectively with Git using workflows\_哔哩哔哩\_bilibili](https://www.bilibili.com/video/BV13L4y1A79T?p=1&vd_source=12c717d82cfc8f0cc3894516956cc8b3) 视频教程
 > - [Gitee Go 流水线构建镜像并推送到阿里云容器镜像服务 ACR | 草梅友仁的博客 (cmyr.ltd)](https://blog.cmyr.ltd/archives/26f5ba7.html)
 
 ### gitee 工作流

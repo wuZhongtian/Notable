@@ -1,74 +1,67 @@
-<WaterMark />
-[前言 · 千锋大前端小册-GP19-Node.js (gitee.io)](https://lurongtao.gitee.io/felixbooks-gp19-node.js/)
-
-[Node.js专业中文社区 (cnodejs.org)](https://cnodejs.org/)
-
 # Node.js
+
+[Node.js 专业中文社区 (cnodejs.org)](https://cnodejs.org/)
 
 ## 基础
 
 ### Node.js
 
-- node：基于v8引擎的javascript运行环境，提供了一些特定的api；
+- node：基于 v8 引擎的 javascript 运行环境，提供了一些特定的 api；
 
 - 可以实现的功能：
 
   - web 服务器、命令行工具、网络爬虫、桌面应用程序开发、app、游戏
   - 读写和操作数据库、创建使用的命令行工具辅助前端开发
-  - 嵌入式（物联网设备）、在树莓派上使用node.js
-  - 作为硬件控制工具代替C/C++,Noduino允许经由websocket或串来凝结实现arduino访问
-  
+  - 嵌入式（物联网设备）、在树莓派上使用 node.js
+  - 作为硬件控制工具代替 C/C++,Noduino 允许经由 websocket 或串来凝结实现 arduino 访问
+
 - 常用框架
 
-  - [基于Express框架]([Express - 基于 Node.js 平台的 web 应用开发框架 - Express 中文文档 | Express 中文网 (expressjs.com.cn)](https://www.expressjs.com.cn/))，可以快速构建web应用
+  - [基于 Express 框架]([Express - 基于 Node.js 平台的 web 应用开发框架 - Express 中文文档 | Express 中文网 (expressjs.com.cn)](https://www.expressjs.com.cn/))，可以快速构建 web 应用
 
-    基于electron框架，可构建跨平台的桌面应用
+    基于 electron 框架，可构建跨平台的桌面应用
 
-    基于restify框架，可快速构建api接口项目
+    基于 restify 框架，可快速构建 api 接口项目
 
-- Node.js特性
+- Node.js 特性
 
-  - 可解析js代码( 没有浏览器安全级别限制) 提供很多系统级别的API
+  - 可解析 js 代码( 没有浏览器安全级别限制) 提供很多系统级别的 API
   - Node.js 网络通信；无浏览器安全杀箱，不存在跨域
   - 文件读写、进程管理
-  
-- node.js特点
 
-  - 借助谷歌V8引擎，更高效的处理并发、异步等性能问题
+- node.js 特点
+
+  - 借助谷歌 V8 引擎，更高效的处理并发、异步等性能问题
   - 单线程、事件驱动、异步输入和输出
-    - 主线程为单线程，阻塞部分由线程池处理。大多数的I/O请求都为异步请求，从而避免上下文频繁切换的耗时操作，具有高并发的特点
+    - 主线程为单线程，阻塞部分由线程池处理。大多数的 I/O 请求都为异步请求，从而避免上下文频繁切换的耗时操作，具有高并发的特点
   - 能够支持跨平台功能
   - 异步队列
     - 使用异步队列，通过不断地循环队列从而等待程序进程的处理
-    - 例如SQL查询、涉及硬盘、网络等延时较长的操作，php代码会产生阻塞，从而影响后续代码的执行；而Node.js使用异步队列的回调函数，只有当SQL执行完毕，才会执行相应的回调函数，避免阻塞程序执行的问题
+    - 例如 SQL 查询、涉及硬盘、网络等延时较长的操作，php 代码会产生阻塞，从而影响后续代码的执行；而 Node.js 使用异步队列的回调函数，只有当 SQL 执行完毕，才会执行相应的回调函数，避免阻塞程序执行的问题
   - 基于事件与回调
-    - Node的异步操作是基于事件和回调完成的，例如：磁盘I/O、网络通讯、数据库查询
+    - Node 的异步操作是基于事件和回调完成的，例如：磁盘 I/O、网络通讯、数据库查询
     - 核心：拥有一个事件循环，判断是否有事件，有则执行；然后再判断是否有相关的回调，有则执行；最后事件执行完毕。
-    - 优点：增加了Node.js应用程序运行的健壮性和可用性
+    - 优点：增加了 Node.js 应用程序运行的健壮性和可用性
     - 缺点：不符合正常的线性开发思路，容易出错
-  - 绝大多数API都是基于事件驱动、异步风格、非阻塞
+  - 绝大多数 API 都是基于事件驱动、异步风格、非阻塞
     - 代码的执行并不依赖他们出现的位置、而是等待相应的事件被触发
     - 异步执行的回调无须阻塞的等待其他操作，充分利用系统资源
 
 - 注意事项：
 
-  - 可以使用：ES6这些js语法、node提供的API，但没有浏览器的DOM、BOM
+  - 可以使用：ES6 这些 js 语法、node 提供的 API，但没有浏览器的 DOM、BOM
   - 实际开发的文件命名建议使用全英文
-
-
 
 #### 编译过程
 
 - Java
-  - 先把源码 编译为 字节码  ->    JVM优化执行 字节码	->	JRE(Java环境) 运行
-- V8引擎 
-  - JS源码 抽象为 语法树	->	转化为本地机器码	->	直接运行
+  - 先把源码 编译为 字节码 -> JVM 优化执行 字节码 -> JRE(Java 环境) 运行
+- V8 引擎
+  - JS 源码 抽象为 语法树 -> 转化为本地机器码 -> 直接运行
 
+#### linux 环境安装：
 
-
-#### linux环境安装：
-
-- 使用库安装（epel仓库，为linux及衍生版提供高质量的软件安装源）
+- 使用库安装（epel 仓库，为 linux 及衍生版提供高质量的软件安装源）
 
   - ```shell
     yum install epel-release   # 安装epel仓库
@@ -80,12 +73,12 @@
 
   - ```shell
     wget https://npmmirror.com/mirrors/node/v14.18.2/node-v14.18.2.tar.gz # wget命令和下载参数 可以从网络下载安装包
-    
+
     tar xvf node-v14.18.2.tar.gz      # 使用tar命令进行解压
     cd node-V*                        # 使用cd命令进入解压后的目录
     yum install gcc gcc-c++           # 安装相关的依赖库(gcc 和 gcc-c++)
-    
-    # 完成基本配置文件生成，指定配置目录 /usr/local/node 
+
+    # 完成基本配置文件生成，指定配置目录 /usr/local/node
     # 使用configure命令，完成 MakeFile 配置文件的生成
     ./configure --prefix=/usr/local/node
     # 使用 make 命令，生成编译好的库文件
@@ -98,29 +91,23 @@
 
   - 库**安装的速度**快，但源代码安装 **运行的速度**更快。
 
+#### windows 命令行
 
+- PowerShell cmd 两种 window 版本工具，powershell 为新版的，相比于 cmd 的功能更完善
 
+  - PowerShell 的使用，在目录文件夹下，鼠标右键`在windows终端下打开`即可
 
-
-####  windows命令行
-
-- PowerShell  cmd    两种window版本工具，powershell为新版的，相比于cmd的功能更完善
-  - PowerShell的使用，在目录文件夹下，鼠标右键`在windows终端下打开`即可
-
-  - cmd 的使用，win+R  cmd进入
-
-
-
+  - cmd 的使用，win+R cmd 进入
 
 #### [NVM](https://www.cnblogs.com/cencenyue/p/10430618.html)
 
-> - nvm - node版本管理工具，实现多个Node版本的灵活切换
+> - nvm - node 版本管理工具，实现多个 Node 版本的灵活切换
 > - [Releases · coreybutler/nvm-windows · GitHub](https://github.com/coreybutler/nvm-windows/releases)
 > - https://github.com/nvm-sh/nvm
 
 - `安装Nvm之前，需要删除现有的node`
 
-- 加快node下载的速度
+- 加快 node 下载的速度
   ```sh
   # nvm安装后，打开安装目录下的 setting.txt   （默认：C:\Program Files\nodejs）
   # 加入：
@@ -128,18 +115,13 @@
   npm_mirror: https://npmmirror.com/mirrors/npm/
   ```
 
-
-
-
 #### 异常事件机制
 
 > 可通过 try-catch 来捕获异常。如果异常未捕获，则会一直从底向事件循环冒泡。如是冒泡到事件循环的异常没被处理，那么就会导致当前进程异常退出
 
-
-
 #### 常用命令
 
-- #### **node相关**
+- #### **node 相关**
 
 ```sh
 node           # 在控制台进入node开发环境
@@ -149,12 +131,12 @@ node 文件名   # 执行node文件
 ctrl + c       # 退出node的运行
 ```
 
-- **nvm相关命令**（管理员身份）
+- **nvm 相关命令**（管理员身份）
 
 ```sh
 nvm -v             # 查看当前nvm版本
 nvm list           # 查看当前机器上安装了哪些node版本
-nvm install 版本号        # 安装对应版本的node（例：nvm install 16.0.1） 
+nvm install 版本号        # 安装对应版本的node（例：nvm install 16.0.1）
 nvm install latest       # 安装最新版本的node
 nvm uninstall 版本号      # 卸载指定版本的node
 nvm use 版本号            # 选择使用指定版本的node
@@ -182,11 +164,11 @@ yarn add 包名        # 安装依赖包
 yarn add 包名 -dev   # 安装依赖包并记录在 dependencies节点，开发依赖包
 yarn upgrade 包名@版本    # 升级指定的包的指定版本
 yarn remove  包名@版本    # 移除指定的指定版本的依赖包
-yarn global add 包名      # 全局安装指定包 
+yarn global add 包名      # 全局安装指定包
 
 yarn install      # 一次性安装package.json 中的依赖包
 yarn install -flat             # 安装一个包的单一版本时添加 -flat
-yarn install -force            # 强制重新下载使用  -force 
+yarn install -force            # 强制重新下载使用  -force
 yarn install --production      # 只安装生产环境依赖的包 --production
 
 yarn global bin      # 查看yarn安装的路径
@@ -199,11 +181,11 @@ yarn config set registry https://registry.npm.taobao.org   # 切换yarn下载源
 
 - [pnpm](https://www.pnpm.cn/cli/remove)
 
-  > 创建非扁平的node_modules
+  > 创建非扁平的 node_modules
   >
   > 使用到软连接、硬链接
   >
-  > - [pnpm monorepo实践 | 愧怍 (kuizuo.cn)](https://kuizuo.cn/blog/pnpm-monorepo-practice/)
+  > - [pnpm monorepo 实践 | 愧怍 (kuizuo.cn)](https://kuizuo.cn/blog/pnpm-monorepo-practice/)
 
 ```shell
 npm i -g pnpm 	# 安装前提：node>=16.14
@@ -242,10 +224,6 @@ import {xxx} from common # 在main项目中引入common
 
   > `pnpm run dev` 需要您在命令行中指定要运行的项目的入口文件（通常是 `index.js` 或 `main.js`），而 `pnpm dev` 则会自动查找项目中的 `package.json` 文件中指定的入口文件。
 
-
-
-
-
 - **PM2**
 
 ```shell
@@ -274,20 +252,19 @@ esc            # 快速清空当前输入的命令
 
 （查看文件中：显示`<DIR>`表示它是个文件目录；时间表示此文件最后一次的修改时间 ）
 
+#### nrm 源管理
 
-
-
-
-#### nrm源管理
-
-- 为了更方便的切换下包的镜像源，可以安装nrm工具，能够快速的查看和切换下包的镜像源
+- 为了更方便的切换下包的镜像源，可以安装 nrm 工具，能够快速的查看和切换下包的镜像源
 - 必须在管理员模式下，解决无法运行脚本问题
 - ![image-20220727102619910](images/NodeJS/image-20220727102619910.png)
 
 ```js
 //解决 安装后的警告：找到报错路径，替换掉报错的代码
 //const NRMRC = path.join(process.env.HOME, '.nrmrc');(注掉)
-const NRMRC = path.join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.nrmrc');
+const NRMRC = path.join(
+  process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"],
+  ".nrmrc"
+);
 ```
 
 ```sh
@@ -299,88 +276,77 @@ nrm use 镜像源名         # 切换镜像源路径
 nrm test                # 测试并返回各个镜像源的速度
 ```
 
-
-
-
-
 ### 全局对象
 
-> - 全局对象：浏览器中 - window       Node.js中 - global
-> - Node.js中声明的**变量**，不会直接挂载到global上，但global上挂载的内容可以在任何地方使用
+> - 全局对象：浏览器中 - window Node.js 中 - global
+> - Node.js 中声明的**变量**，不会直接挂载到 global 上，但 global 上挂载的内容可以在任何地方使用
 > - ES2020：新增 `globalThis`指向顶级对象，不同环境下`global == globalThis  global == window`
 
 - 交互模式下
   - this 指向`global`
-  - 交互模式下只有module.exports，没有exports
-- js文件下
-  - `this指向exports`，即js模块导出的对象
-  - exports 是 module.exports的引用，只有文件中才存在exports
-  - 在js文件下执行Node的`全局this≠global`,this指向的是当前这个js模块
-
-
+  - 交互模式下只有 module.exports，没有 exports
+- js 文件下
+  - `this指向exports`，即 js 模块导出的对象
+  - exports 是 module.exports 的引用，只有文件中才存在 exports
+  - 在 js 文件下执行 Node 的`全局this≠global`,this 指向的是当前这个 js 模块
 
 #### module 对象
 
-- 每个 .js 文件(模块) 都有一个 module对象；存储当前模块相关的信息
+- 每个 .js 文件(模块) 都有一个 module 对象；存储当前模块相关的信息
 - module.exports 对象
-  - 自定义模块中，可使用 module.exports对象，将模块内的成员共享出去，供外界使用。
+  - 自定义模块中，可使用 module.exports 对象，将模块内的成员共享出去，供外界使用。
   - 使用 require() 方法导入自定义模块时，导入的结果，以 module.exports 指向的对象为准。
-  - 为简化向外共享成员的代码，Node提供了 exports对象，与 module.exports 等价。
-  - <span style='color:hotpink'>默认情况下，exports和module.exports 指定同一个对象</span>
-- 注意 :得到的永远是 module.exports对象
+  - 为简化向外共享成员的代码，Node 提供了 exports 对象，与 module.exports 等价。
+  - <span style='color:hotpink'>默认情况下，exports 和 module.exports 指定同一个对象</span>
+- 注意 :得到的永远是 module.exports 对象
+
   - ![image-20220826154850212](images/NodeJS/image-20220826154850212.png)
-  - 图一：{ gender:男;age:22 }
-  - 图二：{ username:zs }
-  - 图三：{gender:男 }
-  - 图四：{ username:zs; gender男; age:22}
+  - 图一：`{ gender:男;age:22 }`
+  - 图二：`{ username:zs }`
+  - 图三：`{gender:男 }`
+  - 图四：`{ username:zs; gender男; age:22}`
   - <span style='color:hotpink'>为防止冲突，不要在同一个模块中同时使用 exports 和 module.exports</span>
-  
+
   ![image-20220826154912762](images/NodeJS/image-20220826154912762.png)
 
-
-
-#### process对象
+#### process 对象
 
 > process 对象是一个全局变量，提供了有关当前 Node.js 进程的信息并对其进行控制。 作为全局变量，它始终可供 Node.js 应用程序使用，无需使用 require()。 也可以使用 require() 显式地访问。
 
-- `process.env`  属性会返回包含用户环境的对象
+- `process.env` 属性会返回包含用户环境的对象
 
 ```js
 // process.argv 获取到执行文件时，命令行执行的所有参数，作为元素放在这个的数组中(字符串形式)
 // 使用场景之一：可以用来做命令行工具(拿到命令行输入的内容，再执行一些操作)
-console.log(process.argv)    // 打印一个数组
+console.log(process.argv); // 打印一个数组
 // 例：拼接字符串
-console.log(process.argv[1]+process.argv[2])
+console.log(process.argv[1] + process.argv[2]);
 
 // process.arch  得到执行环境的系统位数 x64 x32 ...
-console.log(process.arch)
+console.log(process.arch);
 ```
 
-
-
-#### console对象
+#### console 对象
 
 - 支持：
 
-  - 格式化输出 
+  - 格式化输出
 
-  - 清空控制台  console.clear()
+  - 清空控制台 console.clear()
 
-  - 对输出的内容进行计数   console.count()
+  - 对输出的内容进行计数 console.count()
 
   - 打印堆栈踪迹 console.trace()
 
   - ```js
-    console.log("我爱你");  // 在控制台打印我爱你
-    
-    // 支持格式化输出  %s为字符串   %d为相关的数字
-    console.log('我的%s已经%d','猫',2);     // 输出：我的猫已经2岁了
-    
-    console.clear();        // 清空控制台
-    console.count();        // 对输出的内容进行计数  结果形式 1：内容  下次还是指针的内容时 2：内容
-    ```
+    console.log("我爱你"); // 在控制台打印我爱你
 
-    
+    // 支持格式化输出  %s为字符串   %d为相关的数字
+    console.log("我的%s已经%d", "猫", 2); // 输出：我的猫已经2岁了
+
+    console.clear(); // 清空控制台
+    console.count(); // 对输出的内容进行计数  结果形式 1：内容  下次还是指针的内容时 2：内容
+    ```
 
 - console.log()
 
@@ -392,7 +358,7 @@ console.log(process.arch)
   console.log('%d'，'node,js');   //NaN
   ```
 
-- `console.info(); console.warn(); console.error() `输出的结果与console.log()输出的内容一致
+- `console.info(); console.warn(); console.error() `输出的结果与 console.log()输出的内容一致
 
 - console.dir()
 
@@ -416,19 +382,19 @@ console.log(process.arch)
   // 用于统计一段代码的运行时间
   // 使用方法:在代码块的开始和结尾分别放置console.time() 和 console.timeEnd()
   // 并传入同一个参数,再一段代码中可以存在多个计时代码对
-  
-  console.time('one');
-  console.time('two');
-  for(var i=0;i<10;i++){
-     var a = i;
+
+  console.time("one");
+  console.time("two");
+  for (var i = 0; i < 10; i++) {
+    var a = i;
   }
-  console.timeEnd('two');
-  console.time('three');
-  for(var i=0;i<10;i++){
-     var a = i;
+  console.timeEnd("two");
+  console.time("three");
+  for (var i = 0; i < 10; i++) {
+    var a = i;
   }
-  console.timeEnd('three');
-  console.timeEnd('one');
+  console.timeEnd("three");
+  console.timeEnd("one");
   // 控制台输出：
   // two: 0.102ms
   // three: 0.01ms
@@ -452,95 +418,88 @@ console.log(process.arch)
      B：{ name:'wu',id:2},
      C：{ name:'wu',id:3},
   }
-  
+
   console.table(arr);   // 输出内容为表格 行；index  name   id
                                        //  A       wu     1   ....
   ```
-  
-  
-
-
 
 ### 内置模块
 
-#### Buffer类型
+#### Buffer 类型
 
-> - 在处理文件流时，必须使用到二进制数据。但 JS中没有，因此Node.js中定义Buffer，主要用来存放二进制数据的缓冲区，用于表示固定长度的字节序列
+> - 在处理文件流时，必须使用到二进制数据。但 JS 中没有，因此 Node.js 中定义 Buffer，主要用来存放二进制数据的缓冲区，用于表示固定长度的字节序列
 > - 中文译为【缓冲区】，**固定长度**的内存空间，用于处理二进制数据
-> - 特点：大小固定无法调整、性能好，直接操作计算机内存、每个元素的小为1字节byte
+> - 特点：大小固定无法调整、性能好，直接操作计算机内存、每个元素的小为 1 字节 byte
 > - 注意点：
->   - Buffer 是Node.js内置模块，启动时自动导入，无需手动引入
->   - Buffer 的每个字节为8bit，溢出超出时会自动**舍去高位**的值
->   - 对应中文字符，每个字占3个字节
+>   - Buffer 是 Node.js 内置模块，启动时自动导入，无需手动引入
+>   - Buffer 的每个字节为 8bit，溢出超出时会自动**舍去高位**的值
+>   - 对应中文字符，每个字占 3 个字节
 
-| 方法                    | 描述                                                         |
-| ----------------------- | ------------------------------------------------------------ |
-| Buffer.from('hello')    | 通过字符串创建 buffer                                        |
-| Buffer.alloc(10)        | 创建一个可以存放10个字符的buffer对象，用不到位置它默认会由00占位 |
-| Buffer.allocUnsafe(100) | 创建定长buffer，默认为旧的值，速度更快                       |
-| buf3.write('abc')       | 往buffer对象中写入信息(转2再转16存起来)                      |
-| .toString()             | 将16进制buffer内容 转为可识别的内容                          |
+| 方法                    | 描述                                                                   |
+| ----------------------- | ---------------------------------------------------------------------- |
+| Buffer.from('hello')    | 通过字符串创建 buffer                                                  |
+| Buffer.alloc(10)        | 创建一个可以存放 10 个字符的 buffer 对象，用不到位置它默认会由 00 占位 |
+| Buffer.allocUnsafe(100) | 创建定长 buffer，默认为旧的值，速度更快                                |
+| buf3.write('abc')       | 往 buffer 对象中写入信息(转 2 再转 16 存起来)                          |
+| .toString()             | 将 16 进制 buffer 内容 转为可识别的内容                                |
 
 ```js
 // 创建buffer对象
-let buf = Buffer.alloc(10);   // 创建一个10字节空间的buffer，每个bit位默认被清为0
-let buf_2 = Buffer.allocUnsafe(10);  // 创建一个10字节空间的buffer，每个bit位默认为旧的值
-let buf_3 = Buffer.from('hello');   // hello 先转unicode再转二进制 68 65 6c
+let buf = Buffer.alloc(10); // 创建一个10字节空间的buffer，每个bit位默认被清为0
+let buf_2 = Buffer.allocUnsafe(10); // 创建一个10字节空间的buffer，每个bit位默认为旧的值
+let buf_3 = Buffer.from("hello"); // hello 先转unicode再转二进制 68 65 6c
 
-let buf1 = Buffer.from([97,98,99]);   // 根据一个数组创建Buffer对象
-console.log(buf1);    // <Buffer 61 62 63> 以16进制形式存储在Buffer对象中
-console.log(buf1.toString());  // abc 将buffer内容转为可识别的内容
+let buf1 = Buffer.from([97, 98, 99]); // 根据一个数组创建Buffer对象
+console.log(buf1); // <Buffer 61 62 63> 以16进制形式存储在Buffer对象中
+console.log(buf1.toString()); // abc 将buffer内容转为可识别的内容
 
+let buf2 = Buffer.from("nodejs"); // 根据一个字符串创建Buffer对象
 
-let buf2 = Buffer.from('nodejs');     // 根据一个字符串创建Buffer对象
-
-let buf3 = Buffer.alloc(10);   // 创建可以存放10个字符的buffer对象
-buf3.write('abc');             // 按照ASCLL表的价值，转16进制，存在Buffer中
+let buf3 = Buffer.alloc(10); // 创建可以存放10个字符的buffer对象
+buf3.write("abc"); // 按照ASCLL表的价值，转16进制，存在Buffer中
 ```
-
-
-
-
 
 #### fs 文件系统模块
 
-| 方法                               | 描述                                                         |
-| ---------------------------------- | ------------------------------------------------------------ |
-| fs.readFile()                      | 读取指定文件中的内容，异步读取                               |
-| fs.readFileSync()                  | 同步读取指定文件内容，读取完毕后再执行后面的代码，不需要回调函数 |
-| fs.createReadStream()              | 流式读取文件，针对大文件占用的内存空间更小                   |
-| fs.writeFile()                     | 向指定的文件中写入内容，异步写入                             |
-| fs.writeFileSync()                 | 等待向指定的文件中写入内容，同步写入                         |
-| fs.appendFile()                    | 在文件中追加写入，异步写入；  【 .appendFileSync  同步】     |
-| fs.createWriteStream()             | 流式写入，适合写入较频繁的场景                               |
-| fs.rename()                        | 修改、移动  指定文件路径(名)，异步；  【 .renameSync   同步】 |
-|                                    |                                                              |
-| fs.readdir('文件夹路径',callback)  | 获取指定路径下的文件列表，数组形式(包含文件和文件夹) 【.readdirSync   同步】 |
-| fs.mkdir('文件夹路径',callback)    | 创建文件夹，默认只能创建一级，参数二：{recursive:true}  递归创建 |
-| fs.rmdir('文件夹路径',callback)    | 删除文件夹，默认只能删除空文件夹                             |
-|                                    |                                                              |
-| fs.unlink('文件路径',callback)     | 删除文件，异步；    【 .unlinkSync  同步 】                  |
-| [推荐]  fs.rm('文件路径',callback) | 删除文件，异步；    【 .rmSync  同步 】                      |
-| fs.stat('文件路径',callback)       | 查看资源信息                                                 |
+| 方法                              | 描述                                                                       |
+| --------------------------------- | -------------------------------------------------------------------------- |
+| fs.readFile()                     | 读取指定文件中的内容，异步读取                                             |
+| fs.readFileSync()                 | 同步读取指定文件内容，读取完毕后再执行后面的代码，不需要回调函数           |
+| fs.createReadStream()             | 流式读取文件，针对大文件占用的内存空间更小                                 |
+| fs.writeFile()                    | 向指定的文件中写入内容，异步写入                                           |
+| fs.writeFileSync()                | 等待向指定的文件中写入内容，同步写入                                       |
+| fs.appendFile()                   | 在文件中追加写入，异步写入； 【 .appendFileSync 同步】                     |
+| fs.createWriteStream()            | 流式写入，适合写入较频繁的场景                                             |
+| fs.rename()                       | 修改、移动 指定文件路径(名)，异步； 【 .renameSync 同步】                  |
+|                                   |                                                                            |
+| fs.readdir('文件夹路径',callback) | 获取指定路径下的文件列表，数组形式(包含文件和文件夹) 【.readdirSync 同步】 |
+| fs.mkdir('文件夹路径',callback)   | 创建文件夹，默认只能创建一级，参数二：{recursive:true} 递归创建            |
+| fs.rmdir('文件夹路径',callback)   | 删除文件夹，默认只能删除空文件夹                                           |
+|                                   |                                                                            |
+| fs.unlink('文件路径',callback)    | 删除文件，异步； 【 .unlinkSync 同步 】                                    |
+| [推荐] fs.rm('文件路径',callback) | 删除文件，异步； 【 .rmSync 同步 】                                        |
+| fs.stat('文件路径',callback)      | 查看资源信息                                                               |
 
-- fs.readFile(`path`[,`options`],`callback`)        异步的，读取指定文件中的内容
+- fs.readFile(`path`[,`options`],`callback`) 异步的，读取指定文件中的内容
+
   - 参数 path：字符串格式，表示文件的路径
   - 参数 options：可选参数，表示用什么编码格式读取文件,字符串格式
   - 参数 callback：回调函数，文件读取后，通过回调函数拿到读取的结果
-  
+
   ```js
   // 导入fs模块
-  const fs =require('fs')
-  fs.readFile('./one.txt','utf-8',(err,dataStr)=>{
-      console.log(err);   //当接收到的err 为 null 时，表示文件读取成功；
-      console.log(dataStr);   //当文件读取失败时，值为null ；成功时返回文件的内容
-  })
+  const fs = require("fs");
+  fs.readFile("./one.txt", "utf-8", (err, dataStr) => {
+    console.log(err); //当接收到的err 为 null 时，表示文件读取成功；
+    console.log(dataStr); //当文件读取失败时，值为null ；成功时返回文件的内容
+  });
   ```
 
-- fs.writeFile(`file,data[,options],callback`)         用于向指定的文件中写入内容   
+- fs.writeFile(`file,data[,options],callback`) 用于向指定的文件中写入内容
+
   - 当文件不存在时，fs.writeFile() 方法可以创建文件;但不能用来创建文件夹(路径)
   - 重复调用 fs.writeFile() 写入同一个文件，新写入的内容会覆盖之前的旧内容
-  
+
   ```js
   /*
   - file ：指定文件路径的字符串
@@ -548,107 +507,95 @@ buf3.write('abc');             // 按照ASCLL表的价值，转16进制，存在
   - options ：表示写入的编码格式，默认utf-8；
   - callback ：文件写入完成后的回调函数
   */
-  
-  fs.writeFile('./two.txt','hello node,js!',(err)=>{
-     console.log(err);     //当返回值 err 为 null 时，表示写入成功；
-     // 判断文件是否写入成功
-     if(err){  
-        return  console.log('文件写失败'+ err.message)
-     }
-     console.log('文件写入成功！');
-  })
+
+  fs.writeFile("./two.txt", "hello node,js!", (err) => {
+    console.log(err); //当返回值 err 为 null 时，表示写入成功；
+    // 判断文件是否写入成功
+    if (err) {
+      return console.log("文件写失败" + err.message);
+    }
+    console.log("文件写入成功！");
+  });
   ```
-  
-- fs.rename(旧文件名,新文件名)      修改指定文件的文件名
+
+- fs.rename(旧文件名,新文件名) 修改指定文件的文件名
 
   ```js
   // 重命名 和 修改文件路径的本质一致：修改文件路径
-  fs.rename('./a.txt','../b.txt',err=>{});  // 移动 并 修改 文件名
+  fs.rename("./a.txt", "../b.txt", (err) => {}); // 移动 并 修改 文件名
   ```
 
-- fs.readdir(__dirname)       获取指定文件夹路径下的文件名组成的数组
+- fs.readdir(\_\_dirname) 获取指定文件夹路径下的文件名组成的数组
 
-  - 返回值：[旧文件名1,旧文件名2,旧文件名3.....]
+  - 返回值：[旧文件名 1,旧文件名 2,旧文件名 3.....]
 
-- fs.createWriteStream()    流式写入，适合频繁的写入
+- fs.createWriteStream() 流式写入，适合频繁的写入
 
   ```js
-  const ws = fs.createWriteStream('./测试文本.txt')	// 创建写入流对象，要写入的文件
-  ws.write('一夫当关/r/n');
-  ws.write('万夫莫开/r/n');
-  
-  ws.close(); 	// 关闭通道
+  const ws = fs.createWriteStream("./测试文本.txt"); // 创建写入流对象，要写入的文件
+  ws.write("一夫当关/r/n");
+  ws.write("万夫莫开/r/n");
+
+  ws.close(); // 关闭通道
   ```
 
-- fs.createReadStream()    流式读取
+- fs.createReadStream() 流式读取
 
   ```js
-  const fs = require('fs');
-  const rs = fs.createReadStream('../测试.video');
-  const ws = fs.createWriteStream('./写入的文件.video')	// 创建写入流对象，要写入的文件
-  
+  const fs = require("fs");
+  const rs = fs.createReadStream("../测试.video");
+  const ws = fs.createWriteStream("./写入的文件.video"); // 创建写入流对象，要写入的文件
+
   // 读取事件
-  rs.on('data',chunk=>{
-      // chunk 块
-       console.log(chunk.length);  //64kb
-  })
-  
+  rs.on("data", (chunk) => {
+    // chunk 块
+    console.log(chunk.length); //64kb
+  });
+
   // 可选事件，读取完成时触发
-  rs.on('end',()=>{
-      console.log('读取完成');
-  })
-  
-  // 简便写法： 将 rs读取流 直接交给 ws写入流 
+  rs.on("end", () => {
+    console.log("读取完成");
+  });
+
+  // 简便写法： 将 rs读取流 直接交给 ws写入流
   rs.pipe(ws);
   ```
 
-- fs.stat()    查看文件信息
+- fs.stat() 查看文件信息
 
   ```js
-  fs.stat('./aaa',(err,data)=>{
-      if(err){
-          console.log('操作失败',err)
-          return ;
-      }
-      console.log(data);  // 查看资源信息
-      console.log(data.isFile()); // true 目标资源是个文件
-      console.log(data.isDirectory()); // true 目标资源是文件夹
-  })
+  fs.stat("./aaa", (err, data) => {
+    if (err) {
+      console.log("操作失败", err);
+      return;
+    }
+    console.log(data); // 查看资源信息
+    console.log(data.isFile()); // true 目标资源是个文件
+    console.log(data.isDirectory()); // true 目标资源是文件夹
+  });
   ```
-
-  
-
-
-
-
-
-
-
-
-
-
 
 #### path 路径模块
 
 path 模块是 Node.js 官方提供的、用来处理路径的模块。
 
-| 内容                     | 描述                                                         |
-| ------------------------ | ------------------------------------------------------------ |
-| __dirname                | 当前文件所处的绝对路径，不包括文件名                         |
-| __filename               | 当前文件的绝对路径，包含文件名                               |
-| path.extname()           | 获取路径中 文件的扩展名                                      |
-| path.basename()          | 获取路径中的 文件名                                          |
-| path.dirname(__filename) | 去除路径中的文件名                                           |
-| path.parse(__filename)   | 将路径解析为一个对象：所在盘符\|所在路径\|文件名后缀         |
-|                          |                                                              |
-| path.join()              | 将多个路径片段 拼接 成一个完整的路径字符串                   |
-| path.resolve()           | 将多个路径解析为一个规范化的绝对路径。其处理方式类似于对这些路径逐一进行cd操作，与cd操作不同的是，这引起路径可以是文件，并且可不必实际存在（resolve()方法不会利用底层的文件系统判断路径是否存在，而只是进行路径字符串操作 |
+| 内容                       | 描述                                                                                                                                                                                                                          |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| \_\_dirname                | 当前文件所处的绝对路径，不包括文件名                                                                                                                                                                                          |
+| \_\_filename               | 当前文件的绝对路径，包含文件名                                                                                                                                                                                                |
+| path.extname()             | 获取路径中 文件的扩展名                                                                                                                                                                                                       |
+| path.basename()            | 获取路径中的 文件名                                                                                                                                                                                                           |
+| path.dirname(\_\_filename) | 去除路径中的文件名                                                                                                                                                                                                            |
+| path.parse(\_\_filename)   | 将路径解析为一个对象：所在盘符\|所在路径\|文件名后缀                                                                                                                                                                          |
+|                            |                                                                                                                                                                                                                               |
+| path.join()                | 将多个路径片段 拼接 成一个完整的路径字符串                                                                                                                                                                                    |
+| path.resolve()             | 将多个路径解析为一个规范化的绝对路径。其处理方式类似于对这些路径逐一进行 cd 操作，与 cd 操作不同的是，这引起路径可以是文件，并且可不必实际存在（resolve()方法不会利用底层的文件系统判断路径是否存在，而只是进行路径字符串操作 |
 
 ```js
 // 导入path模块
-const path = require('path');
+const path = require("path");
 
-// 得到当前文件所处的绝对路径，不包括文件名  __dirname  
+// 得到当前文件所处的绝对路径，不包括文件名  __dirname
 console.log(__dirname);
 // 得到当前文件的绝对路径，包括当前文件的文件名   __filename
 console.log(__filename);
@@ -656,27 +603,24 @@ console.log(__filename);
 // 获取路径中 文件的扩展名  path.extname(path)
 // 参数：文件路径字符串      返回值：文件的扩展名
 // 例：
-const fpath = '/a/b/c/d/index.html';
+const fpath = "/a/b/c/d/index.html";
 const fext = path.extname(fpath);
-console.log(fext);           //输出 .html
+console.log(fext); //输出 .html
 
 // 获取路径中的 文件名(包含后缀)  path.basename(path[,ext])
 // 参数1：文件路径字符串             返回值：路径中的最后一部分
 // 参数2：可选，文件的扩展名          带上参数2时，返回值中则不包含文件的扩展名
 // 例：
-const fpath = '/a/b/c/d/index.html';
-var fullName = path.basename(fpath); 
-console.log('fullName');    //输出：index.html
-var Name = path.basename(fpath,'.html');
-console.log('Name');      //输出：index 
+const fpath = "/a/b/c/d/index.html";
+var fullName = path.basename(fpath);
+console.log("fullName"); //输出：index.html
+var Name = path.basename(fpath, ".html");
+console.log("Name"); //输出：index
 
 // 去除路径中的文件名   path.dirname(__filename);
 // 将路径解析为一个对象   (所在盘符、所在路径、文件名后缀)
 path.parse(__filename);
-
 ```
-
-
 
 - **`path.join(路径字符串1、字符串2、......)`**
 - **该方法能够在不同操作系统中，转化成不同的路径格式，具有跨平台的兼容性**
@@ -685,42 +629,38 @@ path.parse(__filename);
 ```js
 // 将任意多个路径片段拼接成一个完整的路径字符串     path.join()
 // 例：
-const path = require('path')        //导入path模块
-const pathStr = path.join('/a','/b','/c');
-console.log(pathStr);                                //  输出路径： \a\b\c
+const path = require("path"); //导入path模块
+const pathStr = path.join("/a", "/b", "/c");
+console.log(pathStr); //  输出路径： \a\b\c
 
-const pathSrt2 = path.join(__dirname + './one.txt');
-console.log(pathStr2); 
+const pathSrt2 = path.join(__dirname + "./one.txt");
+console.log(pathStr2);
 ```
 
 - **`path.resolve()`方法**
 
 ![image-20230207164758043](images/NodeJS/image-20230207164758043.png)
 
-
-
 路径拼接问题
 
 - 原理：代码在运行的时候，会以执行 node 命令时所处的目录，动态拼接出被操作文件的完整路径。
 - 解决方案：操作文件时直接提供完整的路径，避免使用 ./ 或 ../ 开头的相对路径，从而防止路径动态拼接的问题。
-- 使用 _ _dirname 表示当前文件所处的绝对路径
-- 例：`fs.readFile(__dirname + '/one.txt')`    // 表示写入当前文件同级目录下的one.txt
+- 使用 \_ \_dirname 表示当前文件所处的绝对路径
+- 例：`fs.readFile(__dirname + '/one.txt')` // 表示写入当前文件同级目录下的 one.txt
 
+#### process 模块
 
-
-#### process模块
-
-> 用来和当前进程交互的工具，接受输入node命令时的传参
+> 用来和当前进程交互的工具，接受输入 node 命令时的传参
 >
-> [详解Node.JS模块 process (51sjk.com)](https://www.51sjk.com/b151b262468/)
+> [详解 Node.JS 模块 process (51sjk.com)](https://www.51sjk.com/b151b262468/)
 
 - 命令行参数
 
-  1. 传给node 的参数
+  1. 传给 node 的参数
 
      ```shell
      node --harmony script.js --version  # 其中 --harmony 	传给node的参数
-     
+
      # 通过 process.argv 获取
      ```
 
@@ -728,7 +668,7 @@ console.log(pathStr2);
 
      ```shell
      node script.js --version --help   # 其中 --version --help  传给进程的参数
-     
+
      # 通过 process.execargv 获取
      ```
 
@@ -739,22 +679,20 @@ console.log(pathStr2);
   - `warning 事件`：不是 node.js 和 javascript 错误处理流程的正式组成部分。 一旦探测到可能导致应用性能问题，缺陷或安全隐患相关的代码实践，node.js 就可发出告警
 
   ```js
-  const process = require("process")
-  process.cwd()   // 获取当前的工作目录
-  process.chdir(directory)  // 切换当前工作目录，失败后会抛出异常
-  process.exit()  //
+  const process = require("process");
+  process.cwd(); // 获取当前的工作目录
+  process.chdir(directory); // 切换当前工作目录，失败后会抛出异常
+  process.exit(); //
   ```
 
   ![image-20230304173623583](images/NodeJS/image-20230304173623583.png)
 
-
-
 - **补充：**
 
-  - process.memoryUsage()    获取代码的内存占用量
+  - process.memoryUsage() 获取代码的内存占用量
 
   ```js
-  const process = require('process');
+  const process = require("process");
   console.log(process.memoryUsage());
   /* 
   {
@@ -763,19 +701,9 @@ console.log(pathStr2);
   */
   ```
 
-  
+#### http 模块
 
-
-
-
-
-
-
-
-
-#### http模块
-
-> 用于创建 web 服务器的模块。在 Node.js 中，无需使用 IIS、Apache 等三方 web服务器软件。http模块可轻松的实现服务器软件。
+> 用于创建 web 服务器的模块。在 Node.js 中，无需使用 IIS、Apache 等三方 web 服务器软件。http 模块可轻松的实现服务器软件。
 
 - 通过 http 模块的 http.createServer() 方法，能方便的把电脑变成 Web 服务器，从而对外提供 Web 资源服务。
 - 端口号范围：0——65536
@@ -784,83 +712,78 @@ console.log(pathStr2);
 
 ```js
 // 导入 http 模块
-const http = require('http');
+const http = require("http");
 const port = 8001;
 // 方法1：先创建 web服务器实例，再监听回调事件
 const server = http.createServer();
 // 为服务器实例绑定 request事件，监听客户端的请求
 // 使用服务器的 .on()方法,为服务器绑定 request事件;只要有客户端向服务器发送请求,就触发request事件
-server.on('request',(req,res) =>{      
-       console.log('有人访问我们的服务器  Someone visit our web server');    
-})
+server.on("request", (req, res) => {
+  console.log("有人访问我们的服务器  Someone visit our web server");
+});
 
 //方法2： 在创建实例时直接绑定监听事件
-const server2= http.createSrever(function(res,req){
-   res.writeHead(200,{'content-type':'text/plain'});
-   res.write('hello word');  // 向浏览器中写入内容
-   res.end('hello word');  // 响应数据，并断开连接
-})
+const server2 = http.createSrever(function (res, req) {
+  res.writeHead(200, { "content-type": "text/plain" });
+  res.write("hello word"); // 向浏览器中写入内容
+  res.end("hello word"); // 响应数据，并断开连接
+});
 
 // 调用服务器实例的 .listen(端口号,回调函数) 方法，即可启动当前的 web服务器实例
-server.listen(port,(error) => {
-     //服务器启动成功即调用回调函数
-     console.log(`http server running at http://127.0.0.1:${port}`);     
-})
+server.listen(port, (error) => {
+  //服务器启动成功即调用回调函数
+  console.log(`http server running at http://127.0.0.1:${port}`);
+});
 ```
 
-
-
-- request：当收到客户端请求时，触发该事件，提供res和req两个参数，表示请求和相应信息
+- request：当收到客户端请求时，触发该事件，提供 res 和 req 两个参数，表示请求和相应信息
   - 回调函数中，第一个参数 req 包含了客户端相关的数据或属性；
   - 回调函数中，第二个参数 res 包含了服务器相关的数据和属性；
 
-| req 事件 | 描述                                                     |
-| -------- | -------------------------------------------------------- |
-| data     | 使用回调函数，监听post请求发来的数据，值默认为buffer类型 |
-| end      | 当post 请求的数据传输完毕时触发该事件，此后不会再有数据  |
-| close    | 用户当前请求结束时，触发该事件                           |
+| req 事件 | 描述                                                         |
+| -------- | ------------------------------------------------------------ |
+| data     | 使用回调函数，监听 post 请求发来的数据，值默认为 buffer 类型 |
+| end      | 当 post 请求的数据传输完毕时触发该事件，此后不会再有数据     |
+| close    | 用户当前请求结束时，触发该事件                               |
 
-| req参数         | 描述                                  |
-| --------------- | ------------------------------------- |
-| req.url         | 得到 客户端请求的 url地址             |
-| req.method      | 客户端的 method请求类型(post/get/...) |
-| req.headers     | HTTP请求头信息                        |
-| req.httpVersion | HTTP协议版本                          |
-
+| req 参数        | 描述                                   |
+| --------------- | -------------------------------------- |
+| req.url         | 得到 客户端请求的 url 地址             |
+| req.method      | 客户端的 method 请求类型(post/get/...) |
+| req.headers     | HTTP 请求头信息                        |
+| req.httpVersion | HTTP 协议版本                          |
 
 - res.writeHead()：向请求的客户端发送响应头
 - res.write()：向请求发送内容
 - res.end() 方法：向客户端发送指定的内容，并结束本次请求的处理
 
 ```js
-server.on('request',(req,res) => {
-   // 监听post请求的参数，返回值为buffer类型，可以用.toString()转为字符串
-   req.on('data',function(data){
-      console.log(data);
-   })
-   // 使用ES6 模板语法时，必须使用反单引号
-   const str =`Your request url  is ${req.url},and request method is ${req.method}`; 
-   console.log(str);
-   res.writeHead(200,{'content-type':'text/plain'});
-   res.end('hello word');
-})
+server.on("request", (req, res) => {
+  // 监听post请求的参数，返回值为buffer类型，可以用.toString()转为字符串
+  req.on("data", function (data) {
+    console.log(data);
+  });
+  // 使用ES6 模板语法时，必须使用反单引号
+  const str = `Your request url  is ${req.url},and request method is ${req.method}`;
+  console.log(str);
+  res.writeHead(200, { "content-type": "text/plain" });
+  res.end("hello word");
+});
 ```
-
-
 
 **注意事项**
 
-- 需要对客户端发来的url请求地址进行操作，对应到服务器中实际的文件位置
+- 需要对客户端发来的 url 请求地址进行操作，对应到服务器中实际的文件位置
 
   - 客户端请求的根目录为 /
 
   - 客户端发来的请求例：/index.html
 
-  - 服务器接收到路径后需要根据文件在磁盘中的实际位置进行  path路径操作
+  - 服务器接收到路径后需要根据文件在磁盘中的实际位置进行 path 路径操作
 
-    例;  C:\Users\wzt\Desktop\knowledge\node.js\练习\node服务器/index.html  ` (--dirname +req.url);`
+    例; C:\Users\wzt\Desktop\knowledge\node.js\练习\node 服务器/index.html ` (--dirname +req.url);`
 
-- 在fs模块文件的读取和写入时 进行及时的判断，观察请求和响应是否成功；
+- 在 fs 模块文件的读取和写入时 进行及时的判断，观察请求和响应是否成功；
 
 - 代码更改后，需要重启服务器并刷新页面才能生效
 
@@ -869,20 +792,18 @@ server.on('request',(req,res) => {
 - 设置响应头，允许跨域
 
 ```js
-server.on('request',(req,res) => {
-const str = '我是响应给客户端的内容';
-res.setHeader('Access-Control-Allow-Origin','*');   //允许跨域
-res.setHeader('Access-Control-Allow-Headers','*');  //允许向服务器发送任意的请求头信息
-res.setHeader('Content-Type','text/html;charset=utf-8');  // 为防止中文乱码问题，设置响应头
-res.end(str);
-})
+server.on("request", (req, res) => {
+  const str = "我是响应给客户端的内容";
+  res.setHeader("Access-Control-Allow-Origin", "*"); //允许跨域
+  res.setHeader("Access-Control-Allow-Headers", "*"); //允许向服务器发送任意的请求头信息
+  res.setHeader("Content-Type", "text/html;charset=utf-8"); // 为防止中文乱码问题，设置响应头
+  res.end(str);
+});
 ```
-
-
 
 ##### 客户端
 
-- http.request(option,[callback])：option为json对象，主要字段有host、post(默认为80)、methods(默认为get)、path(请求相对与根的路径，默认 / )、deaders等
+- http.request(option,[callback])：option 为 json 对象，主要字段有 host、post(默认为 80)、methods(默认为 get)、path(请求相对与根的路径，默认 / )、deaders 等
 
 - response：当接受到响应时触发该事件
 
@@ -891,56 +812,59 @@ res.end(str);
 - res.end()：请求发送完毕，应当始终指定这个方法
 
 - ```js
-  const http=require('http');
-  let reqData='';
-  http.request({
-     'host':'127.0.0.1',
-     'post':'8003',
-     'methods':'post',
-     },function(res){
-     res.on('data',function(chunk){
-        // 保存请求来的数据
-        resData+=chunk;
-     });
-     res.on('end',function(){
-        // 打印请求来的数据
-        console.log(reqData);
-     });
-  }).end();
+  const http = require("http");
+  let reqData = "";
+  http
+    .request(
+      {
+        host: "127.0.0.1",
+        post: "8003",
+        methods: "post",
+      },
+      function (res) {
+        res.on("data", function (chunk) {
+          // 保存请求来的数据
+          resData += chunk;
+        });
+        res.on("end", function () {
+          // 打印请求来的数据
+          console.log(reqData);
+        });
+      }
+    )
+    .end();
   ```
 
+#### http2 模块
 
-
-#### http2模块
-
-- node对http2协议的实现，该协议是一个二进制复用协议
-- 实现并行请求可以在同一个链接中处理，移除http1.1中关于顺序和阻塞的约束、压缩了headers
+- node 对 http2 协议的实现，该协议是一个二进制复用协议
+- 实现并行请求可以在同一个链接中处理，移除 http1.1 中关于顺序和阻塞的约束、压缩了 headers
 - 允许服务器在客户端缓存中填充数据，并通过服务器推送机制来提前请求......
 
 ##### 说明：
 
-- http2模块需要依赖于ssh安全证书来实现
-- 配合fs文件模块来引入证书文件
-- 
+- http2 模块需要依赖于 ssh 安全证书来实现
+- 配合 fs 文件模块来引入证书文件
+-
 
-##### 创建http2服务器
+##### 创建 http2 服务器
 
-- 创建的服务器server拥有两个事件，一个方法
+- 创建的服务器 server 拥有两个事件，一个方法
 
   - 参数：stream 数据流，实现向客户端发送信息
   - 参数：headers 文件响应头信息
 
-  - stream事件：当请求体数据来到时触发该事件，
+  - stream 事件：当请求体数据来到时触发该事件，
 
-    - 通过  respond()方法向客户端设置响应头信息
+    - 通过 respond()方法向客户端设置响应头信息
 
     - 通过 end()方法向客户端发送文本内容，并结束请求
 
-  - error事件：
+  - error 事件：
 
     - 错误信息
 
-  - listen方法：监听客户端请求
+  - listen 方法：监听客户端请求
 
 ```js
 const http2 = require('http2');
@@ -961,135 +885,112 @@ server.on('stream',(stream,headers) => {
 server.listen(8003);
 ```
 
+##### 客户端向服务器发 http2 请求
 
-
-##### 客户端向服务器发http2请求
-
-
-
-#### util模块
+#### util 模块
 
 - util.promisify() 方法
 
   - 将异步回调风格的方法，转变成 promise 风格的方法
 
   - ```js
-    const fs =require('fs');
-    const util =require('util');
+    const fs = require("fs");
+    const util = require("util");
     // 将 fs.redFile方法 转成 promise风格的方法 并返回
     let mineReadFile = util.promisify(fs.redFile);
-    mineReadFile('./resource/content.tet').then(value=>{
-       // 事件成功的回调
-       console.log(value.toString());
-    })
+    mineReadFile("./resource/content.tet").then((value) => {
+      // 事件成功的回调
+      console.log(value.toString());
+    });
     ```
 
-    
+#### url 模块
 
-#### url模块
+- 用于分析、解析 url
 
-- 用于分析、解析url
-
-#### dns模块
+#### dns 模块
 
 - 域名处理和域名解析
 
-
-
 #### 网络通信模块
 
-##### net模块
+##### net 模块
 
-- 用于创建TCP服务器、TCP客户端
+- 用于创建 TCP 服务器、TCP 客户端
 
-##### http模块
+##### http 模块
 
-- 用于创建HTTP服务
+- 用于创建 HTTP 服务
 
-##### dgram模块
+##### dgram 模块
 
-- 用于创建UDP服务器、UDP客户端
-
-
+- 用于创建 UDP 服务器、UDP 客户端
 
 #### 进程管理
 
 > 感知、控制自身进程的运行环境和状态，可以创建子进程并与其协同工作，可以把多个程序组合在一起共同完成某项工作，并在其中充当胶水和调度器的作用。
 
-##### child_process模块
+##### child_process 模块
 
-> 可以创建和控制子进程。该模块提供的API中最核心的是`.spawn`，其余API都是针对特定使用场景对它的进一步封装，算是一种语法糖。
+> 可以创建和控制子进程。该模块提供的 API 中最核心的是`.spawn`，其余 API 都是针对特定使用场景对它的进一步封装，算是一种语法糖。
 
+### Node 模块化
 
+- node 遵循 CommonJS 模块化规范，规定了模块的特性、各模块之间如何相互依赖。
 
+  - 准确：Node.js 使用的是轻微修改版本的 CommonJS，它不需要考虑网络延迟问题
 
+- CommonJS 规定：
 
-### Node模块化
-
-- node遵循 CommonJS模块化规范，规定了模块的特性、各模块之间如何相互依赖。
-
-  - 准确：Node.js使用的是轻微修改版本的CommonJS，它不需要考虑网络延迟问题
-
-- CommonJS规定：
-
-  - 每个模块内部，module变量 代表当前模块。
+  - 每个模块内部，module 变量 代表当前模块。
   - module 变量是一个对象，它的 exports 属性是对外的接口。(即 module.exports）
-  - 加载某个模块，其实是加载该模块的 module.exports属性。<span style='color:hotpink'>require() 方法用于加载模块</span>
+  - 加载某个模块，其实是加载该模块的 module.exports 属性。<span style='color:hotpink'>require() 方法用于加载模块</span>
 
-- Node.js模块的分类
+- Node.js 模块的分类
 
-  - 内置模块（由Node.js官方提供的，例：http、path、fs等）
-  - 自定义模块（由用户自行创建的 .js文件，都属于自定义模块）
+  - 内置模块（由 Node.js 官方提供的，例：http、path、fs 等）
+  - 自定义模块（由用户自行创建的 .js 文件，都属于自定义模块）
   - 第三方模块（由第三方开发出来的模块、使用前需要先下载）
 
 - 模块作用域 ( Node.js )
 
-  - 一个js文件就是一个模块，模块的作用域是私有的，内部定义的函数、变量名只能在当前文件(模块)使用
+  - 一个 js 文件就是一个模块，模块的作用域是私有的，内部定义的函数、变量名只能在当前文件(模块)使用
 
 - 导出数据
 
   - ```js
     // 方式1：分别导出 可以是对象、数组、方法、字符串
-    exports.nmb=123;
-    exports.sum=sum;
+    exports.nmb = 123;
+    exports.sum = sum;
     // 方式2：一次导出
-    module.exports
+    module.exports;
     ```
 
-- 导入模块 require() 方法  (可省略 .js)
+- 导入模块 require() 方法 (可省略 .js)
 
   - 可以是 绝对路径 或 相对路径
 
   - ```js
     // 导入内置 fs模块
-    const fs = require('fs');
+    const fs = require("fs");
     // 导入自定义模块
-    const custom = require('./custon.js');
-    const custom = require('./custon');
+    const custom = require("./custon.js");
+    const custom = require("./custon");
     // 导入第三方模块
-    const moment = require('monent');
-     
+    const moment = require("monent");
     ```
-
-
-
-
-
-
-
-
 
 #### 模块的加载机制
 
-- node.js中可以使用require导入模块，使用exports方法导出模块
+- node.js 中可以使用 require 导入模块，使用 exports 方法导出模块
 - <span style='color:yellow'>模块在第一次加载后会被缓存。</span> 因此多次调用 require() 并不会导致模块代码被执行多次，
 - 引入模块的查询机制：逐级向上级文件查询依赖的包
 - 内置模块
   - 内置模块加载的优先级最高
-  - 例如：require('fs') 始终返回的是内置fs模块，即使node_modules 目录下存在名字相同的包也叫fs。
+  - 例如：require('fs') 始终返回的是内置 fs 模块，即使 node_modules 目录下存在名字相同的包也叫 fs。
 - 自定义模块
-  - 使用require()，加载自定义模块时，必须指定`./`或`../`开头的路径标识符。否则node会将其视为 <span style='color:hotpink'>内置模块`或`第三方模块</span>进行加载。
-  - 在导入自定义模块时，省略文件扩展名，则node会按顺序进行如下尝试
+  - 使用 require()，加载自定义模块时，必须指定`./`或`../`开头的路径标识符。否则 node 会将其视为 <span style='color:hotpink'>内置模块`或`第三方模块</span>进行加载。
+  - 在导入自定义模块时，省略文件扩展名，则 node 会按顺序进行如下尝试
     - 按照确切的文件名加载
     - 补全`.js`扩展名进行加载
     - 补全`.json`扩展名进行加载
@@ -1097,16 +998,14 @@ server.listen(8003);
     - 加载失败、终端报错
 - 第三方模块加载机制
   - 当传递给 require() 的模块标识符不是内置模块，也没有 ./ 或 ../ 开头，
-  - 则node.js会从当前模块的父目录开始，尝试从 `/node_modules` 文件夹中加载第三方模块
+  - 则 node.js 会从当前模块的父目录开始，尝试从 `/node_modules` 文件夹中加载第三方模块
   - <span style='color:hotpink'>如果没有找到第三方模块，则移动到再上一层父目录中进行加载，直到文件系统的根目录</span>
 
+#### 使用 ES6 模块化
 
-
-#### 使用ES6模块化
-
-- Node.js 默认不支持ES6模块发规范
-- 可以借助插件，将代码进行转化，把ES6规范转化为Commonjs规范
-- 实现插件：Bable-cli  和 Browserify
+- Node.js 默认不支持 ES6 模块发规范
+- 可以借助插件，将代码进行转化，把 ES6 规范转化为 Commonjs 规范
+- 实现插件：Bable-cli 和 Browserify
 - 解决方法：
 
 ```shell
@@ -1127,50 +1026,43 @@ babel src -d lib
 # 5.此时，就可以使用es6的模块化语法在src文件夹下书写代码，编译后，运行lib文件夹下的对应代码即可
 ```
 
-
-
-
-
 ### npm 与 包
 
 - 概念
-  - Node.js中的 *第三方模块* 又叫做 包，是同一个概念。
-  - 在node下载安装时，npm命令工具一同被安装在系统中，可以直接使用
+  - Node.js 中的 _第三方模块_ 又叫做 包，是同一个概念。
+  - 在 node 下载安装时，npm 命令工具一同被安装在系统中，可以直接使用
 - 包的来源
-  - 不同于node内置模块和自定义模块，包由第三方个人或团队开发出来，免费供所有人使用。
-  - 注：node.js的包都是免费且开源的，不需要付费即可免费下载使用。
+  - 不同于 node 内置模块和自定义模块，包由第三方个人或团队开发出来，免费供所有人使用。
+  - 注：node.js 的包都是免费且开源的，不需要付费即可免费下载使用。
 - 包的作用
-  - 基于内置模块的封装，提供了更高效、便捷的API，提高开发效率。
+  - 基于内置模块的封装，提供了更高效、便捷的 API，提高开发效率。
 
+#### nrm 切换源
 
-
-#### nrm切换源
-
-- 著名npm，Inc旗下
-  - 网站：https://www.npmjs.com/     (全球最大的包公享平台，找寻需要的包)
-  - 下载地址：https://registry.npmjs.org/     （从这个服务器上 下载自己所需要的包）
+- 著名 npm，Inc 旗下
+  - 网站：https://www.npmjs.com/ (全球最大的包公享平台，找寻需要的包)
+  - 下载地址：https://registry.npmjs.org/ （从这个服务器上 下载自己所需要的包）
 - 包的下载优化
-  - npm下载的默认地址是国外的 https://registry.npmjs.org/服务器，需要经过[海底光缆](https://baike.baidu.com/item/海底光缆/4107830) 跨度较大导致时间较慢。
-  - 解决方案：淘宝npm镜像服务器
+  - npm 下载的默认地址是国外的 https://registry.npmjs.org/服务器，需要经过[海底光缆](https://baike.baidu.com/item/海底光缆/4107830) 跨度较大导致时间较慢。
+  - 解决方案：淘宝 npm 镜像服务器
     - 镜像(Mirroring)：是一种文件存储形式，一个磁盘上的数据在另一个磁盘上存在完全相同的副本；
-- 切换npm的下载包的镜像源   //必须在英文目录下使用，否则报错！
+- 切换 npm 的下载包的镜像源 //必须在英文目录下使用，否则报错！
+
   - 淘宝镜像源:`https://registry.npm.taobao.org/`
-  - 原始npm源:`https://registry.npmjs.org`
-  - 或者用 `nrm ls`  查看可用的镜像源有哪些
+  - 原始 npm 源:`https://registry.npmjs.org`
+  - 或者用 `nrm ls` 查看可用的镜像源有哪些
 
   ```sh
   npm config get registry # 查看当前的下包镜像源
   npm congig set registry=http://registry.npm.taobao.org/   #切换下包镜像源为淘宝镜像源
-  npm config get registry  # 检查镜像源是否下载成功  
+  npm config get registry  # 检查镜像源是否下载成功
   ```
-  
-  
 
-#### npm包管理工具
+#### npm 包管理工具
 
-> 由npm，Inc公司提供，在node.js安装时已经一起安装在用户电脑(全名：Node Package  Manager)
+> 由 npm，Inc 公司提供，在 node.js 安装时已经一起安装在用户电脑(全名：Node Package Manager)
 >
-> 基于Node.js的包管理器，初衷：JavaScript开发人员更容易分享和复用代码
+> 基于 Node.js 的包管理器，初衷：JavaScript 开发人员更容易分享和复用代码
 
 ##### 命令操作
 
@@ -1213,8 +1105,6 @@ npm help         #查看帮助
 
 ```
 
-
-
 ##### 包的语义化版本规范
 
 包的版本以：' 点分十进制 ' 进行定义,共三位数字，例：2,23,0
@@ -1223,55 +1113,45 @@ npm help         #查看帮助
 
 - 主版本号 major：大的更新
 - 次版本号 minor：小的更新，功能版本更新
-- Bug修复版本 patch：奇数表示不稳定，一般都以偶数结尾
+- Bug 修复版本 patch：奇数表示不稳定，一般都以偶数结尾
 
-
-
-版本号的标识： 
+版本号的标识：
 
 - `^2.2.0` 表示第一位锁定
 - `~2.2.0` 表示前两位锁定
 - `2.2.0` 表示版本号都锁定
-- `*` 表示最新版本 
+- `*` 表示最新版本
 - 注：未锁定的版本位，默认会选择最新的版本
-
-
-
-
 
 ##### 注意事项
 
 初次包安装完成后，会多两个新的文件
 
-<span style='color:hotpink'>不建议手动修改自动生册文件中代码，npm包管理工具会自动维护他们</span>
+<span style='color:hotpink'>不建议手动修改自动生册文件中代码，npm 包管理工具会自动维护他们</span>
 
 - node_modules 文件夹，用来存放所有已经安装到项目中的包。
 
-    // require() 导入第三方包时，就是从这个目录中查找并加载包。
+  // require() 导入第三方包时，就是从这个目录中查找并加载包。
 
 - package-lock.json 配置文件，// 用来记录 node_modules 目录下的每个包的下载信息。(包名、版本号、下载地址等)
 
+##### package.json 包管理配置文件(自动生成和维护)
 
-
-##### package.json包管理配置文件(自动生成和维护)
-
-npm规定，在<span style='color:hotpink'>项目根目录</span>中，<span style='color:hotpink'>必须</span>提供一个叫 <span style='color:hotpink'>package.json</span>的包管理配置文件。
+npm 规定，在<span style='color:hotpink'>项目根目录</span>中，<span style='color:hotpink'>必须</span>提供一个叫 <span style='color:hotpink'>package.json</span>的包管理配置文件。
 
 用来记录与项目相关的一些配置信息。
 
-- 项目的名称name:如果要发布到npm平台,需要拥有全网唯一的名称
+- 项目的名称 name:如果要发布到 npm 平台,需要拥有全网唯一的名称
 - repository：保存放的仓库地址
 - keywords：包的关键字，有利于其他人搜索
-- 版本号version、描述description
-- 项目的作者author、项目所安装的依赖 dependencies、项目的版权分发方式license...
-- 项目都用到了那些包  
+- 版本号 version、描述 description
+- 项目的作者 author、项目所安装的依赖 dependencies、项目的版权分发方式 license...
+- 项目都用到了那些包
 - `scripts`：npm 脚本,定义一些快捷指令之类的内容,可以方便的在控制台进行调用
-- 哪些包只在开发期间使用    记录在：devDepende ncies 节点  生产包
-- 哪些包在开发和部署时都需要使用    记录在：dependencies节点  开发包
+- 哪些包只在开发期间使用 记录在：devDepende ncies 节点 生产包
+- 哪些包在开发和部署时都需要使用 记录在：dependencies 节点 开发包
 - main: 记录项目的主文件，项目的启动文件
-- license：遵循的协议，常配置为MIT，表示开源，可以任意使用
-
-
+- license：遵循的协议，常配置为 MIT，表示开源，可以任意使用
 
 ##### 局部与全局安装
 
@@ -1281,15 +1161,15 @@ npm规定，在<span style='color:hotpink'>项目根目录</span>中，<span sty
   - 方法二：在项目文件中配置好相应的`scripts`脚本命令才行；
   - ![image-20220826155456408](images/NodeJS/image-20220826155456408.png)
 
-****
+---
 
-##### npm脚本
+##### npm 脚本
 
-- 写在项目package.json中的`scripts部分` 用于自定义命令行中的脚本命令
+- 写在项目 package.json 中的`scripts部分` 用于自定义命令行中的脚本命令
 
 - 控制台使用时必须`npm run 自定义的命令`
 
--  
+-
 
 - 关于脚本的串并行
 
@@ -1298,7 +1178,7 @@ npm规定，在<span style='color:hotpink'>项目根目录</span>中，<span sty
 
 - 脚本代码的简写
 
-  - 解释：就是在执行的时候，可以不用写run，直接写`npm 自定义命令`即可
+  - 解释：就是在执行的时候，可以不用写 run，直接写`npm 自定义命令`即可
 
   - 可以使用的命令
 
@@ -1307,31 +1187,29 @@ npm规定，在<span style='color:hotpink'>项目根目录</span>中，<span sty
 
     ![image-20220116194145096](images/NodeJS/image-20220116194145096.png)
 
-
-
 解决的问题
 
 ###### 1、解决多人协作问题
 
 由于协作项目可能导致包的重复，引发项目体积过大，不方便团队成员之间共享项目源代码
 
-解决方案：<span style='color:hotpink'>共享时剔除node_modules</span>；即自己安装的包
+解决方案：<span style='color:hotpink'>共享时剔除 node_modules</span>；即自己安装的包
 
 ###### 2、记录项目中安装了哪些包
 
-// 在上传gitup 时不用上传这些赘余的包，即node_modules文件，把它添加到.gitignore忽略文件中
+// 在上传 gitup 时不用上传这些赘余的包，即 node_modules 文件，把它添加到.gitignore 忽略文件中
 
-###### 3、快速创建package.json
+###### 3、快速创建 package.json
 
-`npm init -y`  // <span style='color:hotpink'>在执行命令的目录中，快速新建package.json文件<br>只能在英文目录下成功运行，不能有空格</span>
+`npm init -y` // <span style='color:hotpink'>在执行命令的目录中，快速新建 package.json 文件<br>只能在英文目录下成功运行，不能有空格</span>
 
 // 运行 npm install 命令 安装包时，npm 包管理工具会自动把包的名称和版本号，记录到 package.json 中。
 
 ###### 4、dependencies 节点
 
-package.json文件中，dependencies节点，专门用来记录使用 npm install命令安装过的包
+package.json 文件中，dependencies 节点，专门用来记录使用 npm install 命令安装过的包
 
-表示在项目开发和实际上线后都需要使用的包，建议存放在dependencies节点中。
+表示在项目开发和实际上线后都需要使用的包，建议存放在 dependencies 节点中。
 
 ###### 5、一次性安装所有的包
 
@@ -1342,15 +1220,15 @@ package.json文件中，dependencies节点，专门用来记录使用 npm instal
 Error: Cannot find module 'moment'
 ```
 
-安装命令:    `npm  install `  或者  `npm  i`
+安装命令: `npm  install ` 或者 `npm  i`
 
 ###### 6、卸载指定的包
 
-`npm uninstall 具体的包名`   // 命令执行后，会把卸掉的包自动从package.json的dependencies中移除
+`npm uninstall 具体的包名` // 命令执行后，会把卸掉的包自动从 package.json 的 dependencies 中移除
 
 ###### 7、devDependencies 节点
 
-表示只在开发过程中使用，在实际线上项目中不使用的包，建议存放在devDependencies节点中。
+表示只在开发过程中使用，在实际线上项目中不使用的包，建议存放在 devDependencies 节点中。
 
 ```sh
 # 安装指定的包，并记录到 devDependencies 节点中
@@ -1359,38 +1237,30 @@ npm i 包名 -D
 npm install 包名 --save-dev
 ```
 
-
-
 #### 包的分类
 
 ##### ①、项目包
 
-安装到node_modules项目目录中的包，都属于项目包
+安装到 node_modules 项目目录中的包，都属于项目包
 
-- 开发依赖包 (被记录在  devDependencies节点中，只在开发期间使用)
-- 核心依赖包（被记录在 dependencies节点中，在开发期间和项目上线后都使用）
+- 开发依赖包 (被记录在 devDependencies 节点中，只在开发期间使用)
+- 核心依赖包（被记录在 dependencies 节点中，在开发期间和项目上线后都使用）
 
 ##### ②、全局包
 
 安装在其他文件中，而不在项目文件。
 
-`npm i 包名 -g`    // 安装时使用 -g 参数，则会把安装包设置为全部包。
+`npm i 包名 -g` // 安装时使用 -g 参数，则会把安装包设置为全部包。
 
 - 只有<span style='color:hotpink'>工具性质的包</span>，才有安装在全局的必要性。
 - 判断是否有全局安装的必要根据个人需要、官方文档、项目的实际需求综合考虑。
-
-
-
-
 
 #### 规范化的包结构
 
 - 包必须以<span style='color:hotpink'>单独的目录</span>而存在
 - 包的顶级目录下必须包含<span style='color:hotpink'>package.json</span>这个包管理配置文件
-- package.json 中必须包含 <span style='color:hotpink'>name、version、main</span>  这三个属性，分别代表 <span style='color:skyblue'>包的名字、版本号、包的入口</span>。
-- 以上三点是最基本的规范要求，还更多关于包的规范，自行寻找。 
-
-
+- package.json 中必须包含 <span style='color:hotpink'>name、version、main</span> 这三个属性，分别代表 <span style='color:skyblue'>包的名字、版本号、包的入口</span>。
+- 以上三点是最基本的规范要求，还更多关于包的规范，自行寻找。
 
 ### 开发属于自己的包
 
@@ -1404,51 +1274,41 @@ npm install 包名 --save-dev
 
 - ##### 注册 npm 账号
 
-  ①访问 https://www.npmjs.com/ 网站，点击 sign up 按钮，注册账号
+  ① 访问 https://www.npmjs.com/ 网站，点击 sign up 按钮，注册账号
 
-  ④登录邮箱，点击验证链接，进行账号的验证
+  ④ 登录邮箱，点击验证链接，进行账号的验证
 
 - ##### 登录 npm 账号
 
   可以在终端中执行 `npm login` 命令(或者 `npm adduser` )，依次输入用户名、密码、邮箱后，即可登录成功。
 
-   <span style='color:hotpink'>注意：注意：在运行 npm login 命令之前，必须先把下载包的服务器地址切换为 npm 的官方服务器。否则会导致发布包失败！</span>
+  <span style='color:hotpink'>注意：注意：在运行 npm login 命令之前，必须先把下载包的服务器地址切换为 npm 的官方服务器。否则会导致发布包失败！</span>
 
 - ##### 发布包
 
-  - 修改好包的package.json信息后上传
-  - 将终端切换到包的根目录、运行 `npm publish`命令，即可将包发布到npm上
-  - 注意：包名不能出现雷同！ 
+  - 修改好包的 package.json 信息后上传
+  - 将终端切换到包的根目录、运行 `npm publish`命令，即可将包发布到 npm 上
+  - 注意：包名不能出现雷同！
 
 ![image-20220826160120490](images/NodeJS/image-20220826160120490.png)
 
-
-
 #### 5、删除已发布的包
 
--  运行 `npm unpublish 包名 --force` 命令
+- 运行 `npm unpublish 包名 --force` 命令
 - 注意
-  - npm unpublish 命令只能删除72小时以内发布的包
-  - npm unpublish 删除的包，在24小时内不允许重复发布
+  - npm unpublish 命令只能删除 72 小时以内发布的包
+  - npm unpublish 删除的包，在 24 小时内不允许重复发布
   - 发布时应慎重，尽可能不要发布没有意义的包
-
-
-
-
-
-
 
 ### 其他第三方包
 
-#### JShaman代码混淆
+#### JShaman 代码混淆
 
-
-
-#### 5ting_toc 
+#### 5ting_toc
 
 可以把 md 文档转为 html 页面的 工具。
 
-生成的 html页面(包含css和js文件) 会直接放在本地的 preview文件夹中
+生成的 html 页面(包含 css 和 js 文件) 会直接放在本地的 preview 文件夹中
 
 ```sh
 # 将 i5ting_toc 安装为全局包
@@ -1457,11 +1317,9 @@ npm i i5ting_toc -g
 # i5ting_toc -f 要转换的md文件路径 -o
 ```
 
-
-
 #### nodemon
 
-- 当修改并保存node可执行文件时，自动重启node服务
+- 当修改并保存 node 可执行文件时，自动重启 node 服务
 
 ```sh
 # 全局安装nodemon
@@ -1470,37 +1328,31 @@ npm install -g nodemon
 nodemon 文件名
 ```
 
-
-
 #### 本地服务器
 
-- 快捷创建本地服务器   http-server
+- 快捷创建本地服务器 http-server
 
   ```sh
   在任意文件路径下运行    http-server
   ```
 
-  
-
-​    
-
-
+​
 
 #### 定时任务
 
-- [在node中使用定时任务node-cron - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/474819199)
+- [在 node 中使用定时任务 node-cron - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/474819199)
 
 - [Nodejs 定时执行(node-cron) – 隨習筆記 (pkcms.cn)](https://blog.pkcms.cn/archives/1441)
 
-- [nodejs实现给自动定时发送邮件 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/447973427)
+- [nodejs 实现给自动定时发送邮件 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/447973427)
 
 - `nodeCron.schedule()` 方法
 
-  - 参数1：cron 表达式。可以使用此表达式来指定应执行任务的时间（或次数），表达式应采用`* * * * * *`格式。可以用适当的数字（或可能的字符）替换每个`*`字段
+  - 参数 1：cron 表达式。可以使用此表达式来指定应执行任务的时间（或次数），表达式应采用`* * * * * *`格式。可以用适当的数字（或可能的字符）替换每个`*`字段
 
     ```js
     // 用它来描述任务应该执行的时间。表达式中的每个 * 都是一个字段，您可以在下图中看到每个 * 字段代表的意义
-    
+
     "* * * * * *"
      | | | | | |
      | | | | | |
@@ -1510,29 +1362,27 @@ nodemon 文件名
      | | hour						// 0-23
      | minute 						// 0-59
      second(optional)     			 // 0-59
-    
+
     * 为通配符
     - 为时间段连接符
     , 号为分隔符，可以在某一节输入多个值
     / 号为步进符
-    
+
     // 例子：
     * * * * * *     // 每秒都执行
     '10 03 * * * *'   // 在 秒为10 分钟为3 执行
     '10 05 14 * * *'  // 每天14点05分10秒时 执行
     '10 05 14-17 * * *'   // 每天14-17点的05分10秒时执行语句
     '11,22,25 * * * * *'  // 在秒为 11 22 25 时都执行
-    
+
     '*/3 * * * * *'    // 间隔3秒执行
     '0 */2 * * * *'		// 间隔两分钟执行
-    
+
     ```
 
-    
+  - 参数 2：是第一个参数中的表达式执行的任务。你可以在这个函数中做任何你想做的事情。您可以发送电子邮件、进行数据库备份或下载数据。若当前系统时间与第一个参数中提供的时间相同时，将执行此函数。
 
-  - 参数2：是第一个参数中的表达式执行的任务。你可以在这个函数中做任何你想做的事情。您可以发送电子邮件、进行数据库备份或下载数据。若当前系统时间与第一个参数中提供的时间相同时，将执行此函数。
-
-  - 参数3：可选参数，可以传递给该方法进行其他配置
+  - 参数 3：可选参数，可以传递给该方法进行其他配置
 
     ```js
     {
@@ -1542,8 +1392,6 @@ nodemon 文件名
     job.start();
     // 默认情况下scheduled是true. 如果将其设置为false，则必须通过调用对象start上的方法来安排作业job。job是调用schedule方法返回的对象。
     ```
-
-    
 
 ```js
 // 安装
@@ -1557,13 +1405,11 @@ const job = nodeCron.schedule("* * * * * *", function jobYouNeedToExecute() {
 }, true, "America/Sao_Paulo");
 ```
 
-
-
 #### 邮件服务
 
 - [Nodemailer](https://nodemailer.com/about/)
-- [Node实现邮箱服务功能 - 简书 (jianshu.com)](https://www.jianshu.com/p/b0786cc98755)
-- [用nodejs向163邮箱, gmail邮箱, qq邮箱发邮件, nodemailer使用详解 - 码农教程 (manongjc.com)](http://www.manongjc.com/detail/52-xatfnyyxppadwng.html)
+- [Node 实现邮箱服务功能 - 简书 (jianshu.com)](https://www.jianshu.com/p/b0786cc98755)
+- [用 nodejs 向 163 邮箱, gmail 邮箱, qq 邮箱发邮件, nodemailer 使用详解 - 码农教程 (manongjc.com)](http://www.manongjc.com/detail/52-xatfnyyxppadwng.html)
 
 ```js
 // 安装对应模块nodemaile
@@ -1601,17 +1447,15 @@ async function main() {
 main().catch(console.error);
 ```
 
-
-
 #### 操作 Excel 表格
 
 > node-xlsx 模块
 
 - [会计老婆大人的前端小跟班儿——node 操作 Excel 表格 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/562528384)
-- [使用nodejs处理Excel文件 (360doc.com)](http://www.360doc.com/content/22/0831/14/18334519_1046005809.shtml)
-- [(40条消息) nodejs操作Excel_node操作excel_imdongrui的博客-CSDN博客](https://blog.csdn.net/D578332749/article/details/117783517)
-- [node操作excel - 码农教程 (manongjc.com)](http://www.manongjc.com/detail/13-ewirrikcqvxkptk.html)
-- [(40条消息) node读写xlsx文件_node-xlsx_阿斯巴甜嘛的博客-CSDN博客](https://blog.csdn.net/weixin_47201486/article/details/123235858)
+- [使用 nodejs 处理 Excel 文件 (360doc.com)](http://www.360doc.com/content/22/0831/14/18334519_1046005809.shtml)
+- [(40 条消息) nodejs 操作 Excel_node 操作 excel_imdongrui 的博客-CSDN 博客](https://blog.csdn.net/D578332749/article/details/117783517)
+- [node 操作 excel - 码农教程 (manongjc.com)](http://www.manongjc.com/detail/13-ewirrikcqvxkptk.html)
+- [(40 条消息) node 读写 xlsx 文件*node-xlsx*阿斯巴甜嘛的博客-CSDN 博客](https://blog.csdn.net/weixin_47201486/article/details/123235858)
 
 ```js
 // 安装 node-xlsx 模块
@@ -1647,9 +1491,9 @@ sheets.forEach(sheet => {
             [ `${objective}结果返回`, `X`, `${objective}返回信息` ]
         ]
     }
-    
 
-        ok = 
+
+        ok =
         [
             {
                 name: 'firstSheet',
@@ -1677,13 +1521,11 @@ fs.writeFileSync('./abc.xlsx',nodeXlsx.build(ok),"binary");
 
 ```
 
-
-
 #### 文件处理[multer](https://github.com/expressjs/multer/blob/master/README.md)
 
 - [multer](https://github.com/expressjs/multer/blob/master/README.md) 是一个用于处理 multipart/form-data 的 node.js 中间件，主要用于上传文件。它被写在 busboy 的顶部以获得最大的效率。
 
-- 在项目中安装  npm install multer
+- 在项目中安装 npm install multer
 
 - 注意：用户获取服务器图片需要处理对应的静态资源请求
 
@@ -1692,7 +1534,7 @@ fs.writeFileSync('./abc.xlsx',nodeXlsx.build(ok),"binary");
   const multer = require('multer');
   //  配置文件保存的目录
   const upload = multer({ dest: '设置图片上传的路径' })
-  
+
   // upload.single('avatar')  配置上传单一文件时的name属性 avatar
   // 在执行回调函数之前执行，把图片存储到本地，再执行回调函数
   // req.file得到上传的文件信息
@@ -1700,7 +1542,7 @@ fs.writeFileSync('./abc.xlsx',nodeXlsx.build(ok),"binary");
       console.log(req.file);
       res.send(req.file)
   });
-  
+
   // 得到的信息格式 req.file
   {
     fieldname: 'avatar',
@@ -1713,61 +1555,50 @@ fs.writeFileSync('./abc.xlsx',nodeXlsx.build(ok),"binary");
     size: 1096
   }
   ```
-  
+
   ```js
   // 更好的使用方式：
-  const multer = require('multer');
+  const multer = require("multer");
   const storage = multer.diskStorage({
-      // 上传的文件目录
-      destination: function(req, file, cd) {
-          cd(null, path.join(__dirname, 'public', 'images', 'goods'))
-      },
-      // 上传文件的名称
-      filename: function(req, file, cd) {
-          cd(null, file.originalname)
-      }
+    // 上传的文件目录
+    destination: function (req, file, cd) {
+      cd(null, path.join(__dirname, "public", "images", "goods"));
+    },
+    // 上传文件的名称
+    filename: function (req, file, cd) {
+      cd(null, file.originalname);
+    },
   });
   // 应用配置
-  const upload = multer({ storage })
+  const upload = multer({ storage });
   ```
-  
 
 ![image-20230914001620156](images/NodeJS/image-20230914001620156.png)
 
-
-
-
-
-
-
 #### [模板引擎-后端渲染](http://aui.github.io/art-template/zh-cn/)
 
-- [art-template Js模板引擎](http://aui.github.io/art-template/zh-cn/)
+- [art-template Js 模板引擎](http://aui.github.io/art-template/zh-cn/)
 
+#### CryptoJS 前端加解密
 
-
-
-
-#### CryptoJS前端加解密
-
-> - [使用Crypto在Node.js中进行数据加密和解密 - 掘金 (juejin.cn)](https://juejin.cn/post/7174300450588459022)
-> - [AES算法（十一） NodeJS 环境中实战 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/462233761)
+> - [使用 Crypto 在 Node.js 中进行数据加密和解密 - 掘金 (juejin.cn)](https://juejin.cn/post/7174300450588459022)
+> - [AES 算法（十一） NodeJS 环境中实战 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/462233761)
 >
-> [【全栈之旅】NodeJs登录流程以及Token身份验证 - 掘金 (juejin.cn)](https://juejin.cn/post/6894065644933906445)
+> [【全栈之旅】NodeJs 登录流程以及 Token 身份验证 - 掘金 (juejin.cn)](https://juejin.cn/post/6894065644933906445)
 >
->  `crypto-js`是一个纯 javascript 写的加密算法类库 ，可以非常方便地在 javascript 进行 MD5、SHA1、SHA2、SHA3、RIPEMD-160 哈希散列，进行 AES、DES、Rabbit、RC4、Triple DES 加解密。
+> `crypto-js`是一个纯 javascript 写的加密算法类库 ，可以非常方便地在 javascript 进行 MD5、SHA1、SHA2、SHA3、RIPEMD-160 哈希散列，进行 AES、DES、Rabbit、RC4、Triple DES 加解密。
 
 ```js
-const CryptoJS = require('crypto-js');
+const CryptoJS = require("crypto-js");
 /**
  * 加密
  */
 function encrypt(word) {
-  const key = CryptoJS.enc.Utf8.parse('yyq1234567890yyq');//16位随机公钥
+  const key = CryptoJS.enc.Utf8.parse("yyq1234567890yyq"); //16位随机公钥
   const srcs = CryptoJS.enc.Utf8.parse(word);
   const encrypted = CryptoJS.AES.encrypt(srcs, key, {
     mode: CryptoJS.mode.ECB,
-    padding: CryptoJS.pad.Pkcs7
+    padding: CryptoJS.pad.Pkcs7,
   });
   return encrypted.toString();
 }
@@ -1776,36 +1607,28 @@ function encrypt(word) {
  */
 function decrypt(word) {
   // 需要16位
-  const key = CryptoJS.enc.Utf8.parse('yyq1234567890yyq');//16位随机公钥
+  const key = CryptoJS.enc.Utf8.parse("yyq1234567890yyq"); //16位随机公钥
   const srcs = CryptoJS.enc.Utf8.stringify(word);
   const decrypt = CryptoJS.AES.decrypt(srcs, key, {
     mode: CryptoJS.mode.ECB,
-    padding: CryptoJS.pad.Pkcs7
+    padding: CryptoJS.pad.Pkcs7,
   });
   console.log(decrypt);
   return CryptoJS.enc.Utf8.stringify(decrypt).toString();
 }
 module.exports = {
   encrypt,
-  decrypt
+  decrypt,
 };
 ```
 
-
-
-
-
 #### JWT(Json Web Tokens)
 
->  生成Token的解决方案有许多，但是我这里使用的是`JWT（Json web token ）`
+> 生成 Token 的解决方案有许多，但是我这里使用的是`JWT（Json web token ）`
 
 ```js
 pnpm i jsonwebtoken
 ```
-
-
-
-
 
 #### [alipay-sdk](https://www.npmjs.com/package/alipay-sdk)
 
@@ -1818,10 +1641,10 @@ pnpm i jsonwebtoken
 - 使用步骤
 
   - 遇到的问题：应用私钥，需要使用`支付宝开放平台密钥工具`进行格式转换
-  
+
   - ```js
-    // 下载alipay-sdk  
-    npm i alipay-sdk 
+    // 下载alipay-sdk
+    npm i alipay-sdk
     // 建立单独文件配置支付基本信息
     const AlipaySdk = require('alipay-sdk').default;
     const alipaySdk = new AlipaySdk({
@@ -1833,16 +1656,16 @@ pnpm i jsonwebtoken
         gateway: 'https://openapi.alipay.com/gateway.do',
         // 支付宝公钥  在支付包软件中生成应用公钥 复制到支付宝网站中配置，生成支付宝公钥
         alipayPublicKey: '',
-        // 应用私钥 在支付包软件中生成应用私钥 
+        // 应用私钥 在支付包软件中生成应用私钥
         privateKey:''
     })
     module.exports = alipaySdk;
-    
-    
+
+
     // 在主文件中 导入相关模块
     const AlipayFormData = require('alipay-sdk/lib/form').default;
     const alipay = require('./alipay/index.js');
-    
+
     // 创建订单
     app.post('/alipay', async function(req, res) {
         console.log(req.body);
@@ -1874,10 +1697,10 @@ pnpm i jsonwebtoken
             // 处理错误信息
             console.error(err);
         })
-    
-    
+
+
     })
-    
+
     // 交易查询
     app.post('/alipayOver', async function(req, res) {
         const formData = new AlipayFormData();
@@ -1926,32 +1749,26 @@ pnpm i jsonwebtoken
         })
     })
     ```
-    
-    
 
+### [Express 框架](https://www.expressjs.com.cn/)
 
+> 对外提供：web 网页资源、API 接口
 
-### [Express框架](https://www.expressjs.com.cn/)
-
-> 对外提供：web网页资源、API 接口
-
-- 安装 Express  `npm i express`
+- 安装 Express `npm i express`
 
 ```js
 //导入 express
-const express = require('express');
+const express = require("express");
 //创建 应用对象
 const app = express();
 
 //创建路由规则 见3、4
-app.get('/home',(req,res)=>res.send('hello'));
+app.get("/home", (req, res) => res.send("hello"));
 //利用 app.listen(端口号、回调函数)；监听端口  启动服务器
-app.listen(80,() => {
-    console.log('80默认端口监听中：express server running at http://127.0.0.1')
-})
+app.listen(80, () => {
+  console.log("80默认端口监听中：express server running at http://127.0.0.1");
+});
 ```
-
-
 
 #### 路由方法
 
@@ -1959,138 +1776,130 @@ app.listen(80,() => {
 
 | 方法       | 说明                     |
 | ---------- | ------------------------ |
-| app.get()  | 监听客户端的 get请求     |
-| app.post() | 监听客户端的 post请求    |
+| app.get()  | 监听客户端的 get 请求    |
+| app.post() | 监听客户端的 post 请求   |
 | app.all()  | 监听客户端所有类型的请求 |
 
-
-
-#### 请求参数req
+#### 请求参数 req
 
 - 原生获取【可用】
 
   ```js
-  req.method; 	// 请求方法
-  req.url;		// 请求url
+  req.method; // 请求方法
+  req.url; // 请求url
   req.httpVersion; // 请求版本
-  req.headers;	 // 请求头
+  req.headers; // 请求头
   ```
 
-- express封装获取
+- express 封装获取
 
   ```js
-  req.path;  // 请求路径，原生req.pathname
-  req.query;  // 获取 url中携带的查询参数，{xx:xx,a:xx}
-  req.params  // 获取url的动态参数
-  
-  
-  req.ip;		// 获取请求者的ip
-  req.get('host'); // 获取特定名的请求头信息
-  
-  
+  req.path; // 请求路径，原生req.pathname
+  req.query; // 获取 url中携带的查询参数，{xx:xx,a:xx}
+  req.params; // 获取url的动态参数
+
+  req.ip; // 获取请求者的ip
+  req.get("host"); // 获取特定名的请求头信息
+
   // 前端中使用
   // <a href="/datali/1/news">新闻1</a>
   // <a href="/datali/2">新闻2</a>
-  
+
   // 后端_路径中使用 : 接受动态路径参数,可以连续写多个，和第一个获取方式一致
-  app.get("/detail/:id/:type/...",(req,res)=>{
-      console.log(req.params); // 例如 /detail/2 得到 {id:2}
-      console.log(req.params.id); // 例如 /detail/3 得到 3
-  })
-  
-  app.get(':/id.html',(res,req)=>{ console.log(req.params.id) })
+  app.get("/detail/:id/:type/...", (req, res) => {
+    console.log(req.params); // 例如 /detail/2 得到 {id:2}
+    console.log(req.params.id); // 例如 /detail/3 得到 3
+  });
+
+  app.get(":/id.html", (res, req) => {
+    console.log(req.params.id);
+  });
   ```
-  
+
   <img src="./images/NodeJS/image-20220826160241678.png" alt="image-20220826160241678" style="zoom:67%;" />
-  
-  
 
-
-
-#### 响应设置res
+#### 响应设置 res
 
 - 原生
 
   ```js
-  res.statusCode = 404;  // 设置响应状态码
-  res.statusMessage =  'love';  // 设置状态描述
-  res.setHeader('xxx','yyy');	  // 设置响应头
-  res.write('hello word');	  // 设置响应体
-  res.end('response');		  // 设置响应体+发送响应
+  res.statusCode = 404; // 设置响应状态码
+  res.statusMessage = "love"; // 设置状态描述
+  res.setHeader("xxx", "yyy"); // 设置响应头
+  res.write("hello word"); // 设置响应体
+  res.end("response"); // 设置响应体+发送响应
   ```
 
-- express封装
+- express 封装
 
   - res.send() 方法，把处理好的内容，发送给客户端、应写在监听请求处理函数的末尾
-  - send中的数据必须是字符串类型、如果是对象或其他数据格式，需要使用js方法进行转化
+  - send 中的数据必须是字符串类型、如果是对象或其他数据格式，需要使用 js 方法进行转化
 
   ```js
-  res.status();	// 设置状态码
-  res.set('xxx','xxx');	// 设置响应头
-  res.send('hello');		// 设置响应体+发送响应
+  res.status(); // 设置状态码
+  res.set("xxx", "xxx"); // 设置响应头
+  res.send("hello"); // 设置响应体+发送响应
   // 简写
-  res.status(500).set('xxx','xxxx').send('hello');
-  
-  
+  res.status(500).set("xxx", "xxxx").send("hello");
+
   // 其他一些特殊的响应
-  res.redirect("/login");   // 重定向，跳转到指定接口继续执行代码
-  res.download('文件绝对路径'); // 返回指定文件，并由用户浏览器自动下载
-  res.json({name:'xxx'});		// 响应json结构结果
-  res.sendFile('文件路径');	 // 响应文件内容,给浏览器展示
+  res.redirect("/login"); // 重定向，跳转到指定接口继续执行代码
+  res.download("文件绝对路径"); // 返回指定文件，并由用户浏览器自动下载
+  res.json({ name: "xxx" }); // 响应json结构结果
+  res.sendFile("文件路径"); // 响应文件内容,给浏览器展示
   ```
 
-- `res.render('xxxx')`   配合模板引擎，返回渲染的页面（用在前后端不分离中）
-- `res.writeHead(200)`  设置响应头中的状态码
+- `res.render('xxxx')` 配合模板引擎，返回渲染的页面（用在前后端不分离中）
+- `res.writeHead(200)` 设置响应头中的状态码
 
 ```js
 // 参数1：客户端请求的 url 地址        参数2：请求的回调函数
-app.get('请求的url',(req,res)=>{ 
-    // 设置响应头，允许跨域  *表示所有的url请求都支持
-    res.setHeader('Access-Control-Allow-Origin','*');
-    // 表示接受任意的请求头信息，针对前端的自定义请求头信息
-    res.setHeader("Access-Control-Allow-Headers","*");
-    //向客户端发送 json 对象
-    res.send({  name:'zs',  age:20, gender:'男' })
-})
+app.get("请求的url", (req, res) => {
+  // 设置响应头，允许跨域  *表示所有的url请求都支持
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  // 表示接受任意的请求头信息，针对前端的自定义请求头信息
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  //向客户端发送 json 对象
+  res.send({ name: "zs", age: 20, gender: "男" });
+});
 
-app.post('/url',(req,res)=>{ 
-    res.send('请求成功'); //向客户端发送文本内容
-})
+app.post("/url", (req, res) => {
+  res.send("请求成功"); //向客户端发送文本内容
+});
 
-app.all('/url',(req,res)=>{ res.send('hello express') })
+app.all("/url", (req, res) => {
+  res.send("hello express");
+});
 ```
-
-
 
 #### 兜底响应
 
 ```js
 // 上述路由都不匹配时执行的路由规则
 // 404 响应
-app.all('*',(res,req)=>{
-    res.send('404 not Found');
-})
+app.all("*", (res, req) => {
+  res.send("404 not Found");
+});
 ```
-
-
 
 #### 跨域问题
 
 ```js
-app.all('*', function(req, res, next) {
-   // 允许跨域
-　　　res.header("Access-Control-Allow-Origin", "*");
-   // 允许携带自定义请求头信息
-           res.header("Access-Control-Allow-Headers", "X-Requested-With");
-   // 支持接收的请求类型
-           res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-           res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-           res.header("Content-Type", "application/json;charset=utf-8");
-           next();
+app.all("*", function (req, res, next) {
+  // 允许跨域
+  res.header("Access-Control-Allow-Origin", "*");
+  // 允许携带自定义请求头信息
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  // 支持接收的请求类型
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild"
+  );
+  res.header("Content-Type", "application/json;charset=utf-8");
+  next();
 });
 ```
-
-
 
 #### 接口开发+路由模块化
 
@@ -2106,15 +1915,15 @@ var router = express.Router()  // 将大量的接口交给 router管理，而不
 router.get("/api".()=>{ ... })
 
 module.exports = router
-                       
+
 // 2.在入口文件中引入使用
 const postport = require("./routes/postport.js")
 const getport = require("./routes/getport.js")
 // 把路由对象注册到app下
 app.use(getport)
 app.use(postport);
-                       
-                       
+
+
 // 路由模块化
 // 新建 src/router/index.js 模块
 const express = require('express');
@@ -2137,62 +1946,57 @@ app.all('*',(req,res)=>{
 })
 ```
 
-
-
-
-
-#### Express中间件
+#### Express 中间件
 
 > 中间件本质：回调函数
 
 ##### 路由中间件
 
 > - 使用场景：
->   - 记录所有请求的 url 和 ip地址；
->   - 登录信息校验/token校验，判定用户是否已登陆
+>   - 记录所有请求的 url 和 ip 地址；
+>   - 登录信息校验/token 校验，判定用户是否已登陆
 
 - 全局路由中间件，在所有的请求之前执行
 
   ```js
   // 1.声明中间件函数( 例：保存所有请求的url、ip)
-  function Middleware(req,res,next){
-      // 接口请求执行前的操作：
-      let {url,ip} = req;
-      fs.appendFileSync(path.resolve(__dirname,'./access.log'),`${url} ${ip}\r\n`);
-      	
-      if(xxx){		 
-          res.send("xxx")   // 根据需要判断是否继续执行接口请求
-  		return;
-      }
-      next();  // 继续执行后续接口操作
+  function Middleware(req, res, next) {
+    // 接口请求执行前的操作：
+    let { url, ip } = req;
+    fs.appendFileSync(
+      path.resolve(__dirname, "./access.log"),
+      `${url} ${ip}\r\n`
+    );
+
+    if (xxx) {
+      res.send("xxx"); // 根据需要判断是否继续执行接口请求
+      return;
+    }
+    next(); // 继续执行后续接口操作
   }
-  
+
   // 2.使用中间件函数
   app.use(Middleware);
   ```
-
-  
 
 - 路由中间件，在指定路由之前执行
 
   ```js
   // 1.定义路由中间件(例：对用户请求参数进行判断)
-  const Middleware = (req,res,next)=>{
-      // 接口请求执行前的操作：
-      if(req.query.code=='666'){
-          next();
-      }else{
-          res.send('暗号错误')
-      }
-  }
-  
+  const Middleware = (req, res, next) => {
+    // 接口请求执行前的操作：
+    if (req.query.code == "666") {
+      next();
+    } else {
+      res.send("暗号错误");
+    }
+  };
+
   // 2.使用:放置在需要受约束的路由中
-  app.get('/setting',Middleware,(req,res)=>{
-      res.send('...');
-  })
+  app.get("/setting", Middleware, (req, res) => {
+    res.send("...");
+  });
   ```
-
-
 
 ##### 静态资源中间件
 
@@ -2202,13 +2006,11 @@ app.all('*',(req,res)=>{
 
 ```js
 // 设置静态资源路径
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, "public")));
 
 // 解决静态资源中图片显示乱码问题 删除跨域问题解决中的如下代码！！！
 res.header("Content-Type", "application/json;charset=utf-8");
 ```
-
-
 
 ##### 获取请求体数据
 
@@ -2223,38 +2025,26 @@ app.use(express.urlencoded({ extended: true }));
 ("Content-Type","application/json")   或   ("Content-Type","application/x-www-form-urlencoded")
 ```
 
-
-
-
-
 ##### 防盗链实践
 
 > 禁止该域名之外的网站访问资源，请求头中的 referer，会携带当前网站的协议、域名、端口
 
 ```js
 // 使用中间件
-app.use((req,res,next)=>{
-    let referer = req.get('referer');	// 获取referer
-	if(referer){
-        const url = new URL(referer);	// 实例化
-    	let hostName = url.hostname;	// 获取hostname
-        if(hostname!='wudetian.top'){
-            res.status(404).send('<h1>404</h1>')
-        }
+app.use((req, res, next) => {
+  let referer = req.get("referer"); // 获取referer
+  if (referer) {
+    const url = new URL(referer); // 实例化
+    let hostName = url.hostname; // 获取hostname
+    if (hostname != "wudetian.top") {
+      res.status(404).send("<h1>404</h1>");
     }
-    next();
-})
+  }
+  next();
+});
 ```
 
-
-
-
-
-
-
-
-
-#### [generator生成器](https://www.expressjs.com.cn/)
+#### [generator 生成器](https://www.expressjs.com.cn/)
 
 > 用于快速创建一个应用骨架，模板
 
@@ -2269,46 +2059,28 @@ npm start
 // ....
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### 状态保持/会话跟踪
 
-> - HTTP协议属于无状态的协议需要进行状态保持；
->   - HTTP协议基于TCP协议，TCP协议又基于socket套接字；
-> - websocket协议是在单个TCP连接上进行全双工通信的协议自带状态保持能力；
->   - 常见的会话控制：cookie	session	token
+> - HTTP 协议属于无状态的协议需要进行状态保持；
+>   - HTTP 协议基于 TCP 协议，TCP 协议又基于 socket 套接字；
+> - websocket 协议是在单个 TCP 连接上进行全双工通信的协议自带状态保持能力；
+>   - 常见的会话控制：cookie session token
 >
-> `cookie/客户端 + session/服务器端` 共同组成http协议下的状态保持技术
-
-
-
-
+> `cookie/客户端 + session/服务器端` 共同组成 http 协议下的状态保持技术
 
 #### [cookie](https://github.com/expressjs/cookie-parser)
 
 > - 由服务器生成，但保存在浏览器的数据，以键值对的形式进行存储在响应头中
-> - 向服务器发送请求时，会自动将当前域名下的cookie设置在请求头，发送给服务器
+> - 向服务器发送请求时，会自动将当前域名下的 cookie 设置在请求头，发送给服务器
 > - 按照域名划分保存，拥有过期时间，默认关闭浏览器之后过期
-> - NodeJS中借助第三方模块 [expressjs/cookie-parser](https://github.com/expressjs/cookie-parser) 操作cookie
->   - [cookie-parser中间件](https://www.jianshu.com/p/7fc30d77cc5c)
+> - NodeJS 中借助第三方模块 [expressjs/cookie-parser](https://github.com/expressjs/cookie-parser) 操作 cookie
+>   - [cookie-parser 中间件](https://www.jianshu.com/p/7fc30d77cc5c)
 
-- `res.cookie("key","value",{maxAge: 60*60 })`  可写多次，设置多个cookie并分别设置过期时间
+- `res.cookie("key","value",{maxAge: 60*60 })` 可写多次，设置多个 cookie 并分别设置过期时间
   - 过期时间
     - 不设置时，默认为浏览器窗口关闭时失效
     - 设置过期时间，即使关闭浏览器也不会过期，直到过期时间到达
-- `req.cookie["name"]`     获取值为name的cookie
+- `req.cookie["name"]` 获取值为 name 的 cookie
 
 ```js
 // 安装cookie-parser
@@ -2333,28 +2105,20 @@ res.clearCookie('name');
 
 ![image-20230228212550939](./images/NodeJS/image-20230228212550939.png)
 
-
-
-
-
 #### session
 
 > - 保存在服务器端、以键值对形式进行存储
 > - 实现会话控制，识别用户身份，快速获取当前用户信息
-> - 依赖于cookie，每个session信息对应的客户端标识保存在cookie中
+> - 依赖于 cookie，每个 session 信息对应的客户端标识保存在 cookie 中
 
 <img src="./images/NodeJS/image-20230301114929482.png" alt="image-20230301114929482" style="zoom: 67%;" />
 
-
-
-
-
 ##### 【不推荐】 [cookie-session](https://github.com/expressjs/cookie-session)
 
-> 将数据完全存放在客户端cookie中
+> 将数据完全存放在客户端 cookie 中
 
-- `req.session['key'] = 'xxxxx'`   设置session
-- `req.session['key']`    获取session
+- `req.session['key'] = 'xxxxx'` 设置 session
+- `req.session['key']` 获取 session
 
 ```js
 // 安装cookie-session
@@ -2375,10 +2139,6 @@ req.session["age"]=12
 req.session["name"]
 
 ```
-
-
-
-
 
 ##### [【推荐】express-session](https://github.com/expressjs/session#readme)
 
@@ -2421,10 +2181,6 @@ req.session.destroy(()=>{
 })
 ```
 
-
-
-
-
 ##### connect-mongo
 
 > - `connect-mongo` 主要用于将 MongoDB 用作 session 存储，与 Express.js 和 session 中间件一起使用。
@@ -2432,49 +2188,31 @@ req.session.destroy(()=>{
 
 ![image-20240321141750822](./images/NodeJS/image-20240321141750822.png)
 
+#### cookie 和 session
 
-
-
-
-
-
-
-
-#### cookie和session
-
-|            | cookie                 | session            |
-| ---------- | ---------------------- | ------------------ |
-| 位置       | 浏览器                 | 服务器             |
-| 安全性     | 明文存储，安全性低     | 存储在服务器，安全 |
-| 网络传输量 | 存在与请求头，影响效率 | 只传递 id，无影响  |
-| 存储限制   | 单个cookie不能超过4k   | 无限制             |
-
-
-
-
-
-
+|            | cookie                  | session            |
+| ---------- | ----------------------- | ------------------ |
+| 位置       | 浏览器                  | 服务器             |
+| 安全性     | 明文存储，安全性低      | 存储在服务器，安全 |
+| 网络传输量 | 存在与请求头，影响效率  | 只传递 id，无影响  |
+| 存储限制   | 单个 cookie 不能超过 4k | 无限制             |
 
 #### 【推荐】token
 
 > - 服务端生成并返回给客户端的一串加密字符串，保存着用户信息
-> - 主要用于移动端App，网页端主要使用session+cookie
+> - 主要用于移动端 App，网页端主要使用 session+cookie
 > - 实现会话控制、用户身份识别
 > - 特点：
->   - 发送请求时，需要手动将token添加在请求报文中，一般是请求头
+>   - 发送请求时，需要手动将 token 添加在请求报文中，一般是请求头
 >   - 服务端压力小，数据保存在客户端
 >   - 相对安全，数据完全加密
->   - 避免CSRF（跨站请求伪造），cookie会自动携带
+>   - 避免 CSRF（跨站请求伪造），cookie 会自动携带
 >   - 扩展性更强，便于服务间共享
-
-
-
-
 
 #### JWT
 
-> - JSON Web Token：目前流行的跨域认证解决方案，可用于基于token的身份验证
-> - 规范token的生成和校验
+> - JSON Web Token：目前流行的跨域认证解决方案，可用于基于 token 的身份验证
+> - 规范 token 的生成和校验
 
 ```js
 // 安装
@@ -2501,12 +2239,6 @@ jwt.verify(token,'加密字符串',(err,data)=>{
 
 ```
 
-
-
-
-
-
-
 ### 云对象存储
 
 > - 在处理用户文件上传时，个人感觉（不一定对）：
@@ -2521,21 +2253,8 @@ jwt.verify(token,'加密字符串',(err,data)=>{
 >
 >     <img src="./images/NodeJS/image-20240322164821172.png" alt="image-20240322164821172" style="zoom: 25%;" />
 
-
-
-```js
-
-```
-
-
-
-
-
-
-
 ## 进阶
 
 ### EventEmitter
 
 - [Node.js EventEmitter | 菜鸟教程 (runoob.com)](https://www.runoob.com/nodejs/nodejs-event.html)
-

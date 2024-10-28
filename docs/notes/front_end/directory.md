@@ -1,7 +1,3 @@
-<WaterMark />
-
-<br/>
-
 ### 热爱生命
 
 -- 汪国真
@@ -17,18 +13,14 @@
 一切，都在意料之中
 
 <br/>
-<br/>
-<br/>
-<br/>
-<br/>
 
 ### 赞赏 Buy me a coffee .
 
-> 如有帮助，可以请我喝杯咖啡？ 若需提供技术支持，可通过[主站](https://wudetian.top/)的任意方式联系我！<br/>☆ Star 仓库不迷路！[gitee](https://gitee.com/wuZhongtian)，[github](https://github.com/wuZhongtian)
+> 如有帮助，可以请我喝杯咖啡！ 若需提供其他帮助，可通过[主站](https://wudetian.top/)联系方式找我！<br/>☆ Star 仓库不迷路！[gitee](https://gitee.com/wuZhongtian)，[github](https://github.com/wuZhongtian)
 
-<img src="./images/directory/df6d002c-ff42-4f2b-b82d-350c20e3cb2a.png" alt="df6d002c-ff42-4f2b-b82d-350c20e3cb2a" style="zoom:20%;" /><img src="./images/directory/85855ade-80b7-4329-925f-b10853016bc3.png" alt="85855ade-80b7-4329-925f-b10853016bc3" style="zoom:20%;" />
+<img src="./images/directory/85855ade-80b7-4329-925f-b10853016bc3.png" alt="85855ade-80b7-4329-925f-b10853016bc3" style="zoom: 33%;" />
 
-<!-- - [VuePress2配置详解：主页、导航、搜索以及样式 | Forever Study (yydnas.cn)](https://www.yydnas.cn/2023/04/2023.04.06-VuePress2配置详解：主页、导航、搜索以及样式/index.html)
+<!-- 
 
 ### 查缺补漏
 
@@ -50,12 +42,6 @@
       - 动态规划
       - 回溯
   - 设计模式 (参考《JavaScript 设计模式》-张容铭)
-
-- 基本开发工具
-
-  - 版本控制工具
-    - svn
-
 - 封装库/工具库
 
   - 数据可视化
@@ -63,33 +49,18 @@
     - D3.js
     - AntV
     - Echarts
-
   - 编辑器
-
+  
     - TinyMCE
     - UEditor
     - CKEditor
     - Draft.js
     - Slate.js
     - ...
-
   - mock 数据
-
-  - ### [_Lodash_](http://www.baidu.com/link?url=hqRui5I0GelJnAMCaM9mTS9KW6gi5AP_Jec0RcmLpBK)
-
 - 前端工程化
 
-  - 微前端框架？
-  - Node.js
-    - 进程管理
-  - 打包构建工具
-    - webpack
-    - vite
-    - 。。。
-  - 校验/格式化/规范化
-    - ESlint
-    - Prettier
-    - TypeScript
+  - Node.js   进程管理
   - 测试框架
     - Jest
     - Mocha
@@ -105,20 +76,17 @@
       - Lighthouse
       - Performance 工具
       - 。。。
-
 - 多端融合
 
   - React native
   - Flutter
   - Weex
   - Taro
-
 - 桌面应用
 
   - Electron
   - NW.js
   - ....
-
 - 未来概念
 
   - PWA

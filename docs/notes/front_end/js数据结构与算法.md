@@ -1,15 +1,15 @@
-<WaterMark />
 ## 数据结构
 
 ### 数组
 
 > 数组 线性结构，可以在任意位置插入和删除元素
 
-- js数组  就是API的调用
+- js 数组 就是 API 的调用
+
   - 数组的特点：通过下标操作数据，十分高效！
-  
+
   - 补充
-    1. 常见语言的数组不能存放不同的数据类型，因此在封装时，通常存放在数组中的是Object对象
+    1. 常见语言的数组不能存放不同的数据类型，因此在封装时，通常存放在数组中的是 Object 对象
     2. 常见语言的数组容量不会自动变化（需要扩容操作，申请更大的空间作为数组元素）
     3. 常见语言的数组进行中间或前面插入和删除操作性能比较低（其他元素挨个移动）
 
@@ -17,19 +17,17 @@
 
 > 栈 受限的线性结构（只允许在栈顶进行插入和删除操作），先进后出（LIFO）
 
--  名词：
-  - 插入元素（进栈、入栈、压栈）
-  - 删除元素（出栈、退栈）
+- 名词：
+- 插入元素（进栈、入栈、压栈）
+- 删除元素（出栈、退栈）
 - 栈的使用场景
-  - 函数的相互调用 A调用B,B调用C，C调用D
-    - A先入栈，然后B，再C，最后D
+  - 函数的相互调用 A 调用 B,B 调用 C，C 调用 D
+    - A 先入栈，然后 B，再 C，最后 D
     - 当最上层执行结束后，依次出栈
   - 函数递归
     - 函数递归就是再不停的将自己入栈，如果存在死循环会导致栈溢出，报错
   - 十进制转二进制（实现）
-    - 除2取余，余数倒序写出（使用栈）
-
-
+    - 除 2 取余，余数倒序写出（使用栈）
 
 #### 栈的实现
 
@@ -37,7 +35,7 @@
 
   - 基于数组实现
   - 基于链表实现
-    - 链表也是一种数据结构，js中没有自带链表结构
+    - 链表也是一种数据结构，js 中没有自带链表结构
 
 - 栈的封装
 
@@ -50,13 +48,13 @@
   size()    返回栈中元素的个数,与数组的length属性类似
   toString()  将栈结构的内容以字符形式返回
   ```
-  
+
   ```js
   // method 方法   一般和某一对象实例有联系
   // function 函数
   function Stack(){
      this.items=[]    // 栈中的属性
-     
+
      Stack.prototype.push=function(ele){
          this.items.push(ele)
      }
@@ -80,10 +78,6 @@
      }
   }
   ```
-  
-  
-
-
 
 ### 队列结构
 
@@ -117,7 +111,7 @@
   // 同上栈结构的数组封装法
   function Queue(){
      this.items=[]    // 栈中的属性
-     
+
      Queue.prototype.enqueue=function(ele){
          this.items.push(ele)
      }
@@ -141,33 +135,31 @@
   }
   ```
 
-- 面试题（击鼓传花）   17集
+- 面试题（击鼓传花） 17 集
 
   ![image-20220826103037900](images/js数据结构与算法/image-20220826103037900.png)
 
   ```js
   // 击鼓传花 代码实现
   // nameList 所有的人，num淘汰的数字
-  function Game(nameList,num){
-     // 创建队列结构  并把么每个人都放到队列中
-     let queue = new Queue()
-     for(let i=0;i<nameList.length;i++){
-        queue.enqueue(nameList[i])
-     }
-     // 根据游戏规则，让每个人依次出队，再入队
-     while(queue.size()==1){
-        for(let j=1;j<num;j++){queue.enqueue(queue.dequeue())}
-        queue.dequeue()
-     }
-     return queue.items[0]
+  function Game(nameList, num) {
+    // 创建队列结构  并把么每个人都放到队列中
+    let queue = new Queue();
+    for (let i = 0; i < nameList.length; i++) {
+      queue.enqueue(nameList[i]);
+    }
+    // 根据游戏规则，让每个人依次出队，再入队
+    while (queue.size() == 1) {
+      for (let j = 1; j < num; j++) {
+        queue.enqueue(queue.dequeue());
+      }
+      queue.dequeue();
+    }
+    return queue.items[0];
   }
   // 测试：
-  console.log(Game(["a", "c", "d", "e"], 2));    // a
+  console.log(Game(["a", "c", "d", "e"], 2)); // a
   ```
-  
-  
-
-
 
 ### 优先级队列
 
@@ -176,36 +168,34 @@
 - 实现
 
   ```js
-  function PriorityQueue(){
-      // 创建元素
-      function QueueElement(element,priority){
-          this.element=element
-          this.priority=priority
-      }
-      this.items=[]
-      // 实现插入方法
-      // 其他方法可直接从普通队列 共用
-      PriorityQueue.prototype.enqueue =function(ele,priority){
-          let queueElement = new QueueElement(ele,priority)
-          if(this.items.length==0){
-             this.items.push(queueElement)
-          }else{
-              let added = false
-              for(let i=0;i<this.items.length;i++){
-                  if(queueElement.priority<this.items[i].priority){
-                      this.items.splice(i,0,queueElement)
-                      break;
-                  }
-                  if(i==this.items.length-1){
-                      this.items.push(queueElement)
-                  }
-              }
+  function PriorityQueue() {
+    // 创建元素
+    function QueueElement(element, priority) {
+      this.element = element;
+      this.priority = priority;
+    }
+    this.items = [];
+    // 实现插入方法
+    // 其他方法可直接从普通队列 共用
+    PriorityQueue.prototype.enqueue = function (ele, priority) {
+      let queueElement = new QueueElement(ele, priority);
+      if (this.items.length == 0) {
+        this.items.push(queueElement);
+      } else {
+        let added = false;
+        for (let i = 0; i < this.items.length; i++) {
+          if (queueElement.priority < this.items[i].priority) {
+            this.items.splice(i, 0, queueElement);
+            break;
           }
+          if (i == this.items.length - 1) {
+            this.items.push(queueElement);
+          }
+        }
       }
+    };
   }
   ```
-  
-  
 
 ### 链表结构
 
@@ -217,161 +207,160 @@
   - 数组/列表:
     - 数组的创建需要申请一段**连续的内存空间（一整块内存）**，并且大多数语言中，它的大小是固定的，当大小不能满足要求时，需要**扩容**（申请更大的空间，将元素复制过去）
     - 在数组开头或中间插入数据的成本很高，需要进行大量元素的位移
-    - 虽然JavaScript封装了大量的方法，但背后的原理依旧如此
-  
+    - 虽然 JavaScript 封装了大量的方法，但背后的原理依旧如此
 - 链表的优势
   - 链表中的元素在内存中**不必是连续的空间**，实现灵活的内存动态管理
   - 链表的每个元素由一个存储元素本身的节点和一个指向下一个元素的引用（指针/连接）组成
   - 不必在创建时确定大小，并且大小可以无限的延伸下去
   - 链表在**插入和删除**数据时，时间复杂度可以达到 O(1) ,相比数组效率高很多
-  
 - 链表的封装
 
   ```js
   // 链表的常见操作
-  append(ele)      //向列表尾部添加一个新的项
-  insert(position,element)    //向列表的特定位置插入一个新的项
-  get(position)     //获取对应位置的元素
-  indexOf(element)  //返回元素在链表中的索引，没有该元素返回-1
-  update(position,newdata)  //修改某个位置的元素
-  removeAt(position)    //从链表的特定位置移除一项
-  remove(ele)       //从列表中移除一项
-  isEmpty()     //如果链表中不包含任何元素返回true，链表长度大于0返回false
-  size()        //返回链表包含的元素个数
-  toString()    // 
+  append(ele); //向列表尾部添加一个新的项
+  insert(position, element); //向列表的特定位置插入一个新的项
+  get(position); //获取对应位置的元素
+  indexOf(element); //返回元素在链表中的索引，没有该元素返回-1
+  update(position, newdata); //修改某个位置的元素
+  removeAt(position); //从链表的特定位置移除一项
+  remove(ele); //从列表中移除一项
+  isEmpty(); //如果链表中不包含任何元素返回true，链表长度大于0返回false
+  size(); //返回链表包含的元素个数
+  toString(); //
   ```
 
   ![image-20220809144354539](images/js数据结构与算法/image-20220809144354539.png)
 
   ```js
-  function LinkedList(){
-      // 节点类
-      function Node(data){
-          this.data=data
-          this.next=null
+  function LinkedList() {
+    // 节点类
+    function Node(data) {
+      this.data = data;
+      this.next = null;
+    }
+    // 属性
+    this.head = null;
+    this.length = 0;
+
+    // 原型上追加方法
+    LinkedList.prototype.append = function (data) {
+      let newNode = new Node(data);
+      //判断是不是第一个节点
+      if (this.length == 0) {
+        this.head = newNode;
+      } else {
+        let current = this.head;
+        while (current.next) {
+          current = current.next;
+        }
+        current.next = newNode;
       }
-      // 属性
-      this.head=null
-      this.length=0
-      
-      // 原型上追加方法
-      LinkedList.prototype.append=function(data){
-          let newNode = new Node(data);
-          //判断是不是第一个节点
-          if(this.length==0){
-              this.head = newNode;
-          }else{
-              let current = this.head
-              while(current.next){ current=current.next }
-              current.next=newNode
-          }
-          this.lengtn += 1
+      this.lengtn += 1;
+    };
+
+    LinkedList.prototype.toString = function () {
+      let current = this.head;
+      let lisString = "";
+      while (current) {
+        lisString += current.data + " ";
+        current = current.next;
       }
-      
-      LinkedList.prototype.toString=function(){
-          let current = this.head
-          let lisString=''
-          while(current){
-              lisString += current.data + ' '
-              current = current.next
-          }
-          return lisString
+      return lisString;
+    };
+
+    LinkedList.prototype.insert = function (position, data) {
+      //对position进行越界判断 越界就返回 false
+      if (position < 0 || position > this.length) return false;
+      let newNode = new Node(data);
+      //判断position==0？
+      if (position == 0) {
+        newNode.next = this.head;
+        this.head = newNode;
+      } else {
+        let index = 0;
+        let current = this.head;
+        let previous = null;
+        while (index++ < position) {
+          previous = current;
+          current = current.next;
+        }
+        previous.next = newNode;
+        newNode.next = current;
       }
-      
-      LinkedList.prototype.insert=function(position,data){
-          //对position进行越界判断 越界就返回 false
-          if(position<0||position>this.length)return false
-          let newNode = new Node(data)
-          //判断position==0？
-          if(position==0){
-              newNode.next = this.head
-              this.head = newNode
-          }else{
-              let index=0
-              let current = this.head
-              let previous=null
-              while( index++ < position ){
-                  previous=current
-                  current=current.next
-              }
-              previous.next=newNode
-              newNode.next=current
-          }
-          this.length += 1
-          return true
+      this.length += 1;
+      return true;
+    };
+
+    LinkedList.prototype.get = function (position) {
+      //对position进行越界判断 越界返回 null
+      if (position < 0 || position >= this.length) return null;
+      let index = 0;
+      let cunrrent = this.header;
+      while (index++ < position) {
+        cunrrent = cunrrent.next;
       }
-      
-      LinkedList.prototype.get=function(position){
-          //对position进行越界判断 越界返回 null
-          if(position<0||position>=this.length)return null
-          let index=0
-          let cunrrent = this.header
-          while(index++<position){
-              cunrrent=cunrrent.next
-          }
-          return  cunrrent.data
+      return cunrrent.data;
+    };
+
+    LinkedList.prototype.indexOf = function (data) {
+      //返回元素在链表中的索引，没有该元素返回-1
+      let index = 0;
+      let cunrrent = this.header;
+      while (cunrrent) {
+        if (cunrrent.data == data) {
+          return index;
+        }
+        index += 1;
+        cunrrent = cunrrent.next;
       }
-      
-      LinkedList.prototype.indexOf=function(data){
-          //返回元素在链表中的索引，没有该元素返回-1
-          let index=0
-          let cunrrent = this.header
-          while(cunrrent){
-              if( cunrrent.data == data){ return index }
-              index += 1
-              cunrrent=cunrrent.next
-          }
-          return -1
+      return -1;
+    };
+
+    LinkedList.prototype.update = function (position, newdata) {
+      if (position < 0 || position >= this.length) return false;
+      // 循环找到指定位置，将data的修改
+      let index = 0;
+      let cunrrent = this.header;
+      while (index++ < position) {
+        cunrrent = cunrrent.next;
       }
-      
-      LinkedList.prototype.update=function(position,newdata){
-          if(position<0||position>=this.length)return false
-          // 循环找到指定位置，将data的修改
-          let index = 0
-          let cunrrent = this.header
-          while(index++<position){
-              cunrrent=cunrrent.next
-          }
-          cunrrent.data=newdata
-          return true
+      cunrrent.data = newdata;
+      return true;
+    };
+
+    LinkedList.prototype.removeAt = function (position) {
+      if (position < 0 || position >= this.length) return null;
+      if (position == 0) {
+        this.header = this.header.next;
+      } else {
+        let index = 0;
+        let previous = null;
+        let current = this.header;
+        while (index++ < position) {
+          previous = current;
+          current = current.next;
+        }
+        previous.next = current.next;
+        this.length -= 1;
+        return current.data;
       }
-  
-      LinkedList.prototype.removeAt=function(position){
-          if(position<0||position>=this.length)return null
-          if(position==0){
-              this.header=this.header.next
-          }else{
-              let index = 0
-              let previous=null
-              let current = this.header
-              while(index++<position){
-              previous=current
-              current=current.next
-              }
-              previous.next=current.next
-              this.length-=1
-              return current.data
-          }
-      }
-      
-      LinkedList.prototype.remove=function(data){
-          // 获取元素的位置信息，删除该位置的节点
-          let index=this.indexOf(data)
-          return this.removeAt(index)
-      }
-      
-      LinkedList.prototype.isEmpty=function(){
-          return this.length==0?true:false
-      }
-      
-      LinkedList.prototype.size=function(){
-          return this.length
-      }
-      
+    };
+
+    LinkedList.prototype.remove = function (data) {
+      // 获取元素的位置信息，删除该位置的节点
+      let index = this.indexOf(data);
+      return this.removeAt(index);
+    };
+
+    LinkedList.prototype.isEmpty = function () {
+      return this.length == 0 ? true : false;
+    };
+
+    LinkedList.prototype.size = function () {
+      return this.length;
+    };
   }
   ```
-  
-  
 
 ### 双向链表
 
@@ -380,32 +369,28 @@
   - 实现原理：上一个链表中有指向下一个的索引
   - 缺点：
     - 可以轻松的到达下一个节点，但不能回到上一个节点
-    - 例: 文本编译器用链表存储文本，每一行用一个**String对象**存储在链表的一个节点中，当编辑器用户**上下移动光标**时，需要回到上个节点，单链表只能从头开始查找，不能指回上一个
-  
-  
-  
+    - 例: 文本编译器用链表存储文本，每一行用一个**String 对象**存储在链表的一个节点中，当编辑器用户**上下移动光标**时，需要回到上个节点，单链表只能从头开始查找，不能指回上一个
 - 双向链表
   - 每个节点 既有向前的引用，又有向后的引用
   - 缺点：
     - 每次插入/删除时，需要处理四个引用，而不是两个
   - ![image-20220810172038743](images/js数据结构与算法/image-20220810172038743.png)
-  
 - 封装双向链表
 
   ```js
   // 双向链表的常见操作
-  append(ele)      //向列表尾部添加一个新的项
-  insert(position,element)    //向列表的特定位置插入一个新的项
-  get(position)     //获取对应位置的元素
-  indexOf(element)  //返回元素在链表中的索引，没有该元素返回-1
-  update(position,newdata)  //修改某个位置的元素
-  removeAt(position)    //从链表的特定位置移除一项
-  remove(ele)       //从列表中移除一项
-  isEmpty()     //如果链表中不包含任何元素返回true，链表长度大于0返回false
-  size()        //返回链表包含的元素个数
-  toString()    // 由于列表使用了Node类，就需要重写继承自js对象默认的toString方法，让其只输出元素的值
-  forwardString()  //返回正向遍历的节点字符串形式  从后往前遍历
-  backwordString() //返回反向遍历的节点字符串形式  从前往后遍历 与toString方法一致
+  append(ele); //向列表尾部添加一个新的项
+  insert(position, element); //向列表的特定位置插入一个新的项
+  get(position); //获取对应位置的元素
+  indexOf(element); //返回元素在链表中的索引，没有该元素返回-1
+  update(position, newdata); //修改某个位置的元素
+  removeAt(position); //从链表的特定位置移除一项
+  remove(ele); //从列表中移除一项
+  isEmpty(); //如果链表中不包含任何元素返回true，链表长度大于0返回false
+  size(); //返回链表包含的元素个数
+  toString(); // 由于列表使用了Node类，就需要重写继承自js对象默认的toString方法，让其只输出元素的值
+  forwardString(); //返回正向遍历的节点字符串形式  从后往前遍历
+  backwordString(); //返回反向遍历的节点字符串形式  从前往后遍历 与toString方法一致
   ```
 
   ```js
@@ -421,7 +406,7 @@
       this.head=null
       this.tail=null
       this.length=0
-      
+
       DoublyLinkedList.prototype.append=function(data){
           let newNode=new Node(data);
           if(this.length==0){
@@ -433,7 +418,7 @@
               this.tail=newNode
           }
       }
-      
+
       DoublyLinkedList.prototype.toString=function(){
           var current=this.head
           var resyltString = ''
@@ -443,12 +428,12 @@
           }
           return resyltString
       }
-      
+
       DoublyLinkedList.prototype.insert=function(position,element){
           // 越界判断
           if(position<0 || position>this.length)return false
           let newNode=new Node(data);
-   
+
           if(this.length==0){
               this.head=newNode
               this.tail=newNode
@@ -474,14 +459,10 @@
               }
           }
       }
-      
-      
+
+
   }
   ```
-  
-  
-
-
 
 ### 集合
 
@@ -493,14 +474,14 @@
   - 集合特殊在于 里面的元素没有顺序、也不能重复
   - 没有顺序意味着 **不能通过下标值进行访问**，相同的对象在集合中 **只会存在一份**
 
-- ES6 中的  **Set 类**（对象类型）
+- ES6 中的 **Set 类**（对象类型）
 
   > - 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用，
   > - 如果添加相等的元素，则只会保存第一个元素：
   > - 一个 Set 可以容纳任何数据类型的任何值
-  
+
   - 使用 Set
-  
+
     - | new Set() | 创建新的 Set 对象。       |
       | --------- | ------------------------- |
       | add()     | 向 Set 添加新元素。       |
@@ -512,89 +493,77 @@
       | keys()    | 返回 Set 对象中值的数组。 |
       | values()  | 与 keys() 相同。          |
       | size      | 返回元素的总数量          |
-  
+
   - ```js
     // 创建 Set
-    const set = new Set()
+    const set = new Set();
     // 向 Set 添加一些值
-    set.add(1)
-    set.add('2')
-    set.add('2')
-    set.add(true)
-    console.log(...set) // 1 "2" true，注意...set ==> 1,"2",true
-    
+    set.add(1);
+    set.add("2");
+    set.add("2");
+    set.add(true);
+    console.log(...set); // 1 "2" true，注意...set ==> 1,"2",true
+
     // 删除元素
-    set.delete('2') // true
-    console.log(...set) // 1 
-    console.log(set.delete(3)) // false 删除失败，set中不存在元素3
-    
+    set.delete("2"); // true
+    console.log(...set); // 1
+    console.log(set.delete(3)); // false 删除失败，set中不存在元素3
+
     // 判断元素是否存在
-    console.log(set.has(1)) // true
-    console.log(set.has(NaN))    // false，set中不存在元素NaN
-    
+    console.log(set.has(1)); // true
+    console.log(set.has(NaN)); // false，set中不存在元素NaN
+
     // 遍历set
     for (let [key, value] of set.entries()) {
-        console.log(key, value) // 1 1 true true，set的entries()中key, value相等
-    }                
+      console.log(key, value); // 1 1 true true，set的entries()中key, value相等
+    }
     set.forEach((value, key) => {
-        console.log(value, key)    // 1 1 true true
-    })
-    
+      console.log(value, key); // 1 1 true true
+    });
+
     // 获取set中元素的数目
-    console.log(set.size)    // 2
-    set.clear() 
-    console.log(set.size)    // 0
-    
+    console.log(set.size); // 2
+    set.clear();
+    console.log(set.size); // 0
+
     // 转换成数组(下面案例已屏蔽上方的clear方法)
-    console.log([...set])    // (2) [1, true]
-    console.log(Array.from(set)) // (2) [1, true]
-    console.log(Array.from(set.values()))    // (2) [1, true]
-    console.log(Array.from(set.keys()))    // (2) [1, true]
+    console.log([...set]); // (2) [1, true]
+    console.log(Array.from(set)); // (2) [1, true]
+    console.log(Array.from(set.values())); // (2) [1, true]
+    console.log(Array.from(set.keys())); // (2) [1, true]
     ```
-  
+
   - 为了明确集合的内部实现机制，进行手动封装
-  
-    - 
 
-
-
-
-
-
-
-
+    -
 
 ## 算法
 
 > 一个有限指令集，每条指令的描述不依赖于语言，并在有限的步骤后终止
 
-
-
 ### 常见
 
 #### 冒泡排序
 
-- 理论：从头到尾，每次比较两个元素；把大的放后面，如果顺序刚好，则继续下一位往下比较。第一轮可以筛选除元素中最大/小的元素放在末尾；第二次比较的时候就是 当前上次比较次数-1次比较，并把剩余中最大/小的放到最后。
+- 理论：从头到尾，每次比较两个元素；把大的放后面，如果顺序刚好，则继续下一位往下比较。第一轮可以筛选除元素中最大/小的元素放在末尾；第二次比较的时候就是 当前上次比较次数-1 次比较，并把剩余中最大/小的放到最后。
 
   ```typescript
   // 例子 [5,4,1,3,2]  从小到大排序
-  function BubbleSort(arr:number[]):number[]{
-      for(let i=0;i<arr.length-1;i++){
-          for(let i=0;i<arr.length-1;i++){
-              let one:number = arr[i],
-                  two:number = arr[i+1]
-              if(one>two){
-                  let item:number = two
-                  arr[i+1] = one
-                  arr[i] = item
-              }
-          }
+  function BubbleSort(arr: number[]): number[] {
+    for (let i = 0; i < arr.length - 1; i++) {
+      for (let i = 0; i < arr.length - 1; i++) {
+        let one: number = arr[i],
+          two: number = arr[i + 1];
+        if (one > two) {
+          let item: number = two;
+          arr[i + 1] = one;
+          arr[i] = item;
+        }
       }
-      return arr
+    }
+    return arr;
   }
-  
-  let arr:number[] = [5,4,3,2,1]
-  console.log(BubbleSort(arr))
-  ```
 
-  
+  let arr: number[] = [5, 4, 3, 2, 1];
+  console.log(BubbleSort(arr));
+  ```
