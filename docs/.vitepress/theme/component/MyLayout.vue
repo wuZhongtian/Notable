@@ -48,9 +48,9 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
     <WaterMark />
     <template #layout-bottom>
       <div class="myFooter">
-        <span>统计始于2024.10.29</span>&emsp;
         <span>访客总数 <span id="busuanzi_value_site_uv" /> 人</span>&emsp;
-        <span>总访问量<span id="busuanzi_value_site_pv" /> 次</span>
+        <span>总访问量<span id="busuanzi_value_site_pv" /> 次</span>&emsp;
+        <span>统计始于2024.10.29</span>
       </div>
     </template>
     <!-- 这里可以插入其他插槽组件 -->
@@ -81,6 +81,9 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
   border: none !important;
 }
 .myFooter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   text-align: center;
   font-size: 15px;
   color: gray;
