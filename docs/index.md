@@ -8,7 +8,7 @@ hero:
   tagline: ""
   image:
     src: /logo.png
-    alt: VitePress
+    alt: wudetian.top
   actions:
     - theme: brand
       text: 开始阅读
