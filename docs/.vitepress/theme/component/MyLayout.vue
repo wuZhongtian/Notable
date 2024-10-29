@@ -46,6 +46,13 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
 <template>
   <DefaultTheme.Layout>
     <WaterMark />
+    <template #layout-bottom>
+      <div class="myFooter">
+        <span>统计始于2024.10.29</span>&emsp;
+        <span>访客总数 <span id="busuanzi_value_site_uv" /> 人</span>&emsp;
+        <span>总访问量<span id="busuanzi_value_site_pv" /> 次</span>
+      </div>
+    </template>
     <!-- 这里可以插入其他插槽组件 -->
     <template #doc-footer-before>
       <backtotop />
@@ -72,5 +79,10 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 .VPFooter {
   border: none !important;
+}
+.myFooter {
+  text-align: center;
+  font-size: 15px;
+  color: gray;
 }
 </style>

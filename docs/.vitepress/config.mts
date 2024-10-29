@@ -302,9 +302,7 @@ export default defineConfig({
 
     footer: {
       message: `Copyright © 2021-${new Date().getFullYear()}  夏至一周间 `,
-      copyright: `备案号：<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2021031240号-1</a>
-      <br/> 
-      访客总数 <span id="busuanzi_value_site_uv" /> 人  &emsp; 总访问量<span id="busuanzi_value_site_pv" /> 次`,
+      copyright: `备案号：<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2021031240号-1</a>`,
     },
   },
 });
