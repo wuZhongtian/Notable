@@ -188,7 +188,7 @@ export default defineConfig({
       {
         text: "嵌入式",
         items: [
-          { text: "C语言", link: "/notes/embedded/C语言.md" },
+          { text: "C语言", link: "/notes/embedded/c语言.md" },
           { text: "模电数电", link: "/notes/embedded/模电数电.md" },
           { text: "计算机网络", link: "/notes/embedded/计算机网络.md" },
           { text: "51单片机", link: "/notes/embedded/51单片机.md" },
@@ -271,7 +271,7 @@ export default defineConfig({
         { text: "MongoDB", link: "/notes/database/MongoDB.md" },
       ],
       "/notes/embedded/": [
-        { text: "C语言", link: "/notes/embedded/C语言.md" },
+        { text: "C语言", link: "/notes/embedded/c语言.md" },
         { text: "模电数电", link: "/notes/embedded/模电数电.md" },
         { text: "计算机网络", link: "/notes/embedded/计算机网络.md" },
         { text: "51单片机", link: "/notes/embedded/51单片机.md" },
