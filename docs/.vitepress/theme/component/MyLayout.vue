@@ -5,6 +5,7 @@ import { useData } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import backtotop from "./backtotop.vue";
 import WaterMark from "./WaterMark.vue"; // 水印组件
+import Notice from './notice.vue';
 import { nextTick, provide } from "vue";
 
 const { isDark } = useData();
@@ -46,6 +47,9 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
 <template>
   <DefaultTheme.Layout>
     <WaterMark />
+    <template #layout-top>
+      <Notice/>
+    </template>
     <template #layout-bottom>
       <div class="myFooter">
         <span>访客总数 <span id="busuanzi_value_site_uv" /> 人</span>&emsp;

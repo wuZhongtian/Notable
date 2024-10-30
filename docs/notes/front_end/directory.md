@@ -16,7 +16,7 @@
 
 ### 赞赏 Buy me a coffee .
 
-> 如有帮助，可以请我喝杯咖啡！ 若需提供其他帮助，可通过[主站](https://wudetian.top/)联系方式找我！<br/>☆ Star 仓库不迷路！[gitee](https://gitee.com/wuZhongtian)，[github](https://github.com/wuZhongtian)
+> 如果你觉得还不错，可以为作者贡献一杯奶茶🧋。真的非常开心(^▽^)。
 
 <img src="./images/directory/85855ade-80b7-4329-925f-b10853016bc3.png" alt="85855ade-80b7-4329-925f-b10853016bc3" style="zoom: 33%;" />
 
