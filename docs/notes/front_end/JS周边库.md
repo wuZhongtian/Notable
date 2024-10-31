@@ -164,6 +164,379 @@ ScrollTrigger.create({
 })
 ```
 
+
+
+
+
+##  [anime.js](https://animejs.com/)
+
+> - 支持给任何对象做动画，Dom、js对象、数组..
+
+### 动画目标
+
+- 支持id/class选择器  `#app .app`
+- 支持 js 对象
+- 支持数组形式，同时传入多个动画目标
+
+
+
+### css属性
+
+- **单位**，例` borderRadius:'50%'`
+
+  - 无单位-取原始值的单位
+  - 特定单位-将自动转换初始目标值，例`100% vw vh`
+  - 相对单位-在当前基础上，例`+= -= *=   -=10`
+  - 颜色单位-不支持CSS颜色代码-如red，其他色值均支持
+
+- **对象**-针对性的设置延迟运动曲线等
+
+  - 例：`scale: { value: 2, duration: 1600, delay: 800, easing: 'easeInOutQuart' }`
+
+- **数组/属性关键帧**-在一次动画周期内完成多个过渡
+
+  - 属性关键帧使用属性Object的Array定义。属性关键帧允许重叠动画，因为每个属性都有自己的关键帧数组。
+
+  ```js
+  borderRadius: ['0%', '50%']  // 最基础
+  
+  anime({
+    targets: '.property-keyframes-demo .el',
+    translateX: [
+      { value: 250, duration: 1000, delay: 500 },
+      { value: 0, duration: 1000, delay: 500 }
+    ],
+    translateY: [
+      { value: -40, duration: 500 },
+      { value: 40, duration: 500, delay: 1000 },
+      { value: 0, duration: 500, delay: 1000 }
+    ],
+    scaleX: [
+      { value: 4, duration: 100, delay: 500, easing: 'easeOutExpo' },
+      { value: 1, duration: 900 },
+      { value: 4, duration: 100, delay: 500, easing: 'easeOutExpo' },
+      { value: 1, duration: 900 }
+    ],
+    scaleY: [
+      { value: [1.75, 1], duration: 500 },
+      { value: 2, duration: 50, delay: 1000, easing: 'easeOutExpo' },
+      { value: 1, duration: 450 },
+      { value: 1.75, duration: 50, delay: 1000, easing: 'easeOutExpo' },
+      { value: 1, duration: 450 }
+    ],
+    easing: 'easeOutElastic(1, .8)',
+    loop: true
+  });
+  ```
+
+- **函数**-通过函数参数中获取更多配置对多个元素进行动画，实现效果
+
+  ```js
+  anime({
+    targets: '.function-based-values-demo .el',
+    translateX: function(el) {
+      return el.getAttribute('data-x');
+    },
+    translateY: function(el, i) {
+      return 50 + (-50 * i);
+    },
+    scale: function(el, i, l) {
+      return (l - i) + .25;
+    },
+    rotate: function() { return anime.random(-360, 360); },
+    borderRadius: function() { return ['50%', anime.random(10, 35) + '%']; },
+    duration: function() { return anime.random(1200, 1800); },
+    delay: function() { return anime.random(0, 400); },
+    direction: 'alternate',
+    loop: true
+  });
+  ```
+
+
+
+### 动画关键帧
+
+- keyframes 关键帧内未指定持续时间，则每个关键帧持续时间将等于动画的总持续时间除以关键帧的数量
+
+- 动画关键帧 每一帧是在上一帧的基础上进行叠加，而不是相对第一帧的位移
+
+  ```js
+  anime({
+    targets: '.animation-keyframes-demo .el',
+    keyframes: [
+      {translateY: -40},
+      {translateX: 250},
+      {translateY: 40},
+      {translateX: 0},
+      {translateY: 0}
+    ],
+    duration: 4000,
+    easing: 'easeOutElastic(1, .8)',
+    loop: true
+  });
+  ```
+
+
+
+### 动画函数
+
+ - 参数：
+
+   - target-当前的动画目标元素当前的动画目标元素
+   - index 动画目标元素的索引
+   - targetsLength 已设置动画的目标的总数
+
+   ```js
+   // 效果描述, targets选中的多个Dom，依次开始向右移动，到达终点等待全部到达后，再同时返回，循环往复
+   anime({
+     targets: '.function-based-params-demo .el',
+     translateX: 270,
+     direction: 'alternate',
+     loop: true,
+     delay: function(el, i, l) {
+       return i * 100;
+     },
+     endDelay: function(el, i, l) {
+       return (l - i) * 100;
+     }
+   });
+   ```
+
+
+
+### 基础使用
+
+```js
+// 版本 3.2.2
+// 1.安装
+pnpm i animejs
+pnpm i @types/animejs
+
+// 2.引入
+import anime from 'animejs'
+
+// 3.创建动画
+anime({
+  targets: '.duration-demo .el',  // 动画目标，支持id/class选择器
+  translateX: 250,
+  duration: 3000
+});
+
+/* 动画目标，支持js对象 */
+let param = { left:0 }
+anime({
+  targets: param,  // 动画目标，支持 js对象
+  left:100,
+  duration: 3000,
+  update:()=>{ 
+  	d1.style.left = param.left + "px"; //动画每播放一帧执行一次
+  }
+});
+
+/* 全部参数 */
+targets // 动画目标
+duration // 动画播放时间，单位ms，默认为1000
+delay // 动画的延迟，单位ms，默认为0
+endDelay // 一次动画结束后延迟，单位ms，默认为0，用在循环动画中
+easing // 动画运动曲线，默认easeOutElastic(1, .5)
+direction /* 动画的方向 'normal'-从0到100%	 'reverse'-从100%到0%	'alternate'-从0%到100%再回到0% */
+loop // 迭代次数 Number-具体次数 true-无限循环
+autoplay // true-自动启动动画 false-默认下暂停
+keyframes // 动画关键帧
+
+left // css left值变化到100px
+backgroundColor: '#FFF' // 应该是支持所有的css属性
+borderRadius: ['0%', '50%'], // 取值为数组时，表示一周期内分段变化
+
+// ------- targer为js对象时
+[n] // 可指定js对象的属性名，并设置变化的值，例x:5
+round: 10 // 将值向上舍入到1位小数，100-2位 1000-3位
+
+// ------- 函数
+update // 动画每播放一帧执行一次
+
+```
+
+
+
+### [stagger](https://animejs.com/documentation/#gridStaggering)交错动画
+
+> 针对被targets选中的多个DOM
+
+```js
+/* start 从特定值 开始错开效果 */
+anime({
+  targets: '.staggering-start-value-demo .el',
+  translateX: 270,
+  delay: anime.stagger(100, {start: 500}) // 延迟从500ms开始，然后每个元素增加100ms
+});
+
+/* 数组 在两个数字之间均匀分布值 */
+anime({
+  targets: '.range-value-staggering-demo .el',
+  translateX: 270,
+  rotate: anime.stagger([-360, 360]), // 所有DOM均匀分布旋转角度，从-360度到360度
+  easing: 'easeInOutQuad'
+});
+
+/* from 从特定位置 开始错开动画 
+'first'-默认第一个元素开始 'last'-最后一个元素开始 'center'-从中心开始 [index]-从指定索引开始
+*/
+anime({
+  targets: '.staggering-from-demo .el',
+  translateX: 270,
+  delay: anime.stagger(100, {from: 'center'})
+});
+
+/*  direction 错开动画的顺序
+'first'-默认,从第一个到最后一个 'reverse'-从最后一个到第一个
+*/
+anime({
+  targets: '.staggering-direction-demo .el',
+  translateX: 270,
+  delay: anime.stagger(100, {direction: 'reverse'})
+});
+
+/* easing 缓动函数错开值,事件间隔 */
+anime({
+  targets: '.staggering-easing-demo .el',
+  translateX: 270,
+  delay: anime.stagger(300, {easing: 'easeOutQuad'})
+});
+
+/* grid “涟漪”效果的2D数组 
+数组，第一个值是行数，第二个值是列数
+*/
+anime({
+  targets: '.staggering-grid-demo .el',
+  scale: [
+    {value: .1, easing: 'easeOutSine', duration: 500},
+    {value: 1, easing: 'easeInOutQuad', duration: 1200}
+  ],
+  delay: anime.stagger(200, {grid: [14, 5], from: 'center'})
+});
+
+/* axis  强制栅格交错效果的方向,前提是grid */
+anime({
+  targets: '.staggering-axis-grid-demo .el',
+  translateX: anime.stagger(10, {grid: [14, 5], from: 'center', axis: 'x'}),
+  translateY: anime.stagger(10, {grid: [14, 5], from: 'center', axis: 'y'}),
+  rotateZ: anime.stagger([0, 90], {grid: [14, 5], from: 'center', axis: 'x'}),
+  delay: anime.stagger(200, {grid: [14, 5], from: 'center'}),
+  easing: 'easeInOutQuad'
+});
+```
+
+
+
+### easing缓动效果
+
+- linear 线性
+
+- 贝塞尔曲线 `easing: 'cubicBezier(.5, .05, .1, .3)'`
+
+- 基于Spring物理学的弹簧 `easing: 'spring(mass, stiffness, damping, velocity)'`
+
+  | 参数           | 默认值 | Min  | Max   |
+  | -------------- | ------ | ---- | ----- |
+  | Mass 质量      | `1`    | `0`  | `100` |
+  | Stiffness 硬度 | `100`  | `0`  | `100` |
+  | Damping 阻尼   | `10`   | `0`  | `100` |
+  | Velocity 速度  | `0`    | `0`  | `100` |
+
+- 弹性缓动 `easing: 'easeOutElastic(amplitude, period)'`
+
+  | in                | out                | in-out               | out-in               |
+  | ----------------- | ------------------ | -------------------- | -------------------- |
+  | `'easeInElastic'` | `'easeOutElastic'` | `'easeInOutElastic'` | `'easeOutInElastic'` |
+
+  | 参数           | Default | Min   | Max  | Info                                                         |
+  | -------------- | ------- | ----- | ---- | ------------------------------------------------------------ |
+  | Amplitude 幅度 | `1`     | `1`   | `10` | 控制曲线的过冲。这个数字越大，过冲越多。                     |
+  | Period 周期    | `.5`    | `0.1` | `2`  | 控制曲线来回移动的次数。这个数字越小，来回移动的次数就越多。 |
+
+- 步骤 `easing: 'steps(numberOfSteps)'`       定义动画到达其结束值所需的跳跃数。
+
+  - numberOfSteps 默认10，最小值1
+
+- 内置 easing   [Easing Functions Cheat Sheet](https://easings.net/)
+
+  | in               | out               | in-out              | out-in              |
+  | ---------------- | ----------------- | ------------------- | ------------------- |
+  | `'easeInQuad'`   | `'easeOutQuad'`   | `'easeInOutQuad'`   | `'easeOutInQuad'`   |
+  | `'easeInCubic'`  | `'easeOutCubic'`  | `'easeInOutCubic'`  | `'easeOutInCubic'`  |
+  | `'easeInQuart'`  | `'easeOutQuart'`  | `'easeInOutQuart'`  | `'easeOutInQuart'`  |
+  | `'easeInQuint'`  | `'easeOutQuint'`  | `'easeInOutQuint'`  | `'easeOutInQuint'`  |
+  | `'easeInSine'`   | `'easeOutSine'`   | `'easeInOutSine'`   | `'easeOutInSine'`   |
+  | `'easeInExpo'`   | `'easeOutExpo'`   | `'easeInOutExpo'`   | `'easeOutInExpo'`   |
+  | `'easeInCirc'`   | `'easeOutCirc'`   | `'easeInOutCirc'`   | `'easeOutInCirc'`   |
+  | `'easeInBack'`   | `'easeOutBack'`   | `'easeInOutBack'`   | `'easeOutInBack'`   |
+  | `'easeInBounce'` | `'easeOutBounce'` | `'easeInOutBounce'` | `'easeOutInBounce'` |
+
+- 自定义缓动函数
+
+  ```js
+  easing: function() { return function(time) { return time * i} }
+  
+  anime({
+    targets: '.custom-easing-demo .el',
+    translateX: 270,
+    direction: 'alternate',
+    loop: true,
+    duration: 2000,
+    easing: function(el, i, total) {
+      return function(t) {
+        return Math.pow(Math.sin(t * (i + 1)), total); // 返回动画的当前时间
+      }
+    }
+  });
+  ```
+
+  
+
+### timeline时间轴
+
+### play/pause控制
+
+### 回调函数
+
+### svg路径/形变/线描
+
+### 其他方法
+
+- get
+- remove
+- set
+- tick
+- running
+- ....
+
+
+
+
+
+### 在Vue3中使用
+
+```typescript
+/**
+ * v-anime 动效实现animejs
+ * 注意：不能使用在 template 标签上，不推荐在组件上使用自定义指令。当组件具有多个根节点时可能会出现预期外的行为。
+ */
+import anime from 'animejs'
+export default {
+  // 在绑定元素的父组件 及 他自己的所有子节点都挂载完成后调用
+  mounted(el: any, binding: any) {
+    const { value } = binding
+    anime({ targets: el, ...value })
+  }
+}
+
+```
+
+
+
+
+
 ## PixiJS
 
 > Pixi 是一个非常快的 2D sprite 渲染引擎。
@@ -420,7 +793,7 @@ drop-forbidden	// 拖拽元素时，type匹配但accepts-data不匹配的容器�
      	注：现在已经是V5版本。V5和V3的很多语法还是有区别的！
      -->
      <script src="http://d3js.org/d3.v5.min.js"></script>
-
+     
      <!-- 模块化引入  -->
      <script>
      import * as d3 from "d3";
