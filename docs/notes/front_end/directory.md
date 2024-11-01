@@ -20,6 +20,20 @@
 
 <img src="./images/directory/85855ade-80b7-4329-925f-b10853016bc3.png" alt="85855ade-80b7-4329-925f-b10853016bc3" style="zoom: 33%;" />
 
+
+
+<br/>
+
+### 推荐流量卡 
+
+<br/>
+
+<img src="./images/directory/qrcode2.jpg" alt="qrcode2.jpg" style="zoom: 50%;" />
+
+
+
+
+
 <!-- 
 
 ### 查缺补漏
