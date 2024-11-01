@@ -68,9 +68,9 @@ export default defineConfig({
     search: {
       provider: "algolia",
       options: {
-        appId: "8EIDEEJPIT",
-        apiKey: "35f71221cba27cb1ec41b0aed4ef0f26",
-        indexName: "wuzhongtian",
+        appId: "OJ0LX79NIW",
+        apiKey: "8e1ccc3dd753fc1fbc78831dbd67011f",
+        indexName: "prod_notes",
         locales: {
           zh: {
             placeholder: "搜索文档",
