@@ -36,6 +36,7 @@ export default defineConfig({
           "夏之一周间、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添",
       },
     ],
+    ["meta", {name:"algolia-site-verification", content:"EBE0F0BA99853C33" },''],
     ["meta", { name: "baidu-site-verification", content: "codeva-HRcMvYvHP8" }],
     ['script',{},
       `(function(c,l,a,r,i,t,y){
@@ -68,8 +69,8 @@ export default defineConfig({
     search: {
       provider: "algolia",
       options: {
-        appId: "OJ0LX79NIW",
-        apiKey: "8e1ccc3dd753fc1fbc78831dbd67011f",
+        appId: "VA3UMFU8U8",
+        apiKey: "bd9cbddf1733c748fd2176cd2f5f558f",
         indexName: "prod_notes",
         locales: {
           zh: {
