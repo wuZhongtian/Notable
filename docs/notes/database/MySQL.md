@@ -311,7 +311,7 @@ aap.get("/api",(req,res)=>{
 
 ## mysql命令
 
-```mysql
+```sql
 数据库操作语句总结(插入：insert, 删除：delete, 更新：update, 查询：select)
 Mysql语句后必须添加；符号，否则不执行；
 安装mysql服务 ：mysqld –install          启动mysql服务 ：net start mysql        关闭mysql服务：net stop mysql

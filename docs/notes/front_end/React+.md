@@ -9,7 +9,7 @@
 >
 > - 组件件数据共享：
 >
->   ```react
+>   ```jsx
 >    // 通过{函数参数}接收
 >   function MyButton({ count, onClick }) {
 >     return (
@@ -156,7 +156,7 @@ import { Helmet } from "react-helmet-async";
   - 把组件中用到的状态/回调，return 出去（对象或数据）
   - 在需要使用的组件中，执行自定义 use 函数，解构并使用其中的状态/回调
 
-```react
+```jsx
 // 自定义hook举例：
 import { useState } from 'react'
 function useToggle(){
@@ -333,7 +333,7 @@ const CheckBox = () => {
 
 - 作用：和 useState 一样，但用于管理相对复杂的状态，类似于状态管理的过程，可封装指定的处理事件
 
-```react
+```jsx
 // 1.定义reducer函数，根据不同的action返回不同的新状态
 function reducer(state,action){
     // 处理逻辑
@@ -355,7 +355,7 @@ dispatch({type:'SEt',payload:100});
 
 > 在组件多次重新渲染时，缓存函数
 
-```react
+```jsx
 // 使用useCallback包裹函数后，可保证在组件渲染时保持函数引用的稳定，在传递给子组件的引用不变
 import { useCallback } from 'react'
 
@@ -369,7 +369,7 @@ const changeHandler = useCallback((value)=>{ console.log(value) })	// 改造后
 - 使用场景：
   - 消耗非常大的计算时，例如递归的计算时，避免不相关的更新触发较大的计算逻辑
 
-```react
+```jsx
 import { useMemo } from 'react'
 // 基础语法
 useMemo(()=>{
@@ -406,7 +406,7 @@ return (<>
     - 可结合 useMemo 或 useState 使用，从而保证引用的类型地址不会变化
     - Object.is([],[]); // false
 
-```react
+```jsx
 // 使用memo函数包裹生成的缓存组件只有在props发生变化时才会重新渲染
 import {mome} from 'react'
 
@@ -421,7 +421,7 @@ const MomoSon = memo(function Son(props){
 
 > 作用：使用 ref 暴露子组件的 DOM 节点交给父组件
 
-```react
+```jsx
 import {forwardRef,useRef} from 'react'
 // 子组件  使用forwardRef包裹子组件
 const Input =forwardRef((props,ref)=>{
@@ -482,7 +482,7 @@ function App() {
      - `<Card><Avatar /></Card>` 这样的嵌套 JSX，将作为 `Card` 组件的 `prop.children`，不影响其他标签属性传递
      - Props 是只读的时间快照：每次渲染都会收到新版本的 props，修改时可通过设置 state
 
-     ```react
+     ```jsx
      // 基础用法
      import Avatar from './Avatar.js';
      function Card({ children,type }) {
@@ -514,7 +514,7 @@ function App() {
 
   1. 子组件中调用父组件方法并传值
 
-     ```react
+     ```jsx
      // 注意：不建议将父组件中的setState传递给子组件，子组件应只关心数据的使用渲染，而不包含修改
      // 父组件中
      function getMsg(data){...}
@@ -532,7 +532,7 @@ function App() {
 
   1. 使用状态提升，由公共父组件管理
 
-     ```react
+     ```jsx
      // 父组件中使用state
      // 通过子传父，将子A中的数据传递给父组件
      // 组件B中再通过props使用父组件的数据
@@ -542,7 +542,7 @@ function App() {
 
   1. 使用 Context 机制跨层级组件通信
 
-     ```react
+     ```jsx
      // 在顶层组件中，使用 createContext 方法创建上下文对象ctx, ctx.Provider组件提供数据
      // 在底层组件中，通过 useContext hook函数 消费使用数据
      ```
@@ -639,7 +639,7 @@ let id = params.id
 
 > 指路由的 JS 资源只有在被访问时才会动态获取，可优化项目首次打开的时间
 
-```react
+```jsx
 // 1.使用lazy函数将组件动态导入
 import { Suspense,lazy } from 'react'
 const Home = lazy(()=>import('@/pages/Home'))

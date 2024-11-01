@@ -1663,7 +1663,7 @@ const Login = lazy(() => import("@/pages/Login"))(
 
 > 向组件内部动态传入带有内容的结构（标签/组件）
 
-```react
+```jsx
 Vue中:
 	使用slot技术, 也就是通过组件标签体传入结构  <A><B/></A>
 React中:

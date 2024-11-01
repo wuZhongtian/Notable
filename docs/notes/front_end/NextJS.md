@@ -56,7 +56,7 @@
 
 - [clsx](https://github.com/lukeed/clsx)：实现 类名的轻松切换
 
-  ```react
+  ```jsx
   // TODO: 与classnames用法一致，but classnames针对所有浏览器，clsx主要针对react中使用
   ...
   ```

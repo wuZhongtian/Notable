@@ -125,7 +125,7 @@ process.env.TARO_APP_API	# 使用环境变量
 
 - Taro 3 中开发者使用的是真实的 React，可使用所有的 React Hooks
 
-  ```react
+  ```jsx
   // 从 'react' 包中获取 React API
   import React, { Component, useState, useEffect } from 'react'
   ```

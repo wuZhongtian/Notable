@@ -926,7 +926,7 @@ import { map, filter, reduce } from 'lodash-es';
 
 > js 库，方便通过条件判断动态控制 class 类名的显示
 
-```react
+```jsx
 // 安装
 npm i classnames
 
