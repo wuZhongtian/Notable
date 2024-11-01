@@ -36,17 +36,19 @@ export default defineConfig({
           "夏之一周间、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添",
       },
     ],
-    ["meta", {name:"algolia-site-verification", content:"EBE0F0BA99853C33" },''],
     ["meta", { name: "baidu-site-verification", content: "codeva-HRcMvYvHP8" }],
-    ['script',{},
+    [
+      "script",
+      {},
       `(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "ork2q0e007");`
+      })(window, document, "clarity", "script", "ork2q0e007");`,
     ],
     [
-      "script",{},
+      "script",
+      {},
       `var _hmt = _hmt || [];
       (function() {
         var hm = document.createElement("script");
@@ -67,57 +69,20 @@ export default defineConfig({
       label: "当前页大纲", // 文字显示
     },
     search: {
-      provider: "algolia",
+      provider: "local",
       options: {
-        appId: "VA3UMFU8U8",
-        apiKey: "bd9cbddf1733c748fd2176cd2f5f558f",
-        indexName: "prod_notes",
-        locales: {
-          zh: {
-            placeholder: "搜索文档",
-            translations: {
-              button: {
-                buttonText: "搜索文档",
-                buttonAriaLabel: "搜索文档",
-              },
-              modal: {
-                searchBox: {
-                  resetButtonTitle: "清除查询条件",
-                  resetButtonAriaLabel: "清除查询条件",
-                  cancelButtonText: "取消",
-                  cancelButtonAriaLabel: "取消",
-                },
-                startScreen: {
-                  recentSearchesTitle: "最近搜索",
-                  noRecentSearchesText: "最近没有搜索",
-                  saveRecentSearchButtonTitle: "保存此搜索",
-                  removeRecentSearchButtonTitle: "删除此历史记录",
-                  favoriteSearchesTitle: "收藏夹",
-                  removeFavoriteSearchButtonTitle: "从收藏夹中删除此搜索",
-                },
-                errorScreen: {
-                  titleText: "无法获取结果",
-                  helpText: "您可能需要检查网络连接。",
-                },
-                footer: {
-                  selectText: "选择",
-                  navigateText: "切换",
-                  closeText: "关闭",
-                  searchByText: "搜索提供者",
-                },
-                noResultsScreen: {
-                  noResultsText: "无法找到相关结果",
-                  suggestedQueryText: "你可以尝试查询",
-                  reportMissingResultsText: "你认为该查询应该有结果？",
-                  reportMissingResultsLinkText: "点击反馈",
-                },
-                // footer: {
-                //   selectKeyAriaLabel: "Enter key",
-                //   navigateUpKeyAriaLabel: "Arrow up",
-                //   navigateDownKeyAriaLabel: "Arrow down",
-                //   closeKeyAriaLabel: "Escape key",
-                // },
-              },
+        translations: {
+          button: {
+            buttonText: "搜索文档",
+            buttonAriaLabel: "搜索文档",
+          },
+          modal: {
+            noResultsText: "无法找到相关结果",
+            resetButtonTitle: "清除查询条件",
+            footer: {
+              selectText: "选择",
+              navigateText: "切换",
+              closeText: "关闭",
             },
           },
         },
@@ -188,7 +153,7 @@ export default defineConfig({
       {
         text: "数据库",
         items: [
-          { text: "MySQl", link: "/notes/database/MySQl.md" },
+          { text: "MySQL", link: "/notes/database/MySQL.md" },
           { text: "MongoDB", link: "/notes/database/MongoDB.md" },
         ],
       },
@@ -274,7 +239,7 @@ export default defineConfig({
         },
       ],
       "/notes/database/": [
-        { text: "MySQl", link: "/notes/database/MySQl.md" },
+        { text: "MySQL", link: "/notes/database/MySQL.md" },
         { text: "MongoDB", link: "/notes/database/MongoDB.md" },
       ],
       "/notes/embedded/": [
