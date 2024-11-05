@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html {
+        --bg-color: #000;
+        --text-color: #fff;
+      }
+      html.dark {
+        --bg-color: #fff;
+        --text-color: #000;
+      }
+
+      ::view-transition-old(*) {
+        animation: none;
+      }
+
+      ::view-transition-new(*) {
+        animation: clip 0.5s ease-in;
+      }
+
+      ::view-transition-old(root) {
+        z-index: 1;
+      }
+
+      ::view-transition-new(root) {
+        z-index: 9999;
+      }
+
+      html.dark::view-transition-old(*) {
+        animation: clip 0.5s ease-in reverse;
+      }
+
+      html.dark::view-transition-new(*) {
+        animation: none;
+      }
+
+      html.dark::view-transition-old(root) {
+        z-index: 9999;
+      }
+
+      html.dark::view-transition-new(root) {
+        z-index: 1;
+      }
+
+      @keyframes clip {
+        from {
+          clip-path: circle(0% at var(--x) var(--y));
+        }
+        to {
+          clip-path: circle(var(--r) at var(--x) var(--y));
+        }
+      }
+
+      /* 样式写法例子，使用css变量，可以实现动态切换主题 */
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>test text</h1>
+    <button id="btn">changeTheme</button>
+
+    <script>
+      // 主题切换函数
+      const changeTheme = () => {
+        document.querySelector("html").classList.toggle("dark");
+      };
+      const changeBtn = (func, $eve) => {
+        const x = $eve.clientX;
+        const y = $eve.clientY;
+        // 计算鼠标点击位置距离视窗的最大圆半径
+        const endRadius = Math.hypot(
+          Math.max(x, innerWidth - x),
+          Math.max(y, innerHeight - y)
+        );
+        document.documentElement.style.setProperty("--x", x + "px");
+        document.documentElement.style.setProperty("--y", y + "px");
+        document.documentElement.style.setProperty("--r", endRadius + "px");
+        // 判断浏览器是否支持document.startViewTransition
+        if (document.startViewTransition) {
+          // 如果支持就使用document.startViewTransition方法
+          document.startViewTransition(() => {
+            func.call(); // 这里的函数是切换主题的函数，调用changeBtn函数时进行传入
+          });
+        } else {
+          // 如果不支持，就使用最原始的方式，切换主题
+          func.call();
+        }
+      };
+      document.getElementById("btn").addEventListener("click", (e) => {
+        changeBtn(changeTheme, e);
+      });
+    </script>
+  </body>
+</html>
