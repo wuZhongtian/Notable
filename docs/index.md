@@ -17,8 +17,8 @@ hero:
       text: 个人主页
       link: https://wudetian.top
     - theme: alt
-      text: Gitee
-      link: https://gitee.com/wuZhongtian
+      text: GitCode
+      link: https://gitcode.com/wudetian/personal-notes/overview
 
 features:
   - icon: 💻
