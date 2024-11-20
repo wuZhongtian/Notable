@@ -6,6 +6,7 @@ import DefaultTheme from "vitepress/theme";
 import backtotop from "./backtotop.vue";
 import WaterMark from "./WaterMark.vue"; // 水印组件
 import Notice from './notice.vue';
+import RegisterSW from './RegisterSW.vue'
 import { nextTick, provide } from "vue";
 
 const { isDark } = useData();
@@ -51,6 +52,7 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
       <Notice/>
     </template>
     <template #layout-bottom>
+      <RegisterSW />
       <div class="myFooter">
         <span>访客总数 <span id="busuanzi_value_site_uv" /> 人</span>&emsp;
         <span>总访问量<span id="busuanzi_value_site_pv" /> 次</span>&emsp;
@@ -58,7 +60,7 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
       </div>
     </template>
     <!-- 这里可以插入其他插槽组件 -->
-    <template #doc-footer-before>
+    <template #doc-footer-before> 
       <backtotop />
     </template>
   </DefaultTheme.Layout>

@@ -1,7 +1,7 @@
 import { defineConfig } from "vitepress";
-
+import { withPwa } from "@vite-pwa/vitepress";
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withPwa (defineConfig({
   // base: "/", // 设置站点根路径
   lang: "zh-CN",
   metaChunk: true,
@@ -151,13 +151,6 @@ export default defineConfig({
         ],
       },
       {
-        text: "数据库",
-        items: [
-          { text: "MySQL", link: "/notes/database/MySQL.md" },
-          { text: "MongoDB", link: "/notes/database/MongoDB.md" },
-        ],
-      },
-      {
         text: "嵌入式",
         items: [
           { text: "C语言", link: "/notes/embedded/c语言.md" },
@@ -171,15 +164,8 @@ export default defineConfig({
         ],
       },
       {
-        text: "其他内容",
+        text: "其他技术",
         items: [
-          { text: "Blender建模", link: "/notes/Blender.md" },
-          { text: "Git", link: "/notes/Git.md" },
-          { text: "Docker", link: "/notes/Docker.md" },
-          { text: "Linux", link: "/notes/Linux.md" },
-          { text: "网络安全", link: "/notes/网络安全.md" },
-          { text: "其他概念", link: "/notes/其他概念.md" },
-          { text: "工具资源", link: "/notes/工具资源.md" },
           {
             text: "鸿蒙开发",
             items: [
@@ -187,6 +173,26 @@ export default defineConfig({
               { text: "设备开发", link: "/notes/harmonyos/设备开发.md" },
             ],
           },
+          {
+            text: "数据库",
+            items: [
+              { text: "MySQL", link: "/notes/database/MySQL.md" },
+              { text: "MongoDB", link: "/notes/database/MongoDB.md" },
+            ],
+          },
+          { text: "Blender建模", link: "/notes/Blender.md" },
+          { text: "Git", link: "/notes/Git.md" },
+          { text: "Docker", link: "/notes/Docker.md" },
+          { text: "Linux", link: "/notes/Linux.md" },
+          { text: "网络安全", link: "/notes/网络安全.md" },
+          { text: "其他概念", link: "/notes/其他概念.md" },
+          { text: "工具资源", link: "/notes/工具资源.md" },
+        ],
+      },
+      {
+        text: "生活",
+        items: [
+          { text: "C1驾驶证", link: "/life/C1驾驶证.md" },
         ],
       },
       // {
@@ -239,10 +245,7 @@ export default defineConfig({
           ],
         },
       ],
-      "/notes/database/": [
-        { text: "MySQL", link: "/notes/database/MySQL.md" },
-        { text: "MongoDB", link: "/notes/database/MongoDB.md" },
-      ],
+    
       "/notes/embedded/": [
         { text: "C语言", link: "/notes/embedded/c语言.md" },
         { text: "模电数电", link: "/notes/embedded/模电数电.md" },
@@ -262,6 +265,14 @@ export default defineConfig({
             { text: "设备开发", link: "/notes/harmonyos/设备开发.md" },
           ],
         },
+        {
+          text: "数据库",
+          collapsed: false,
+          items: [
+            { text: "MySQL", link: "/notes/database/MySQL.md" },
+            { text: "MongoDB", link: "/notes/database/MongoDB.md" },
+          ],
+        },
         { text: "Blender建模", link: "/notes/Blender.md" },
         { text: "Git", link: "/notes/Git.md" },
         { text: "Docker", link: "/notes/Docker.md" },
@@ -269,6 +280,9 @@ export default defineConfig({
         { text: "网络安全", link: "/notes/网络安全.md" },
         { text: "其他概念", link: "/notes/其他概念.md" },
         { text: "工具资源", link: "/notes/工具资源.md" },
+      ],
+      "/life/": [
+        { text: "C1驾驶证", link: "/life/C1驾驶证.md" },
       ],
     },
 
@@ -287,4 +301,41 @@ export default defineConfig({
       copyright: `备案号：<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2021031240号-1</a>`,
     },
   },
-});
+  pwa: {
+    outDir: ".vitepress/dist", // 输出目录
+    registerType: "autoUpdate", // 注册类型为自动更新
+    includeManifestIcons: false, // 不包含清单图标
+    manifest: {
+      // id: "/", // 清单 ID
+      name: "夏之一周间", // 应用名称
+      short_name: "夏之一周间", // 应用的短名称
+      description: "前端打工仔的成长日记", // 应用的描述
+      start_url: "/", // 应用启动路径
+      display: "standalone", // 应用显示模式
+      theme_color: '#ffffff',
+      icons: [
+        {
+          src: "/logo.png", // 图标路径
+          sizes: "120x120", // 图标尺寸
+          type: "image/png", // 图标类型
+        },
+        {
+          src: "/logo.png",
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: "/logo.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any",
+        },
+      ],
+    },
+    workbox: {
+      skipWaiting: true,
+      clientsClaim: true,
+      globPatterns: ["**/*.{css,js,html,svg,png,ico,txt,woff2}"], // 匹配需要缓存的文件类型
+    },
+  },
+}));

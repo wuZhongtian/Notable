@@ -97,14 +97,14 @@
   >   var obj2 = obj1
   >   obj1.name=two;
   >   console.log(obj2.name);  //two
-  >                                                                                                                                                                                                                                                                 
+  >                                                                                                                                                                                                                                                                   
   >   var a = { age : 12 }
   >   var b = a;
   >   // 在这一步a的索引发生改变
   >   a ={ name:tom , age:13}
   >   b.age = 14;
   >   console.log(b.age,a.age,a.name)  //14,13,tom
-  >                                                                                                                                                                                                                                                                 
+  >                                                                                                                                                                                                                                                                   
   >   function fn(obj){
   >      // 在这一步a的索引又发生改变
   >      obj = {age:15}
@@ -3017,17 +3017,31 @@ socket.emit('go',{password:'123'});
 
 ## WebWorker
 
-> web worker 是运行在后台的 JavaScript，独立于其他脚本，不会影响页面的性能。您可以继续做任何愿意做的事情：点击、选取内容等等，而此时 web worker 在后台运行。实现js的主线程为单线程，扩展新的线程在后台运行。可用于前端性能优化。
+> web worker 是运行在后台的 JavaScript，独立于其他脚本，不会影响页面的性能。您可以继续做任何愿意做的事情：点击、选取内容等等，而此时 web worker 在后台运行。实现js的主线程为单线程，扩展新的线程在后台运行。可用于前端性能优化。但是不能直接操作DOM、BOM
 
 
 
+```js
+// 使用步骤
+// 1.创建WebWorker  const worker = new Worker('worker.js')
+// 2.在worker中执行复杂的计算
+// 3.wbeWorker结束计算后，通过self.postMessage(msg)给主线程发消息
+// 4.主线程通过 worker.onmessage =()=>{} 监听消息
 
+// index.html
+const worker = new Worker('worker.js')
+worker.addEventListener('message',(e)=>{
+    console.log('接受副线程的消息:', e )
+})
+worker.postMessage( {key:'给副线程发消息'} )
 
-## Service Worker
-
-> - [【性能优化】Service Worker 能做的远比你想象的多 - 掘金 (juejin.cn)](https://juejin.cn/post/7067113836372819982)
-> - [vite pwa项目使用 - 掘金 (juejin.cn)](https://juejin.cn/post/7039258299086143524#heading-1)
-> - [添加配置项 · imsyy/home@ddda08c (github.com)](https://github.com/imsyy/home/commit/ddda08c03770ce8845ef10b354338f713ffa3e81)
+// worker.js
+...  // 要执行的操作
+self.postMessage( {key:'给主线程发消息'} )
+self.addEventListener('message',(e)=>{
+    console.log('接受主线程消息:', e )
+})
+```
 
 
 
