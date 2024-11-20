@@ -302,11 +302,12 @@ export default withPwa (defineConfig({
     },
   },
   pwa: {
+    base: "/",
+    scope: "/",
     outDir: ".vitepress/dist", // 输出目录
     registerType: "autoUpdate", // 注册类型为自动更新
     includeManifestIcons: false, // 不包含清单图标
     manifest: {
-      // id: "/", // 清单 ID
       name: "夏之一周间", // 应用名称
       short_name: "夏之一周间", // 应用的短名称
       description: "前端打工仔的成长日记", // 应用的描述
