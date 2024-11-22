@@ -22,7 +22,7 @@ setTimeout(function(){ visible.value = false }, 10000);
         <div class="bulletin-content">
             <h3 class="bulletin-h3">最近更新：</h3>
             <p class="bulletin-p"> - <a class="bulletin-link" href="https://notes.wudetian.top/life/C1%E9%A9%BE%E9%A9%B6%E8%AF%81.html" target="_blank">C1驾驶证</a></p>
-            <p class="bulletin-p"> - 前端其他概念之 <a class="bulletin-link" href="http://localhost:5173/notes/front_end/%E5%85%B6%E4%BB%96%E6%A6%82%E5%BF%B5.html#pwa" target="_blank">PWA优化</a></p>
+            <p class="bulletin-p"> - 前端其他概念之 <a class="bulletin-link" href="https://notes.wudetian.top/notes/front_end/%E5%85%B6%E4%BB%96%E6%A6%82%E5%BF%B5.html#pwa" target="_blank">PWA优化</a></p>
             <p class="bulletin-p" style="margin-top: 20px;">微信公众号：夏之一周间</p>
             <img class="bulletin-img" src="/qrcode.jpg">
             <hr>
