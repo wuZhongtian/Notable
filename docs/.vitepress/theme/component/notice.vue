@@ -1,128 +1,135 @@
 <script setup lang="ts">
-import { ref } from "vue";
-const visible = ref(true);
+import { ref } from 'vue'
+const visible = ref(true)
 
-function closetz() {
-  visible.value = false;
+function closeBulletin() {
+    visible.value = false
 }
 
-setTimeout(function () {
-  visible.value = false;
-}, 12000);
+setTimeout(function(){ visible.value = false }, 10000);
 </script>
 
 <template>
-  <div v-if="visible" class="notice-background" style="display: block"></div>
+    <div v-if="visible" class="bulletin-wrapper" style="width: 260px;">
+        <div class="bulletin-title">
+            <span class="bulletin-icon left">
+                <svg class="bulletin-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" style="width: 20px; height: 20px; font-size: 20px; color: rgb(255, 255, 255);"><path d="M27.16 8.08l-1.53 1.29a10 10 0 0 1-.29 13.23l1.47 1.4a12 12 0 0 0 .35-15.88z" fill="currentColor"></path><path d="M21.58 12a6 6 0 0 1-.18 7.94l1.47 1.36a8 8 0 0 0 .23-10.59z" fill="currentColor"></path><path d="M18 30a1 1 0 0 1-.71-.3L9.67 22H3a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h6.67l7.62-7.7a1 1 0 0 1 1.41 0a1 1 0 0 1 .3.7v26a1 1 0 0 1-1 1zM4 20h6.08a1 1 0 0 1 .71.3L17 26.57V5.43l-6.21 6.27a1 1 0 0 1-.71.3H4z" fill="currentColor"></path></svg>
+                <span>公告</span>
+            </span>
+            <svg class="btn-close" @click="closeBulletin" t="1573745677073" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4448" width="22" height="22"><path d="M512 34.133333a486.4 486.4 0 1 0 486.4 486.4A486.4 486.4 0 0 0 512 34.133333z m209.4848 632.8064l-55.6032 55.466667-151.517867-151.125333-151.517866 151.1168-55.6032-55.466667 151.517866-151.108267L307.242667 364.714667l55.6032-55.466667 151.517866 151.125333 151.517867-151.1168 55.6032 55.466667-151.517867 151.099733z m0 0" p-id="4449"></path></svg>
+        </div>
 
-  <div v-if="visible" class="notice">
-    <h3 class="notice-title">网站公告</h3>
-    <div class="notice-describe">
-      <p>最近任务：鸿蒙应用开发、前端组件方法库</p>
-      <p class="notice-domain">
-        <strong>
-          主站地址：
-          <a href="https://wudetian.top/" target="_blank">
-            https://wudetian.top/
-          </a>
-        </strong>
-      </p>
-      <!-- <p>微信公众号: wudetian_top</p> -->
-      <img class="notice-img" src="../../../public/qrcode.png" />
+        <div class="bulletin-content">
+            <h3 class="bulletin-h3">最近更新：</h3>
+            <p class="bulletin-p"> - <a class="bulletin-link" href="https://notes.wudetian.top/life/C1%E9%A9%BE%E9%A9%B6%E8%AF%81.html" target="_blank">C1驾驶证</a></p>
+            <p class="bulletin-p"> - 前端其他概念之 <a class="bulletin-link" href="http://localhost:5173/notes/front_end/%E5%85%B6%E4%BB%96%E6%A6%82%E5%BF%B5.html#pwa" target="_blank">PWA优化</a></p>
+            <p class="bulletin-p" style="margin-top: 20px;">微信公众号：夏之一周间</p>
+            <img class="bulletin-img" src="/qrcode.jpg">
+            <hr>
+            <div class="btn-group">
+                <a class="btn" href="/notes/front_end/directory.html#赞赏-buy-me-a-coffee" target="_blank">赞赏</a>
+            </div>
+        </div>
     </div>
-
-    <div class="notice-footer">
-      <div class="notice-btn" @click="closetz">朕知道了</div>
-    </div>
-  </div>
 </template>
 
-<style scoped>
-.notice-img {
-  z-index: 9999;
-  margin-top: 10px;
+
+<style>
+.bulletin-wrapper {
+    position: fixed;
+    top: 5rem;
+    right: 1rem;
+    z-index: 30;
+    box-sizing: border-box;
+    border-radius: 1rem;
+    overflow-y: auto;
+    background-color: #1b1446;
+    box-shadow: 0 10px 30px 0 rgb(0 0 0 / 40%);
 }
 
-/* 全屏遮罩层 */
-.notice-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: none;
-  z-index: 99;
-  pointer-events: none;
+
+.bulletin-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgb(255 255 255);
+    padding: 0.5rem 1em;
 }
 
-/* 通知 */
-.notice {
-  z-index: 999;
-  padding: 25px;
-  background: #fff;
-  width: 350px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  border-radius: 18px;
-  box-sizing: border-box;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05),
-    0 1.5rem 2.2rem rgba(0, 0, 0, 0.1);
+
+.bulletin-icon {
+    display: inline-flex;
 }
 
-@media (max-width: 640px) {
-  .notice {
-    width: 82%;
-    padding: 25px;
-  }
+.bulletin-icon.left {
+    flex-direction: row;
+    align-items: center
 }
 
-.notice-title {
-  text-align: center;
-  color: #3c3c3c;
-  font-size: 20px;
-  font-weight: 900;
+.bulletin-icon.left>svg {
+    margin-right: .375rem
 }
 
-.notice-describe p {
-  color: #3c3c3c;
-  padding: 10px 0;
-  font-size: 15px;
+
+.btn-close {
+    cursor: pointer;
+    fill: currentColor;
 }
 
-.notice-describe p strong {
-  color: #3c3c3c;
+
+.bulletin-content {
+    padding: 1.5rem 2rem;
+    background-color: #ffffff;
 }
 
-.notice-describe p a {
-  color: #eb0e0e;
+
+.bulletin-h3 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bolder;
 }
 
-.notice-domain {
-  background: #f3f5f7;
-  text-align: center;
-  border-radius: 10px;
+.bulletin-p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #000000;
+    font-size: 14px;
 }
 
-/* 通知底部 */
-.notice-footer {
-  padding: 20px 0 0;
-  text-align: center;
+.bulletin-link {
+    color: red;
 }
 
-.notice-btn {
-  text-align: center;
-  cursor: pointer;
-  border-radius: 50px;
-  font-weight: 700;
-  padding: 0 30px;
-  color: #fff;
-  background: linear-gradient(to right, #1e69f5 0%, #093ce5 100%);
-  box-shadow: 0 10px 12px -4px rgb(0 0 0 / 40%);
-  line-height: 40px;
-  font-size: 14px;
-  display: inline-block;
-  text-wrap: nowrap;
+
+.bulletin-img {
+    width: 100%
+}
+
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-top-width: 1px;
+    border-style: solid;
+    border-color: #1b1446;
+}
+
+.btn-group {
+    text-align: center
+}
+
+
+.btn {
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: #1b1446;
+    text-align: center;
+    line-height: 3rem;
+    color: #ffffff;
 }
 </style>
