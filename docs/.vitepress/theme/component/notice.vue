@@ -26,7 +26,7 @@ setTimeout(function () {
           </a>
         </strong>
       </p>
-      <p>QQ频道: pd13836025</p>
+      <!-- <p>微信公众号: wudetian_top</p> -->
       <img class="notice-img" src="../../../public/qrcode.png" />
     </div>
 
@@ -39,6 +39,7 @@ setTimeout(function () {
 <style scoped>
 .notice-img {
   z-index: 9999;
+  margin-top: 10px;
 }
 
 /* 全屏遮罩层 */

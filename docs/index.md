@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "夏之一周"
+  name: "夏之一周间"
   text: "wudetian.top"
   tagline: ""
   image:

@@ -21,7 +21,7 @@
   npm create vite@latest   // 使用npm创建项目（vue、react、）
   yarn create vite  // 使用yarn创建项目
   pnpm create vite  // 使用pnpm创建项目
-
+  
   npm init vite-app 项目名  // *创建vue3项目
   npm install //安装依赖！
   npm run dev //运行项目
@@ -73,7 +73,7 @@ createApp(App).mount("#app"); // app为index.html容器的id
       }),
       template: '<button @click="count++">Clicked {{ count }} times.</button>'
     })
-
+  
     //注册全局指令
     Vue.directive('focus', {
       inserted: el => el.focus()
@@ -120,7 +120,7 @@ createApp(App).mount("#app"); // app为index.html容器的id
     .v-leave-to {
       opacity: 0;
     }
-
+  
     .v-leave-from,
     .v-enter-to {
       opacity: 1;
@@ -166,11 +166,11 @@ createApp(App).mount("#app"); // app为index.html容器的id
   <script lang="ts">
   // use TypeScript
   </script>
-
+  
   <template lang="pug">
   p {{ msg }}
   </template>
-
+  
   <style lang="scss">
   $primary-color: #333;
   body {
@@ -182,6 +182,17 @@ createApp(App).mount("#app"); // app为index.html容器的id
 ### 杂项
 
 1. Vue 文件结构中可以 存在多个标签，不再要求只有一个根标签包裹
+
+   - 但推荐保持使用 <strong style="color:#DD5145">单个根标签</strong> 以避免特殊情况下的异常
+
+   - 例如：
+
+     - 自定义指令根标签为多个时DOM获取问题
+     - 使用Vue的Transition 实现路由动画时，将无法避免；除非选择舍弃路由缓存。
+
+     ```json
+     'vue/no-multiple-template-root': 'error',  // eslint规则 辅助 - 必须使用一个根标签
+     ```
 
 2. Vue3 中使用 Vue2 的 data、methods 配置依旧生效，**尽量不要与 Vue2.x 配置混用**
 
@@ -227,7 +238,7 @@ createApp(App).mount("#app"); // app为index.html容器的id
          text: String,
          message: Number,
        });
-
+       
        // 或
        const props = defineProps(["text", "message"]);
        ```
@@ -718,7 +729,7 @@ export default {
   ```js
   // toRef 的第一个参数值是个对象即可，第二个参数是对象中数据的键
   // toRefs 直接传入一个对象即可，与toRef功能一致(拆除外面一层，方便模板书写)
-
+  
   import {reactive,toRef} from 'vue'
   export default {
       name:'Demo',
@@ -767,7 +778,7 @@ export default {
 
   ```js
   import {ref,reactive,toRefs,readonly} from 'vue'
-
+  
   setup(){
       let person = reactive({
           name:'张三',
@@ -807,7 +818,7 @@ export default {
     <input type="text" v-model="keyword" />
     <h3>{{ keyword }}</h3>
   </template>
-
+  
   <script>
   import { ref, customRef } from "vue";
   export default {
@@ -988,7 +999,7 @@ export default {
           return Reflect.deleteProperty(target, prop);
         },
       });
-
+      
       proxy.name = "tom";
       ```
 
@@ -1103,7 +1114,7 @@ Reflect.defineProperty(obj, "c", {
     console.log(props.text, msg);
   } // 函数
   </script>
-
+  
   <template>
     <button @click="log">{{ msg }}</button>
     <div>{{ capitalize("hello") }}</div>
@@ -1709,7 +1720,7 @@ myChart.setOption({
   - 移动端 UI：VantUI、[cube-ui Document (didi.github.io)](https://didi.github.io/cube-ui/#/zh-CN)、[cube-ui](https://didi.github.io/cube-ui/#/zh-CN)、[Vuetify](https://vuetifyjs.com/zh-Hans/)、
   - PC 端 UI：[Element UI](https://element.eleme.cn/#/zh-CN)、[iView](https://www.iviewui.com/)、[AT UI](https://at-ui.github.io/at-ui/#/zh/docs/introduction)、[beauty2](https://fe-driver.github.io/vue-beauty/#/components/button)、[Buefy](https://buefy.org/)
 
-​
+
 
 ## 使用记录
 

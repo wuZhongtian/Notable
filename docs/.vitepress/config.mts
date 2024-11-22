@@ -24,7 +24,7 @@ export default withPwa(
     sitemap: {
       hostname: "https://notes.wudetian.top",
     },
-    title: "夏之一周",
+    title: "夏之一周间",
     description:
       "夏之一周、夏之一周、前端、前端开发、嵌入式、wudetian、自学编程、吴忠添",
     head: [
