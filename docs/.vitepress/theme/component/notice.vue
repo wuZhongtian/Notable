@@ -63,16 +63,25 @@ setTimeout(function () {
     <div class="bulletin-content">
       <h3 class="bulletin-h3">最近更新：</h3>
       <p class="bulletin-p">
-        -
+        - 嵌入式
         <a
           class="bulletin-link"
-          href="https://notes.wudetian.top/life/C1%E9%A9%BE%E9%A9%B6%E8%AF%81.html"
+          href="https://notes.wudetian.top/notes/embedded/RTOS.html"
           target="_blank"
-          >C1驾驶证</a
+          >FreeRTOS</a
         >
       </p>
       <p class="bulletin-p">
-        - 前端其他概念之
+        - 鸿蒙
+        <a
+          class="bulletin-link"
+          href="http://localhost:5173/notes/harmonyos/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91.html"
+          target="_blank"
+          >应用开发</a
+        >
+      </p>
+      <p class="bulletin-p">
+        - 前端其他概念
         <a
           class="bulletin-link"
           href="https://notes.wudetian.top/notes/front_end/%E5%85%B6%E4%BB%96%E6%A6%82%E5%BF%B5.html#pwa"

@@ -217,11 +217,151 @@
 
 
 
+#### 系统配置文件
+
+- FreeRTOSConfig.js 配置文件：进行功能配置和裁剪，以及API函数的使能。
+- https://www.freertos.org/zh-cn-cmn-s/Documentation/02-Kernel/03-Supported-devices/02-Customization
+- 略
 
 
 
 
 
+#### 任务创建与删除
+
+- 动态创建任务  xTaskCreate()
+
+  - 创建流程
+    1. 将宏`configSUPPORT_DYNAMIC_ALLOCATION` 配置为  1
+    2. 定义函数入口参数
+    3. 编写任务函数
+  - 内部实现过程
+    1. 申请堆栈内存 & 任务控制块(TCB)内存
+    2. TCB结构体成员赋值 - 保存任务的信息
+    3. 将新任务添加到就绪列表
+  - 查询任务栈历史剩余最小值
+    - 
+
+  ```c
+  // 动态创建任务函数
+  BaseType_t xTaskCreate{
+      TaskFunction_t pxTaskCode, /* 指向任务函数的指针 */
+      // const char * const 表示指针和常量都不能修改
+      const char * const pcName, /* 任务名字，最大长度 configMAX_TASK_NAME_LEN */
+      const configSTACK_DEPTH_TYPE usStackDepth, /* 任务堆栈大小，字为单位 1字==4字节 */
+      void * const pvParameters, /* 传递给任务函数的参数 */
+      UBaseType_t uxPriority, /* 任务优先级，范围 0 ~ configMAX_PRIORITIES-1 */
+      TaskHamdle_t * const pxCreatedTask, /* 任务句柄，任务的任务控制块 */
+  }
+  
+  
+  // 返回值
+  pdPASS 任务创建成功
+  errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY  任务创建失败
+      
+      
+  // 任务控制块TCB 结构体成员介绍
+  typedef struct tskTaskControlBlock{
+      // 任务栈顶与任务上下文保存、任务恢复息息相关
+      volatile StackType_t *pxTopOfStack;		/* 任务栈栈顶，必须为TCB的第一个成员 */
+      ListItem_t xStateListItem;		/* 任务状态列表项 */
+      ListItem_t xEventListItem;		/* 任务事件列表项 */
+      UBaseType_t uxPriority;		/* 任务优先级，数值越大，优先级越大 */
+      StackType_t * pxStack;		/* 任务栈起始地址 */
+      char pcTaskName[ configMAX_TASK_NAME_LEN ];		/* 任务名字 */
+      ...  // 省略条件编译成员
+  }
+  ```
+
+
+
+
+
+- 静态创建任务 xTaskCreateStatic()
+
+  - 创建流程
+    1. 将宏`configSUPPORT_STATIC_ALLOCATION` 配置为  1
+    2. 定义空闲任务 & [定时器任务]  的任务堆栈及TCB
+       - cpu不能停止，在空闲时需执行空闲任务
+    3. 实现两个接口函数
+       - `vApplicationGetldleTaskMemory()`	必要，空闲任务内存赋值
+       - `vApplicationGetTimerTaskMemory()`  可选，软件定时器内存赋值
+    4. 定义函数入口参数
+    5. 编写任务函数
+  - 内部实现
+    - TCB结构体成语赋值
+    - 添加新任务到就绪列表
+
+  ```c
+  // 静态创建任务函数
+  BaseType_t xTaskCreate{
+      TaskFunction_t pxTaskCode, /* 指向任务函数的指针 */
+      const char * const pcName, /* 任务函数名 */
+      const uint32_t usStackDepth, /* 任务堆栈大小，字为单位 1字==4字节 */
+      void * const pvParameters, /* 传递给任务函数的参数 */
+      UBaseType_t uxPriority, /* 任务优先级，范围 0 ~ configMAX_PRIORITIES-1 */
+  	StackType_t * const puxStackBuffer, /* 任务堆栈，一般为数组，由用户分配 */
+  	StackType_t * const pxTaskBuffer, /* 任务控制块指针，由用户分配 */
+  }
+  
+  // 返回值
+  NULL 创建任务失败，用户没有提供相应的内存
+  其他值	任务句柄，任务创建成功
+  ```
+
+
+
+
+
+- 删除任务  vTaskDelete()
+
+  - 删除流程
+    1. 使用删除任务函数，需将宏 `INCLUDE_vTaskDelete`配置为 1
+    2. 入口参数输入需要删除的`任务句柄`，`NULL`代表删除任务自身（当前正在执行的任务）
+  - 内部实现过程
+    1. 获取要删除的任务控制块
+    2. 将被删除任务，从其所在列表移除【就绪、阻塞、挂起、事件等列表】
+    3. 判断所需删除的任务
+       - 删除自身，添加到等待删除列表，内存释放在空闲任务中执行
+       - 删除其他任务，任务释放，任务数量--
+    4. 更新下个任务的阻塞时间
+       - 更新下一个任务的阻塞时间
+  - 注意
+    - 用于删除已被创建成功的任务
+    - 被删除的任务，将从 就绪任务列表、阻塞态任务列表、挂起态任务列表和事件列表执行中移除。
+
+  ```c
+  void vTaskDelete( TaskHandle_t xTaskToDelete );
+  // xTaskToDelete 待删除任务的任务句柄
+  ```
+
+  
+
+
+
+
+
+
+
+- 静态与动态区别
+  - 动态：
+    - 任务控制块及任务的栈空间所需内存，从FreeRTOS管理的堆栈中自动分配
+    - 删除函数传参
+      - NULL，空闲任务负责释放被删除任务中由系统自动分配的内存，运行中不能自杀
+      - 其它任务句柄，由删除任务函数直接释放内存
+  - 静态：
+    - 需用户分配提供内存
+    - 删除函数，由用户在删除任务前提前释放内存，否则将导致内存泄漏
+  - 形同点
+    - 创建的任务会立刻进入就绪态，由任务调度器调度运行
+
+
+
+
+
+
+
+#### 任务挂起与恢复
 
 
 
