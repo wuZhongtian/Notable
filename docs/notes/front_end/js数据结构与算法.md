@@ -13,7 +13,7 @@
     2. 常见语言的数组容量不会自动变化（需要扩容操作，申请更大的空间作为数组元素）
     3. 常见语言的数组进行中间或前面插入和删除操作性能比较低（其他元素挨个移动）
 
-### 栈结构
+### 栈 stack
 
 > 栈 受限的线性结构（只允许在栈顶进行插入和删除操作），先进后出（LIFO）
 
@@ -54,7 +54,7 @@
   // function 函数
   function Stack(){
      this.items=[]    // 栈中的属性
-
+  
      Stack.prototype.push=function(ele){
          this.items.push(ele)
      }
@@ -79,7 +79,7 @@
   }
   ```
 
-### 队列结构
+### 队列 queue
 
 > 另一种受限的线性结构，先进先出 FIFO
 
@@ -241,7 +241,7 @@
     // 属性
     this.head = null;
     this.length = 0;
-
+  
     // 原型上追加方法
     LinkedList.prototype.append = function (data) {
       let newNode = new Node(data);
@@ -257,7 +257,7 @@
       }
       this.lengtn += 1;
     };
-
+  
     LinkedList.prototype.toString = function () {
       let current = this.head;
       let lisString = "";
@@ -267,7 +267,7 @@
       }
       return lisString;
     };
-
+  
     LinkedList.prototype.insert = function (position, data) {
       //对position进行越界判断 越界就返回 false
       if (position < 0 || position > this.length) return false;
@@ -290,7 +290,7 @@
       this.length += 1;
       return true;
     };
-
+  
     LinkedList.prototype.get = function (position) {
       //对position进行越界判断 越界返回 null
       if (position < 0 || position >= this.length) return null;
@@ -301,7 +301,7 @@
       }
       return cunrrent.data;
     };
-
+  
     LinkedList.prototype.indexOf = function (data) {
       //返回元素在链表中的索引，没有该元素返回-1
       let index = 0;
@@ -315,7 +315,7 @@
       }
       return -1;
     };
-
+  
     LinkedList.prototype.update = function (position, newdata) {
       if (position < 0 || position >= this.length) return false;
       // 循环找到指定位置，将data的修改
@@ -327,7 +327,7 @@
       cunrrent.data = newdata;
       return true;
     };
-
+  
     LinkedList.prototype.removeAt = function (position) {
       if (position < 0 || position >= this.length) return null;
       if (position == 0) {
@@ -345,17 +345,17 @@
         return current.data;
       }
     };
-
+  
     LinkedList.prototype.remove = function (data) {
       // 获取元素的位置信息，删除该位置的节点
       let index = this.indexOf(data);
       return this.removeAt(index);
     };
-
+  
     LinkedList.prototype.isEmpty = function () {
       return this.length == 0 ? true : false;
     };
-
+  
     LinkedList.prototype.size = function () {
       return this.length;
     };
@@ -406,7 +406,7 @@
       this.head=null
       this.tail=null
       this.length=0
-
+  
       DoublyLinkedList.prototype.append=function(data){
           let newNode=new Node(data);
           if(this.length==0){
@@ -418,7 +418,7 @@
               this.tail=newNode
           }
       }
-
+  
       DoublyLinkedList.prototype.toString=function(){
           var current=this.head
           var resyltString = ''
@@ -428,12 +428,12 @@
           }
           return resyltString
       }
-
+  
       DoublyLinkedList.prototype.insert=function(position,element){
           // 越界判断
           if(position<0 || position>this.length)return false
           let newNode=new Node(data);
-
+  
           if(this.length==0){
               this.head=newNode
               this.tail=newNode
@@ -531,17 +531,64 @@
     console.log(Array.from(set)); // (2) [1, true]
     console.log(Array.from(set.values())); // (2) [1, true]
     console.log(Array.from(set.keys())); // (2) [1, true]
-    ```
+  ```
 
   - 为了明确集合的内部实现机制，进行手动封装
 
     -
+
+
+
+
+
+### 树
+
+- 二叉树
+- 多叉树
+- 红黑树
+- 平衡二叉树
+- 哈夫曼树
+- ...
+
+
+
+
+
+### 图
+
+- 邻接表
+- 邻接矩阵
+
+
+
+
+
+
 
 ## 算法
 
 > 一个有限指令集，每条指令的描述不依赖于语言，并在有限的步骤后终止
 
 ### 常见
+
+- 排序：冒泡、快速、归并、二分、插入、希尔...
+- 搜索/查找、二分搜索
+- 动态规划DP
+- 贪心算法
+- 回溯算法
+- 分治算法
+- 图论
+- 双指针
+- 快慢指针：一个走的快一个走得慢，若是环形，迟早相遇
+- 滑动窗口：分批处理数据，依次滑动一点
+
+
+
+
+
+
+
+
 
 #### 冒泡排序
 
@@ -563,7 +610,18 @@
     }
     return arr;
   }
-
+  
   let arr: number[] = [5, 4, 3, 2, 1];
   console.log(BubbleSort(arr));
   ```
+
+
+
+
+
+
+
+#### 动态规划DP
+
+- 举例：斐波那契数列，计算100的值，默认使用递归进行计算，会特别慢！因此需改进！
+- 

@@ -1,5 +1,7 @@
 # TypeScript
 
+- https://juejin.cn/book/7288482920602271802/section/7288668102064078905
+
 ### 基础知识
 
 #### 初识TS
@@ -797,7 +799,231 @@ console.log(`value---${success}`,`key---${key}`)   // 1 success
 
 
 
+#### 泛型
 
+
+
+
+
+### 进阶
+
+#### declare模块类型声明
+
+- 仅包含类型信息、无需导入操作就能被TS自动加载的文件
+- 常用来为没有模块声明的三方模块做声明，或自定义模块配置声明文件
+
+```ts
+declare module "lodash" {
+  camelCase(string?: string): string;
+  capitalize(string?: string): string;
+  endsWith(string?: string): string;
+  // ...
+}
+```
+
+
+
+
+
+#### TS内置工具类型
+
+- Partial ：将对象类型的所有属性都标记为**可选**
+- Required ：将对象类型的所有属性都标记为**必选**
+- Readonly ： 将对象类型所有属性标记为**只读**
+
+```ts
+type User = {
+  name: string;
+  age: number;
+  email: string;
+};
+
+const user: User = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john.doe@example.com'
+};
+
+type PartialUser = Partial<User>;   // Partial，使User内部的属性都可选
+// PartialUser 可以不实现全部的属性了！
+const partialUser: PartialUser = {
+  name: 'John Doe',
+  age: 30
+};
+
+type RequiredUser = Required<User>; // Required，使User内部的属性都必选
+// 现在你必须全部实现这些属性了
+const requiredUser: RequiredUser = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john.doe@example.com'
+};
+
+type ReadonlyUser = Readonly<User>; // Readonly，使User内部的属性都只读
+const readonlyUser: ReadonlyUser = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john.doe@example.com'
+};
+
+// 修改 user 对象的属性
+user.name = 'Jane Doe';
+user.age = 25;
+user.email = 'jane.doe@example.com';
+// 修改 readonlyUser 对象的属性
+// readonlyUser.name = 'Jane Doe';  // 报错
+// readonlyUser.age = 25;  // 报错
+// readonlyUser.email = 'jane.doe@example.com';  // 报错
+```
+
+
+
+- Record：
+
+  ```ts
+  type UserProps = 'name' | 'job' | 'email';
+  // 批量声明
+  type User = Record<UserProps, string>; // 等价于一个个实现这些属性都为 string
+  const user: User = {
+    name: 'John Doe',
+    job: 'fe-developer',
+    email: 'john.doe@example.com'
+  };
+  
+  
+  // 声明属性名还未确定的接口类型
+  type User2 = Record<string, string>;
+  const user2: User2 = {
+    name: 'John Doe',
+    job: 'fe-developer',
+    email: 'john.doe@example.com',
+    bio: 'Make more interesting things!',
+    type: 'vip',
+    // ...
+  };
+  ```
+
+
+
+
+
+- Pick类型：接收一个对象类型，以及一个字面量类型组成的联合类型，这个联合类型只能是由对象类型的属性名组成的。它会对这个对象类型进行裁剪，只保留你传入的属性名组成的部分
+- Omit类型：与Pick对立，移除传入的属性名的部分，只保留剩下的部分作为新的对象类型
+
+```ts
+type User = {
+  name: string;
+  age: number;
+  email: string;
+  phone: string;
+};
+const user: User = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john.doe@example.com',
+  phone: '1234567890'
+};
+
+// Pick 只提取其中的 name 与 age 信息
+type UserBasicInfo = Pick<User, 'name' | 'age'>;
+const userBasicInfo: UserBasicInfo = {
+  name: 'John Doe',
+  age: 30
+};
+
+// 只移除 phone 属性
+type UserWithoutPhone = Omit<User, 'phone'>;
+const userWithoutPhone: UserWithoutPhone = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john.doe@example.com'
+};
+```
+
+
+
+- Exclude 差集类型：从类型A中移除类型B中也存在的部分
+- Extract  交集类型：从类型A中提取类型B中也存在的部分
+
+```ts
+type UserProps = 'name' | 'age' | 'email' | 'phone' | 'address';
+type RequiredUserProps = 'name' | 'email';
+
+// OptionalUserProps = UserProps - RequiredUserProps
+type OptionalUserProps = Exclude<UserProps, RequiredUserProps>;
+const optionalUserProps: OptionalUserProps = 'age'; // 'age' | 'phone' | 'address';
+
+// RequiredUserPropsOnly = UserProps ∩ RequiredUserProps
+type RequiredUserPropsOnly = Extract<UserProps, RequiredUserProps>;
+const requiredUserPropsOnly: RequiredUserPropsOnly = 'name'; // 'name' | 'email';
+```
+
+
+
+
+
+- Parameters
+- ReturnType
+
+```ts
+type Add = (x: number, y: number) => number;
+
+type AddParams = Parameters<Add>; // [number, number] 类型
+type AddResult = ReturnType<Add>; // number 类型
+
+const addParams: AddParams = [1, 2];
+const addResult: AddResult = 3;
+
+const addHandler = (x: number, y: number) => x + y;
+
+
+
+// 没有函数类型时，获取函数的结构化类型
+type Add = typeof addHandler; // (x: number, y: number) => number;
+
+type AddParams = Parameters<Add>; // [number, number] 类型
+type AddResult = ReturnType<Add>; // number 类型
+
+const addParams: AddParams = [1, 2];
+const addResult: AddResult = 3;
+```
+
+
+
+
+
+- Awaited类型
+
+  
+
+
+
+#### 模板字符串
+
+```ts
+type Version = `${number}.${number}.${number}`;
+
+const v1: Version = '1.1.0';
+const v2: Version = '1.0'; // 报错：类型 "1.0" 不能赋值给类型 `${number}.${number}.${number}`
+const v3: Version = 'a.0.0'; // 报错：类型 "a.0" 不能赋值给类型 `${number}.${number}.${number}`
+
+
+type SayHello<T extends string | number> = `Hello ${T}`;
+type Greet1 = SayHello<"linbudu">; // "Hello linbudu"
+type Greet2 = SayHello<599>; // "Hello 599"
+
+
+type Brand = 'iphone' | 'xiaomi' | 'honor';
+type SKU1 = `${Brand}`; // "iphone" | "xiaomi" | "honor"
+type SKU2 = `${Brand}-latest`; // "iphone-latest" | "xiaomi-latest" | "honor-latest"
+
+type Memory = '16G' | '64G';
+type ItemType = 'official' | 'second-hand';
+type SKU3 = `${Brand}-${Memory}-${ItemType}`;
+
+ 
+
+```
 
 
 

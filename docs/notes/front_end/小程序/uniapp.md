@@ -201,3 +201,58 @@
 2. 点击使用HbuilderX 导入插件
 3. 导入样式文件，在`uni.scss`中导入 uview的主题样式文件`theme.scss`
    - `@import './theme.scss;' `
+
+
+
+
+
+
+
+## 新版
+
+
+
+### 环境判断
+
+- 支持 .env 自定义环境变量，与vue用法一致
+
+##### 运行/生产
+
+```js
+// 点击“运行”-编译开发环境  点击“发行”-编译生产环境
+if (process.env.NODE_ENV === 'development') {
+	console.log('开发环境');// 发布到生产环境时，此处代码会被摇树移除掉。
+} else {
+	console.log('生产环境');
+}
+
+// 针对更多平台配置，自定义更多环境，可在 vue-config.js中配置
+```
+
+
+
+
+
+#### 判断平台
+
+- 使用 ` // #ifdef xxx`  注释；打包时TreeShaking
+- 使用 `uni.getSystemInfoSync().platform` 判断；运行时动态判断
+
+```js
+// #ifdef H5
+alert('只有h5平台才有alert方法');
+// #endif
+
+switch (uni.getSystemInfoSync().platform) {
+	case 'android':
+		console.log('运行Android上');
+		break;
+	case 'ios':
+		console.log('运行iOS上');
+		break;
+	default:
+		console.log('运行在开发者工具上');
+		break;
+}
+```
+
