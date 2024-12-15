@@ -1,4 +1,7 @@
-# [Docker](https://docs.docker.com/desktop/install/ubuntu/)
+<WaterMark />
+#  [Docker](https://docs.docker.com/desktop/install/ubuntu/)
+
+
 
 ### 历史概念
 
@@ -8,46 +11,54 @@
 
 - 虚拟化技术
 
-  > 一台物理机通过 vm 虚拟化多个操作系统，一个物理机部署多个虚拟机及 app。通过虚拟化技术，可以将计算工作放在云上进行。
+  > 一台物理机通过vm虚拟化多个操作系统，一个物理机部署多个虚拟机及app。通过虚拟化技术，可以将计算工作放在云上进行。
   >
   > 虚拟化，是一种资源管理技术，将计算机的各种实体资源进行抽象、转换后呈现出来并可供分割、组合为一个或多个电脑配置环境。
   >
   > 全虚拟化、半虚拟化、硬件辅助虚拟化（KVM、Hyoer-V）......
 
   - 虚拟机工具产品：
-    - vmware worfstation（个人学习使用），主要使用 windows
-    - 企业虚拟化 vmware esxi 虚拟化工具，高性能服务器结合，进行服务器资源虚拟化
-    - linux 下的虚拟化工具、kvm 工具
+    - vmware worfstation（个人学习使用），主要使用windows
+    - 企业虚拟化 vmware esxi虚拟化工具，高性能服务器结合，进行服务器资源虚拟化
+    - linux下的虚拟化工具、kvm工具
   - 缺点：每个虚拟机都是完成的操作系统，资源消耗较大
   - ![image-20230626004511414](images/Docker/image-20230626004511414.png)
 
 - 容器技术 Docker
 
-  > 基于 Golang 语言开发而来，基于 Linux 内核的 Cgroups、NameSpace、Union FS 等技术。对进程进行封装隔离，属于操作系统层面的虚拟化技术。
+  > 基于Golang语言开发而来，基于Linux内核的Cgroups、NameSpace、Union FS等技术。对进程进行封装隔离，属于操作系统层面的虚拟化技术。
   >
-  > docker 并非一个通用的容器工具，依赖于已存在并运行的 linux 内核环境。
+  > docker并非一个通用的容器工具，依赖于已存在并运行的linux内核环境。
   >
-  > Docker 是一个 CS 模式的架构，后端是一个松耦合的架构，众多模块各司其职。
+  > Docker是一个 CS模式的架构，后端是一个松耦合的架构，众多模块各司其职。
 
   - 概念:
     - 镜像 images：构建容器，应用程序运行所需的环境
-    - 仓库 Repository：dockerhub 类似于 github，用于保存镜像文件、提供上传于下载功能
-      - 类似 maven 仓库-存放 jar 包，github 存放 git 项目，分为公开 Public 和私有 Privatre 两种
+    - 仓库 Repository：dockerhub类似于github，用于保存镜像文件、提供上传于下载功能
+      - 类似maven仓库-存放jar包，github存放git项目，分为公开Public和私有Privatre两种
         - 最大的公开仓库是：https://hub.docker.com ;国内推荐使用阿里云、网易云等
     - 容器 containers：镜像文件的实例化对象，用来运行实际的应用程序（镜像创建的运行实例）
-    - 网络 network
+    - 网络  network
     - 数据卷 Data Volumes
     - ![image-20230626010254534](images/Docker/image-20230626010254534.png)
     - ![image-20230626005130740](images/Docker/image-20230626005130740.png)
   - 优点：
-    - 提升性能，不需要单独分割硬件资源、启动耗时短、不依赖 CPU 的虚拟化支持、一致性的环境、便于迁移
+    - 提升性能，不需要单独分割硬件资源、启动耗时短、不依赖CPU的虚拟化支持、一致性的环境、便于迁移
     - 持续交付和部署
+
+
 
 ### 核心概念
 
 #### UnionFS 联合文件系统
 
 > UnionFS：一种分层、轻量级，高性能的文件系统，支持将文件系统的修改作为一次提交进行层层叠加，同时可以将不同目录挂载到同一虚拟文件系统下。
+
+
+
+
+
+
 
 ### 基础知识
 
@@ -60,7 +71,7 @@ sudo systemctl restart docker   # 重启docker
 sudo systemctl enable docker 	# 开机启动
 sudo docker info		# 查看docker概要信息，等同于  docker --version
 sudo docker--help		# 查看帮助文档
-sudo docker 具体命令 --help   	 # 查看具体命令的帮助文档
+sudo docker 具体命令 --help   	 # 查看具体命令的帮助文档 
 
 
 # 镜像命令
@@ -69,11 +80,11 @@ docker images		  	# 查看本地主机上的镜像有哪些
 docker images -a		# 列出本地所有镜像（含历史映像层）
 docker images -q 	 	# 只显示镜像id
 
-docker search 镜像名	  # 查询镜像（包括远程）（选择时一般选择官方认证-命名：作者/命名）
+docker search 镜像名	  # 查询镜像（包括远程）（选择时一般选择官方认证-命名：作者/命名） 
 docker search 镜像名 --limit 5		# 查询指定镜像名下点赞数最多的5个
 ## 返回表格：NAME-镜像名称	DESCRIPTION-镜像说明	STARTS-点赞数量	OFFICIAL-是否属于官方	AUTOMATED-是否是自动构建的
 
-docker pull 镜像名[:TAG]		  # 下载镜像,可指定对应tag版本，可忽略默认为最新的
+docker pull 镜像名[:TAG]		  # 下载镜像,可指定对应tag版本，可忽略默认为最新的	
 
 docker system df 				# 查看镜像/容器/数据卷所占的空间
 
@@ -111,7 +122,7 @@ docker rm 容器id 	   		  # 删除已停止的容器（不能删除运行时容
 sudo docker rm -f $(sudo docker ps -a -q)  # 将$()中的结果作为整个语句的参数，全部删除
 ## docker ps -a -q | xargs docker rm  # 将|前的内容作为参数替换xargs，全部删除
 
-
+ 
 docker run -d 容器名	# 启动守护式容器（后台服务器）
 docker logs 容器id	 # 查看容器日志
 docker top 容器id 	 # 查看容器内运行的进程（容器==极简内核版linux）
@@ -161,7 +172,13 @@ docker update --restart=always 容器id	## 当前容器已经在运行中时使�
 
 ![image-20230629235148054](images/Docker/image-20230629235148054.png)
 
+
+
+
+
 ![image-20230628101658449](images/Docker/image-20230628101658449.png)
+
+
 
 #### [Install Docker](https://docs.docker.com/desktop/install/ubuntu/)
 
@@ -169,12 +186,12 @@ docker update --restart=always 容器id	## 当前容器已经在运行中时使�
 # ubuntu：
 
 ## 1.更新系统的软件包管理器
-sudo apt update
+sudo apt update 	
 ## 2.安装依赖包以允许apt通过HTTPS使用存储库
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
 ## 3.添加Docker的官方GPG密钥
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-## 4.添加Docker存储库
+## 4.添加Docker存储库 
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ## 5.更新软件包索引并安装Docker
 sudo apt update
@@ -198,6 +215,10 @@ Hello from Docker!
 
 ![image-20230629151141252](images/Docker/image-20230629151141252.png)
 
+
+
+
+
 #### pull 慢问题
 
 ```sh
@@ -213,31 +234,41 @@ sudo nano /etc/docker/daemon.json
     ]
 }
 # 重启docker服务
-sudo systemctl daemon-reload
+sudo systemctl daemon-reload 
 sudo systemctl restart docker
 # 检查我们刚刚的源有没有换成功,查看 Registry Mirrors配置中是否有
 sudo docker info
 ```
 
-#### Docker 镜像
 
-> docker 镜像：是一种轻量级、可执行的独立软件包，包含运行某个软件所需的所有内容。将应用程序和配置依赖打包好形成一个可交付的运行环境。
 
-##### UnionFS 联合文件系统
+
+
+
+
+#### Docker镜像
+
+> docker镜像：是一种轻量级、可执行的独立软件包，包含运行某个软件所需的所有内容。将应用程序和配置依赖打包好形成一个可交付的运行环境。
+
+##### UnionFS联合文件系统
 
 > 是一种分层、轻量且高性能的文件系统。支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂在到同一个虚拟文件系统下。
 >
-> 是 Docker 镜像的基础，镜像通过分层来进行继承，基于基础镜像，可以制作各种具体的应用镜像.
+> 是Docker镜像的基础，镜像通过分层来进行继承，基于基础镜像，可以制作各种具体的应用镜像.
 >
 > ![image-20230704162227434](images/Docker/image-20230704162227434.png)
 
+
+
 ##### 概念：
 
-- docker 镜像层都是只读的，容器层是可写的
+- docker镜像层都是只读的，容器层是可写的
 - 可在原有镜像的基础上追加内容，并生成自己的镜像，类似虚拟机的快照
-- Docker 中的镜像分层，支持通过扩展现有镜像，创建新的镜像。类似 Java 继承于一个 Base 基础类，自己再按需扩展。新镜像是从 base 镜像一层一层叠加生成的。每安装一个软件，就在现有镜像的基础上增加一层
+- Docker中的镜像分层，支持通过扩展现有镜像，创建新的镜像。类似Java继承于一个Base基础类，自己再按需扩展。新镜像是从 base 镜像一层一层叠加生成的。每安装一个软件，就在现有镜像的基础上增加一层
 
 ![img](https://office-cn-beijing.imm.aliyuncs.com/api/v3/office/copy/SDRYUEVXQ0RPUEdJeWo5dWMzL052aWhJVXpNOHo0RlNDMmVWelJML2ZkUWNGQTJGc29zNTNTd0lOaFRySURNYWlTVktycnNyMi9hMWpVYjJoejBucWszeFBCdWxlZjBhSkxSKzZtdHRYaHh5TXpQLzE2K3BJOUgya0hram9ZRjl4MEN4d1E4a1l2bWhJRlJEcmZrWjc5MUppQ0FlbnNaTjQrMnJJYkRzRGQvU2crZzVjUGt3ajRvSndJSkRZUHZvcTFNeit4K1FvT0krRnZ3LzlWRFRJTytCcVY5NDRvUnV2azA5MjVYVURWczRpbDZPdEpXWkVPbkY=/attach/object/3b43436a8951c0979e65b24c0df88e22859fb3a9)
+
+
 
 #### 本地镜像发布到云仓库
 
@@ -246,24 +277,28 @@ sudo docker info
   ```shell
   # 1.阿里云 开通 镜像容器服务
   # 2.本地docker登录，（阿里云会提供对应命令）
-
+  
   # 登录阿里云Docker Registry
   docker login --username=wuzhongtian registry.cn-wulanchabu.aliyuncs.com
-
+  
   # PULL - 从Registry中拉取镜像
   docker pull registry.cn-wulanchabu.aliyuncs.com/wuzt/wuzt:[镜像版本号]
-
+  
   # PUSH - 将想要推送的容器打成tag
   docker tag [ImageId] registry.cn-wulanchabu.aliyuncs.com/wuzt/wuzt:[镜像版本号]
   # 将镜像推送到Registry
   docker push registry.cn-wulanchabu.aliyuncs.com/wuzt/wuzt:[镜像版本号]
-
-
+  
+  
   ```
+
+  
+
+
 
 #### 本地镜像推送到私有库 registry
 
-[28*新镜像推送私服库案例*哔哩哔哩\_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY/?p=28&spm_id_from=pageDriver&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
+[28_新镜像推送私服库案例_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY/?p=28&spm_id_from=pageDriver&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
 
 ```shell
 # 运行 registry 搭建私有库
@@ -282,7 +317,7 @@ docker tag 镜像名:tag名 自己主机的ip地址:端口/镜像名称:版本
 
 # 修改配置，支持http传输
 ## docker默认不允许http方式推送镜像，通过配置选项来取消这个限制。修改完不生效时，可尝试重启docker
-## vim命令新增如下红色内容:
+## vim命令新增如下红色内容:  
 vim /etc/docker/daemon.json
 {
 	"registry-mirrors":["https://aa25jnbu.mirror.aliyuncs.com"],
@@ -300,15 +335,19 @@ curl -XGET http://192.xxx.xxx:5000/v2/_catalog
 docker pull 192.168.111.167:5000/wuzt:1.2
 ```
 
+
+
 ![image-20230710132904250](images/Docker/image-20230710132904250.png)
 
 ![image-20230710120033045](images/Docker/image-20230710120033045.png)
+
+
 
 #### 容器数据卷
 
 > 容器数据卷：完成数据持久化存储的方式，将重要资料备份；方式：将容器内的数据备份+持久化到本地主机目录( 映射，容器内的数据到本地主机目录)
 >
-> - 卷：含义是目录或文件，存在于一个或多个容器中，由 docker 挂载到容器，但不属于镜像的联合文件系统的内容，提供用于持续存储或共享数据的特性
+> - 卷：含义是目录或文件，存在于一个或多个容器中，由docker挂载到容器，但不属于镜像的联合文件系统的内容，提供用于持续存储或共享数据的特性
 > - 卷：设计目的就是`数据持久化`，完全独立于容器的生命周期，因此不会在容器删除时删除其挂载的数据卷
 
 - 特点：
@@ -317,7 +356,7 @@ docker pull 192.168.111.167:5000/wuzt:1.2
   3. 数据卷中的更改不会包含在镜像的更新中
   4. 数据卷的生命周期一直在持续到没有容器使用它为止
 - 权限扩容：
-  - 问题：Docker 挂载主机目录访问，如果出现`cannot open directory:Permission denied`
+  - 问题：Docker挂载主机目录访问，如果出现`cannot open directory:Permission denied`
   - 解决办法：在挂载目录后多加一个 `--privileged=true`参数即可
 
 ```shell
@@ -328,20 +367,20 @@ docker run -it --privileged=true -v /宿主机绝对路径:/容器内目录 镜�
 
 # -v  运行一个带有容器卷存储功能的容器实例
 ## /zzyyuse/myregistry/ 宿主机的路径
-## /tem/registry 容器内的地址
+## /tem/registry 容器内的地址 
 ## --privileged=true 开启权限
 
 
 
 
 # 查看容器卷是否挂载成功
-docker inspect 容器id	# 查看容器内部细节的 Mounts配置，
+docker inspect 容器id	# 查看容器内部细节的 Mounts配置， 
 
 
 
 # 默认容器卷 rw可读可写 ro只读 wo只写
 # 限制在容器内只能读，不能写
-docker run -it --privileged=true -v /宿主机绝对路径:/容器内目录:ro 镜像名
+docker run -it --privileged=true -v /宿主机绝对路径:/容器内目录:ro 镜像名 
 
 
 
@@ -355,6 +394,18 @@ docker run -it --privileged=true -v /宿主机绝对路径:/容器1目录:ro 镜
 docker run -it --privileged=true -volumes-from 父类容器名 --name 容器名2 镜像名	# -volumes-from 简写 -v ：继承
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
 #### 常规软件安装
 
 1. 搜索镜像（dockerhub）
@@ -364,23 +415,31 @@ docker run -it --privileged=true -volumes-from 父类容器名 --name 容器名2
 5. 停止容器
 6. 移除容器
 
-##### 安装/使用 Mysql
 
-[37*mysql 安装上集*哔哩哔哩\_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY?p=37&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
+
+##### 安装/使用Mysql
+
+[37_mysql安装上集_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gr4y1U7CY?p=37&vd_source=12c717d82cfc8f0cc3894516956cc8b3)
 
 ....
+
+
+
+
 
 ### 进阶知识
 
 #### Dockerfile
 
-> 用来构建 Docker 镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本。能够通过“配置文件”形式，一次性安装完成多项任务。
+> 用来构建Docker镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本。能够通过“配置文件”形式，一次性安装完成多项任务。
 >
-> Dockerfile 定义了进程需要的一切东西，涉及内容包括执行代码、文件、环境变量、依赖包、运行时环境、动态链接库、操作系统的发行版、服务进程、内核进程等等。
+> Dockerfile定义了进程需要的一切东西，涉及内容包括执行代码、文件、环境变量、依赖包、运行时环境、动态链接库、操作系统的发行版、服务进程、内核进程等等。
 >
-> 基础 images 镜像上多次 commit 生成新功能完整的镜像 == Dockerfile 一次生成的镜像
+> 基础images镜像上多次commit生成新功能完整的镜像 == Dockerfile一次生成的镜像
 >
-> 一般将 Dockerfile 与项目文件放在同一文件夹下，执行 Dockerfile，完成镜像打包
+> 一般将Dockerfile与项目文件放在同一文件夹下，执行Dockerfile，完成镜像打包
+
+
 
 - 使用三部曲：
   1. 编写`Dockerfile`文件
@@ -394,8 +453,10 @@ docker run -it --privileged=true -volumes-from 父类容器名 --name 容器名2
   - 每条指令都会创建一个新的镜像层（基础镜像上新增内容为层），并对镜像进行提交
 - 总结
   - Dockerfile - 面向开发者
-  - Docker 镜像 - 交付标准
-  - Docker 容器 - 涉及部署和运维
+  - Docker镜像 - 交付标准
+  - Docker容器 - 涉及部署和运维
+
+
 
 ```dockerfile
 # dockerfile 保留字
@@ -427,7 +488,7 @@ ADD # 将宿主机目录下的文件拷贝进镜像且会自动处理URL和解�
 # COPY - 类似ADD，拷贝文件和目录到镜像中
 ## <src源路径>：源文件或者源目录
 ## <dest目标路径>：容器内的指定路径，该路径不用事先建好，路径不存在的话，会自动创建
-COPY src dest
+COPY src dest 
 COPY ["src","dest"]
 
 EXPOSE # 当前容器对外暴露出的端口,一般放在末尾
@@ -439,8 +500,8 @@ EXPOSE # 当前容器对外暴露出的端口,一般放在末尾
  CMD ["catalina.sh","run"]
  当使用 docker run -it -p 80:80 3esahhd /bin/bash 时，cmd被替换
  CMD ["/bin/bash","run"]
-
-
+ 
+ 
 ENTRYPOINT # 用来指定一个容器启动时要运行的命令
 ## 类似于CMD指令，但是ENTRYPOINT不会被docker run后面的命令覆盖，而且这些命令行参数会被当作参数送给ENTRYPOINT指定的程序
 ENTRYPOINT ["nginx","-c"]	# 定参
@@ -451,11 +512,19 @@ CMD ["/etc/ngnix/ngnix.conf"] # 变参
 
 ![image-20230908152525997](images/Docker/image-20230908152525997.png)
 
+
+
+
+
 ![image-20230908003512758](images/Docker/image-20230908003512758.png)
 
 ![image-20230908002746547](images/Docker/image-20230908002746547.png)
 
-##### Dockerflie 示例
+
+
+
+
+##### Dockerflie示例
 
 ```dockerfile
 FROM ubuntu
@@ -474,27 +543,37 @@ EXPOSE 3011
 ENTRYPOINT ["npm","start"]
 ```
 
+
+
+
+
 #### 虚悬镜像
 
-> build 构建 或 删除镜像时，出现错误，导致出现镜像名和版本都为`<none>`的情况，这种镜像被成为“虚悬镜像”，应使用 kill 将其删除，避免对系统造成影响。
+> build构建 或 删除镜像时，出现错误，导致出现镜像名和版本都为`<none>`的情况，这种镜像被成为“虚悬镜像”，应使用kill将其删除，避免对系统造成影响。
 
 ```sh
 docker image ls -f dangling=true		# 查询虚悬镜像
 docker images prune		# 删除查出的所有虚悬镜像，需要回复，y，表示确认
 ```
 
-#### Docker 网络
 
-> - 每个容器都是微型的 linux 内核，拥有自己独立的网络系统
-> - docekr 网络能干吗？
+
+
+
+
+
+#### Docker网络
+
+> - 每个容器都是微型的linux内核，拥有自己独立的网络系统
+> - docekr网络能干吗？
 >   - 容器间的互联和通讯以及端口间的映射
->   - 容器 IP 变动时，可通过服务名直接进行网络通讯而不受影响
+>   - 容器IP变动时，可通过服务名直接进行网络通讯而不受影响
 >
 > ifconfig 命令
 >
 > - lo - 表示本地回环地址，127.0.0.1
 > - ens33 - 局域网地址
-> - docker0 - 启动 docker 后，产生的**虚拟网桥**
+> - docker0 - 启动docker后，产生的**虚拟网桥**
 
 ```sh
 docker network --help	# 查看network相关help
@@ -503,24 +582,38 @@ docker network inspect XXX	# 查看XXX的网络源数据(网络模式)
 docker network rm XXX	# 删除XXX网络模式
 ```
 
+
+
 ##### 网络模式
 
 - 默认三种
 
-  |                         |                                                                               |
-  | ----------------------- | ----------------------------------------------------------------------------- |
-  | bridge                  | 为每个容器分配、设置 IP 等，并将容器连接到一个 docker0，虚拟网桥的默认模式    |
-  | host                    | 容器将不会虚拟出自己的网卡、IP 等，而是直接使用宿主机的 IP 和端口             |
-  | none                    | 容器有独立的 network namesoace，但没有对其进行任何的网络设置                  |
-  | container（自定义网路） | 新创建的容器不会创建自己的网卡和配置，而是和一个指定的容器共享 IP、端口范围等 |
+  |                         |                                                              |
+  | ----------------------- | ------------------------------------------------------------ |
+  | bridge                  | 为每个容器分配、设置IP等，并将容器连接到一个docker0，虚拟网桥的默认模式 |
+  | host                    | 容器将不会虚拟出自己的网卡、IP等，而是直接使用宿主机的IP和端口 |
+  | none                    | 容器有独立的network namesoace，但没有对其进行任何的网络设置  |
+  | container（自定义网路） | 新创建的容器不会创建自己的网卡和配置，而是和一个指定的容器共享IP、端口范围等 |
+
+  
+
+
+
+
+
+
 
 ### 虚拟化技术
 
 #### KVM-基于内核的虚拟机
 
+
+
+
+
 ### 具体使用
 
-#### mysql
+#### mysql 
 
 ```sh
 docker pull mysql
@@ -537,19 +630,25 @@ mysql -u root -p	# 登入mysql
 
 ![image-20230910151311312](images/Docker/image-20230910151311312.png)
 
-##### mysql 编码字符集
 
-> docker 中 mysql 的编码可能存在隐患导致报错，一般全部置为 utf8
 
-##### mysql 镜像迁移后数据丢失
 
-> mysql 中数据默认是存放在 /var/lib/mysql 目录下，而 mysql 容器一般将容器内的该目录作为 volume 挂载，
+
+##### mysql编码字符集
+
+> docker中mysql的编码可能存在隐患导致报错，一般全部置为 utf8
+
+
+
+##### mysql镜像迁移后数据丢失
+
+> mysql中数据默认是存放在 /var/lib/mysql 目录下，而mysql容器一般将容器内的该目录作为 volume挂载，
 >
-> 当 commit 进行容器打包时，并不会包含容器内挂载的 volume 中的数据变化
+> 当commit进行容器打包时，并不会包含容器内挂载的 volume中的数据变化
 >
 > - 解决方法：
 >   - 使用外部数据来源 copy
->   - 修改 mysql 容器数据默认保存的位置，将数据保存在容器打包后的内部
+>   - 修改mysql容器数据默认保存的位置，将数据保存在容器打包后的内部
 
 ```sh
 docker run -p 3306:3306  -e MYSQL_ROOT_PASSWORD=123456 -d
@@ -561,7 +660,9 @@ docker run -p 3306:3306  -e MYSQL_ROOT_PASSWORD=123456 -d
 mysql:5.7
 ```
 
-##### mysql 容器卷设置
+
+
+##### mysql容器卷设置
 
 ```sh
 ## 查看当前mysql容器实例，并停止运行
@@ -602,3 +703,8 @@ docker stop mysql57
 
 docker run -d -p 3307:3306 --restart always --privileged=true --name dream_mysql57 -e MYSQL_ROOT_PASSWORD=root -v /mysql/config/my.conf:/etc/my.cof -v=/mysql/data:/var/lib/mysql mysql:5.7
 ```
+
+
+
+
+
