@@ -13,6 +13,7 @@
     "medium-zoom": "^1.1.0",
     "vitepress": "^1.4.1",
     "vitepress-plugin-comment-with-giscus": "^1.1.15",
-    "vue": "^3.5.12"
+    "vue": "^3.5.12",
+    "workbox-window": "^7.3.0"
   }
 }
