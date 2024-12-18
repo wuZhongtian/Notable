@@ -250,14 +250,14 @@ vue中也使用的 get 和 set 进行监听，实现数据代理。
 - 使用<span style='color:hotpink'>`v-on:xxx` 或 `@xxx`绑定事件，其中`xxx`是事件名，也可以写一些简单的语句</span>
 - 事件的回调配置在`methods`对象中，最终会绑定在vm上
 - `methods`中配置的函数，不能使用箭头函数，否则this指向`window`而不是`vm`
-- `@click="shijian"`和`@click="shijian($event)"`效果一致，但后者可以传更多的参数。
 - 可以传递`$event`参数,获取触发事件的对象
 - 注意：
-  - 可以使用插值语法，直接在页面中调用函数执行`{{ shijian() }}`
+  - 可以使用插值语法，直接在页面中调用函数执行
   - 当函数返回值为`undefined`时，undefined不会展示在页面中
   - 自定义事件名，不识别大小写！可以采用 _分割多个单词
 
 ```vue
+<!--  click="shijian" 和 @click="shijian($event)"效果一致，但后者可以传更多的参数 -->
 <div class='.one'>
     <button v-on:click='shijian2'>{{name}}</button>
     <button v-on:click='shijian3($event,66)'>{{name}}</button>
@@ -3323,9 +3323,9 @@ const router = new VueRouter({
 
 - **非模块化 使用Vuex**
 
-  > 模板语法 不需要this `{{ $store.state.数据名 }}`    `{{ $store.getters.数据名 }}`
+  > 模板语法 不需要this
   >
-  > 事件处理函数中使用，`this.$store.state.数据名`     `this.$store.getters.数据名`
+  > 事件处理函数中使用需要带this
 
   1. 将公共的数据配置在vuex的 state配置中
   2. 在组件中配置方法中，适时调用dispatch触发actions中配置的方法
