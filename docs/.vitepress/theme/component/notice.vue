@@ -63,21 +63,21 @@ setTimeout(function () {
     <div class="bulletin-content">
       <h3 class="bulletin-h3">最近更新：</h3>
       <p class="bulletin-p">
-        - 嵌入式
+        - C语言
         <a
           class="bulletin-link"
-          href="https://notes.wudetian.top/notes/embedded/RTOS.html"
+          href="https://notes.wudetian.top/notes/embedded/c%E8%AF%AD%E8%A8%80.html"
           target="_blank"
-          >FreeRTOS</a
+          >快速回顾</a
         >
       </p>
       <p class="bulletin-p">
-        - 鸿蒙
+        - TypeScript
         <a
           class="bulletin-link"
-          href="http://localhost:5173/notes/harmonyos/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91.html"
+          href="https://notes.wudetian.top/notes/front_end/TypeScript.html"
           target="_blank"
-          >应用开发</a
+          >工具类型</a
         >
       </p>
       <p class="bulletin-p">
@@ -92,7 +92,12 @@ setTimeout(function () {
 
       <p class="notice-domain">
         WX公众号：
-        <a href="https://wudetian.top/" class="notice-domain-link" target="_blank">夏之一周间</a>
+        <a
+          href="https://wudetian.top/"
+          class="notice-domain-link"
+          target="_blank"
+          >夏之一周间</a
+        >
       </p>
       <p class="bulletin-p" style="margin-top: 20px"></p>
       <img class="bulletin-img" src="/qrcode.jpg" />
@@ -118,7 +123,7 @@ setTimeout(function () {
   margin-top: 10px;
   font: 14px bold;
 }
- 
+
 .bulletin-wrapper {
   position: fixed;
   top: 5rem;
