@@ -319,17 +319,25 @@ nrm test                # 测试并返回各个镜像源的速度
 #### module 对象
 
 - 每个 .js 文件(模块) 都有一个 module对象；存储当前模块相关的信息
+
 - module.exports 对象
   - 自定义模块中，可使用 module.exports对象，将模块内的成员共享出去，供外界使用。
   - 使用 require() 方法导入自定义模块时，导入的结果，以 module.exports 指向的对象为准。
   - 为简化向外共享成员的代码，Node提供了 exports对象，与 module.exports 等价。
   - <span style='color:hotpink'>默认情况下，exports和module.exports 指定同一个对象</span>
+  
 - 注意 :得到的永远是 module.exports对象
   - ![image-20220826154850212](images/NodeJS/image-20220826154850212.png)
-  - 图一：{ gender:男;age:22 }
-  - 图二：{ username:zs }
-  - 图三：{gender:男 }
-  - 图四：{ username:zs; gender男; age:22}
+  
+    ```js
+    // 图一：{ gender:男;age:22 }
+    // 图二：{ username:zs }
+    // 图三：{gender:男 }
+    // 图四：{ username:zs; gender男; age:22}
+    ```
+  
+    
+  
   - <span style='color:hotpink'>为防止冲突，不要在同一个模块中同时使用 exports 和 module.exports</span>
   
   ![image-20220826154912762](images/NodeJS/image-20220826154912762.png)
