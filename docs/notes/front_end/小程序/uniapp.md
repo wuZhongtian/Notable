@@ -256,3 +256,36 @@ switch (uni.getSystemInfoSync().platform) {
 }
 ```
 
+
+
+
+
+### app证书配置
+
+
+
+- 基础步骤
+  1. 下载jre安装包：https://www.oracle.com/java/technologies/downloads/#java8
+  2. 将JRE安装路径添加到系统环境变量 cmd执行：`set PATH=%PATH%;"JDK的安装路径"`  `C:\Program Files\Java\jdk-23\bin` 
+  3. `keytool -genkey -alias testalias -keyalg RSA -keysize 2048 -validity 36500 -keystore test.keystore`
+     - testalias是证书别名，可修改为自己想设置的字符，建议使用英文字母和数字
+     - test.keystore是证书文件名称，可修改为自己想设置的文件名称，也可以指定完整文件路径
+     - 36500是证书的有效期，表示100年有效期，单位天，建议时间设置长一点，避免证书过期
+     - 过程
+       - 需要设置密码，默认为 android，随便设置
+  4. 查看证书信息`keytool -list -v -keystore test.keystore  `
+     - 输入步骤3中的密码
+     - 将SHA1设置到高德地图应用中
+  5. HbuilderX 中进行打包，选择自定义证书
+     - 证书别名，步骤三中的 testalias
+     - 证书私钥密码，步骤三种设置的密码
+     - 证书文件，步骤三结束后在文件夹下生成的文件  test.keystore
+
+![image-20241223135210135](images/uniapp/image-20241223135210135.png)
+
+![image-20241223133926275](images/uniapp/image-20241223133926275.png)
+
+
+
+### 高德地图
+
