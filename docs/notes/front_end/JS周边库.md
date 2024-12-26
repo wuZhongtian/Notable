@@ -1015,6 +1015,102 @@ import { map, filter, reduce } from 'lodash-es';
 
 
 
+
+
+
+
+
+
+## XLSX表格
+
+- https://docs.sheetjs.com/
+- https://github.com/SheetJS/sheetjs
+
+```js
+// 安装
+pnpm install --save https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
+// 引入项目
+import { read, writeFileXLSX } from "xlsx";
+```
+
+
+
+### 创建工作表
+
+- 格式
+  - `aoa_to_sheet` 数组
+  - `json_to_sheet ` 对象数组
+  - `table_to_sheet` 表格
+  - `cvs_to_sheet` CVS字符集
+
+```js
+/* 利用数组创建 */ 
+const data = [
+    ['Name', 'Age', 'Country'],
+    ['John Doe', 25, 'USA'],
+    ['Jane Doe', 30, 'Canada']
+];
+const ws = XLSX.utils.aoa_to_sheet(data);
+
+
+/* 通过JSON对象创建 */
+const data = [
+    { Name: 'John Doe', Age: 25, Country: 'USA' },
+    { Name: 'Jane Doe', Age: 30, Country: 'Canada' }
+];
+const ws = XLSX.utils.json_to_sheet(data);
+
+
+/* 通过数据范围创建 */
+const tableElement = document.getElementById('myTable');
+const ws = XLSX.utils.table_to_sheet(tableElement);
+
+/* 通过CSV字符串创建 */
+const csvString = 'Name,Age,Country\nJohn Doe,25,USA\nJane Doe,30,Canada';
+const ws = XLSX.utils.csv_to_sheet(csvString);
+```
+
+
+
+
+
+### 导出数据表
+
+- 格式
+
+```js
+// XLSX.writeFile()   Excel文件
+const wb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+XLSX.writeFile(wb, 'exported_data.xlsx');
+
+// XLSX.write()  二进制
+const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+//  XLSX.utils.sheet_to_csv()  cvs字符
+const csvString = XLSX.utils.sheet_to_csv(ws);
+
+// XLSX.utils.sheet_to_html()  HTML表格
+const htmlTable = XLSX.utils.sheet_to_html(ws);
+
+const data = [
+  ['姓名', '年龄', '城市'],
+  ['张三', 25, '上海'],
+  ['李四', 30, '北京'],
+]
+ 
+// 将二维数组转换为工作表对象
+const ws = XLSX.utils.aoa_to_sheet(data)
+// 创建一个新的工作簿对象
+const wb = XLSX.utils.book_new()
+// 将工作表对象添加到工作簿中，'Sheet1'为工作表的名称
+XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
+// 将工作簿数据写入文件，'exported_data.xlsx'为导出文件的名称
+XLSX.writeFile(wb, 'export.xlsx')
+```
+
+
+
 ## css样式周边
 
 

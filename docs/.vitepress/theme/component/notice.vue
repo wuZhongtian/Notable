@@ -68,25 +68,16 @@ setTimeout(function () {
           class="bulletin-link"
           href="https://notes.wudetian.top/notes/embedded/c%E8%AF%AD%E8%A8%80.html"
           target="_blank"
-          >快速回顾</a
+          >快速回顾完结！</a
         >
       </p>
       <p class="bulletin-p">
-        - TypeScript
+        - XLSX表格导入导出
         <a
           class="bulletin-link"
-          href="https://notes.wudetian.top/notes/front_end/TypeScript.html"
+          href="https://notes.wudetian.top/notes/front_end/JS%E5%91%A8%E8%BE%B9%E5%BA%93.html"
           target="_blank"
-          >工具类型</a
-        >
-      </p>
-      <p class="bulletin-p">
-        - 前端其他概念
-        <a
-          class="bulletin-link"
-          href="https://notes.wudetian.top/notes/front_end/%E5%85%B6%E4%BB%96%E6%A6%82%E5%BF%B5.html#pwa"
-          target="_blank"
-          >PWA优化</a
+          >JS周边</a
         >
       </p>
 
