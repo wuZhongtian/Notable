@@ -63,6 +63,15 @@ setTimeout(function () {
     <div class="bulletin-content">
       <h3 class="bulletin-h3">最近更新：</h3>
       <p class="bulletin-p">
+        - 电路基础
+        <a
+          class="bulletin-link"
+          href="https://notes.wudetian.top/notes/embedded/电路基础.html"
+          target="_blank"
+          >快速回顾完结！</a
+        >
+      </p>
+      <p class="bulletin-p">
         - C语言
         <a
           class="bulletin-link"
