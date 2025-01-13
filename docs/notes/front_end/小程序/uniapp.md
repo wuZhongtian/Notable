@@ -6,9 +6,7 @@
 
 #### 初识uniapp
 
-1. 创建项目
-
-   hbuilder 文件 -- 新建项目 -- uniap/vue2/vue3
+1. 打开 Hbuilder 创建项目
 
 2. 项目结构
 
@@ -59,7 +57,7 @@
 
 6. 组件使用（类wx）
 
-   - 在uniapp中可以写div span等原生标签，虽不报错，但在不同平台存在兼容性问题，因此使用官方提供组件更为合适。
+   - 建议使用官方组件/较好的三方组件库，以避免不同平台的兼容性问题
 
 7. 样式
 
@@ -193,14 +191,9 @@
 
 ### UI框架
 
-> uview
->
-> uniui
-
-1. 打开插件市场
-2. 点击使用HbuilderX 导入插件
-3. 导入样式文件，在`uni.scss`中导入 uview的主题样式文件`theme.scss`
-   - `@import './theme.scss;' `
+- uview
+- 官方组件 uni-ui
+- [wot-design-uni](https://wot-design-uni.netlify.app/)
 
 
 
@@ -208,7 +201,54 @@
 
 
 
-## 新版
+## 新开始
+
+> 鉴于uniapp内容杂乱，只要会Vue，其余对着文档就能冲，本篇仅记录琐碎的关键点！
+
+
+
+### 数据通信
+
+```js
+/* 上级组件 */
+// 在起始页面跳转到test.vue页面，并监听test.vue发送过来的事件数据
+uni.navigateTo({
+  url: '/pages/test?id=1',
+  events: {
+    // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+    acceptDataFromOpenedPage: function(data) {
+      console.log(data)
+    },
+    someEvent: function(data) {
+      console.log(data)
+    }
+    ...
+  },
+  success: function(res) {
+    // 通过eventChannel向被打开页面传送数据
+    res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'data from starter page' })
+  }
+})
+
+
+/* 跳转到的组件 */
+// 在test.vue页面，向起始页通过事件传递数据
+onLoad: function(option) {
+  const eventChannel = this.getOpenerEventChannel();
+  eventChannel.emit('acceptDataFromOpenedPage', {data: 'data from test page'});
+  eventChannel.emit('someEvent', {data: 'data from test page for someEvent'});
+  // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
+  eventChannel.on('acceptDataFromOpenerPage', function(data) {
+    console.log(data)
+  })
+}
+```
+
+
+
+
+
+
 
 
 
