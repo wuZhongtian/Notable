@@ -4,8 +4,8 @@
 import { useData } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import backtotop from "./backtotop.vue";
+import sponsor from "./sponsor.vue";
 import WaterMark from "./WaterMark.vue"; // 水印组件
-import Notice from './notice.vue';
 import RegisterSW from './RegisterSW.vue'
 import { nextTick, provide } from "vue";
 
@@ -49,7 +49,6 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
   <DefaultTheme.Layout>
     <WaterMark />
     <template #layout-top>
-      <Notice/>
     </template>
     <template #layout-bottom>
       <RegisterSW />
@@ -62,6 +61,9 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
     <!-- 这里可以插入其他插槽组件 -->
     <template #doc-footer-before> 
       <backtotop />
+    </template>
+    <template #aside-outline-after>
+      <sponsor/>
     </template>
   </DefaultTheme.Layout>
 </template>
